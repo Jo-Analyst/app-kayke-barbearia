@@ -23,7 +23,7 @@ class DB {
             "CREATE TABLE provision_of_services (id INTEGER PRIMARY KEY, date TEXT NOT NULL, time TEXT NOT NULL)");
 
         db.execute(
-          "CREATE TABLE spending (id INTEGER PRIMARY KEY, name TEXT NOT NULL, price REAL NOT NULL, quantity INTEGER NOT NULL)", // spending = gastos
+          "CREATE TABLE spending (id INTEGER PRIMARY KEY, name TEXT NOT NULL, price REAL NOT NULL, quantity INTEGER NOT NULL)", // spending = gastos da barbearia
         );
       },
       version: 1,
