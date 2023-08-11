@@ -13,7 +13,10 @@ class AppKaikeBarbearia extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Kaike Barbearia',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        appBarTheme: const AppBarTheme(toolbarHeight: 100),
+        primaryColor: Colors.indigo,
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.indigo,
         ),

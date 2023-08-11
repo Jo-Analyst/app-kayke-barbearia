@@ -1,17 +1,112 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class HomePage extends StatelessWidget {
+import '../componente/drawer_component.dart';
+
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<Map<String, dynamic>> menuActived = [
+    {"name": "list", "isActive": true},
+    {"name": "shopp", "isActive": false},
+  ];
+  Color changeColor(bool isActive) {
+    return isActive ? Colors.black54 : Colors.white;
+  }
+
+  changeActiveMenu(int index) {
+    setState(() {
+      for (var menu in menuActived) {
+        menu["isActive"] = false;
+      }
+      menuActived[index]["isActive"] = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Kaike Barbearia", style: TextStyle(fontSize: 25),),
-        toolbarHeight: 80,
+        title: const Text(
+          "Balanço do mês",
+          style: TextStyle(fontSize: 25),
+        ),
       ),
       body: const Center(
         child: Text("Minha barbearia"),
+      ),
+      drawer: const DrawerComponet(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        // backgroundColor: Colors.black87,
+        backgroundColor: Theme.of(context).primaryColor,
+        onPressed: () {},
+        child: const Icon(
+          Icons.add,
+          size: 35,
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        height: 80,
+        shape: const CircularNotchedRectangle(),
+        color: const Color.fromARGB(68, 63, 81, 181),
+        child: IconTheme(
+          data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              InkWell(
+                onTap: () => changeActiveMenu(0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.auto_graph,
+                      size: 35,
+                      color: changeColor(menuActived[0]["isActive"]),
+                    ),
+                    Text(
+                      "Finanças",
+                      style: TextStyle(
+                        color: changeColor(menuActived[0]["isActive"]),
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              InkWell(
+                onTap: () => changeActiveMenu(1),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.sackDollar,
+                      size: 35,
+                      color: changeColor(menuActived[1]["isActive"]),
+                    ),
+                    Text(
+                      "Fluxo de Caixa",
+                      style: TextStyle(
+                        color: changeColor(menuActived[1]["isActive"]),
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
