@@ -1,3 +1,5 @@
+import 'package:app_kaike_barbearia/app/pages/cash_flow_page.dart';
+import 'package:app_kaike_barbearia/app/pages/finance_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -15,6 +17,7 @@ class _HomePageState extends State<HomePage> {
     {"name": "list", "isActive": true},
     {"name": "shopp", "isActive": false},
   ];
+  
   Color changeColor(bool isActive) {
     return isActive ? Colors.black54 : Colors.white;
   }
@@ -32,18 +35,17 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Balanço do mês",
-          style: TextStyle(fontSize: 25),
+        title:  Text(
+          menuActived[0]["isActive"] ? "Balanço do mês" : "Fluxo de caixa",
+          style: const TextStyle(fontSize: 25),
         ),
       ),
-      body: const Center(
-        child: Text("Minha barbearia"),
+      body: Center(
+        child: menuActived[0]["isActive"] ? const FinancePage() : const CashFlowPage(),
       ),
       drawer: const DrawerComponet(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        // backgroundColor: Colors.black87,
         backgroundColor: Theme.of(context).primaryColor,
         onPressed: () {},
         child: const Icon(
@@ -54,58 +56,55 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomAppBar(
         height: 80,
         shape: const CircularNotchedRectangle(),
-        color: const Color.fromARGB(68, 63, 81, 181),
-        child: IconTheme(
-          data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              InkWell(
-                onTap: () => changeActiveMenu(0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.auto_graph,
-                      size: 35,
+        color: Theme.of(context).primaryColor,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            InkWell(
+              onTap: () => changeActiveMenu(0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.auto_graph,
+                    size: 35,
+                    color: changeColor(menuActived[0]["isActive"]),
+                  ),
+                  Text(
+                    "Finanças",
+                    style: TextStyle(
                       color: changeColor(menuActived[0]["isActive"]),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
-                    Text(
-                      "Finanças",
-                      style: TextStyle(
-                        color: changeColor(menuActived[0]["isActive"]),
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              InkWell(
-                onTap: () => changeActiveMenu(1),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      FontAwesomeIcons.sackDollar,
-                      size: 35,
+            ),
+            InkWell(
+              onTap: () => changeActiveMenu(1),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    FontAwesomeIcons.sackDollar,
+                    size: 35,
+                    color: changeColor(menuActived[1]["isActive"]),
+                  ),
+                  Text(
+                    "Fluxo de Caixa",
+                    style: TextStyle(
                       color: changeColor(menuActived[1]["isActive"]),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
-                    Text(
-                      "Fluxo de Caixa",
-                      style: TextStyle(
-                        color: changeColor(menuActived[1]["isActive"]),
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
