@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   ];
   
   Color changeColor(bool isActive) {
-    return isActive ? Colors.black54 : Colors.white;
+    return isActive ? Colors.amberAccent : Colors.white;
   }
 
   changeActiveMenu(int index) {
