@@ -49,6 +49,34 @@ class _FinancePageState extends State<FinancePage> {
               },
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.keyboard_arrow_left,
+                    color: Theme.of(context).primaryColor,
+                    size: 25,
+                  ),
+                ),
+                const Text(
+                  "Janeiro de 2023",
+                  style: TextStyle(fontSize: 20),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.keyboard_arrow_right,
+                    color: Theme.of(context).primaryColor,
+                    size: 25,
+                  ),
+                ),
+              ],
+            ),
+          ),
           SizedBox(
             height: MediaQuery.of(context).size.height,
             child: PageView.builder(
