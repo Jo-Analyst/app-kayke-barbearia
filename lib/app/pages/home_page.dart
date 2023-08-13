@@ -3,7 +3,7 @@ import 'package:app_kaike_barbearia/app/pages/finance_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../componente/drawer_component.dart';
+import '../components/drawer_component.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
