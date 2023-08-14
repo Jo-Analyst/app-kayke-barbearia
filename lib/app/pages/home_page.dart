@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
     {"name": "list", "isActive": true},
     {"name": "shopp", "isActive": false},
   ];
-  
+
   Color changeColor(bool isActive) {
     return isActive ? Colors.amberAccent : Colors.white;
   }
@@ -35,14 +35,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text(
+        title: Text(
           menuActived[0]["isActive"] ? "Balanço do mês" : "Fluxo de caixa",
           style: const TextStyle(fontSize: 25),
         ),
       ),
-      body: Center(
-        child: menuActived[0]["isActive"] ? const FinancePage() : const CashFlowPage(),
-      ),
+      body: menuActived[0]["isActive"]
+          ? const FinancePage()
+          : const CashFlowPage(),
       drawer: const DrawerComponet(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(

@@ -50,20 +50,22 @@ class _FinancePageState extends State<FinancePage> {
               },
             ),
           ),
-         const SlideDate(),
+          const SlideDate(),
           SizedBox(
             height: MediaQuery.of(context).size.height - 30,
             child: PageView.builder(
-                onPageChanged: (value) {
-                  setState(() {
-                    indexSlide = value;
-                  });
-                },
-                itemCount: components.length,
-                itemBuilder: (_, index) {
-                  return components[index];
-                }),
-          )
+              scrollDirection: Axis.horizontal,
+              onPageChanged: (value) {
+                setState(() {
+                  indexSlide = value;
+                });
+              },
+              itemCount: components.length,
+              itemBuilder: (_, index) {
+                return components[index];
+              },
+            ),
+          ),
         ],
       ),
     );
