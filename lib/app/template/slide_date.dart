@@ -13,8 +13,9 @@ class _SlideDateState extends State<SlideDate> {
   int year = int.parse(DateTime.now().year.toString());
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 40),
+    return Container(
+      color: const Color.fromARGB(17, 63, 81, 181),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -33,7 +34,7 @@ class _SlideDateState extends State<SlideDate> {
             icon: Icon(
               Icons.keyboard_arrow_left,
               color: Theme.of(context).primaryColor,
-              size: 25,
+              size: 40,
             ),
           ),
           Text(
@@ -54,7 +55,7 @@ class _SlideDateState extends State<SlideDate> {
             icon: Icon(
               Icons.keyboard_arrow_right,
               color: Theme.of(context).primaryColor,
-              size: 25,
+              size: 40,
             ),
           ),
         ],

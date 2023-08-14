@@ -52,7 +52,7 @@ class _FinancePageState extends State<FinancePage> {
           ),
          const SlideDate(),
           SizedBox(
-            height: MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height - 30,
             child: PageView.builder(
                 onPageChanged: (value) {
                   setState(() {
