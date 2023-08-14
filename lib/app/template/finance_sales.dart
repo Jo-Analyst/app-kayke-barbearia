@@ -57,15 +57,15 @@ class _FinanceSalesState extends State<FinanceSales> {
       "quantity": 5,
       "value": 250
     },
-    {
-      "icon": const Icon(
-        Icons.money_off,
-        color: Colors.red,
-      ),
-      "name": "Fiado",
-      "quantity": 2,
-      "value": 100
-    },
+    // {
+    //   "icon": const Icon(
+    //     Icons.money_off,
+    //     color: Colors.red,
+    //   ),
+    //   "name": "Fiado",
+    //   "quantity": 2,
+    //   "value": 100
+    // },
   ];
   @override
   Widget build(BuildContext context) {
@@ -243,6 +243,53 @@ class _FinanceSalesState extends State<FinanceSales> {
               ).toList(),
             ),
           ),
+          const SizedBox(height: 20),
+          Container(
+            color: Colors.indigo.withOpacity(0.1),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            margin: const EdgeInsets.only(bottom: 10),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Column(
+                  children: [
+                    Text(
+                      "R\$ 100,00",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.red,
+                      ),
+                    ),
+                    Text(
+                      "A receber",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Text(
+                      "R\$ 700,00",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.green,
+                      ),
+                    ),
+                    Text(
+                      "Concluído",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
