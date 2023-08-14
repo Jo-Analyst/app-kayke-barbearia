@@ -1,6 +1,7 @@
 import 'package:app_kaike_barbearia/app/template/finance_sales.dart';
 import 'package:app_kaike_barbearia/app/template/finance_services.dart';
 import 'package:app_kaike_barbearia/app/template/finance_spending.dart';
+import 'package:app_kaike_barbearia/app/template/slide_date.dart';
 import 'package:flutter/material.dart';
 
 class FinancePage extends StatefulWidget {
@@ -49,34 +50,7 @@ class _FinancePageState extends State<FinancePage> {
               },
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.keyboard_arrow_left,
-                    color: Theme.of(context).primaryColor,
-                    size: 25,
-                  ),
-                ),
-                const Text(
-                  "Janeiro de 2023",
-                  style: TextStyle(fontSize: 20),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.keyboard_arrow_right,
-                    color: Theme.of(context).primaryColor,
-                    size: 25,
-                  ),
-                ),
-              ],
-            ),
-          ),
+         const SlideDate(),
           SizedBox(
             height: MediaQuery.of(context).size.height,
             child: PageView.builder(
