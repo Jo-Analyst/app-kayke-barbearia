@@ -56,7 +56,7 @@ class _FinanceSpendingState extends State<FinanceSpending> {
           Container(
             color: const Color.fromARGB(17, 63, 81, 181),
             margin: const EdgeInsets.all(10),
-            height: 200,
+            height: MediaQuery.of(context).size.height - 450,
             child: servicesProvided.isEmpty
                 ? const Center(
                     child: Text(
