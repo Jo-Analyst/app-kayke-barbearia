@@ -83,7 +83,7 @@ class _FinanceSalesState extends State<FinanceSales> {
             ),
           ),
           const Text(
-            "Total em venda neste mês",
+            "Total em vendas realizadas neste mês",
             style: TextStyle(
               fontSize: 20,
             ),

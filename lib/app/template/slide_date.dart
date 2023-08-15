@@ -15,7 +15,10 @@ class _SlideDateState extends State<SlideDate> {
   Widget build(BuildContext context) {
     return Container(
       color: const Color.fromARGB(17, 63, 81, 181),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 10,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
