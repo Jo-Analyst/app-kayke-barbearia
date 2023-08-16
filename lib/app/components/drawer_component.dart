@@ -13,8 +13,8 @@ class DrawerComponet extends StatelessWidget {
           UserAccountsDrawerHeader(
             accountEmail: null,
             accountName: const Text(
-              "Kaique Barbearia",
-              style: TextStyle(fontSize: 20),
+              "KAIKE BARBEARIA",
+              style:  TextStyle(fontSize: 25),
             ),
             currentAccountPicture: ClipOval(
               child: Image.asset(
