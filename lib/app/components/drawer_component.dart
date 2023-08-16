@@ -81,6 +81,20 @@ class DrawerComponet extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(
+              Icons.payments_rounded,
+              color: Colors.indigo,
+            ),
+            title: const Text(
+              "Pagamentos",
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.indigo,
+              ),
+            ),
+            onTap: () {},
+          ),
+          ListTile(
+            leading: const Icon(
               Icons.tune,
               color: Colors.indigo,
             ),

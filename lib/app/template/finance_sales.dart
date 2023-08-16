@@ -287,6 +287,24 @@ class _FinanceSalesState extends State<FinanceSales> {
                     ),
                   ],
                 ),
+                Column(
+                  children: [
+                    Text(
+                      "R\$ 500,00",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.indigo,
+                      ),
+                    ),
+                    Text(
+                      "Lucro",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           )
