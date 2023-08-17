@@ -34,7 +34,7 @@ class _FinanceSpendingState extends State<FinanceSpending> {
             ),
           ),
           const Text(
-            "Total em gastos da barberia neste mês",
+            "Total das despesas da barberia",
             style: TextStyle(
               fontSize: 20,
             ),

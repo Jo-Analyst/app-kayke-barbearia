@@ -14,11 +14,9 @@ class FinancePage extends StatefulWidget {
 
 class _FinancePageState extends State<FinancePage>
     with TickerProviderStateMixin {
-  List<Widget> components = [
-    const FinanceSales(),
-    const FinanceServices(),
-    const FinanceSpending(),
-  ];
+  FinanceSales financeSales = const FinanceSales();
+  FinanceServices financeServices = const FinanceServices();
+  FinanceSpending financeSpending = const FinanceSpending();
   int indexSlide = 0;
   late TabController _tabController;
 
@@ -99,10 +97,10 @@ class _FinancePageState extends State<FinancePage>
             child: Expanded(
               child: TabBarView(
                 controller: _tabController,
-                children: const <Widget>[
-                  FinanceSales(),
-                  FinanceServices(),
-                  FinanceSpending(),
+                children: <Widget>[
+                  financeSales,
+                  financeServices,
+                  financeSpending,
                 ],
               ),
             ),

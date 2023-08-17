@@ -80,7 +80,7 @@ class _FinanceServicesState extends State<FinanceServices> {
             ),
           ),
           const Text(
-            "Total em serviços realizados neste mês",
+            "Total dos serviços",
             style: TextStyle(
               fontSize: 20,
             ),
