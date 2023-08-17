@@ -81,24 +81,28 @@ class _FinanceSpendingState extends State<FinanceSpending> {
                                       const EdgeInsets.symmetric(vertical: 5),
                                   child: Row(
                                     children: [
-                                      Container(
-                                        alignment: Alignment.centerLeft,
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                2,
-                                        child: Text(
-                                          product["name_product"],
-                                          style: const TextStyle(fontSize: 20),
+                                      Expanded(
+                                        child: Container(
+                                          alignment: Alignment.centerLeft,
+                                          width:
+                                              MediaQuery.of(context).size.width /
+                                                  2,
+                                          child: Text(
+                                            product["name_product"],
+                                            style: const TextStyle(fontSize: 20),
+                                          ),
                                         ),
                                       ),
-                                      Container(
-                                        alignment: Alignment.center,
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                8,
-                                        child: Text(
-                                          product["quantity"].toString(),
-                                          style: const TextStyle(fontSize: 20),
+                                      Expanded(
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          width:
+                                              MediaQuery.of(context).size.width /
+                                                  8,
+                                          child: Text(
+                                            product["quantity"].toString(),
+                                            style: const TextStyle(fontSize: 20),
+                                          ),
                                         ),
                                       ),
                                       Expanded(

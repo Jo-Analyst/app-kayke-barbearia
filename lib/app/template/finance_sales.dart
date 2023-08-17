@@ -130,24 +130,28 @@ class _FinanceSalesState extends State<FinanceSales> {
                                       const EdgeInsets.symmetric(vertical: 5),
                                   child: Row(
                                     children: [
-                                      Container(
-                                        alignment: Alignment.centerLeft,
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                2,
-                                        child: Text(
-                                          product["name"],
-                                          style: const TextStyle(fontSize: 20),
+                                      Expanded(
+                                        child: Container(
+                                          alignment: Alignment.centerLeft,
+                                          width:
+                                              MediaQuery.of(context).size.width /
+                                                  2,
+                                          child: Text(
+                                            product["name"],
+                                            style: const TextStyle(fontSize: 20),
+                                          ),
                                         ),
                                       ),
-                                      Container(
-                                        alignment: Alignment.center,
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                8,
-                                        child: Text(
-                                          product["quantity"].toString(),
-                                          style: const TextStyle(fontSize: 20),
+                                      Expanded(
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          width:
+                                              MediaQuery.of(context).size.width /
+                                                  8,
+                                          child: Text(
+                                            product["quantity"].toString(),
+                                            style: const TextStyle(fontSize: 20),
+                                          ),
                                         ),
                                       ),
                                       Expanded(
@@ -208,9 +212,11 @@ class _FinanceSalesState extends State<FinanceSales> {
                             children: [
                               payment["icon"] ?? const Text(""),
                               const SizedBox(width: 5),
-                              Text(
-                                payment["name"],
-                                style: const TextStyle(fontSize: 20),
+                              Expanded(
+                                child: Text(
+                                  payment["name"],
+                                  style: const TextStyle(fontSize: 20),
+                                ),
                               ),
                             ],
                           ),
