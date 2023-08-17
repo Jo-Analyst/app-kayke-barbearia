@@ -31,7 +31,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
     return ListView(
       children: [
         Container(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.symmetric(vertical: 8),
           color: Colors.indigo.withOpacity(.1),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -53,7 +53,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
         ),
         Container(
           margin: const EdgeInsets.symmetric(vertical: 10),
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.symmetric(vertical: 8),
           child: Column(
             children: [
               const Text(
@@ -72,48 +72,68 @@ class _CashFlowPageState extends State<CashFlowPage> {
         ),
         Container(
           padding: const EdgeInsets.symmetric(vertical: 10),
-          color: Colors.indigo.withOpacity(.1),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Column(
-                children: [
-                  Text(
-                    numberFormat.format(50),
-                    style: const TextStyle(
-                      fontSize: 23,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.green,
-                    ),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.blueGrey, 
+                    width: 1, 
                   ),
-                  const Text(
-                    "Total Venda",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0), 
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      numberFormat.format(50),
+                      style: const TextStyle(
+                        fontSize: 23,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.green,
+                      ),
                     ),
-                  ),
-                ],
+                    const Text(
+                      "Total Venda",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              Column(
-                children: [
-                  Text(
-                    numberFormat.format(250),
-                    style: const TextStyle(
-                      fontSize: 23,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.green,
-                    ),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color:Colors.blueGrey, 
+                    width: 1, 
                   ),
-                  const Text(
-                    "Total Serviço",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w500,
+                  borderRadius: BorderRadius.circular(10.0), 
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      numberFormat.format(250),
+                      style: const TextStyle(
+                        fontSize: 23,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.green,
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                    const Text(
+                      "Total Serviço",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         )
