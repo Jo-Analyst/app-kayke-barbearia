@@ -3,6 +3,7 @@ import 'package:app_kaike_barbearia/app/template/finance_services.dart';
 import 'package:app_kaike_barbearia/app/template/finance_spending.dart';
 import 'package:app_kaike_barbearia/app/template/slide_date.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FinancePage extends StatefulWidget {
   const FinancePage({super.key});
@@ -11,59 +12,99 @@ class FinancePage extends StatefulWidget {
   State<FinancePage> createState() => _FinancePageState();
 }
 
-class _FinancePageState extends State<FinancePage> {
+class _FinancePageState extends State<FinancePage>
+    with TickerProviderStateMixin {
   List<Widget> components = [
     const FinanceSales(),
     const FinanceServices(),
     const FinanceSpending(),
   ];
   int indexSlide = 0;
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
+          const SlideDate(),
           Container(
-            margin: const EdgeInsets.symmetric(vertical: 5),
-            height: 10,
-            width: 40,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: components.length,
-              itemBuilder: (_, index) {
-                return Container(
-                  margin: const EdgeInsets.only(right: 8),
-                  height: 8,
-                  width: 8,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: index == indexSlide ? Colors.indigo : null,
-                    border: index != indexSlide
-                        ? Border.all(
-                            color: Theme.of(context).primaryColor,
-                            width: 1,
-                          )
-                        : null,
+            color: Colors.indigo.withOpacity(.1),
+            child: TabBar(
+              indicatorColor: Colors.indigo,
+              tabs: <Tab>[
+                Tab(
+                  text: null,
+                  icon: null,
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.shopping_cart_rounded,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        "Vendas",
+                        style: TextStyle(color: Theme.of(context).primaryColor),
+                      ),
+                    ],
                   ),
-                );
-              },
+                ),
+                Tab(
+                  text: null,
+                  icon: null,
+                  child: Row(
+                    children: [
+                      Icon(
+                        FontAwesomeIcons.screwdriverWrench,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        "Serviços",
+                        style: TextStyle(color: Theme.of(context).primaryColor),
+                      ),
+                    ],
+                  ),
+                ),
+                Tab(
+                  text: null,
+                  icon: null,
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.money_off,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        "Despesa",
+                        style: TextStyle(color: Theme.of(context).primaryColor),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+              controller: _tabController,
             ),
           ),
-          const SlideDate(),
           SizedBox(
             height: MediaQuery.of(context).size.height + 30,
-            child: PageView.builder(
-              scrollDirection: Axis.horizontal,
-              onPageChanged: (value) {
-                setState(() {
-                  indexSlide = value;
-                });
-              },
-              itemCount: components.length,
-              itemBuilder: (_, index) {
-                return components[index];
-              },
+            child: Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: const <Widget>[
+                  FinanceSales(),
+                  FinanceServices(),
+                  FinanceSpending(),
+                ],
+              ),
             ),
           ),
         ],
