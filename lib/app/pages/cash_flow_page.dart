@@ -10,6 +10,7 @@ class CashFlowPage extends StatefulWidget {
 
 class _CashFlowPageState extends State<CashFlowPage> {
   DateTime dateSelected = DateTime.now();
+  List<bool> containerButton = [false, false];
 
   showCalendarPicker() {
     showDatePicker(
@@ -24,6 +25,15 @@ class _CashFlowPageState extends State<CashFlowPage> {
         }
       }),
     );
+  }
+
+  changeContainerButton(int index) {
+    setState(() {
+      for (int i = 0; i < containerButton.length; i++) {
+        containerButton[i] = false;
+      }
+      containerButton[index] = true;
+    });
   }
 
   @override
@@ -71,72 +81,92 @@ class _CashFlowPageState extends State<CashFlowPage> {
           ),
         ),
         Container(
-          padding: const EdgeInsets.symmetric(vertical: 10),
+          color: Colors.indigo.withOpacity(.1),
+          padding: const EdgeInsets.symmetric(vertical: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.blueGrey, 
-                    width: 1, 
+              InkWell(
+                onTap: () => changeContainerButton(0),
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.blueGrey,
+                      width: 1,
+                    ),
+                    color: containerButton[0]
+                        ? Theme.of(context).primaryColor
+                        : null,
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10.0), 
-                ),
-                child: Column(
-                  children: [
-                    Text(
-                      numberFormat.format(50),
-                      style: const TextStyle(
-                        fontSize: 23,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.green,
+                  child: Column(
+                    children: [
+                      Text(
+                        numberFormat.format(50),
+                        style: TextStyle(
+                            fontSize: 23,
+                            fontWeight: FontWeight.w400,
+                            color: containerButton[0]
+                                ? Colors.white
+                                : Colors.green),
                       ),
-                    ),
-                    const Text(
-                      "Total Venda",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w500,
+                      const SizedBox(height: 5),
+                      Text(
+                        "Total Venda",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w500,
+                          color:
+                              containerButton[0] ? Colors.white : Colors.black,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color:Colors.blueGrey, 
-                    width: 1, 
+              InkWell(
+                onTap: () => changeContainerButton(1),
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.blueGrey,
+                      width: 1,
+                    ),
+                    color: containerButton[1]
+                        ? Theme.of(context).primaryColor
+                        : null,
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
-                  borderRadius: BorderRadius.circular(10.0), 
-                ),
-                child: Column(
-                  children: [
-                    Text(
-                      numberFormat.format(250),
-                      style: const TextStyle(
-                        fontSize: 23,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.green,
+                  child: Column(
+                    children: [
+                      Text(
+                        numberFormat.format(250),
+                        style: TextStyle(
+                          fontSize: 23,
+                          fontWeight: FontWeight.w400,
+                          color:
+                              containerButton[1] ? Colors.white : Colors.green,
+                        ),
                       ),
-                    ),
-                    const Text(
-                      "Total Serviço",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w500,
+                      const SizedBox(height: 5),
+                      Text(
+                        "Total Serviço",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w500,
+                          color:
+                              containerButton[1] ? Colors.white : Colors.black,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              )
+              ),
             ],
           ),
-        )
+        ),
       ],
     );
   }
