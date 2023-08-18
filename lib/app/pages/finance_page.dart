@@ -45,11 +45,15 @@ class _FinancePageState extends State<FinancePage>
                       Icon(
                         Icons.shopping_cart_rounded,
                         color: Theme.of(context).primaryColor,
+                        size: 18,
                       ),
-                      const SizedBox(width: 5),
+                      const SizedBox(width: 2),
                       Text(
                         "Vendas",
-                        style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 18),
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 17,
+                        ),
                       ),
                     ],
                   ),
@@ -62,11 +66,15 @@ class _FinancePageState extends State<FinancePage>
                       Icon(
                         FontAwesomeIcons.screwdriverWrench,
                         color: Theme.of(context).primaryColor,
+                        size: 18,
                       ),
-                      const SizedBox(width: 5),
+                      const SizedBox(width: 2),
                       Text(
                         "Serviços",
-                        style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 18),
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 17,
+                        ),
                       ),
                     ],
                   ),
@@ -79,11 +87,15 @@ class _FinancePageState extends State<FinancePage>
                       Icon(
                         Icons.money_off,
                         color: Theme.of(context).primaryColor,
+                        size: 18,
                       ),
-                      const SizedBox(width: 5),
+                      const SizedBox(width: 2),
                       Text(
                         "Despesa",
-                        style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 18),
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 17,
+                        ),
                       ),
                     ],
                   ),
@@ -93,7 +105,7 @@ class _FinancePageState extends State<FinancePage>
             ),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height + 30,
+            height: MediaQuery.of(context).size.height + 60,
             child: TabBarView(
               controller: _tabController,
               children: <Widget>[

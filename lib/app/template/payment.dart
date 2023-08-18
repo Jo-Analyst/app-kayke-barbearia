@@ -12,6 +12,7 @@ class Payment extends StatelessWidget {
         "icon": const Icon(
           Icons.pix,
           color: Colors.green,
+          size: 30,
         ),
         "name": "Pix",
         "quantity": 2,
@@ -21,6 +22,7 @@ class Payment extends StatelessWidget {
         "icon": const Icon(
           Icons.credit_card,
           color: Colors.purple,
+          size: 30,
         ),
         "name": "Cartão de crédito",
         "quantity": 3,
@@ -30,6 +32,7 @@ class Payment extends StatelessWidget {
         "icon": const Icon(
           Icons.credit_card,
           color: Colors.purple,
+          size: 30,
         ),
         "name": "Cartão de débito",
         "quantity": 4,
@@ -37,8 +40,9 @@ class Payment extends StatelessWidget {
       },
       {
         "icon": const Icon(
-          Icons.attach_money,
+          Icons.monetization_on,
           color: Colors.green,
+          size: 30,
         ),
         "name": "Dinheiro",
         "quantity": 5,
