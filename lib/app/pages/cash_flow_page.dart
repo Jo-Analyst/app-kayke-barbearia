@@ -190,18 +190,48 @@ class _CashFlowPageState extends State<CashFlowPage> {
           ),
           Visibility(
             visible: activeContainerSale,
-            child: Container(
-              color: Colors.indigo.withOpacity(.1),
-              height: 200,
-              child: const FinanceSaleList(),
+            child: Column(
+              children: [
+               Container(alignment: Alignment.topLeft,
+               padding: const EdgeInsets.symmetric(horizontal: 8),
+                 child: const Text(
+                    "Vendas:",
+                    style: TextStyle(fontSize: 23, fontWeight: FontWeight.w500),
+                  ),
+               ),
+                Divider(
+                  color: Theme.of(context).primaryColor,
+                  height: 15,
+                ),
+                Container(
+                  color: Colors.indigo.withOpacity(.1),
+                  height: 200,
+                  child: const FinanceSaleList(),
+                ),
+              ],
             ),
           ),
           Visibility(
             visible: activeContainerService,
-            child: Container(
-              color: Colors.indigo.withOpacity(.1),
-              height: 200,
-              child: const FinanceServiceList(),
+            child: Column(
+              children: [
+                 Container(alignment: Alignment.topLeft,
+               padding: const EdgeInsets.symmetric(horizontal: 8),
+                 child: const Text(
+                    "Serviços:",
+                    style: TextStyle(fontSize: 23, fontWeight: FontWeight.w500),
+                  ),
+               ),
+                Divider(
+                  color: Theme.of(context).primaryColor,
+                  height: 15,
+                ),
+                Container(
+                  color: Colors.indigo.withOpacity(.1),
+                  height: 200,
+                  child: const FinanceServiceList(),
+                ),
+              ],
             ),
           ),
         ],
