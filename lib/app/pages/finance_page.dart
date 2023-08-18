@@ -94,15 +94,13 @@ class _FinancePageState extends State<FinancePage>
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height + 30,
-            child: Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: <Widget>[
-                  financeSales,
-                  financeServices,
-                  financeSpending,
-                ],
-              ),
+            child: TabBarView(
+              controller: _tabController,
+              children: <Widget>[
+                financeSales,
+                financeServices,
+                financeSpending,
+              ],
             ),
           ),
         ],
