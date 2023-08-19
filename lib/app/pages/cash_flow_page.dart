@@ -20,7 +20,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
   double balance = 2,
       valueSale = 1,
       valueService = 1,
-      valueMoney = 0,
+      valueMoney = 2,
       valuePix = 0,
       valueCredit = 0,
       valueDebit = 0;
@@ -98,6 +98,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
                   style: const TextStyle(
                     fontSize: 26,
                     color: Colors.green,
+                    fontWeight: FontWeight.w500
                   ),
                 )
               ],
@@ -253,13 +254,13 @@ class _CashFlowPageState extends State<CashFlowPage> {
               crossAxisCount: 2,
               mainAxisSpacing: 15,
               crossAxisSpacing: 15,
-              childAspectRatio: 2.5,
+              childAspectRatio: 2.3,
               children: [
                 PaymentContainer(
                   icon: Icons.monetization_on,
                   specie: "Dinheiro",
                   value: valueMoney,
-                  color: Colors.green,
+                  color: Theme.of(context).primaryColor,
                 ),
                 PaymentContainer(
                   icon: Icons.pix,
@@ -283,7 +284,13 @@ class _CashFlowPageState extends State<CashFlowPage> {
                   icon: FontAwesomeIcons.handHoldingDollar,
                   specie: "A receber",
                   value: valueDebit,
-                  color: Colors.red,
+                  color: Colors.redAccent,
+                ),
+                PaymentContainer(
+                  icon: Icons.check_circle,
+                  specie: "Concluído",
+                  value: valueDebit,
+                  color: Theme.of(context).primaryColor,
                 ),
               ],
             ),
