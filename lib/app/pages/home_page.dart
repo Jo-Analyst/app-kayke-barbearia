@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          menuActived[0]["isActive"] ? "Balanço do mês" : "Fluxo de caixa",
+          menuActived[0]["isActive"] ? "Resumo do mês" : "Fluxo de caixa",
           style: const TextStyle(fontSize: 25),
         ),
       ),

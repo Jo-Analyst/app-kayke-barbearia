@@ -6,17 +6,18 @@ class PaymentContainer extends StatelessWidget {
   final IconData icon;
   final String specie;
   final double value;
+  final Color color;
   const PaymentContainer({
     required this.icon,
     required this.specie,
     required this.value,
+    required this.color,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      // alignment: Alignment.center,
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.blueGrey,
@@ -24,15 +25,13 @@ class PaymentContainer extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(10),
       ),
-      padding: const EdgeInsets.symmetric(
-        horizontal: 5,vertical: 10
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             icon,
-            color: Theme.of(context).primaryColor,
+            color: color,
             size: 30,
           ),
           const SizedBox(width: 5),
@@ -44,9 +43,10 @@ class PaymentContainer extends StatelessWidget {
                 specie,
                 style: const TextStyle(fontSize: 20),
               ),
+              const SizedBox(height: 2),
               Expanded(
                 child: Text(
-                  numberFormat.format(1020),
+                  numberFormat.format(value),
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,

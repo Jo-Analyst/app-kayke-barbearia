@@ -1,6 +1,7 @@
 import 'package:app_kaike_barbearia/app/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   initializeDateFormatting('pt_BR', null);
@@ -24,6 +25,15 @@ class AppKaikeBarbearia extends StatelessWidget {
         ),
         // useMaterial3: true,
       ),
+      locale: const Locale('pt', 'BR'),
+      supportedLocales: const [
+        Locale('pt', 'BR'),
+        // Outros idiomas suportados, se necessário
+      ],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       home: const HomePage(),
     );
   }

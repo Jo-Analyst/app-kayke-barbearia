@@ -3,6 +3,7 @@ import 'package:app_kaike_barbearia/app/template/finance_service.list.dart';
 import 'package:app_kaike_barbearia/app/template/payment_container.dart';
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CashFlowPage extends StatefulWidget {
   const CashFlowPage({super.key});
@@ -16,6 +17,13 @@ class _CashFlowPageState extends State<CashFlowPage> {
   List<bool> containerButton = [false, false];
   bool activeContainerSale = false;
   bool activeContainerService = false;
+  double balance = 2,
+      valueSale = 1,
+      valueService = 1,
+      valueMoney = 0,
+      valuePix = 0,
+      valueCredit = 0,
+      valueDebit = 0;
 
   showCalendarPicker() {
     showDatePicker(
@@ -54,7 +62,6 @@ class _CashFlowPageState extends State<CashFlowPage> {
           Container(
             padding: const EdgeInsets.symmetric(vertical: 8),
             margin: const EdgeInsets.only(right: 10),
-            // color: Colors.indigo.withOpacity(.1),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -79,7 +86,6 @@ class _CashFlowPageState extends State<CashFlowPage> {
           Container(
             width: double.infinity,
             color: Colors.indigo.withOpacity(.1),
-            // margin: const EdgeInsets.symmetric(vertical: 10),
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: Column(
               children: [
@@ -88,7 +94,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
                   style: TextStyle(fontSize: 25),
                 ),
                 Text(
-                  numberFormat.format(300),
+                  numberFormat.format(balance),
                   style: const TextStyle(
                     fontSize: 26,
                     color: Colors.green,
@@ -97,12 +103,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
               ],
             ),
           ),
-          // Divider(
-          //   height: 15,
-          //   color: Theme.of(context).primaryColor,
-          // ),
           Container(
-            // color: Colors.indigo.withOpacity(.1),
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -124,13 +125,14 @@ class _CashFlowPageState extends State<CashFlowPage> {
                     child: Column(
                       children: [
                         Text(
-                          numberFormat.format(50),
+                          numberFormat.format(valueSale),
                           style: TextStyle(
-                              fontSize: 23,
-                              fontWeight: FontWeight.w400,
-                              color: activeContainerSale
-                                  ? Colors.white
-                                  : Colors.green),
+                            fontSize: 20,
+                            fontWeight: FontWeight.w400,
+                            color: activeContainerSale
+                                ? Colors.white
+                                : Colors.green,
+                          ),
                         ),
                         const SizedBox(height: 5),
                         Text(
@@ -164,9 +166,9 @@ class _CashFlowPageState extends State<CashFlowPage> {
                     child: Column(
                       children: [
                         Text(
-                          numberFormat.format(250),
+                          numberFormat.format(valueService),
                           style: TextStyle(
-                            fontSize: 23,
+                            fontSize: 20,
                             fontWeight: FontWeight.w400,
                             color: activeContainerService
                                 ? Colors.white
@@ -196,7 +198,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
             color: Theme.of(context).primaryColor,
           ),
           Visibility(
-            visible: activeContainerSale,
+            visible: activeContainerSale && valueSale > 0,
             child: Column(
               children: [
                 Container(
@@ -204,7 +206,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: const Text(
                     "Vendas:",
-                    style: TextStyle(fontSize: 23, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                   ),
                 ),
                 Divider(
@@ -220,7 +222,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
             ),
           ),
           Visibility(
-            visible: activeContainerService,
+            visible: activeContainerService && valueService > 0,
             child: Column(
               children: [
                 Container(
@@ -228,7 +230,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: const Text(
                     "Serviços:",
-                    style: TextStyle(fontSize: 23, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                   ),
                 ),
                 Divider(
@@ -243,21 +245,8 @@ class _CashFlowPageState extends State<CashFlowPage> {
               ],
             ),
           ),
-          Container(
-            alignment: Alignment.topLeft,
-            margin: const EdgeInsets.only(top: 15),
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: const Text(
-              "Pagamentos:",
-              style: TextStyle(fontSize: 23, fontWeight: FontWeight.w500),
-            ),
-          ),
-          Divider(
-            color: Theme.of(context).primaryColor,
-            height: 15,
-          ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 15),
             child: GridView.count(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -265,26 +254,36 @@ class _CashFlowPageState extends State<CashFlowPage> {
               mainAxisSpacing: 15,
               crossAxisSpacing: 15,
               childAspectRatio: 2.5,
-              children: const [
+              children: [
                 PaymentContainer(
                   icon: Icons.monetization_on,
                   specie: "Dinheiro",
-                  value: 200,
+                  value: valueMoney,
+                  color: Colors.green,
                 ),
                 PaymentContainer(
                   icon: Icons.pix,
                   specie: "PIX",
-                  value: 100,
+                  value: valuePix,
+                  color: Colors.green,
                 ),
                 PaymentContainer(
                   icon: Icons.credit_card,
                   specie: "Crédito",
-                  value: 0,
+                  value: valueCredit,
+                  color: Colors.purple,
                 ),
                 PaymentContainer(
                   icon: Icons.credit_card,
                   specie: "Débito",
-                  value: 0,
+                  value: valueDebit,
+                  color: Colors.purple,
+                ),
+                PaymentContainer(
+                  icon: FontAwesomeIcons.handHoldingDollar,
+                  specie: "A receber",
+                  value: valueDebit,
+                  color: Colors.red,
                 ),
               ],
             ),
