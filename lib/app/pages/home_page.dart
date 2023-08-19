@@ -57,54 +57,26 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        height: 80,
+        height: 70,
         shape: const CircularNotchedRectangle(),
         color: Theme.of(context).primaryColor,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            InkWell(
-              onTap: () => changeActiveMenu(0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.auto_graph,
-                    size: 35,
-                    color: changeColor(menuActived[0]["isActive"]),
-                  ),
-                  Text(
-                    "Finanças",
-                    style: TextStyle(
-                      color: changeColor(menuActived[0]["isActive"]),
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
+            IconButton(
+              onPressed: () => changeActiveMenu(0),
+              icon: Icon(
+                Icons.auto_graph,
+                size: 35,
+                color: changeColor(menuActived[0]["isActive"]),
               ),
             ),
-            InkWell(
-              onTap: () => changeActiveMenu(1),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    FontAwesomeIcons.sackDollar,
-                    size: 35,
-                    color: changeColor(menuActived[1]["isActive"]),
-                  ),
-                  Text(
-                    "Fluxo de Caixa",
-                    style: TextStyle(
-                      color: changeColor(menuActived[1]["isActive"]),
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
+            IconButton(
+              onPressed: () => changeActiveMenu(1),
+              icon: Icon(
+                FontAwesomeIcons.sackDollar,
+                size: 35,
+                color: changeColor(menuActived[1]["isActive"]),
               ),
             ),
           ],
