@@ -38,7 +38,6 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(
           menuActived[0]["isActive"] ? "Resumo do mês" : "Fluxo de caixa",
-          style: const TextStyle(fontSize: 25),
         ),
       ),
       body: menuActived[0]["isActive"]

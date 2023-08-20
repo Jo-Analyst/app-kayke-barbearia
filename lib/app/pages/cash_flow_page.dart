@@ -254,7 +254,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
               crossAxisCount: 2,
               mainAxisSpacing: 15,
               crossAxisSpacing: 15,
-              childAspectRatio: 2.5,
+              childAspectRatio: 2.4,
               children: [
                 PaymentContainer(
                   icon: Icons.monetization_on,
