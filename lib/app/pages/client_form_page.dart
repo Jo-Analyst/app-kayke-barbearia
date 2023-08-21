@@ -23,7 +23,6 @@ class _ClientFormPageState extends State<ClientFormPage> {
           "Cliente",
         ),
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.contacts)),
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(

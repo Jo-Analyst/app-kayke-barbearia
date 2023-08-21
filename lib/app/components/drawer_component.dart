@@ -1,3 +1,4 @@
+import 'package:app_kaike_barbearia/app/pages/client_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -14,7 +15,7 @@ class DrawerComponet extends StatelessWidget {
             accountEmail: null,
             accountName: const Text(
               "KAIKE BARBEARIA",
-              style:  TextStyle(fontSize: 25),
+              style: TextStyle(fontSize: 25),
             ),
             currentAccountPicture: ClipOval(
               child: Image.asset(
@@ -35,7 +36,14 @@ class DrawerComponet extends StatelessWidget {
                 color: Colors.indigo,
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const ClientListPage(),
+                ),
+              );
+            },
           ),
           ListTile(
             leading: const Icon(
