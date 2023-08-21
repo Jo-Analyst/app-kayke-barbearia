@@ -1,5 +1,7 @@
 import 'package:app_kaike_barbearia/app/pages/client_form_page.dart';
+import 'package:app_kaike_barbearia/app/pages/contact_phone_page.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ClientListPage extends StatefulWidget {
   const ClientListPage({super.key});
@@ -11,14 +13,29 @@ class ClientListPage extends StatefulWidget {
 class _ClientListPageState extends State<ClientListPage> {
   final searchController = TextEditingController();
   String search = "";
+  bool isGranted = false;
   final List<Map<String, dynamic>> clients = [
     {"name": "Juliana Andrade", "phone": "38998269905"},
     {"name": "Carlos da Silva Xavier", "phone": "38999093710"},
     {"name": "Maria Francisca santos", "phone": "38998269905"},
     {"name": "Lucimara Cristina Pereira", "phone": "38998269905"},
     {"name": "Alberto Rodrigues", "phone": "38998269905"},
-    
   ];
+
+  Future<void> permissionGranted() async {
+    var status = await Permission.contacts.request();
+    setState(() {
+      isGranted = status.isGranted;
+    });
+  }
+
+  openScreenContacts() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => const ContactPhonePage(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +44,12 @@ class _ClientListPageState extends State<ClientListPage> {
         title: const Text("Clientes"),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () async {
+             await permissionGranted();
+              if (!isGranted) return;
+
+              openScreenContacts();
+            },
             icon: const Icon(Icons.contacts),
           ),
           Container(

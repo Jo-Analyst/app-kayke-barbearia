@@ -45,7 +45,7 @@ class _ClientFormPageState extends State<ClientFormPage> {
             TextFormField(
               controller: nameController,
               maxLength: 100,
-              decoration: const InputDecoration(labelText: "nome"),
+              decoration: const InputDecoration(labelText: "Nome*"),
               style: const TextStyle(fontSize: 18),
               onChanged: (name) {
                 setState(() {
@@ -58,14 +58,14 @@ class _ClientFormPageState extends State<ClientFormPage> {
               keyboardType: TextInputType.number,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               maxLength: 11,
-              decoration: const InputDecoration(labelText: "Cel/Tel"),
+              decoration: const InputDecoration(labelText: "Cel/Tel(opcional)"),
               style: const TextStyle(fontSize: 18),
             ),
             TextFormField(
               controller: observationController,
               textInputAction: TextInputAction.newline,
               maxLines: 3,
-              decoration: const InputDecoration(labelText: "Observação"),
+              decoration: const InputDecoration(labelText: "Observação(opcional)"),
               style: const TextStyle(fontSize: 18),
               maxLength: 1000,
             ),
