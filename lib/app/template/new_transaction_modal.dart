@@ -2,6 +2,8 @@ import 'package:app_kaike_barbearia/app/pages/client_form_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../pages/product_form_page.dart';
+
 showModal(BuildContext context) {
   showModalBottomSheet(
     context: context,
@@ -141,7 +143,14 @@ showModal(BuildContext context) {
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const ProductFormPage(),
+                      ),
+                    );
+                  },
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),

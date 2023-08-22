@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class ClientFormPage extends StatefulWidget {
   final String? name;
@@ -77,8 +78,8 @@ class _ClientFormPageState extends State<ClientFormPage> {
             ),
             TextFormField(
               controller: phoneController,
-              keyboardType: TextInputType.number,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              keyboardType: TextInputType.phone,
+              inputFormatters: [MaskTextInputFormatter(mask: "(##) # ####-####")],
               maxLength: 20,
               decoration: const InputDecoration(labelText: "Cel/Tel(opcional)"),
               style: const TextStyle(fontSize: 18),
