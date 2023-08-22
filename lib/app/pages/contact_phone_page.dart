@@ -13,7 +13,8 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
   bool isLoading = true;
   String search = "";
   List<Contact> _contacts = [];
-  List<String> clients = [];
+  List<String> names = [];
+  List<String> phones = [];
 
   Future<void> _fetchContacts() async {
     Iterable<Contact> contacts = await ContactsService.getContacts();
@@ -38,7 +39,18 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: () {},
+              onPressed: phones.isNotEmpty
+                  ? () {
+                      List<Map<String, dynamic>> data = [];
+                      int index = 0;
+                      for (var phone in phones) {
+                        data.add({"name": names[index], "phone": phone});
+                        index++;
+                      }
+
+                      Navigator.of(context).pop(data);
+                    }
+                  : null,
               icon: const Icon(
                 Icons.check,
                 size: 30,
@@ -48,8 +60,14 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
         ],
       ),
       body: isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
+          ? const SizedBox(
+            width: double.infinity,
+              height: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [CircularProgressIndicator(), Text("Carregando...", style: TextStyle(fontSize: 20),)],
+              ),
             )
           : Padding(
               padding: const EdgeInsets.symmetric(
@@ -97,12 +115,17 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
                         return ListTile(
                           onLongPress: () {
                             setState(() {
-                              clients.contains(contact.displayName)
-                                  ? clients.remove(contact.displayName!)
-                                  : clients.add(contact.displayName!);
+                              names.contains(contact.displayName)
+                                  ? names.remove(contact.displayName!)
+                                  : names.add(contact.displayName!);
+
+                              phones.contains(contact.phones![0].value)
+                                  ? phones.remove(contact.phones![0].value)
+                                  : phones
+                                      .add(contact.phones![0].value.toString());
                             });
                           },
-                          selected: clients.contains(contact.displayName),
+                          selected: names.contains(contact.displayName),
                           selectedTileColor: Colors.indigo,
                           selectedColor: Colors.white,
                           title: Text(contact.displayName ?? ""),
@@ -113,10 +136,17 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
                           ),
                           leading: CircleAvatar(
                             maxRadius: 25,
-                            backgroundColor: Colors.indigo,
-                            foregroundColor: Colors.white,
+                            backgroundColor: names.contains(contact.displayName)
+                                ? Colors.white
+                                : Theme.of(context).primaryColor,
+                            foregroundColor: names.contains(contact.displayName)
+                                ? Theme.of(context).primaryColor
+                                : Colors.white,
                             child: Text(
                               contact.displayName.toString().split("")[0],
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ),
                         );

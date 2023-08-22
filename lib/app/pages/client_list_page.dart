@@ -29,12 +29,18 @@ class _ClientListPageState extends State<ClientListPage> {
     });
   }
 
-  openScreenContacts() {
-    Navigator.of(context).push(
+  openScreenContacts() async {
+    final contact = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => const ContactPhonePage(),
       ),
     );
+
+    if (contact != null) {
+      setState(() {
+        clients.addAll(contact);
+      });
+    }
   }
 
   @override
@@ -45,7 +51,7 @@ class _ClientListPageState extends State<ClientListPage> {
         actions: [
           IconButton(
             onPressed: () async {
-             await permissionGranted();
+              await permissionGranted();
               if (!isGranted) return;
 
               openScreenContacts();
