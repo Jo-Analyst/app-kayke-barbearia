@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 
 class ProductFormPage extends StatefulWidget {
   const ProductFormPage({super.key});
@@ -10,8 +11,18 @@ class ProductFormPage extends StatefulWidget {
 
 class _ProductFormPageState extends State<ProductFormPage> {
   String name = "";
-  double valueSale = 0, costValue = 0, profitValue = 0;
+  double saleValue = 0, costValue = 0, profitValue = 0;
   int quantity = 0;
+  final saleValueController = MoneyMaskedTextController(leftSymbol: "R\$ ");
+  final costValueController = MoneyMaskedTextController(leftSymbol: "R\$ ");
+  final profitValueController = TextEditingController();
+
+  calculateProfit() {
+    setState(() {
+      profitValue = saleValue - costValue;
+    });
+    profitValueController.text = profitValue.toString();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,34 +61,37 @@ class _ProductFormPageState extends State<ProductFormPage> {
               },
             ),
             TextFormField(
+              controller: costValueController,
               textInputAction: TextInputAction.next,
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
-              decoration: const InputDecoration(labelText: "Valor custo*"),
+              decoration: const InputDecoration(labelText: "Valor Custo"),
               style: const TextStyle(fontSize: 18),
               onChanged: (value) {
                 setState(() {
-                  costValue =
-                      value.trim().isNotEmpty ? double.parse(value) : 0.0;
+                  costValue = costValueController.numberValue;
                 });
+                calculateProfit();
               },
             ),
             TextFormField(
+              controller: saleValueController,
               textInputAction: TextInputAction.next,
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
-              decoration: const InputDecoration(labelText: "Valor venda*"),
+              decoration: const InputDecoration(labelText: "Valor Venda"),
               style: const TextStyle(fontSize: 18),
               onChanged: (value) {
                 setState(() {
-                  valueSale =
-                      value.trim().isNotEmpty ? double.parse(value) : 0.0;
+                  saleValue = saleValueController.numberValue;
                 });
+                calculateProfit();
               },
             ),
             TextFormField(
+              controller: profitValueController,
               readOnly: true,
               textInputAction: TextInputAction.next,
               keyboardType: const TextInputType.numberWithOptions(
