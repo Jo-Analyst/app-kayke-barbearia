@@ -1,10 +1,14 @@
 import 'package:app_kaike_barbearia/app/pages/client_form_page.dart';
 import 'package:app_kaike_barbearia/app/pages/contact_phone_page.dart';
+import 'package:app_kaike_barbearia/app/utils/dialog.dart';
+import 'package:app_kaike_barbearia/app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class ClientListPage extends StatefulWidget {
-  const ClientListPage({super.key});
+  final bool itFromTheSalesScreen;
+  const ClientListPage({required this.itFromTheSalesScreen, super.key});
 
   @override
   State<ClientListPage> createState() => _ClientListPageState();
@@ -15,11 +19,17 @@ class _ClientListPageState extends State<ClientListPage> {
   String search = "";
   bool isGranted = false;
   final List<Map<String, dynamic>> clients = [
-    {"name": "Juliana Andrade", "phone": "38998269905"},
-    {"name": "Carlos da Silva Xavier", "phone": "38999093710"},
-    {"name": "Maria Francisca santos", "phone": "38998269905"},
-    {"name": "Lucimara Cristina Pereira", "phone": "38998269905"},
-    {"name": "Alberto Rodrigues", "phone": "38998269905"},
+    {"id": 1, "name": "Juliana Andrade", "phone": "38998269905"},
+    {"id": 2, "name": "Carlos da Silva Xavier", "phone": "38999093710"},
+    {"id": 3, "name": "Maria Francisca santos", "phone": "38998269905"},
+    {"id": 4, "name": "Lucimara Cristina Pereira", "phone": "38998269905"},
+    {"id": 5, "name": "Alberto Rodrigues", "phone": "38998269905"},
+    {
+      "id": 5,
+      "name": "Zé Canália",
+      "phone": "38998269905",
+      "observation": "Tá me devendo pra dedel"
+    },
   ];
 
   Future<void> permissionGranted() async {
@@ -41,6 +51,10 @@ class _ClientListPageState extends State<ClientListPage> {
         clients.addAll(contact);
       });
     }
+  }
+
+  void showMessage(String content, Color? color) {
+    ConfirmationMessage.showMessage(context, content, color);
   }
 
   @override
@@ -74,61 +88,115 @@ class _ClientListPageState extends State<ClientListPage> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 15,
-          vertical: 10,
-        ),
-        child: Column(
-          children: [
-            TextField(
-              controller: searchController,
-              decoration: InputDecoration(
-                labelText: "Digite para buscar",
-                suffixIcon: search.isEmpty
-                    ? const Icon(
-                        Icons.search,
-                      )
-                    : IconButton(
-                        onPressed: () {
-                          searchController.text = "";
-                          setState(() {
-                            search = "";
-                          });
-                        },
-                        icon: const Icon(Icons.close),
-                      ),
+      body: clients.isEmpty
+          ? const Center(
+              child: Text(
+                "Não há clientes cadastrado...",
+                style: TextStyle(fontSize: 20),
               ),
-              onChanged: (value) {
-                setState(() {
-                  search = value;
-                });
-              },
-            ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: ListView.builder(
-                itemCount: clients.length,
-                itemBuilder: (_, index) {
-                  return ListTile(
-                    selectedTileColor: Colors.indigo,
-                    title: Text(clients[index]["name"]),
-                    subtitle: Text(clients[index]["phone"]),
-                    leading: CircleAvatar(
-                      maxRadius: 25,
-                      backgroundColor: Colors.indigo,
-                      foregroundColor: Colors.white,
-                      child: Text(
-                        clients[index]["name"].toString().split("")[0],
-                      ),
+            )
+          : Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 15,
+                vertical: 10,
+              ),
+              child: Column(
+                children: [
+                  TextField(
+                    controller: searchController,
+                    decoration: InputDecoration(
+                      labelText: "Digite para buscar",
+                      suffixIcon: search.isEmpty
+                          ? const Icon(
+                              Icons.search,
+                            )
+                          : IconButton(
+                              onPressed: () {
+                                searchController.text = "";
+                                setState(() {
+                                  search = "";
+                                });
+                              },
+                              icon: const Icon(Icons.close),
+                            ),
                     ),
-                  );
-                },
+                    onChanged: (value) {
+                      setState(() {
+                        search = value;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: clients.length,
+                      itemBuilder: (_, index) {
+                        var client = clients[index];
+                        return Slidable(
+                          endActionPane: widget.itFromTheSalesScreen
+                              ? null
+                              : ActionPane(
+                                  motion: const StretchMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      onPressed: (_) {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (_) => ClientFormPage(
+                                              clientId: client["id"],
+                                              name: client["name"],
+                                              phone: client["phone"],
+                                              observation:
+                                                  client["observation"],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      backgroundColor: Colors.amber,
+                                      foregroundColor: Colors.white,
+                                      icon: Icons.edit_outlined,
+                                      label: "Editar",
+                                    ),
+                                    SlidableAction(
+                                      onPressed: (_) async {
+                                        final confirmDelete = await showExitDialog(
+                                            context,
+                                            "Deseja mesmo excluir o(a) cliente ${client["name"]}?");
+                                        if (confirmDelete!) {
+                                          clients.removeAt(index);
+                                          setState(() {});
+                                          showMessage(
+                                              "Cliente excluido com sucesso.",
+                                              const Color.fromARGB(
+                                                  255, 199, 82, 74));
+                                        }
+                                      },
+                                      backgroundColor: Colors.red,
+                                      icon: Icons.delete,
+                                      label: "Excluir",
+                                    ),
+                                  ],
+                                ),
+                          child: ListTile(
+                            selectedTileColor: Colors.indigo,
+                            title: Text(client["name"]),
+                            subtitle: Text(client["phone"]),
+                            leading: CircleAvatar(
+                              maxRadius: 25,
+                              backgroundColor: Colors.indigo,
+                              foregroundColor: Colors.white,
+                              child: Text(
+                                client["name"].toString().split("")[0],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
     );
   }
 }

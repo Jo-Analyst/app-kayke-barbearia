@@ -2,7 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ClientFormPage extends StatefulWidget {
-  const ClientFormPage({super.key});
+  final String? name;
+  final String? phone;
+  final String? observation;
+  final int? clientId;
+
+  const ClientFormPage({
+    this.clientId,
+    this.name,
+    this.phone,
+    this.observation,
+    super.key,
+  });
 
   @override
   State<ClientFormPage> createState() => _ClientFormPageState();
@@ -16,6 +27,17 @@ class _ClientFormPageState extends State<ClientFormPage> {
   String? _name = "";
 
   @override
+  void initState() {
+    super.initState();
+
+    if (widget.clientId == 0) return;
+    _name = widget.name;
+    nameController.text = _name ?? "";
+    phoneController.text = widget.phone ?? "";
+    observationController.text = widget.observation ?? "";
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -26,7 +48,7 @@ class _ClientFormPageState extends State<ClientFormPage> {
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: _name!.isNotEmpty ? () {} : null,
+              onPressed: _name == null || _name!.trim() == "" ? null : () {} ,
               icon: const Icon(
                 Icons.check,
                 size: 35,
@@ -57,7 +79,7 @@ class _ClientFormPageState extends State<ClientFormPage> {
               controller: phoneController,
               keyboardType: TextInputType.number,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              maxLength: 11,
+              maxLength: 20,
               decoration: const InputDecoration(labelText: "Cel/Tel(opcional)"),
               style: const TextStyle(fontSize: 18),
             ),
@@ -65,7 +87,8 @@ class _ClientFormPageState extends State<ClientFormPage> {
               controller: observationController,
               textInputAction: TextInputAction.newline,
               maxLines: 3,
-              decoration: const InputDecoration(labelText: "Observação(opcional)"),
+              decoration:
+                  const InputDecoration(labelText: "Observação(opcional)"),
               style: const TextStyle(fontSize: 18),
               maxLength: 1000,
             ),

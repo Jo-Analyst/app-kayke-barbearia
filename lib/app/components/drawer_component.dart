@@ -40,7 +40,7 @@ class DrawerComponet extends StatelessWidget {
               Navigator.pop(context);
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => const ClientListPage(),
+                  builder: (_) => const ClientListPage(itFromTheSalesScreen: false),
                 ),
               );
             },
