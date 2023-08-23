@@ -109,7 +109,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
-              decoration: const InputDecoration(labelText: "Valor Venda"),
+              decoration: const InputDecoration(labelText: "Valor da venda"),
               style: const TextStyle(fontSize: 18),
               onChanged: (value) {
                 setState(() {
@@ -124,7 +124,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
-              decoration: const InputDecoration(labelText: "Valor Custo"),
+              decoration: const InputDecoration(labelText: "Valor do custo"),
               style: const TextStyle(fontSize: 18),
               onChanged: (value) {
                 setState(() {

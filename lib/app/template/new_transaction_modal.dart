@@ -1,4 +1,5 @@
 import 'package:app_kaike_barbearia/app/pages/client_form_page.dart';
+import 'package:app_kaike_barbearia/app/pages/service_form_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -147,7 +148,9 @@ showModal(BuildContext context) {
                     Navigator.of(context).pop();
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (_) => const ProductFormPage(isEdition: false,),
+                        builder: (_) => const ProductFormPage(
+                          isEdition: false,
+                        ),
                       ),
                     );
                   },
@@ -173,7 +176,14 @@ showModal(BuildContext context) {
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const ServiceFormPage(isEdition: false,),
+                      ),
+                    );
+                  },
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),

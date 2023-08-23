@@ -28,7 +28,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
   showCalendarPicker() {
     showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: dateSelected,
       firstDate: DateTime(2014),
       lastDate: DateTime.now(),
     ).then(
