@@ -62,7 +62,7 @@ class _ServiceListPageState extends State<ServiceListPage> {
       body: services.isEmpty
           ? const Center(
               child: Text(
-                "Não há serviço cadastrado...",
+                "Não há serviço cadastrados...",
                 style: TextStyle(fontSize: 20),
               ),
             )
@@ -103,11 +103,12 @@ class _ServiceListPageState extends State<ServiceListPage> {
                       separatorBuilder: (__, _) {
                         return Divider(
                           color: Theme.of(context).primaryColor,
+                          height: 2,
                         );
                       },
                       itemCount: services.length,
                       itemBuilder: (_, index) {
-                        var product = services[index];
+                        var service = services[index];
                         return Slidable(
                           endActionPane: widget.itFromTheSalesScreen
                               ? null
@@ -120,12 +121,12 @@ class _ServiceListPageState extends State<ServiceListPage> {
                                           MaterialPageRoute(
                                             builder: (_) => ServiceFormPage(
                                               isEdition: true,
-                                              serviceId: product["id"],
+                                              serviceId: service["id"],
                                               description:
-                                                  product["description"],
-                                              price: product["price"],
+                                                  service["description"],
+                                              price: service["price"],
                                               observation:
-                                                  product["observation"],
+                                                  service["observation"],
                                             ),
                                           ),
                                         );
@@ -139,7 +140,7 @@ class _ServiceListPageState extends State<ServiceListPage> {
                                       onPressed: (_) async {
                                         final confirmDelete = await showExitDialog(
                                             context,
-                                            "Deseja mesmo excluir o serviço '${product["description"]}'?");
+                                            "Deseja mesmo excluir o serviço '${service["description"]}'?");
                                         if (confirmDelete!) {
                                           services.removeAt(index);
                                           setState(() {});
@@ -156,9 +157,10 @@ class _ServiceListPageState extends State<ServiceListPage> {
                                   ],
                                 ),
                           child: ListTile(
+                            contentPadding: EdgeInsets.all(5),
                             selectedTileColor: Colors.indigo,
                             title: Text(
-                              product["description"],
+                              service["description"],
                               style: const TextStyle(fontSize: 20),
                             ),
                             leading: CircleAvatar(
@@ -166,7 +168,7 @@ class _ServiceListPageState extends State<ServiceListPage> {
                               backgroundColor: Colors.indigo,
                               foregroundColor: Colors.white,
                               child: Text(
-                                numberFormat.format(product["price"]),
+                                numberFormat.format(service["price"]),
                                 style: const TextStyle(
                                   fontSize: 11,
                                   fontWeight: FontWeight.bold,

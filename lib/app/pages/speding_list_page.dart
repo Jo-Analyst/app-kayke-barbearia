@@ -1,46 +1,43 @@
-import 'package:app_kaike_barbearia/app/pages/product_form_page.dart';
+import 'package:app_kaike_barbearia/app/pages/speding.form_page.dart';
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
 import 'package:app_kaike_barbearia/app/utils/dialog.dart';
 import 'package:app_kaike_barbearia/app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-class ProductListPage extends StatefulWidget {
+class SpedingListPage extends StatefulWidget {
   final bool itFromTheSalesScreen;
-  const ProductListPage({required this.itFromTheSalesScreen, super.key});
+  const SpedingListPage({required this.itFromTheSalesScreen, super.key});
 
   @override
-  State<ProductListPage> createState() => _ProductListPageState();
+  State<SpedingListPage> createState() => _SpedingListPageState();
 }
 
-class _ProductListPageState extends State<ProductListPage> {
+class _SpedingListPageState extends State<SpedingListPage> {
   final searchController = TextEditingController();
   String search = "";
   bool isGranted = false;
-  final List<Map<String, dynamic>> products = [
+  final List<Map<String, dynamic>> spedings = [
     {
       "id": 1,
-      "name": "Gel Azul",
-      "sale_value": 20.00,
-      "cost_value": 8.50,
-      "profit_value": 11.50,
-      "quantity": 10
+      "name_product": "Gel Azul",
+      "price": 20.00,
+      "quantity": 10,
+      "date": "07/10/2023"
     },
     {
       "id": 1,
-      "name": "Gel preto",
-      "sale_value": 20.00,
-      "cost_value": 8.50,
-      "profit_value": 11.50,
-      "quantity": 10
+      "name_product": "Gel preto",
+      "price": 20.00,
+      "quantity": 10,
+      "date": "07/10/2023"
     },
     {
       "id": 1,
-      "name": "Maquina de barbear",
-      "sale_value": 100.00,
-      "cost_value": 50.50,
-      "profit_value": 49.50,
-      "quantity": 10
+      "name_product": "Maquina de barbear",
+      "price": 100.00,
+      "quantity": 10,
+      "date": "07/10/2023"
     },
   ];
 
@@ -52,14 +49,14 @@ class _ProductListPageState extends State<ProductListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Produtos"),
+        title: const Text("Gastos da barbearia"),
         actions: [
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
               onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => const ProductFormPage(
+                  builder: (_) => const SpedingFormPage(
                     isEdition: false,
                   ),
                 ),
@@ -72,10 +69,10 @@ class _ProductListPageState extends State<ProductListPage> {
           ),
         ],
       ),
-      body: products.isEmpty
+      body: spedings.isEmpty
           ? const Center(
               child: Text(
-                "Não há produto cadastrados...",
+                "Não há gastos cadastradoss...",
                 style: TextStyle(fontSize: 20),
               ),
             )
@@ -118,9 +115,9 @@ class _ProductListPageState extends State<ProductListPage> {
                           color: Theme.of(context).primaryColor,
                         );
                       },
-                      itemCount: products.length,
+                      itemCount: spedings.length,
                       itemBuilder: (_, index) {
-                        var product = products[index];
+                        var speding = spedings[index];
                         return Slidable(
                           endActionPane: widget.itFromTheSalesScreen
                               ? null
@@ -131,17 +128,15 @@ class _ProductListPageState extends State<ProductListPage> {
                                       onPressed: (_) {
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
-                                            builder: (_) => ProductFormPage(
+                                            builder: (_) => SpedingFormPage(
                                               isEdition: true,
-                                              productId: product["id"],
-                                              name: product["name"],
-                                              saleValue: product["sale_value"],
-                                              costValue: product["cost_value"],
-                                              profitValue:
-                                                  product["profit_value"],
-                                              quantity: product["quantity"],
+                                              spedingId: speding["id"],
+                                              nameProduct:
+                                                  speding["name_product"],
+                                              price: speding["price"],
+                                              quantity: speding["quantity"],
                                               observation:
-                                                  product["observation"],
+                                                  speding["observation"],
                                             ),
                                           ),
                                         );
@@ -155,12 +150,12 @@ class _ProductListPageState extends State<ProductListPage> {
                                       onPressed: (_) async {
                                         final confirmDelete = await showExitDialog(
                                             context,
-                                            "Deseja mesmo excluir o produto '${product["name"]}'?");
+                                            "Deseja mesmo excluir?");
                                         if (confirmDelete!) {
-                                          products.removeAt(index);
+                                          spedings.removeAt(index);
                                           setState(() {});
                                           showMessage(
-                                              "Produto excluido com sucesso.",
+                                              "Excluido com sucesso.",
                                               const Color.fromARGB(
                                                   255, 199, 82, 74));
                                         }
@@ -174,11 +169,15 @@ class _ProductListPageState extends State<ProductListPage> {
                           child: ListTile(
                             selectedTileColor: Colors.indigo,
                             title: Text(
-                              product["name"],
+                              speding["name_product"],
                               style: const TextStyle(fontSize: 20),
                             ),
+                            subtitle: Text(
+                              speding["date"],
+                              style: const TextStyle(fontSize: 16),
+                            ),
                             trailing: Text(
-                              "${product["quantity"]}x",
+                              "${speding["quantity"]}x",
                               style: const TextStyle(fontSize: 20),
                             ),
                             leading: CircleAvatar(
@@ -186,7 +185,7 @@ class _ProductListPageState extends State<ProductListPage> {
                               backgroundColor: Colors.indigo,
                               foregroundColor: Colors.white,
                               child: Text(
-                                numberFormat.format(product["sale_value"]),
+                                numberFormat.format(speding["price"]),
                                 style: const TextStyle(
                                   fontSize: 11,
                                   fontWeight: FontWeight.bold,

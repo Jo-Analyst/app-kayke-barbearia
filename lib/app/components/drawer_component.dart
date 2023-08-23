@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../pages/service_list_page.dart';
+import '../pages/speding_list_page.dart';
 
 class DrawerComponet extends StatelessWidget {
   const DrawerComponet({super.key});
@@ -107,7 +108,14 @@ class DrawerComponet extends StatelessWidget {
                 color: Colors.indigo,
               ),
             ),
-            onTap: () {},
+            onTap: () { Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const SpedingListPage(
+                    itFromTheSalesScreen: false,
+                  ),
+                ),
+              );},
           ),
           ListTile(
             leading: const Icon(

@@ -24,6 +24,11 @@ class _ClientListPageState extends State<ClientListPage> {
     {"id": 3, "name": "Maria Francisca santos", "phone": "38998269905"},
     {"id": 4, "name": "Lucimara Cristina Pereira", "phone": "38998269905"},
     {"id": 5, "name": "Alberto Rodrigues", "phone": "38998269905"},
+    {"id": 1, "name": "Juliana Andrade", "phone": "38998269905"},
+    {"id": 2, "name": "Carlos da Silva Xavier", "phone": "38999093710"},
+    {"id": 3, "name": "Maria Francisca santos", "phone": "38998269905"},
+    {"id": 4, "name": "Lucimara Cristina Pereira", "phone": "38998269905"},
+    {"id": 5, "name": "Alberto Rodrigues", "phone": "38998269905"},
     {
       "id": 5,
       "name": "Zé Canália",
@@ -91,7 +96,7 @@ class _ClientListPageState extends State<ClientListPage> {
       body: clients.isEmpty
           ? const Center(
               child: Text(
-                "Não há clientes cadastrado...",
+                "Não há clientes cadastrados...",
                 style: TextStyle(fontSize: 20),
               ),
             )
@@ -128,7 +133,10 @@ class _ClientListPageState extends State<ClientListPage> {
                   ),
                   const SizedBox(height: 20),
                   Expanded(
-                    child: ListView.builder(
+                    child: ListView.separated(
+                      separatorBuilder: (_, index) {
+                        return Divider(color: Theme.of(context).primaryColor);
+                      },
                       itemCount: clients.length,
                       itemBuilder: (_, index) {
                         var client = clients[index];
@@ -182,7 +190,7 @@ class _ClientListPageState extends State<ClientListPage> {
                             title: Text(client["name"]),
                             subtitle: Text(client["phone"]),
                             leading: CircleAvatar(
-                              maxRadius: 25,
+                              maxRadius: 30,
                               backgroundColor: Colors.indigo,
                               foregroundColor: Colors.white,
                               child: Text(
