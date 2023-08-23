@@ -5,6 +5,8 @@ import 'package:app_kaike_barbearia/app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+import '../utils/convert_datetime.dart';
+
 class SpedingListPage extends StatefulWidget {
   final bool itFromTheSalesScreen;
   const SpedingListPage({required this.itFromTheSalesScreen, super.key});
@@ -23,21 +25,21 @@ class _SpedingListPageState extends State<SpedingListPage> {
       "name_product": "Gel Azul",
       "price": 20.00,
       "quantity": 10,
-      "date": "07/10/2023"
+      "date": "07/10/2022"
     },
     {
       "id": 1,
       "name_product": "Gel preto",
       "price": 20.00,
       "quantity": 10,
-      "date": "07/10/2023"
+      "date": "07/10/2022"
     },
     {
       "id": 1,
       "name_product": "Maquina de barbear",
       "price": 100.00,
       "quantity": 10,
-      "date": "07/10/2023"
+      "date": "07/07/2023"
     },
   ];
 
@@ -118,6 +120,7 @@ class _SpedingListPageState extends State<SpedingListPage> {
                       itemCount: spedings.length,
                       itemBuilder: (_, index) {
                         var speding = spedings[index];
+
                         return Slidable(
                           endActionPane: widget.itFromTheSalesScreen
                               ? null
@@ -135,6 +138,8 @@ class _SpedingListPageState extends State<SpedingListPage> {
                                                   speding["name_product"],
                                               price: speding["price"],
                                               quantity: speding["quantity"],
+                                              date: getDateSpedings(
+                                                  speding["date"]),
                                               observation:
                                                   speding["observation"],
                                             ),
@@ -148,9 +153,9 @@ class _SpedingListPageState extends State<SpedingListPage> {
                                     ),
                                     SlidableAction(
                                       onPressed: (_) async {
-                                        final confirmDelete = await showExitDialog(
-                                            context,
-                                            "Deseja mesmo excluir?");
+                                        final confirmDelete =
+                                            await showExitDialog(context,
+                                                "Deseja mesmo excluir?");
                                         if (confirmDelete!) {
                                           spedings.removeAt(index);
                                           setState(() {});
@@ -173,7 +178,8 @@ class _SpedingListPageState extends State<SpedingListPage> {
                               style: const TextStyle(fontSize: 20),
                             ),
                             subtitle: Text(
-                              speding["date"],
+                              dateFormat3
+                                  .format(getDateSpedings(speding["date"])),
                               style: const TextStyle(fontSize: 16),
                             ),
                             trailing: Text(

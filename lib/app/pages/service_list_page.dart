@@ -19,16 +19,8 @@ class _ServiceListPageState extends State<ServiceListPage> {
   bool isGranted = false;
   final List<Map<String, dynamic>> services = [
     {"id": 1, "description": "Corte social", "price": 15.00},
-    {
-      "id": 1,
-      "description": "pezinho",
-      "price": 12.00,
-    },
-    {
-      "id": 1,
-      "description": "barbear",
-      "price": 13.00,
-    },
+    {"id": 1, "description": "pezinho", "price": 12.00},
+    {"id": 1, "description": "barbear", "price": 13.00},
   ];
 
   void showMessage(String content, Color? color) {

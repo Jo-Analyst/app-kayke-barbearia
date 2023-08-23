@@ -102,7 +102,7 @@ class DrawerComponet extends StatelessWidget {
               color: Colors.indigo,
             ),
             title: const Text(
-              "Despesas da barbearia",
+              "Despesas",
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.indigo,

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 
+import '../utils/convert_values.dart';
+
 class SpedingFormPage extends StatefulWidget {
   final int? spedingId;
   final bool isEdition;
@@ -9,12 +11,14 @@ class SpedingFormPage extends StatefulWidget {
   final double? price;
   final String? observation;
   final int? quantity;
+  final DateTime? date;
   const SpedingFormPage({
     this.spedingId,
     required this.isEdition,
     this.nameProduct,
     this.price,
     this.quantity,
+    this.date,
     this.observation,
     super.key,
   });
@@ -54,13 +58,22 @@ class _SpedingFormPageState extends State<SpedingFormPage> {
     super.initState();
 
     if (!widget.isEdition) return;
-    _nameProduct = widget.nameProduct ?? "";
-    nameProductController.text = _nameProduct;
-    quantity = widget.quantity ?? 0;
-    quantityController.text = quantity.toString();
-    price = widget.price ?? 0.0;
-    priceController.updateValue(price);
-    observationController.text = widget.observation ?? "";
+    loadFields();
+  }
+
+  loadFields() {
+    setState(() {
+      _nameProduct = widget.nameProduct ?? "";
+      nameProductController.text = _nameProduct;
+      quantity = widget.quantity ?? 0;
+      quantityController.text = quantity.toString();
+      price = widget.price ?? 0.0;
+      priceController.updateValue(price);
+      observationController.text = widget.observation ?? "";
+      dateSelected = widget.date ?? DateTime.now();
+      print(dateSelected);
+      print(DateTime.now());
+    });
   }
 
   @override
@@ -127,6 +140,27 @@ class _SpedingFormPageState extends State<SpedingFormPage> {
                   quantity = value.trim().isNotEmpty ? int.parse(value) : 0;
                 });
               },
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                InkWell(
+                  onTap: () => showCalendarPicker(),
+                  child: Text(
+                    dateFormat2.format(dateSelected),
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () => showCalendarPicker(),
+                  icon: Icon(
+                    Icons.calendar_month_outlined,
+                    size: 35,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+              ],
             ),
             TextFormField(
               controller: observationController,

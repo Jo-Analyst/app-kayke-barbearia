@@ -123,6 +123,7 @@ showModal(BuildContext context) {
                 ),
                 InkWell(
                   onTap: () {
+                    Navigator.of(context).pop();
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (_) => const SpedingFormPage(isEdition: false),
