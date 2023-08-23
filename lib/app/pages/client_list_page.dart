@@ -161,7 +161,7 @@ class _ClientListPageState extends State<ClientListPage> {
                                       onPressed: (_) async {
                                         final confirmDelete = await showExitDialog(
                                             context,
-                                            "Deseja mesmo excluir o(a) cliente ${client["name"]}?");
+                                            "Deseja mesmo excluir o(a) cliente '${client["name"]}'?");
                                         if (confirmDelete!) {
                                           clients.removeAt(index);
                                           setState(() {});

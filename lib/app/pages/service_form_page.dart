@@ -4,13 +4,13 @@ import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 class ServiceFormPage extends StatefulWidget {
   final int? serviceId;
   final bool isEdition;
-  final String? service;
+  final String? description;
   final double? price;
   final String? observation;
   const ServiceFormPage({
     this.serviceId,
     required this.isEdition,
-    this.service,
+    this.description,
     this.price,
     this.observation,
     super.key,
@@ -57,8 +57,8 @@ class _ServiceFormPageState extends State<ServiceFormPage> {
   void initState() {
     super.initState();
 
-    if (widget.isEdition) return;
-    _description = widget.service ?? "";
+    if (!widget.isEdition) return;
+    _description = widget.description ?? "";
     descriptionController.text = _description;
     priceService = widget.price ?? 0.0;
     serviceValueController.updateValue(priceService);

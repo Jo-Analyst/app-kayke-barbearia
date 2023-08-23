@@ -3,6 +3,8 @@ import 'package:app_kaike_barbearia/app/pages/product_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../pages/service_list_page.dart';
+
 class DrawerComponet extends StatelessWidget {
   const DrawerComponet({super.key});
 
@@ -82,7 +84,16 @@ class DrawerComponet extends StatelessWidget {
                 color: Colors.indigo,
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const ServiceListPage(
+                    itFromTheSalesScreen: false,
+                  ),
+                ),
+              );
+            },
           ),
           ListTile(
             leading: const Icon(
