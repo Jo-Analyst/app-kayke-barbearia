@@ -21,7 +21,14 @@ class _ProductFormPageState extends State<ProductFormPage> {
     setState(() {
       profitValue = saleValue - costValue;
     });
-    profitValueController.text = profitValue.toString();
+    profitValueController.text = profitValue.toStringAsFixed(2);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    profitValueController.text = "R\$ 0,00";
   }
 
   @override
@@ -97,7 +104,13 @@ class _ProductFormPageState extends State<ProductFormPage> {
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
-              decoration: const InputDecoration(labelText: "Lucro"),
+              decoration: const InputDecoration(
+                labelText: "Lucro",
+                prefix: Text(
+                  "R\$ ",
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
               style: const TextStyle(fontSize: 18),
             ),
             TextFormField(
