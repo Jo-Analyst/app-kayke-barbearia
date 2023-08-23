@@ -50,15 +50,17 @@ class _ProductFormPageState extends State<ProductFormPage> {
   void initState() {
     super.initState();
     if (!widget.isEdition) {
-      profitValueController.text = "R\$ 0,00";
+      profitValueController.text = "0,00";
       return;
     }
 
     nameController.text = widget.name ?? "";
     name = nameController.text;
+    profitValue = widget.profitValue!;
+    // saleValue =
     observationController.text = widget.observation ?? "";
-    saleValueController.text = widget.saleValue.toString();
-    costValueController.text = widget.costValue.toString();
+    saleValueController.updateValue(widget.saleValue!);
+    costValueController.updateValue(widget.costValue!);
     profitValueController.text =
         widget.profitValue!.toStringAsFixed(2).replaceAll(RegExp(r'\.'), ',');
     quantityController.text = widget.quantity.toString();
