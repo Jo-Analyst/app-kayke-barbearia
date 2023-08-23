@@ -79,7 +79,8 @@ class _ProductListPageState extends State<ProductListPage> {
                 style: TextStyle(fontSize: 20),
               ),
             )
-          : Padding(
+          : Container(
+              margin: const EdgeInsets.only(top: 10),
               padding: const EdgeInsets.symmetric(
                 horizontal: 15,
                 vertical: 10,
@@ -88,7 +89,11 @@ class _ProductListPageState extends State<ProductListPage> {
                 children: [
                   TextField(
                     controller: searchController,
+                    textInputAction: TextInputAction.search,
                     decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       labelText: "Digite para buscar",
                       suffixIcon: search.isEmpty
                           ? const Icon(

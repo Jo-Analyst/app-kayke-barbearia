@@ -58,7 +58,8 @@ class _ServiceListPageState extends State<ServiceListPage> {
                 style: TextStyle(fontSize: 20),
               ),
             )
-          : Padding(
+          : Container(
+              margin: const EdgeInsets.only(top: 10),
               padding: const EdgeInsets.symmetric(
                 horizontal: 15,
                 vertical: 10,
@@ -68,6 +69,9 @@ class _ServiceListPageState extends State<ServiceListPage> {
                   TextField(
                     controller: searchController,
                     decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       labelText: "Digite para buscar",
                       suffixIcon: search.isEmpty
                           ? const Icon(
