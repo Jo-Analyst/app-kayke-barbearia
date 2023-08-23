@@ -8,7 +8,7 @@ class DB {
       path.join(dbPath, "kaikebarbearia.db"),
       onCreate: (db, version) {
         db.execute(
-          "CREATE TABLE products (id INTEGER PRIMARY KEY, name TEXT NOT NULL, price_sale REAL, quantity INTEGER, cost_price REAL, profit_value REAL NOT NULL)",
+          "CREATE TABLE products (id INTEGER PRIMARY KEY, name TEXT NOT NULL, sale_value REAL, quantity INTEGER, cost_value REAL, profit_value REAL NOT NULL)",
         );
        
         db.execute(

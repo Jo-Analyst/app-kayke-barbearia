@@ -3,7 +3,25 @@ import 'package:flutter/services.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 
 class ProductFormPage extends StatefulWidget {
-  const ProductFormPage({super.key});
+  final bool isEdition;
+  final String? name;
+  final String? observation;
+  final double? saleValue;
+  final double? costValue;
+  final double? profitValue;
+  final int? quantity;
+  final int? productId;
+  const ProductFormPage({
+    required this.isEdition,
+    this.productId,
+    this.name,
+    this.saleValue,
+    this.costValue,
+    this.profitValue,
+    this.quantity,
+    this.observation,
+    super.key,
+  });
 
   @override
   State<ProductFormPage> createState() => _ProductFormPageState();
@@ -15,20 +33,35 @@ class _ProductFormPageState extends State<ProductFormPage> {
   int quantity = 0;
   final saleValueController = MoneyMaskedTextController(leftSymbol: "R\$ ");
   final costValueController = MoneyMaskedTextController(leftSymbol: "R\$ ");
+  final observationController = TextEditingController();
+  final nameController = TextEditingController();
+  final quantityController = TextEditingController();
   final profitValueController = TextEditingController();
 
   calculateProfit() {
     setState(() {
       profitValue = saleValue - costValue;
     });
-    profitValueController.text = profitValue.toStringAsFixed(2);
+    profitValueController.text =
+        profitValue.toStringAsFixed(2).replaceAll(RegExp(r'\.'), ',');
   }
 
   @override
   void initState() {
     super.initState();
+    if (!widget.isEdition) {
+      profitValueController.text = "R\$ 0,00";
+      return;
+    }
 
-    profitValueController.text = "R\$ 0,00";
+    nameController.text = widget.name ?? "";
+    name = nameController.text;
+    observationController.text = widget.observation ?? "";
+    saleValueController.text = widget.saleValue.toString();
+    costValueController.text = widget.costValue.toString();
+    profitValueController.text =
+        widget.profitValue!.toStringAsFixed(2).replaceAll(RegExp(r'\.'), ',');
+    quantityController.text = widget.quantity.toString();
   }
 
   @override
@@ -40,7 +73,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: name.isNotEmpty ? () {} : null,
+              onPressed: name.trim().isNotEmpty ? () {} : null,
               icon: const Icon(
                 Icons.check,
                 size: 30,
@@ -57,6 +90,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
         child: ListView(
           children: [
             TextFormField(
+              controller: nameController,
               textInputAction: TextInputAction.next,
               maxLength: 100,
               decoration: const InputDecoration(labelText: "Nome*"),
@@ -65,21 +99,6 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 setState(() {
                   name = value;
                 });
-              },
-            ),
-            TextFormField(
-              controller: costValueController,
-              textInputAction: TextInputAction.next,
-              keyboardType: const TextInputType.numberWithOptions(
-                decimal: true,
-              ),
-              decoration: const InputDecoration(labelText: "Valor Custo"),
-              style: const TextStyle(fontSize: 18),
-              onChanged: (value) {
-                setState(() {
-                  costValue = costValueController.numberValue;
-                });
-                calculateProfit();
               },
             ),
             TextFormField(
@@ -93,6 +112,21 @@ class _ProductFormPageState extends State<ProductFormPage> {
               onChanged: (value) {
                 setState(() {
                   saleValue = saleValueController.numberValue;
+                });
+                calculateProfit();
+              },
+            ),
+            TextFormField(
+              controller: costValueController,
+              textInputAction: TextInputAction.next,
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+              decoration: const InputDecoration(labelText: "Valor Custo"),
+              style: const TextStyle(fontSize: 18),
+              onChanged: (value) {
+                setState(() {
+                  costValue = costValueController.numberValue;
                 });
                 calculateProfit();
               },
@@ -114,6 +148,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
               style: const TextStyle(fontSize: 18),
             ),
             TextFormField(
+              controller: quantityController,
               textInputAction: TextInputAction.next,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               decoration:
@@ -126,6 +161,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
               },
             ),
             TextFormField(
+              controller: observationController,
               textInputAction: TextInputAction.newline,
               maxLines: 3,
               decoration:
