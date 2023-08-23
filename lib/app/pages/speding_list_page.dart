@@ -49,7 +49,7 @@ class _SpedingListPageState extends State<SpedingListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Gastos da barbearia"),
+        title: const Text("Despesas"),
         actions: [
           Container(
             margin: const EdgeInsets.only(right: 10),
