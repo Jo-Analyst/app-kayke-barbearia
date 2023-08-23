@@ -71,8 +71,6 @@ class _SpedingFormPageState extends State<SpedingFormPage> {
       priceController.updateValue(price);
       observationController.text = widget.observation ?? "";
       dateSelected = widget.date ?? DateTime.now();
-      print(dateSelected);
-      print(DateTime.now());
     });
   }
 

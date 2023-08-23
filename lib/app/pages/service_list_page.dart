@@ -149,7 +149,7 @@ class _ServiceListPageState extends State<ServiceListPage> {
                                   ],
                                 ),
                           child: ListTile(
-                            contentPadding: EdgeInsets.all(5),
+                            contentPadding: const EdgeInsets.all(5),
                             selectedTileColor: Colors.indigo,
                             title: Text(
                               service["description"],
