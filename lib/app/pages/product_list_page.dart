@@ -177,6 +177,14 @@ class _ProductListPageState extends State<ProductListPage> {
                                   ],
                                 ),
                           child: ListTile(
+                            onTap: widget.itFromTheSalesScreen
+                                ? () => Navigator.of(context).pop({
+                                      "name": product["name"],
+                                      "quantity": 1,
+                                      "price": product["sale_value"],
+                                      "subtotal": product["sale_value"]
+                                    })
+                                : null,
                             selectedTileColor: Colors.indigo,
                             title: Text(
                               product["name"],

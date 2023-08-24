@@ -1,5 +1,7 @@
+import 'package:app_kaike_barbearia/app/pages/product_list_page.dart';
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SalePage extends StatefulWidget {
@@ -10,30 +12,54 @@ class SalePage extends StatefulWidget {
 }
 
 class _SalePageState extends State<SalePage> {
-  List<Map<String, dynamic>> products = [
-    {"name": "Gel Azul", "quantity": 1, "price": 20.00},
-    {"name": "Pomada trim", "quantity": 1, "price": 15.35},
-    {"name": "Máquina de barbear", "quantity": 1, "price": 100.00},
-    {"name": "Gel Azul", "quantity": 1, "price": 20.00},
-    {"name": "Pomada trim", "quantity": 1, "price": 15.35},
-    {"name": "Máquina de barbear", "quantity": 1, "price": 100.00},
-    {"name": "Gel Azul", "quantity": 1, "price": 20.00},
-    {"name": "Pomada trim", "quantity": 1, "price": 15.35},
-    {"name": "Máquina de barbear", "quantity": 1, "price": 100.00},
-    {"name": "Gel Azul", "quantity": 1, "price": 20.00},
-    {"name": "Pomada trim", "quantity": 1, "price": 15.35},
-    {"name": "Máquina de barbear", "quantity": 1, "price": 100.00},
-    {"name": "Gel Azul", "quantity": 1, "price": 20.00},
-    {"name": "Pomada trim", "quantity": 1, "price": 15.35},
-    {"name": "Máquina de barbear", "quantity": 1, "price": 100.00},
-    {"name": "Gel Azul", "quantity": 1, "price": 20.00},
-    {"name": "Pomada trim", "quantity": 1, "price": 15.35},
-    {"name": "Máquina de barbear", "quantity": 1, "price": 100.00},
-  ];
-  double discount = 400;
+  List<Map<String, dynamic>> products = [];
+  double discount = 20, subtotal = 0, total = 0;
+
+  changeValueAfterQuantityIncrement(int index) {
+    var product = products[index];
+    setState(() {
+      if (product["quantity"] == 999) return;
+      product["quantity"]++;
+      calculateSubTotalByItems(
+          products[index]["quantity"], products[index]["price"], index);
+    });
+  }
+
+  changeValueAfterQuantityDecrease(int index) {
+    setState(() {
+      if (products[index]["quantity"] == 1) return;
+      products[index]["quantity"]--;
+      calculateSubTotalByItems(
+          products[index]["quantity"], products[index]["price"], index);
+    });
+  }
+
+  calculateSubTotalByItems(int quantitity, double price, int index) {
+    products[index]["subtotal"] = quantitity * price;
+    calculateSubTotal();
+  }
+
+  calculateSubTotal() {
+    subtotal = 0;
+    setState(() {
+      for (var product in products) {
+        subtotal += product["subtotal"];
+      }
+    });
+    calculateTotal();
+  }
+
+  calculateTotal() {
+    setState(() {
+      total = subtotal - discount;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    double widthScreen = MediaQuery.of(context).size.width;
+    double heightScreen = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Venda"),
@@ -73,7 +99,23 @@ class _SalePageState extends State<SalePage> {
                           style: TextStyle(fontSize: 20),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            final productsSelected =
+                                await Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const ProductListPage(
+                                  itFromTheSalesScreen: true,
+                                ),
+                              ),
+                            );
+
+                            if (productsSelected != null) {
+                              setState(() {
+                                products.add(productsSelected);
+                              });
+                              calculateSubTotal();
+                            }
+                          },
                           icon: Icon(
                             Icons.add,
                             size: 30,
@@ -85,68 +127,82 @@ class _SalePageState extends State<SalePage> {
                   ),
                   Container(
                     constraints: BoxConstraints(
-                      maxHeight: MediaQuery.of(context).size.height - 360,
+                      maxHeight: heightScreen - 379,
                     ),
                     child: ListView.separated(
                       itemBuilder: (_, index) {
                         final product = products[index];
-                        return ListTile(
-                          horizontalTitleGap: 0,
-                          minVerticalPadding: 0,
-                          leading: const Icon(
-                            FontAwesomeIcons.box,
-                            // size: 18,
-                            color: Color.fromARGB(255, 105, 123, 223),
+                        return Slidable(
+                          endActionPane: ActionPane(
+                            motion: const StretchMotion(),
+                            children: [
+                              SlidableAction(
+                                onPressed: (_) async {
+                                  products.removeAt(index);
+                                  setState(() {});
+                                },
+                                backgroundColor: Colors.red,
+                                icon: Icons.delete_outline,
+                                label: "Excluir",
+                              ),
+                            ],
                           ),
-                          title: Text(
-                            product["name"],
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                          subtitle: Text(
-                            "${product["quantity"].toString()}x ${numberFormat.format(product["price"])}",
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                          trailing: SizedBox(
-                            width: 160,
-                            child: Row(
-                              children: [
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(
-                                    Icons.remove_circle_outline,
-                                    size: 30,
-                                    color: Theme.of(context).primaryColor,
+                          child: ListTile(
+                            horizontalTitleGap: 0,
+                            minVerticalPadding: 0,
+                            leading: const Icon(
+                              FontAwesomeIcons.box,
+                              color: Color.fromARGB(255, 105, 123, 223),
+                            ),
+                            title: Text(
+                              product["name"],
+                              style: const TextStyle(fontSize: 20),
+                            ),
+                            subtitle: Text(
+                              "${product["quantity"].toString()}x ${numberFormat.format(product["subtotal"])}",
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                            trailing: SizedBox(
+                              width: 127,
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: () =>
+                                        changeValueAfterQuantityDecrease(index),
+                                    icon: Icon(
+                                      Icons.remove_circle_outline,
+                                      size: 30,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  product["quantity"].toString(),
-                                  style: const TextStyle(fontSize: 18),
-                                ),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(
-                                    Icons.add_circle_outline,
-                                    size: 30,
-                                    color: Theme.of(context).primaryColor,
+                                  Container(
+                                    width: 31,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      product["quantity"].toString(),
+                                      style: const TextStyle(fontSize: 18),
+                                    ),
                                   ),
-                                ),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.delete_outline,
-                                    size: 30,
-                                    color: Colors.red,
+                                  IconButton(
+                                    onPressed: () =>
+                                        changeValueAfterQuantityIncrement(
+                                            index),
+                                    icon: Icon(
+                                      Icons.add_circle_outline,
+                                      size: 30,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         );
                       },
-                      separatorBuilder: (_, __) {
-                        return Divider(color: Theme.of(context).primaryColor);
-                      },
                       itemCount: products.length,
+                      separatorBuilder: (_, index) => Divider(
+                        color: Theme.of(context).primaryColor,
+                      ),
                     ),
                   ),
                 ],
@@ -202,7 +258,7 @@ class _SalePageState extends State<SalePage> {
                               style: TextStyle(fontSize: 20),
                             ),
                             Text(
-                              numberFormat.format(4000),
+                              numberFormat.format(subtotal),
                               style: const TextStyle(fontSize: 20),
                             ),
                           ],
@@ -217,7 +273,7 @@ class _SalePageState extends State<SalePage> {
                                 style: TextStyle(fontSize: 20),
                               ),
                               Text(
-                                numberFormat.format(-400),
+                                numberFormat.format(- discount),
                                 style: const TextStyle(fontSize: 20),
                               ),
                             ],
@@ -234,7 +290,7 @@ class _SalePageState extends State<SalePage> {
                               ),
                             ),
                             Text(
-                              numberFormat.format(3600),
+                              numberFormat.format(total),
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700,
@@ -246,11 +302,12 @@ class _SalePageState extends State<SalePage> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {},
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 8.0),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
                               child: Text(
                                 "Continuar",
-                                style: TextStyle(fontSize: 20),
+                                style: TextStyle(fontSize: widthScreen * 0.04),
                               ),
                             ),
                           ),
