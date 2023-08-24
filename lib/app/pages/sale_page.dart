@@ -14,7 +14,7 @@ class SalePage extends StatefulWidget {
 
 class _SalePageState extends State<SalePage> {
   List<Map<String, dynamic>> products = [];
-  double discount = 20, subtotal = 0, total = 0;
+  double discount = 0, subtotal = 0, total = 0;
 
   changeValueAfterQuantityIncrement(int index) {
     var product = products[index];
@@ -239,7 +239,7 @@ class _SalePageState extends State<SalePage> {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (_) => const DiscountPage(),
+                                builder: (_) =>  DiscountPage(subtotal: subtotal),
                               ),
                             );
                           },
