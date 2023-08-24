@@ -1,3 +1,4 @@
+import 'package:app_kaike_barbearia/app/pages/discount_page.dart';
 import 'package:app_kaike_barbearia/app/pages/product_list_page.dart';
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
@@ -235,7 +236,13 @@ class _SalePageState extends State<SalePage> {
                           style: TextStyle(fontSize: 20),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const DiscountPage(),
+                              ),
+                            );
+                          },
                           icon: Icon(
                             Icons.add,
                             size: 30,
@@ -273,7 +280,7 @@ class _SalePageState extends State<SalePage> {
                                 style: TextStyle(fontSize: 20),
                               ),
                               Text(
-                                numberFormat.format(- discount),
+                                numberFormat.format(-discount),
                                 style: const TextStyle(fontSize: 20),
                               ),
                             ],
