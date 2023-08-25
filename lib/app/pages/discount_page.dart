@@ -13,7 +13,7 @@ class DiscountPage extends StatefulWidget {
 class _DiscountPageState extends State<DiscountPage> {
   List<String> options = ["money", "percentage"];
   String currentOptions = "";
-  double discount = 0, percentage = 0;
+  double money = 0, percentage = 0, netValue = 0;
   MoneyMaskedTextController discountValueController =
       MoneyMaskedTextController(leftSymbol: "R\$");
 
@@ -30,7 +30,30 @@ class _DiscountPageState extends State<DiscountPage> {
       discountValueController = MoneyMaskedTextController(
           leftSymbol: currentOptions == "money" ? "R\$ " : "",
           rightSymbol: currentOptions == "percentage" ? "%" : "");
+      money = 0;
+      percentage = 0;
+      netValue = widget.subtotal;
     });
+  }
+
+  calculateDiscount() {
+    setState(() {
+      if (currentOptions == "money") {
+        money = discountValueController.numberValue;
+      } else {
+        percentage = discountValueController.numberValue;
+      }
+      convertValuesMoneyAndPercentage();
+      netValue = widget.subtotal - money;
+    });
+  }
+
+  convertValuesMoneyAndPercentage() {
+    if (currentOptions == "money") {
+      percentage = (money * 100) / widget.subtotal;
+    } else {
+      money = (widget.subtotal * percentage) / 100;
+    }
   }
 
   @override
@@ -42,7 +65,9 @@ class _DiscountPageState extends State<DiscountPage> {
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pop(money);
+              },
               icon: const Icon(
                 Icons.check,
                 size: 30,
@@ -62,6 +87,7 @@ class _DiscountPageState extends State<DiscountPage> {
               children: [
                 Expanded(
                   child: ListTile(
+                    contentPadding: EdgeInsets.zero,
                     leading: Radio(
                       activeColor: Theme.of(context).primaryColor,
                       value: options[0],
@@ -82,6 +108,7 @@ class _DiscountPageState extends State<DiscountPage> {
                 ),
                 Expanded(
                   child: ListTile(
+                    contentPadding: EdgeInsets.zero,
                     leading: Radio(
                       activeColor: Theme.of(context).primaryColor,
                       value: options[1],
@@ -103,6 +130,7 @@ class _DiscountPageState extends State<DiscountPage> {
               ],
             ),
             TextFormField(
+              scrollPadding: EdgeInsets.zero,
               textAlign: TextAlign.center,
               controller: discountValueController,
               textInputAction: TextInputAction.next,
@@ -110,13 +138,22 @@ class _DiscountPageState extends State<DiscountPage> {
                 decimal: true,
               ),
               decoration: const InputDecoration(
+                border: OutlineInputBorder(),
                 floatingLabelAlignment: FloatingLabelAlignment.center,
               ),
               style: const TextStyle(fontSize: 18),
               onChanged: (value) {
-                setState(() {
-                  discount = discountValueController.numberValue;
-                });
+                if (currentOptions == "percentage") {
+                  if (discountValueController.numberValue >= 100) {
+                    discountValueController.updateValue(100.00);
+                  }
+                } else {
+                  if (discountValueController.numberValue >=
+                      widget.subtotal) {
+                    discountValueController.updateValue(widget.subtotal);
+                  }
+                }
+                calculateDiscount();
               },
             ),
             Container(
@@ -128,11 +165,17 @@ class _DiscountPageState extends State<DiscountPage> {
                     children: [
                       const Text(
                         "Valor total",
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 18),
                       ),
                       Text(
                         numberFormat.format(widget.subtotal),
                         style: const TextStyle(
+                          decoration:
+                              TextDecoration.lineThrough, // Adiciona o traço
+                          decorationColor:
+                              Color.fromARGB(255, 65, 65, 65), // Cor do traço
+                          decorationThickness: 1.5, // Espessura do traço
+                          decorationStyle: TextDecorationStyle.solid,
                           fontSize: 30,
                           fontWeight: FontWeight.w700,
                         ),
@@ -142,11 +185,11 @@ class _DiscountPageState extends State<DiscountPage> {
                   Column(
                     children: [
                       const Text(
-                        "Valor com desconto",
-                        style: TextStyle(fontSize: 20),
+                        "Valor c/ desconto",
+                        style: TextStyle(fontSize: 18),
                       ),
                       Text(
-                        numberFormat.format(discount),
+                        numberFormat.format(netValue),
                         style: const TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.w700,
@@ -163,7 +206,7 @@ class _DiscountPageState extends State<DiscountPage> {
               padding: const EdgeInsets.all(20),
               color: Colors.indigo.withOpacity(.1),
               child: Text(
-                "Desconto: ${numberFormat.format(discount)} (${percentage.toStringAsFixed(2).replaceAll(RegExp(r'\.'), ',')}%)",
+                "Desconto: ${numberFormat.format(money)} (${percentage.toStringAsFixed(2).replaceAll(RegExp(r'\.'), ',')}%)",
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
