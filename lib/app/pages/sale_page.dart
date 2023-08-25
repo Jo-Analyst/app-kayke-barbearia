@@ -1,4 +1,5 @@
 import 'package:app_kaike_barbearia/app/pages/discount_page.dart';
+import 'package:app_kaike_barbearia/app/pages/payment_page.dart';
 import 'package:app_kaike_barbearia/app/pages/product_list_page.dart';
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
@@ -330,7 +331,13 @@ class _SalePageState extends State<SalePage> {
                             SizedBox(
                               width: double.infinity,
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) => const PaymentPage(),
+                                    ),
+                                  );
+                                },
                                 child: Padding(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 8.0),

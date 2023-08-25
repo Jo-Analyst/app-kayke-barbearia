@@ -30,7 +30,6 @@ class _DiscountPageState extends State<DiscountPage> {
   initDicountController() {
     setState(() {
       discount = widget.discount;
-      print(triggeredRadioButton);
       if (triggeredRadioButton) {
         discount = 0;
       }
