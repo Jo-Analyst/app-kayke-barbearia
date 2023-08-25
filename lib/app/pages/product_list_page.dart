@@ -27,7 +27,7 @@ class _ProductListPageState extends State<ProductListPage> {
       "quantity": 10
     },
     {
-      "id": 1,
+      "id": 2,
       "name": "Gel preto",
       "sale_value": 20.00,
       "cost_value": 8.50,
@@ -35,7 +35,15 @@ class _ProductListPageState extends State<ProductListPage> {
       "quantity": 10
     },
     {
-      "id": 1,
+      "id": 3,
+      "name": "Gilete",
+      "sale_value": 13.50,
+      "cost_value": 5.25,
+      "profit_value": 8.25,
+      "quantity": 10
+    },
+    {
+      "id": 4,
       "name": "Maquina de barbear",
       "sale_value": 100.00,
       "cost_value": 50.50,

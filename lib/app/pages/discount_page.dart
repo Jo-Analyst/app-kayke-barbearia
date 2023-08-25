@@ -4,16 +4,19 @@ import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 
 class DiscountPage extends StatefulWidget {
   final double subtotal;
-  const DiscountPage({required this.subtotal, super.key});
+  final double discount;
+  const DiscountPage(
+      {required this.subtotal, required this.discount, super.key});
 
   @override
   State<DiscountPage> createState() => _DiscountPageState();
 }
 
 class _DiscountPageState extends State<DiscountPage> {
+  bool triggeredRadioButton = false;
   List<String> options = ["money", "percentage"];
   String currentOptions = "";
-  double money = 0, percentage = 0, netValue = 0;
+  double money = 0, percentage = 0, netValue = 0, discount = 0;
   MoneyMaskedTextController discountValueController =
       MoneyMaskedTextController(leftSymbol: "R\$");
 
@@ -21,18 +24,27 @@ class _DiscountPageState extends State<DiscountPage> {
   void initState() {
     super.initState();
     currentOptions = options[0];
-
     initDicountController();
   }
 
   initDicountController() {
     setState(() {
+      discount = widget.discount;
+      print(triggeredRadioButton);
+      if (triggeredRadioButton) {
+        discount = 0;
+      }
+
       discountValueController = MoneyMaskedTextController(
           leftSymbol: currentOptions == "money" ? "R\$ " : "",
           rightSymbol: currentOptions == "percentage" ? "%" : "");
       money = 0;
       percentage = 0;
       netValue = widget.subtotal;
+      if (discount > 0) {
+        discountValueController.updateValue(discount);
+        calculateDiscount();
+      }
     });
   }
 
@@ -45,6 +57,21 @@ class _DiscountPageState extends State<DiscountPage> {
       }
       convertValuesMoneyAndPercentage();
       netValue = widget.subtotal - money;
+    });
+  }
+
+  changePercentage(String value) {
+    setState(() {
+      triggeredRadioButton = true;
+      currentOptions = value;
+      initDicountController();
+    });
+  }
+
+  changeMoney(String value) {
+    setState(() {
+      currentOptions = value;
+      initDicountController();
     });
   }
 
@@ -86,45 +113,41 @@ class _DiscountPageState extends State<DiscountPage> {
             Row(
               children: [
                 Expanded(
-                  child: ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    leading: Radio(
-                      activeColor: Theme.of(context).primaryColor,
-                      value: options[0],
-                      groupValue: currentOptions,
-                      onChanged: (value) {
-                        setState(() {
-                          currentOptions = value.toString();
-                          initDicountController();
-                        });
-                      },
+                  child: InkWell(
+                    onTap: () => changeMoney(options[0].toString()),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: Radio(
+                        activeColor: Theme.of(context).primaryColor,
+                        value: options[0],
+                        groupValue: currentOptions,
+                        onChanged: (value) => changeMoney(value ?? ""),
+                      ),
+                      title: const Text(
+                        "Dinheiro",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      horizontalTitleGap: 0,
                     ),
-                    title: const Text(
-                      "Dinheiro",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    horizontalTitleGap: 0,
                   ),
                 ),
                 Expanded(
-                  child: ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    leading: Radio(
-                      activeColor: Theme.of(context).primaryColor,
-                      value: options[1],
-                      groupValue: currentOptions,
-                      onChanged: (value) {
-                        setState(() {
-                          currentOptions = value.toString();
-                          initDicountController();
-                        });
-                      },
+                  child: InkWell(
+                    onTap: () => changePercentage(options[1].toString()),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: Radio(
+                        activeColor: Theme.of(context).primaryColor,
+                        value: options[1],
+                        groupValue: currentOptions,
+                        onChanged: (value) => changePercentage(value ?? ""),
+                      ),
+                      title: const Text(
+                        "Percentual",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      horizontalTitleGap: 0,
                     ),
-                    title: const Text(
-                      "Percentual",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    horizontalTitleGap: 0,
                   ),
                 ),
               ],
@@ -148,8 +171,7 @@ class _DiscountPageState extends State<DiscountPage> {
                     discountValueController.updateValue(100.00);
                   }
                 } else {
-                  if (discountValueController.numberValue >=
-                      widget.subtotal) {
+                  if (discountValueController.numberValue >= widget.subtotal) {
                     discountValueController.updateValue(widget.subtotal);
                   }
                 }
