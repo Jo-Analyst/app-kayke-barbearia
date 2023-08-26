@@ -2,8 +2,10 @@ import 'package:app_kaike_barbearia/app/pages/client_list_page.dart';
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../template/specie_payment.dart';
+import '../utils/snackbar.dart';
 
 class PaymentPage extends StatefulWidget {
   final double total;
@@ -56,7 +58,9 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   changeTitleClient() {
-    titleClient = amountReceived < widget.total ? "Cliente*" : "Cliente";
+    if (client.isEmpty) {
+      titleClient = amountReceived < widget.total ? "Cliente*" : "Cliente";
+    }
   }
 
   openScreenClient() async {
@@ -76,6 +80,26 @@ class _PaymentPageState extends State<PaymentPage> {
     }
   }
 
+  confirmSale() {
+    if (client.isEmpty && amountReceivable > 0) {
+      Widget content = const Row(
+        children: [
+          Icon(FontAwesomeIcons.circleExclamation),
+          SizedBox(width: 5),
+          Expanded(
+            child: Text(
+                "Selecione um cliente para concluir a venda. Existe um valor pendente."),
+          )
+        ],
+      );
+      showMessage(content, Colors.orange);
+    }
+  }
+
+  void showMessage(Widget content, Color? color) {
+    ConfirmationMessage.showMessage(context, content, color);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,7 +109,7 @@ class _PaymentPageState extends State<PaymentPage> {
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () => confirmSale(),
               icon: const Icon(
                 Icons.check,
                 size: 30,

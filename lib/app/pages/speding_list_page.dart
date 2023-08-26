@@ -43,7 +43,7 @@ class _SpedingListPageState extends State<SpedingListPage> {
     },
   ];
 
-  void showMessage(String content, Color? color) {
+  void showMessage(Widget content, Color? color) {
     ConfirmationMessage.showMessage(context, content, color);
   }
 
@@ -164,7 +164,15 @@ class _SpedingListPageState extends State<SpedingListPage> {
                                           spedings.removeAt(index);
                                           setState(() {});
                                           showMessage(
-                                              "Excluido com sucesso.",
+                                              const Row(
+                                                children: [
+                                                  Icon(Icons.info),
+                                                  SizedBox(width: 5),
+                                                  Text(
+                                                    "Excluido com sucesso.",
+                                                  ),
+                                                ],
+                                              ),
                                               const Color.fromARGB(
                                                   255, 199, 82, 74));
                                         }

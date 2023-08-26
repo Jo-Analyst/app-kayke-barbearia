@@ -23,7 +23,7 @@ class _ServiceListPageState extends State<ServiceListPage> {
     {"id": 1, "description": "barbear", "price": 13.00},
   ];
 
-  void showMessage(String content, Color? color) {
+  void showMessage(Widget content, Color? color) {
     ConfirmationMessage.showMessage(context, content, color);
   }
 
@@ -141,9 +141,18 @@ class _ServiceListPageState extends State<ServiceListPage> {
                                           services.removeAt(index);
                                           setState(() {});
                                           showMessage(
-                                              "Serviço excluido com sucesso.",
-                                              const Color.fromARGB(
-                                                  255, 199, 82, 74));
+                                            const Row(
+                                              children: [
+                                                Icon(Icons.info),
+                                                SizedBox(width: 5),
+                                                Text(
+                                                  "Serviço excluido com sucesso."
+                                                ),
+                                              ],
+                                            ),
+                                            const Color.fromARGB(
+                                                255, 199, 82, 74),
+                                          );
                                         }
                                       },
                                       backgroundColor: Colors.red,

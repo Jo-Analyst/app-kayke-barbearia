@@ -58,7 +58,7 @@ class _ClientListPageState extends State<ClientListPage> {
     }
   }
 
-  void showMessage(String content, Color? color) {
+  void showMessage(Widget content, Color? color) {
     ConfirmationMessage.showMessage(context, content, color);
   }
 
@@ -178,9 +178,18 @@ class _ClientListPageState extends State<ClientListPage> {
                                           clients.removeAt(index);
                                           setState(() {});
                                           showMessage(
-                                              "Cliente excluido com sucesso.",
-                                              const Color.fromARGB(
-                                                  255, 199, 82, 74));
+                                            const Row(
+                                              children: [
+                                                Icon(Icons.info),
+                                                SizedBox(width: 5),
+                                                Text(
+                                                  "Cliente excluido com sucesso.",
+                                                ),
+                                              ],
+                                            ),
+                                            const Color.fromARGB(
+                                                255, 199, 82, 74),
+                                          );
                                         }
                                       },
                                       backgroundColor: Colors.red,
