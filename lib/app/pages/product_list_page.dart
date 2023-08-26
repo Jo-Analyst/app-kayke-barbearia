@@ -187,9 +187,12 @@ class _ProductListPageState extends State<ProductListPage> {
                           child: ListTile(
                             onTap: widget.itFromTheSalesScreen
                                 ? () => Navigator.of(context).pop({
+                                      "product_id": product["id"],
                                       "name": product["name"],
                                       "quantity": 1,
-                                      "price": product["sale_value"],
+                                      "profit_value": product["profit_value"],
+                                      "sub_profit_value": product["profit_value"],
+                                      "sale_value": product["sale_value"],
                                       "subtotal": product["sale_value"]
                                     })
                                 : null,

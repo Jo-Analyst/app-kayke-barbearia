@@ -15,41 +15,45 @@ class SalePage extends StatefulWidget {
 }
 
 class _SalePageState extends State<SalePage> {
-  List<Map<String, dynamic>> products = [];
-  double discount = 0, subtotal = 0, total = 0;
+  List<Map<String, dynamic>> items = [];
+  double discount = 0, subtotal = 0, total = 0, profitTotal = 0;
 
   changeValueAfterQuantityIncrement(int index) {
-    var product = products[index];
+    var item = items[index];
     setState(() {
-      if (product["quantity"] == 999) return;
-      product["quantity"]++;
-      calculateSubTotalByItems(
-          products[index]["quantity"], products[index]["price"], index);
+      if (item["quantity"] == 999) return;
+      item["quantity"]++;
+      calculateSubTotalAndSubProfitByItems(
+          items[index]["quantity"], items[index]["sale_value"], index);
     });
   }
 
   changeValueAfterQuantityDecrease(int index) {
     setState(() {
-      if (products[index]["quantity"] == 1) return;
-      products[index]["quantity"]--;
-      calculateSubTotalByItems(
-          products[index]["quantity"], products[index]["price"], index);
+      if (items[index]["quantity"] == 1) return;
+      items[index]["quantity"]--;
+      calculateSubTotalAndSubProfitByItems(
+          items[index]["quantity"], items[index]["sale_value"], index);
     });
   }
 
-  calculateSubTotalByItems(int quantitity, double price, int index) {
-    products[index]["subtotal"] = quantitity * price;
-    calculateSubTotal();
+  calculateSubTotalAndSubProfitByItems(int quantity, double price, int index) {
+    double profit = items[index]["profit_value"];
+    items[index]["subtotal"] = quantity * price;
+    items[index]["sub_profit_value"] = quantity * profit;
+    calculateSubTotalAndProfitTotal();
   }
 
-  calculateSubTotal() {
+  calculateSubTotalAndProfitTotal() {
     subtotal = 0;
+    profitTotal = 0;
     setState(() {
-      for (var product in products) {
-        subtotal += product["subtotal"];
+      for (var item in items) {
+        subtotal += item["subtotal"];
+        profitTotal += item["sub_profit_value"];
       }
     });
-    if (products.isEmpty || discount > subtotal) {
+    if (items.isEmpty || discount > subtotal) {
       discount = 0;
     }
     calculateTotal();
@@ -75,13 +79,11 @@ class _SalePageState extends State<SalePage> {
           ListView(
             children: [
               SizedBox(
-                // height: MediaQuery.of(context).size.height - 100,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Calendar(),
                     Container(
-                      // margin: const EdgeInsets.only(top: 10),
                       color: Colors.indigo.withOpacity(.1),
                       child: Column(
                         children: [
@@ -109,7 +111,7 @@ class _SalePageState extends State<SalePage> {
                                 ),
                                 IconButton(
                                   onPressed: () async {
-                                    final productsSelected =
+                                    final itemsSelected =
                                         await Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (_) => const ProductListPage(
@@ -118,11 +120,11 @@ class _SalePageState extends State<SalePage> {
                                       ),
                                     );
 
-                                    if (productsSelected != null) {
+                                    if (itemsSelected != null) {
                                       setState(() {
-                                        products.add(productsSelected);
+                                        items.add(itemsSelected);
                                       });
-                                      calculateSubTotal();
+                                      calculateSubTotalAndProfitTotal();
                                     }
                                   },
                                   icon: Icon(
@@ -140,16 +142,16 @@ class _SalePageState extends State<SalePage> {
                             ),
                             child: ListView.separated(
                               itemBuilder: (_, index) {
-                                final product = products[index];
+                                final item = items[index];
                                 return Slidable(
                                   endActionPane: ActionPane(
                                     motion: const StretchMotion(),
                                     children: [
                                       SlidableAction(
                                         onPressed: (_) async {
-                                          products.removeAt(index);
+                                          items.removeAt(index);
                                           setState(() {
-                                            calculateSubTotal();
+                                            calculateSubTotalAndProfitTotal();
                                           });
                                         },
                                         backgroundColor: Colors.red,
@@ -166,11 +168,11 @@ class _SalePageState extends State<SalePage> {
                                       color: Color.fromARGB(255, 105, 123, 223),
                                     ),
                                     title: Text(
-                                      product["name"],
+                                      item["name"],
                                       style: const TextStyle(fontSize: 20),
                                     ),
                                     subtitle: Text(
-                                      "${product["quantity"].toString()}x ${numberFormat.format(product["subtotal"])}",
+                                      "${item["quantity"].toString()}x ${numberFormat.format(item["subtotal"])}",
                                       style: const TextStyle(fontSize: 16),
                                     ),
                                     trailing: SizedBox(
@@ -192,7 +194,7 @@ class _SalePageState extends State<SalePage> {
                                             width: 31,
                                             alignment: Alignment.center,
                                             child: Text(
-                                              product["quantity"].toString(),
+                                              item["quantity"].toString(),
                                               style:
                                                   const TextStyle(fontSize: 18),
                                             ),
@@ -214,7 +216,7 @@ class _SalePageState extends State<SalePage> {
                                   ),
                                 );
                               },
-                              itemCount: products.length,
+                              itemCount: items.length,
                               separatorBuilder: (_, index) => Divider(
                                 color: Theme.of(context).primaryColor,
                               ),
@@ -228,7 +230,10 @@ class _SalePageState extends State<SalePage> {
               )
             ],
           ),
-          Positioned(bottom: 0, left: 0,right: 0,
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
             child: Container(
               color: Colors.indigo.withOpacity(.1),
               child: Column(
@@ -256,7 +261,7 @@ class _SalePageState extends State<SalePage> {
                           style: TextStyle(fontSize: 20),
                         ),
                         IconButton(
-                          onPressed: products.isNotEmpty
+                          onPressed: items.isNotEmpty
                               ? () async {
                                   final money =
                                       await Navigator.of(context).push(
@@ -271,7 +276,7 @@ class _SalePageState extends State<SalePage> {
                                     setState(() {
                                       discount = money;
                                     });
-                                    calculateSubTotal();
+                                    calculateSubTotalAndProfitTotal();
                                   }
                                 }
                               : null,
@@ -340,8 +345,7 @@ class _SalePageState extends State<SalePage> {
                             onPressed: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (_) =>
-                                      PaymentPage(total: total),
+                                  builder: (_) => PaymentPage(total: total),
                                 ),
                               );
                             },

@@ -16,11 +16,11 @@ class DB {
         );
 
         db.execute(
-          "CREATE TABLE sales (id INTEGER PRIMARY KEY, date_sale TEXT NOT NULL, profit_value_product REAL NOT NULL, profit_value_total REAL, discount REAL NOT NULL, client_id INTEGER, FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE SET NULL)",
+          "CREATE TABLE sales (id INTEGER PRIMARY KEY, date_sale TEXT NOT NULL, profit_value_total REAL, discount REAL NOT NULL, client_id INTEGER, FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE SET NULL)",
         ); // sales - Vendas
 
         db.execute(
-          "CREATE TABLE items_sales (id INTEGER PRIMARY KEY, quantity_items INTEGER, sub_total REAL NOT NULL, price_product REAL NOT NULL, lucro_product REAL NOT NULL, product_id INTEGER NOT NULL, sale_id INTEGER NOT NULL, FOREIGN KEY (product_id) REFERENCES products(id), ON DELETE SET NULL, FOREIGN KEY (sale_id) REFERENCES sales(id) ON DELETE CASCADE)",
+          "CREATE TABLE items_sales (id INTEGER PRIMARY KEY, quantity_items INTEGER, sub_total REAL NOT NULL, price_product REAL NOT NULL, profit_product REAL NOT NULL, product_id INTEGER NOT NULL, sale_id INTEGER NOT NULL, FOREIGN KEY (product_id) REFERENCES products(id), ON DELETE SET NULL, FOREIGN KEY (sale_id) REFERENCES sales(id) ON DELETE CASCADE)",
         );
 
         db.execute("CREATE TABLE payments_sales (id INTEGER PRIMARY KEY, species TEXT, sale_id INTEGER, FOREIGN KEY (sale_id) REFERENCES sales(id) ON DELETE CASCADE)");
