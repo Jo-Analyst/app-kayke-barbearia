@@ -16,6 +16,7 @@ class _PaymentPageState extends State<PaymentPage> {
   final amountReceivedController =
       MoneyMaskedTextController(leftSymbol: "R\$ ");
   double change = 0, amountReceived = 0, amountReceivable = 0;
+  String typeSpecie = "";
 
   @override
   void initState() {
@@ -105,6 +106,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         ),
                       ),
                       TextFormField(
+                        readOnly: typeSpecie == "fiado" ? true : false,
                         controller: amountReceivedController,
                         keyboardType: const TextInputType.numberWithOptions(
                           decimal: true,
@@ -114,19 +116,28 @@ class _PaymentPageState extends State<PaymentPage> {
                           labelStyle:
                               const TextStyle(fontWeight: FontWeight.normal),
                           floatingLabelAlignment: FloatingLabelAlignment.center,
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                amountReceived = 0;
-                                amountReceivedController
-                                    .updateValue(amountReceived);
-                              });
-                              calculate();
-                            },
-                            icon: const Icon(
-                              Icons.close,
-                            ),
-                          ),
+                          suffixIcon: typeSpecie != "fiado"
+                              ? IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      if (amountReceived == widget.total) {
+                                        amountReceived = 0;
+                                      } else {
+                                        amountReceived = widget.total;
+                                      }
+
+                                      amountReceivedController
+                                          .updateValue(amountReceived);
+                                    });
+                                    calculate();
+                                  },
+                                  icon: Icon(
+                                    amountReceived == widget.total
+                                        ? Icons.close
+                                        : Icons.update,
+                                  ),
+                                )
+                              : null,
                         ),
                         style: const TextStyle(
                           fontSize: 30,
@@ -158,7 +169,23 @@ class _PaymentPageState extends State<PaymentPage> {
                         ),
                       ),
                       SpeciePayment(
-                        getPaymentTypeName: (value) => print(value),
+                        getPaymentTypeName: (value) {
+                          setState(() {
+                            typeSpecie = value;
+
+                            if (typeSpecie == "fiado") {
+                              change = 0;
+                              amountReceivedController.updateValue(change);
+                              amountReceived = 0;
+                              amountReceivable = widget.total;
+                            } else {
+                              amountReceived = widget.total;
+                              amountReceivedController
+                                  .updateValue(amountReceived);
+                            }
+                            calculate();
+                          });
+                        },
                       ),
                     ],
                   ),

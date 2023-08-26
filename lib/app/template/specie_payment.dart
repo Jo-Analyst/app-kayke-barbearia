@@ -42,7 +42,8 @@ class _SpeciePaymentState extends State<SpeciePayment> {
             InkWell(
               onTap: () {
                 changeColorAfterPaymentTypeBecomesActive(0);
-                widget.getPaymentTypeName(listSpeciePaymentsActive[0]["specie"]);
+                widget
+                    .getPaymentTypeName(listSpeciePaymentsActive[0]["specie"]);
               },
               child: SpeciePaymentContainer(
                 title: "Dinheiro",
@@ -61,7 +62,8 @@ class _SpeciePaymentState extends State<SpeciePayment> {
             InkWell(
               onTap: () {
                 changeColorAfterPaymentTypeBecomesActive(1);
-                widget.getPaymentTypeName(listSpeciePaymentsActive[1]["specie"]);
+                widget
+                    .getPaymentTypeName(listSpeciePaymentsActive[1]["specie"]);
               },
               child: SpeciePaymentContainer(
                 title: "Crédito",
@@ -80,7 +82,8 @@ class _SpeciePaymentState extends State<SpeciePayment> {
             InkWell(
               onTap: () {
                 changeColorAfterPaymentTypeBecomesActive(2);
-                widget.getPaymentTypeName(listSpeciePaymentsActive[2]["specie"]);
+                widget
+                    .getPaymentTypeName(listSpeciePaymentsActive[2]["specie"]);
               },
               child: SpeciePaymentContainer(
                 title: "Débito",
@@ -105,10 +108,11 @@ class _SpeciePaymentState extends State<SpeciePayment> {
             InkWell(
               onTap: () {
                 changeColorAfterPaymentTypeBecomesActive(3);
-                widget.getPaymentTypeName(listSpeciePaymentsActive[3]["specie"]);
+                widget
+                    .getPaymentTypeName(listSpeciePaymentsActive[3]["specie"]);
               },
               child: SpeciePaymentContainer(
-                width: 178,
+                width: MediaQuery.of(context).size.width / 2 - 27,
                 title: "PIX",
                 icon: Icons.pix,
                 iconColor: listSpeciePaymentsActive[3]["isActive"]
@@ -125,10 +129,11 @@ class _SpeciePaymentState extends State<SpeciePayment> {
             InkWell(
               onTap: () {
                 changeColorAfterPaymentTypeBecomesActive(4);
-                widget.getPaymentTypeName(listSpeciePaymentsActive[4]["specie"]);
+                widget
+                    .getPaymentTypeName(listSpeciePaymentsActive[4]["specie"]);
               },
               child: SpeciePaymentContainer(
-                width: 178,
+                width: MediaQuery.of(context).size.width / 2 - 27,
                 title: "Fiado",
                 icon: Icons.person_2_outlined,
                 iconColor: listSpeciePaymentsActive[4]["isActive"]
@@ -142,22 +147,6 @@ class _SpeciePaymentState extends State<SpeciePayment> {
                     : Colors.black,
               ),
             ),
-            // InkWell(
-            //   onTap: () => changeColorAfterPaymentTypeBecomesActive(5),
-            //   child: SpeciePaymentContainer(
-            //     title: "Parcial",
-            //     icon: Icons.person,
-            //     iconColor: listSpeciePaymentsActive[5]["isActive"]
-            //         ? Colors.white
-            //         : Theme.of(context).primaryColor,
-            //     backgroundColor: listSpeciePaymentsActive[5]["isActive"]
-            //         ? Theme.of(context).primaryColor
-            //         : Colors.white,
-            //     textColor: listSpeciePaymentsActive[5]["isActive"]
-            //         ? Colors.white
-            //         : Colors.black,
-            //   ),
-            // ),
           ],
         ),
       ],

@@ -20,7 +20,7 @@ class SpeciePaymentContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width ?? 115,
+      width: width ?? MediaQuery.of(context).size.width / 3 - 20,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         border: Border.all(
