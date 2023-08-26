@@ -15,13 +15,17 @@ class PaymentPage extends StatefulWidget {
 class _PaymentPageState extends State<PaymentPage> {
   final amountReceivedController =
       MoneyMaskedTextController(leftSymbol: "R\$ ");
-  double change = 0, amountReceived = 0, amountReceivable = 0;
+  double change = 0,
+      amountReceived = 0,
+      amountReceivable = 0,
+      lastChangeValue = 0;
   String typeSpecie = "";
 
   @override
   void initState() {
     super.initState();
     amountReceived = widget.total;
+    lastChangeValue = widget.total;
     amountReceivedController.updateValue(amountReceived);
   }
 
@@ -125,7 +129,8 @@ class _PaymentPageState extends State<PaymentPage> {
                                       } else {
                                         amountReceived = widget.total;
                                       }
-
+                                     
+                                      lastChangeValue = amountReceived;
                                       amountReceivedController
                                           .updateValue(amountReceived);
                                     });
@@ -148,6 +153,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           setState(() {
                             amountReceived =
                                 amountReceivedController.numberValue;
+                            lastChangeValue = amountReceived;
                           });
                           calculate();
                         },
@@ -179,7 +185,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               amountReceived = 0;
                               amountReceivable = widget.total;
                             } else {
-                              amountReceived = widget.total;
+                              amountReceived = lastChangeValue;
                               amountReceivedController
                                   .updateValue(amountReceived);
                             }
