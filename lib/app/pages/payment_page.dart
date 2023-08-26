@@ -5,7 +5,8 @@ import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import '../template/specie_payment.dart';
 
 class PaymentPage extends StatefulWidget {
-  const PaymentPage({super.key});
+  final double total;
+  const PaymentPage({required this.total, super.key});
 
   @override
   State<PaymentPage> createState() => _PaymentPageState();
@@ -14,12 +15,20 @@ class PaymentPage extends StatefulWidget {
 class _PaymentPageState extends State<PaymentPage> {
   final amountReceivedController =
       MoneyMaskedTextController(leftSymbol: "R\$ ");
-      
+  double change = 0;
+  double amountReceived = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    amountReceived = widget.total;
+    amountReceivedController.updateValue(amountReceived);
+  }
+
+  calculateChange() {}
+
   @override
   Widget build(BuildContext context) {
-    // double widthScreen = MediaQuery.of(context).size.width;
-    // double heightScreen = MediaQuery.of(context).size.height;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Pagamento"),
@@ -52,16 +61,54 @@ class _PaymentPageState extends State<PaymentPage> {
                   margin: const EdgeInsets.only(top: 10),
                   child: Column(
                     children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                                width: 1),
+                            top: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                                width: 1),
+                          ),
+                        ),
+                        padding: const EdgeInsets.all(10),
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        //   ),
+                        // ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Valor a pagar: ${numberFormat.format(widget.total)}",
+                          style: const TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
                       TextFormField(
                         controller: amountReceivedController,
                         textInputAction: TextInputAction.next,
                         keyboardType: const TextInputType.numberWithOptions(
                           decimal: true,
                         ),
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: "Valor Recebido",
-                          labelStyle: TextStyle(fontWeight: FontWeight.normal),
+                          labelStyle:
+                              const TextStyle(fontWeight: FontWeight.normal),
                           floatingLabelAlignment: FloatingLabelAlignment.center,
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              // setState(() {
+                              amountReceived = 0;
+                              amountReceivedController
+                                  .updateValue(amountReceived);
+                              print(amountReceived);
+                              // });
+                            },
+                            icon: const Icon(
+                              Icons.close,
+                            ),
+                          ),
                         ),
                         style: const TextStyle(
                           fontSize: 30,
@@ -77,8 +124,11 @@ class _PaymentPageState extends State<PaymentPage> {
                         padding: const EdgeInsets.all(10),
                         color: Colors.indigo.withOpacity(.1),
                         child: Text(
-                          numberFormat.format(0),
-                          style: const TextStyle(fontSize: 20),
+                          "Troco: ${numberFormat.format(change)}",
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                       const SpeciePayment(),

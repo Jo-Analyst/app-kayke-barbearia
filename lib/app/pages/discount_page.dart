@@ -182,41 +182,52 @@ class _DiscountPageState extends State<DiscountPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Column(
-                    children: [
-                      const Text(
-                        "Valor total",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      Text(
-                        numberFormat.format(widget.subtotal),
-                        style: const TextStyle(
-                          decoration:
-                              TextDecoration.lineThrough, // Adiciona o traço
-                          decorationColor:
-                              Color.fromARGB(255, 65, 65, 65), // Cor do traço
-                          decorationThickness: 1.5, // Espessura do traço
-                          decorationStyle: TextDecorationStyle.solid,
-                          fontSize: 30,
-                          fontWeight: FontWeight.w700,
+                  Expanded(
+                    child: Column(
+                      children: [
+                        const Text(
+                          "Valor total",
+                          style: TextStyle(fontSize: 18),
                         ),
-                      ),
-                    ],
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            numberFormat.format(widget.subtotal),
+                            style: const TextStyle(
+                              decoration: TextDecoration
+                                  .lineThrough, // Adiciona o traço
+                              decorationColor: Color.fromARGB(
+                                  255, 65, 65, 65), // Cor do traço
+                              decorationThickness: 1.5, // Espessura do traço
+                              decorationStyle: TextDecorationStyle.solid,
+                              fontSize: 30,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  Column(
-                    children: [
-                      const Text(
-                        "Valor c/ desconto",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      Text(
-                        numberFormat.format(netValue),
-                        style: const TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.w700,
+                  const SizedBox(width: 5),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        const Text(
+                          "Valor c/ desconto",
+                          style: TextStyle(fontSize: 18),
                         ),
-                      ),
-                    ],
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            numberFormat.format(netValue),
+                            style: const TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

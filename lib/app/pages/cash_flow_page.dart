@@ -1,3 +1,4 @@
+import 'package:app_kaike_barbearia/app/template/calendar.dart';
 import 'package:app_kaike_barbearia/app/template/finance_sale_list.dart';
 import 'package:app_kaike_barbearia/app/template/finance_service.list.dart';
 import 'package:app_kaike_barbearia/app/template/payment_container.dart';
@@ -25,21 +26,6 @@ class _CashFlowPageState extends State<CashFlowPage> {
       valueCredit = 0,
       valueDebit = 0;
 
-  showCalendarPicker() {
-    showDatePicker(
-      context: context,
-      initialDate: dateSelected,
-      firstDate: DateTime(2014),
-      lastDate: DateTime.now(),
-    ).then(
-      (date) => setState(() {
-        if (date != null) {
-          dateSelected = date;
-        }
-      }),
-    );
-  }
-
   changeContainerSale() {
     setState(() {
       activeContainerSale = !activeContainerSale;
@@ -62,26 +48,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
           Container(
             padding: const EdgeInsets.symmetric(vertical: 8),
             margin: const EdgeInsets.only(right: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                InkWell(
-                  onTap: () => showCalendarPicker(),
-                  child: Text(
-                    dateFormat2.format(dateSelected),
-                    style: const TextStyle(fontSize: 20),
-                  ),
-                ),
-                IconButton(
-                  onPressed: () => showCalendarPicker(),
-                  icon: Icon(
-                    Icons.calendar_month_outlined,
-                    size: 35,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                ),
-              ],
-            ),
+            child: const Calendar(),
           ),
           Container(
             width: double.infinity,
@@ -96,10 +63,9 @@ class _CashFlowPageState extends State<CashFlowPage> {
                 Text(
                   numberFormat.format(balance),
                   style: const TextStyle(
-                    fontSize: 26,
-                    color: Colors.green,
-                    fontWeight: FontWeight.w500
-                  ),
+                      fontSize: 26,
+                      color: Colors.green,
+                      fontWeight: FontWeight.w500),
                 )
               ],
             ),
