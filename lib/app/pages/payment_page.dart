@@ -1,3 +1,4 @@
+import 'package:app_kaike_barbearia/app/pages/client_list_page.dart';
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
@@ -19,7 +20,8 @@ class _PaymentPageState extends State<PaymentPage> {
       amountReceived = 0,
       amountReceivable = 0,
       lastChangeValue = 0;
-  String typeSpecie = "";
+  String typeSpecie = "", titleClient = "Cliente";
+  Map<String, dynamic> client = {};
 
   @override
   void initState() {
@@ -48,6 +50,29 @@ class _PaymentPageState extends State<PaymentPage> {
       calculateChange();
     } else {
       calculateAmountReceivable();
+    }
+
+    changeTitleClient();
+  }
+
+  changeTitleClient() {
+    titleClient = amountReceived < widget.total ? "Cliente*" : "Cliente";
+  }
+
+  openScreenClient() async {
+    final clientSelected = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => const ClientListPage(
+          itFromTheSalesScreen: true,
+        ),
+      ),
+    );
+
+    if (clientSelected != null) {
+      setState(() {
+        titleClient = clientSelected["name"];
+        client = clientSelected;
+      });
     }
   }
 
@@ -129,7 +154,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                       } else {
                                         amountReceived = widget.total;
                                       }
-                                     
+
                                       lastChangeValue = amountReceived;
                                       amountReceivedController
                                           .updateValue(amountReceived);
@@ -189,6 +214,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               amountReceivedController
                                   .updateValue(amountReceived);
                             }
+
                             calculate();
                           });
                         },
@@ -215,22 +241,34 @@ class _PaymentPageState extends State<PaymentPage> {
                             ),
                           ),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              amountReceivable > 0 ? "Cliente*" : "Cliente",
-                              style: const TextStyle(fontSize: 20),
-                            ),
-                            IconButton(
-                              onPressed: () async {},
-                              icon: Icon(
-                                Icons.add,
-                                size: 30,
-                                color: Theme.of(context).primaryColor,
+                        child: InkWell(
+                          onTap: () => openScreenClient(),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                titleClient,
+                                style: const TextStyle(fontSize: 20),
                               ),
-                            ),
-                          ],
+                              IconButton(
+                                onPressed: () {
+                                  if (client.isEmpty) {
+                                    openScreenClient();
+                                  } else {
+                                    setState(() {
+                                      client = {};
+                                    });
+                                    changeTitleClient();
+                                  }
+                                },
+                                icon: Icon(
+                                  client.isEmpty ? Icons.add : Icons.close,
+                                  size: 30,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],

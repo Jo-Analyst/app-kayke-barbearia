@@ -190,6 +190,11 @@ class _ClientListPageState extends State<ClientListPage> {
                                   ],
                                 ),
                           child: ListTile(
+                            onTap: widget.itFromTheSalesScreen
+                                ? () {
+                                    Navigator.of(context).pop(client);
+                                  }
+                                : null,
                             selectedTileColor: Colors.indigo,
                             title: Text(client["name"]),
                             subtitle: Text(client["phone"]),
