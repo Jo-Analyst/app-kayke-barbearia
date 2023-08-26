@@ -16,7 +16,12 @@ class _DiscountPageState extends State<DiscountPage> {
   bool triggeredRadioButton = false;
   List<String> options = ["money", "percentage"];
   String currentOptions = "";
-  double money = 0, percentage = 0, netValue = 0, discount = 0;
+  double money = 0,
+      percentage = 0,
+      netValue = 0,
+      discount = 0,
+      lastValueMoney = 0,
+      lastValuePercentage = 0;
   MoneyMaskedTextController discountValueController =
       MoneyMaskedTextController(leftSymbol: "R\$");
 
@@ -37,13 +42,22 @@ class _DiscountPageState extends State<DiscountPage> {
       discountValueController = MoneyMaskedTextController(
           leftSymbol: currentOptions == "money" ? "R\$ " : "",
           rightSymbol: currentOptions == "percentage" ? "%" : "");
-      money = 0;
-      percentage = 0;
+
+      money = lastValueMoney;
+      percentage = lastValuePercentage;
       netValue = widget.subtotal;
+
+      double value = 0;
+
       if (discount > 0) {
-        discountValueController.updateValue(discount);
-        calculateDiscount();
+        value = discount;
+        lastValueMoney = value;
+      } else {
+        value = currentOptions == "money" ? money : percentage;
       }
+
+      discountValueController.updateValue(value);
+      calculateDiscount();
     });
   }
 
@@ -165,15 +179,22 @@ class _DiscountPageState extends State<DiscountPage> {
               ),
               style: const TextStyle(fontSize: 18),
               onChanged: (value) {
-                if (currentOptions == "percentage") {
-                  if (discountValueController.numberValue >= 100) {
-                    discountValueController.updateValue(100.00);
+                setState(() {
+                  if (currentOptions == "percentage") {
+                    lastValuePercentage = discountValueController.numberValue;
+                    if (discountValueController.numberValue >= 100) {
+                      discountValueController.updateValue(100.00);
+                      lastValuePercentage = 100;
+                    }
+                  } else {
+                    lastValueMoney = discountValueController.numberValue;
+                    if (discountValueController.numberValue >=
+                        widget.subtotal) {
+                      discountValueController.updateValue(widget.subtotal);
+                      lastValueMoney = widget.subtotal;
+                    }
                   }
-                } else {
-                  if (discountValueController.numberValue >= widget.subtotal) {
-                    discountValueController.updateValue(widget.subtotal);
-                  }
-                }
+                });
                 calculateDiscount();
               },
             ),
