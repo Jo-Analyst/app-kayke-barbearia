@@ -15,8 +15,7 @@ class PaymentPage extends StatefulWidget {
 class _PaymentPageState extends State<PaymentPage> {
   final amountReceivedController =
       MoneyMaskedTextController(leftSymbol: "R\$ ");
-  double change = 0;
-  double amountReceived = 0;
+  double change = 0, amountReceived = 0, amountReceivable = 0;
 
   @override
   void initState() {
@@ -25,7 +24,27 @@ class _PaymentPageState extends State<PaymentPage> {
     amountReceivedController.updateValue(amountReceived);
   }
 
-  calculateChange() {}
+  calculateChange() {
+    setState(() {
+      change = amountReceived - widget.total;
+      amountReceivable = 0;
+    });
+  }
+
+  calculateAmountReceivable() {
+    setState(() {
+      amountReceivable = widget.total - amountReceived;
+      change = 0;
+    });
+  }
+
+  calculate() {
+    if (amountReceived >= widget.total) {
+      calculateChange();
+    } else {
+      calculateAmountReceivable();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,17 +84,17 @@ class _PaymentPageState extends State<PaymentPage> {
                         decoration: BoxDecoration(
                           border: Border(
                             bottom: BorderSide(
-                                color: Theme.of(context).primaryColor,
-                                width: 1),
+                              color: Theme.of(context).primaryColor,
+                              width: 1,
+                            ),
                             top: BorderSide(
-                                color: Theme.of(context).primaryColor,
-                                width: 1),
+                              color: Theme.of(context).primaryColor,
+                              width: 1,
+                            ),
                           ),
                         ),
                         padding: const EdgeInsets.all(10),
                         margin: const EdgeInsets.symmetric(vertical: 10),
-                        //   ),
-                        // ),
                         alignment: Alignment.center,
                         child: Text(
                           "Valor a pagar: ${numberFormat.format(widget.total)}",
@@ -87,7 +106,6 @@ class _PaymentPageState extends State<PaymentPage> {
                       ),
                       TextFormField(
                         controller: amountReceivedController,
-                        textInputAction: TextInputAction.next,
                         keyboardType: const TextInputType.numberWithOptions(
                           decimal: true,
                         ),
@@ -98,12 +116,12 @@ class _PaymentPageState extends State<PaymentPage> {
                           floatingLabelAlignment: FloatingLabelAlignment.center,
                           suffixIcon: IconButton(
                             onPressed: () {
-                              // setState(() {
-                              amountReceived = 0;
-                              amountReceivedController
-                                  .updateValue(amountReceived);
-                              print(amountReceived);
-                              // });
+                              setState(() {
+                                amountReceived = 0;
+                                amountReceivedController
+                                    .updateValue(amountReceived);
+                              });
+                              calculate();
                             },
                             icon: const Icon(
                               Icons.close,
@@ -115,7 +133,13 @@ class _PaymentPageState extends State<PaymentPage> {
                           fontWeight: FontWeight.w700,
                         ),
                         textAlign: TextAlign.center,
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          setState(() {
+                            amountReceived =
+                                amountReceivedController.numberValue;
+                          });
+                          calculate();
+                        },
                       ),
                       Container(
                         width: double.infinity,
@@ -124,14 +148,18 @@ class _PaymentPageState extends State<PaymentPage> {
                         padding: const EdgeInsets.all(10),
                         color: Colors.indigo.withOpacity(.1),
                         child: Text(
-                          "Troco: ${numberFormat.format(change)}",
+                          amountReceived >= widget.total
+                              ? "Troco: ${numberFormat.format(change)}"
+                              : "Á receber: ${numberFormat.format(amountReceivable)}",
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
-                      const SpeciePayment(),
+                      SpeciePayment(
+                        getPaymentTypeName: (value) => print(value),
+                      ),
                     ],
                   ),
                 ),
@@ -157,9 +185,9 @@ class _PaymentPageState extends State<PaymentPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
-                              "Cliente",
-                              style: TextStyle(fontSize: 20),
+                            Text(
+                              amountReceivable > 0 ? "Cliente*" : "Cliente",
+                              style: const TextStyle(fontSize: 20),
                             ),
                             IconButton(
                               onPressed: () async {},

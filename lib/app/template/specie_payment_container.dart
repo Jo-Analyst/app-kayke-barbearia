@@ -6,10 +6,12 @@ class SpeciePaymentContainer extends StatelessWidget {
   final Color? iconColor;
   final Color? textColor;
   final Color? backgroundColor;
+  final double? width;
   const SpeciePaymentContainer({
     required this.title,
     required this.icon,
     this.iconColor,
+    this.width,
     this.textColor,
     this.backgroundColor,
     super.key,
@@ -18,7 +20,7 @@ class SpeciePaymentContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 100,
+      width: width ?? 115,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         border: Border.all(
