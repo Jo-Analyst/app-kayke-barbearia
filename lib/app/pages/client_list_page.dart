@@ -182,8 +182,13 @@ class _ClientListPageState extends State<ClientListPage> {
                                               children: [
                                                 Icon(Icons.info),
                                                 SizedBox(width: 5),
-                                                Text(
-                                                  "Cliente excluido com sucesso.",
+                                                Expanded(
+                                                  child: Text(
+                                                    "Cliente excluido com sucesso.",
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
                                                 ),
                                               ],
                                             ),

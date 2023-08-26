@@ -145,8 +145,13 @@ class _ServiceListPageState extends State<ServiceListPage> {
                                               children: [
                                                 Icon(Icons.info),
                                                 SizedBox(width: 5),
-                                                Text(
-                                                  "Serviço excluido com sucesso."
+                                                Expanded(
+                                                  child: Text(
+                                                    "Serviço excluido com sucesso.",
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
                                                 ),
                                               ],
                                             ),

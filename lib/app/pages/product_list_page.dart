@@ -177,8 +177,13 @@ class _ProductListPageState extends State<ProductListPage> {
                                               children: [
                                                 Icon(Icons.info),
                                                 SizedBox(width: 5),
-                                                Text(
-                                                  "Produto excluido com sucesso.",
+                                                Expanded(
+                                                  child: Text(
+                                                    "Produto excluido com sucesso.",
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
                                                 ),
                                               ],
                                             ),

@@ -88,7 +88,9 @@ class _PaymentPageState extends State<PaymentPage> {
           SizedBox(width: 5),
           Expanded(
             child: Text(
-                "Selecione um cliente para concluir a venda. Existe um valor pendente."),
+              "Selecione um cliente para concluir a venda. Existe um valor pendente.",
+              style: TextStyle(fontSize: 18),
+            ),
           )
         ],
       );

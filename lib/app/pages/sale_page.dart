@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../utils/snackbar.dart';
+
 class SalePage extends StatefulWidget {
   const SalePage({super.key});
 
@@ -65,9 +67,12 @@ class _SalePageState extends State<SalePage> {
     });
   }
 
+  void showMessage(Widget content, Color? color) {
+    ConfirmationMessage.showMessage(context, content, color);
+  }
+
   @override
   Widget build(BuildContext context) {
-    double widthScreen = MediaQuery.of(context).size.width;
     double heightScreen = MediaQuery.of(context).size.height;
 
     return Scaffold(
@@ -344,6 +349,25 @@ class _SalePageState extends State<SalePage> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
+                              if (items.isEmpty) {
+                                showMessage(
+                                  const Row(
+                                    children: [
+                                      Icon(FontAwesomeIcons.circleExclamation),
+                                      SizedBox(width: 10),
+                                      Expanded(
+                                        child: Text(
+                                          "Selecione ou crie um produto para a venda.",
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Colors.orange,
+                                );
+                                return;
+                              }
+
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (_) => PaymentPage(total: total),

@@ -168,8 +168,13 @@ class _SpedingListPageState extends State<SpedingListPage> {
                                                 children: [
                                                   Icon(Icons.info),
                                                   SizedBox(width: 5),
-                                                  Text(
-                                                    "Excluido com sucesso.",
+                                                  Expanded(
+                                                    child: Text(
+                                                      "Excluido com sucesso.",
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                      ),
+                                                    ),
                                                   ),
                                                 ],
                                               ),
