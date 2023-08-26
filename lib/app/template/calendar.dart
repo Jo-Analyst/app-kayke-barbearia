@@ -34,9 +34,11 @@ class _CalendarState extends State<Calendar> {
       children: [
         InkWell(
           onTap: () => showCalendarPicker(),
-          child: Text(
-            dateFormat2.format(dateSelected),
-            style: const TextStyle(fontSize: 20),
+          child: FittedBox(fit: BoxFit.scaleDown,
+            child: Text(
+              dateFormat2.format(dateSelected),
+              style: const TextStyle(fontSize: 20),
+            ),
           ),
         ),
         IconButton(

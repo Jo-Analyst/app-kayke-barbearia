@@ -339,7 +339,8 @@ class _SalePageState extends State<SalePage> {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        Container(
+                          margin: const EdgeInsets.only(top: 10),
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
@@ -349,12 +350,11 @@ class _SalePageState extends State<SalePage> {
                                 ),
                               );
                             },
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 8.0),
                               child: Text(
                                 "Continuar",
-                                style: TextStyle(fontSize: widthScreen * 0.04),
+                                style: TextStyle(fontSize: 20),
                               ),
                             ),
                           ),
