@@ -98,32 +98,48 @@ class DrawerComponet extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(
-              Icons.money_off,
+              Icons.payments_rounded,
               color: Colors.indigo,
             ),
             title: const Text(
-              "Despesas",
+              "Pagamentos",
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.indigo,
               ),
             ),
-            onTap: () { Navigator.of(context).pop();
+            onTap: () {},
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.money_off,
+              color: Colors.indigo,
+            ),
+            title: const Text(
+              "Despesas B.",
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.indigo,
+              ),
+            ),
+            onTap: () {
+              Navigator.of(context).pop();
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (_) => const SpedingListPage(
                     itFromTheSalesScreen: false,
                   ),
                 ),
-              );},
+              );
+            },
           ),
           ListTile(
             leading: const Icon(
-              Icons.payments_rounded,
+              Icons.money_off,
               color: Colors.indigo,
             ),
             title: const Text(
-              "Pagamentos",
+              "Despesas P.",
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.indigo,

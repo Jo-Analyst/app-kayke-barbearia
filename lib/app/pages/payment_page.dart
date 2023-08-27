@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../template/specie_payment.dart';
 import '../utils/snackbar.dart';
+import 'sale_completed.dart';
 
 class PaymentPage extends StatefulWidget {
   final double total;
@@ -23,8 +24,9 @@ class _PaymentPageState extends State<PaymentPage> {
       amountReceived = 0,
       amountReceivable = 0,
       lastChangeValue = 0;
-  String typeSpecie = "", titleClient = "Cliente";
-  Map<String, dynamic> client = {};
+  String typeSpecie = "Dinheiro", titleClient = "Cliente";
+  IconData? iconSpeciePayment = Icons.attach_money;
+  Map<String, dynamic> client = {}, payment = {};
 
   @override
   void initState() {
@@ -90,7 +92,23 @@ class _PaymentPageState extends State<PaymentPage> {
             icon: FontAwesomeIcons.circleExclamation,
           ),
           Colors.orange);
+      return;
     }
+    payment = {
+      "client": client.isNotEmpty ? client["name"] : "Cliente avulso",
+      "amount_received": amountReceived,
+      "specie": typeSpecie,
+      "icon": iconSpeciePayment
+    };
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => SaleCompleted(
+          payment: payment,
+          saleTotal: widget.total,
+        ),
+      ),
+    );
   }
 
   void showMessage(Widget content, Color? color) {
@@ -221,7 +239,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         ),
                       ),
                       SpeciePayment(
-                        getPaymentTypeName: (value) {
+                        getPaymentTypeName: (value, icon) {
                           setState(() {
                             typeSpecie = value;
 
@@ -235,7 +253,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               amountReceivedController
                                   .updateValue(amountReceived);
                             }
-
+                            iconSpeciePayment = icon;
                             calculate();
                           });
                         },
