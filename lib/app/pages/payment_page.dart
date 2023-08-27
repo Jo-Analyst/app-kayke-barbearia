@@ -1,4 +1,5 @@
 import 'package:app_kaike_barbearia/app/pages/client_list_page.dart';
+import 'package:app_kaike_barbearia/app/utils/content_message.dart';
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
@@ -82,24 +83,18 @@ class _PaymentPageState extends State<PaymentPage> {
 
   confirmSale() {
     if (client.isEmpty && amountReceivable > 0) {
-      Widget content = const Row(
-        children: [
-          Icon(FontAwesomeIcons.circleExclamation),
-          SizedBox(width: 5),
-          Expanded(
-            child: Text(
-              "Selecione um cliente para concluir a venda. Existe um valor pendente.",
-              style: TextStyle(fontSize: 18),
-            ),
-          )
-        ],
-      );
-      showMessage(content, Colors.orange);
+      showMessage(
+          const ContentMessage(
+            title:
+                "Selecione um cliente para concluir a venda. Existe um valor pendente.",
+            icon: FontAwesomeIcons.circleExclamation,
+          ),
+          Colors.orange);
     }
   }
 
   void showMessage(Widget content, Color? color) {
-    ConfirmationMessage.showMessage(context, content, color);
+    Message.showMessage(context, content, color);
   }
 
   @override

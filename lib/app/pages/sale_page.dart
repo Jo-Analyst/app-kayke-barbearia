@@ -2,6 +2,7 @@ import 'package:app_kaike_barbearia/app/pages/discount_page.dart';
 import 'package:app_kaike_barbearia/app/pages/payment_page.dart';
 import 'package:app_kaike_barbearia/app/pages/product_list_page.dart';
 import 'package:app_kaike_barbearia/app/template/calendar.dart';
+import 'package:app_kaike_barbearia/app/utils/content_message.dart';
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -68,7 +69,7 @@ class _SalePageState extends State<SalePage> {
   }
 
   void showMessage(Widget content, Color? color) {
-    ConfirmationMessage.showMessage(context, content, color);
+    Message.showMessage(context, content, color);
   }
 
   @override
@@ -92,53 +93,57 @@ class _SalePageState extends State<SalePage> {
                       color: Colors.indigo.withOpacity(.1),
                       child: Column(
                         children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border(
-                                bottom: BorderSide(
-                                  width: 1,
-                                  color: Theme.of(context).primaryColor,
+                          InkWell(
+                            onTap: () async {
+                              final itemsSelected =
+                                  await Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => const ProductListPage(
+                                    itFromTheSalesScreen: true,
+                                  ),
                                 ),
-                                top: BorderSide(
-                                  width: 1,
-                                  color: Theme.of(context).primaryColor,
+                              );
+
+                              if (itemsSelected != null) {
+                                setState(() {
+                                  items.add(itemsSelected);
+                                });
+                                calculateSubTotalAndProfitTotal();
+                              }
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border(
+                                  bottom: BorderSide(
+                                    width: 1,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                  top: BorderSide(
+                                    width: 1,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
                                 ),
                               ),
-                            ),
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  "Adicionar Produto",
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                                IconButton(
-                                  onPressed: () async {
-                                    final itemsSelected =
-                                        await Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (_) => const ProductListPage(
-                                          itFromTheSalesScreen: true,
-                                        ),
-                                      ),
-                                    );
-
-                                    if (itemsSelected != null) {
-                                      setState(() {
-                                        items.add(itemsSelected);
-                                      });
-                                      calculateSubTotalAndProfitTotal();
-                                    }
-                                  },
-                                  icon: Icon(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 8,
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    "Adicionar Produto",
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                  Icon(
                                     Icons.add,
                                     size: 30,
                                     color: Theme.of(context).primaryColor,
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                           Container(
@@ -244,7 +249,8 @@ class _SalePageState extends State<SalePage> {
               child: Column(
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       border: Border(
@@ -258,40 +264,49 @@ class _SalePageState extends State<SalePage> {
                         ),
                       ),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          "Desconto",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        IconButton(
-                          onPressed: items.isNotEmpty
-                              ? () async {
-                                  final money =
-                                      await Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (_) => DiscountPage(
-                                          subtotal: subtotal,
-                                          discount: discount),
-                                    ),
-                                  );
+                    child: InkWell(
+                      onTap: () async {
+                        if (items.isEmpty) {
+                          showMessage(
+                            const ContentMessage(
+                              icon: FontAwesomeIcons.circleExclamation,
+                              title:
+                                  "Adicione ou crie um produto para aplicar um desconto.",
+                            ),
+                            Colors.orange,
+                          );
+                          return;
+                        }
+                        final money = await Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => DiscountPage(
+                              subtotal: subtotal,
+                              discount: discount,
+                            ),
+                          ),
+                        );
 
-                                  if (money != null) {
-                                    setState(() {
-                                      discount = money;
-                                    });
-                                    calculateSubTotalAndProfitTotal();
-                                  }
-                                }
-                              : null,
-                          icon: Icon(
+                        if (money != null) {
+                          setState(() {
+                            discount = money;
+                          });
+                          calculateSubTotalAndProfitTotal();
+                        }
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "Desconto",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          Icon(
                             Icons.add,
                             size: 30,
                             color: Theme.of(context).primaryColor,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   Container(
@@ -351,17 +366,10 @@ class _SalePageState extends State<SalePage> {
                             onPressed: () {
                               if (items.isEmpty) {
                                 showMessage(
-                                  const Row(
-                                    children: [
-                                      Icon(FontAwesomeIcons.circleExclamation),
-                                      SizedBox(width: 10),
-                                      Expanded(
-                                        child: Text(
-                                          "Selecione ou crie um produto para a venda.",
-                                          style: TextStyle(fontSize: 18),
-                                        ),
-                                      )
-                                    ],
+                                  const ContentMessage(
+                                    title:
+                                        "Selecione ou crie um produto para a venda.",
+                                    icon: FontAwesomeIcons.circleExclamation,
                                   ),
                                   Colors.orange,
                                 );

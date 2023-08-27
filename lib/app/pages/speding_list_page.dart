@@ -1,4 +1,5 @@
 import 'package:app_kaike_barbearia/app/pages/speding.form_page.dart';
+import 'package:app_kaike_barbearia/app/utils/content_message.dart';
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
 import 'package:app_kaike_barbearia/app/utils/dialog.dart';
 import 'package:app_kaike_barbearia/app/utils/snackbar.dart';
@@ -44,7 +45,7 @@ class _SpedingListPageState extends State<SpedingListPage> {
   ];
 
   void showMessage(Widget content, Color? color) {
-    ConfirmationMessage.showMessage(context, content, color);
+    Message.showMessage(context, content, color);
   }
 
   @override
@@ -164,22 +165,13 @@ class _SpedingListPageState extends State<SpedingListPage> {
                                           spedings.removeAt(index);
                                           setState(() {});
                                           showMessage(
-                                              const Row(
-                                                children: [
-                                                  Icon(Icons.info),
-                                                  SizedBox(width: 5),
-                                                  Expanded(
-                                                    child: Text(
-                                                      "Excluido com sucesso.",
-                                                      style: TextStyle(
-                                                        fontSize: 18,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              const Color.fromARGB(
-                                                  255, 199, 82, 74));
+                                            const ContentMessage(
+                                              title: "Excluido com sucesso.",
+                                              icon: Icons.info,
+                                            ),
+                                            const Color.fromARGB(
+                                                255, 199, 82, 74),
+                                          );
                                         }
                                       },
                                       backgroundColor: Colors.red,

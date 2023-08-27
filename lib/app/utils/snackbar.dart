@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ConfirmationMessage {
+class Message {
   static showMessage(
       BuildContext context, Widget content, Color? backgroundColor) {
     ScaffoldMessenger.of(context).showSnackBar(

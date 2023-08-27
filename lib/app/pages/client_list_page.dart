@@ -1,5 +1,6 @@
 import 'package:app_kaike_barbearia/app/pages/client_form_page.dart';
 import 'package:app_kaike_barbearia/app/pages/contact_phone_page.dart';
+import 'package:app_kaike_barbearia/app/utils/content_message.dart';
 import 'package:app_kaike_barbearia/app/utils/dialog.dart';
 import 'package:app_kaike_barbearia/app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +60,7 @@ class _ClientListPageState extends State<ClientListPage> {
   }
 
   void showMessage(Widget content, Color? color) {
-    ConfirmationMessage.showMessage(context, content, color);
+    Message.showMessage(context, content, color);
   }
 
   @override
@@ -178,19 +179,10 @@ class _ClientListPageState extends State<ClientListPage> {
                                           clients.removeAt(index);
                                           setState(() {});
                                           showMessage(
-                                            const Row(
-                                              children: [
-                                                Icon(Icons.info),
-                                                SizedBox(width: 5),
-                                                Expanded(
-                                                  child: Text(
-                                                    "Cliente excluido com sucesso.",
-                                                    style: TextStyle(
-                                                      fontSize: 18,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
+                                            const ContentMessage(
+                                              title:
+                                                  "Cliente excluido com sucesso.",
+                                              icon: Icons.info,
                                             ),
                                             const Color.fromARGB(
                                                 255, 199, 82, 74),
