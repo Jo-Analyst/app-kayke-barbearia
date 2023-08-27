@@ -7,11 +7,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../template/specie_payment.dart';
 import '../utils/snackbar.dart';
-import 'sale_completed.dart';
+import 'proof_page.dart';
 
 class PaymentPage extends StatefulWidget {
   final double total;
-  const PaymentPage({required this.total, super.key});
+  final String dateSale;
+  const PaymentPage({required this.total, required this.dateSale, super.key});
 
   @override
   State<PaymentPage> createState() => _PaymentPageState();
@@ -98,12 +99,13 @@ class _PaymentPageState extends State<PaymentPage> {
       "client": client.isNotEmpty ? client["name"] : "Cliente avulso",
       "amount_received": amountReceived,
       "specie": typeSpecie,
-      "icon": iconSpeciePayment
+      "icon": iconSpeciePayment,
+      "date_sale": widget.dateSale
     };
 
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => SaleCompleted(
+        builder: (_) => ProofPage(
           payment: payment,
           saleTotal: widget.total,
         ),

@@ -2,11 +2,10 @@ import 'package:app_kaike_barbearia/app/pages/home_page.dart';
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
 
-class SaleCompleted extends StatelessWidget {
+class ProofPage extends StatelessWidget {
   final double saleTotal;
   final Map<String, dynamic> payment;
-  const SaleCompleted(
-      {required this.payment, required this.saleTotal, super.key});
+  const ProofPage({required this.payment, required this.saleTotal, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +20,10 @@ class SaleCompleted extends StatelessWidget {
               (route) => false,
             );
           },
-          icon: const Icon(Icons.close, size: 30,),
+          icon: const Icon(
+            Icons.close,
+            size: 30,
+          ),
         ),
       ),
       body: Padding(
@@ -48,6 +50,10 @@ class SaleCompleted extends StatelessWidget {
                           "Venda concluída com sucesso.",
                           style: TextStyle(fontSize: 18),
                         ),
+                         Text(
+                          payment["date_sale"],
+                          style: const TextStyle(fontSize: 18),
+                        ),
                         const SizedBox(height: 15),
                         Icon(
                           Icons.check_circle_outline,
@@ -55,9 +61,9 @@ class SaleCompleted extends StatelessWidget {
                           color: Theme.of(context).primaryColor,
                         ),
                         const SizedBox(height: 15),
-                       const Text(
+                        const Text(
                           "Valor Total",
-                          style:  TextStyle(
+                          style: TextStyle(
                             fontSize: 20,
                           ),
                         ),
@@ -85,13 +91,18 @@ class SaleCompleted extends StatelessWidget {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                            subtitle: Text(
-                              payment["client"].toString(),
-                              style: const TextStyle(
-                                fontSize: 20,
-                                color: Color.fromARGB(255, 66, 65, 65),
-                              ),
-                            ),
+                            subtitle: payment["client"]
+                                        .toString()
+                                        .toLowerCase() ==
+                                    "cliente avulso"
+                                ? null
+                                : Text(
+                                    payment["client"].toString().split(" ")[0],
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      color: Color.fromARGB(255, 66, 65, 65),
+                                    ),
+                                  ),
                             trailing: FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text(

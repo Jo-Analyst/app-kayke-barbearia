@@ -10,7 +10,8 @@ import '../pages/product_form_page.dart';
 showModal(BuildContext context) {
   showModalBottomSheet(
     context: context,
-    builder: (_) => Padding(
+    builder: (_) => Container(
+      color: Colors.indigo.withOpacity(.1),
       padding: const EdgeInsets.all(10),
       child: SizedBox(
         height: 330,

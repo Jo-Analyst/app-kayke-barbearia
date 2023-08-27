@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../utils/convert_values.dart';
 
 class Calendar extends StatefulWidget {
-  const Calendar({super.key});
+  final Function(DateTime value) onSelected;
+  const Calendar({required this.onSelected, super.key});
 
   @override
   State<Calendar> createState() => _CalendarState();
@@ -22,6 +23,7 @@ class _CalendarState extends State<Calendar> {
       (date) => setState(() {
         if (date != null) {
           dateSelected = date;
+          widget.onSelected(dateSelected);
         }
       }),
     );
@@ -34,7 +36,8 @@ class _CalendarState extends State<Calendar> {
       children: [
         InkWell(
           onTap: () => showCalendarPicker(),
-          child: FittedBox(fit: BoxFit.scaleDown,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
             child: Text(
               dateFormat2.format(dateSelected),
               style: const TextStyle(fontSize: 20),

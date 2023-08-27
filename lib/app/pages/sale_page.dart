@@ -20,6 +20,7 @@ class SalePage extends StatefulWidget {
 class _SalePageState extends State<SalePage> {
   List<Map<String, dynamic>> items = [];
   double discount = 0, subtotal = 0, total = 0, profitTotal = 0;
+  DateTime dateSelected = DateTime.now();
 
   changeValueAfterQuantityIncrement(int index) {
     var item = items[index];
@@ -44,6 +45,7 @@ class _SalePageState extends State<SalePage> {
     double profit = items[index]["profit_value"];
     items[index]["subtotal"] = quantity * price;
     items[index]["sub_profit_value"] = quantity * profit;
+
     calculateSubTotalAndProfitTotal();
   }
 
@@ -88,7 +90,14 @@ class _SalePageState extends State<SalePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Calendar(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Calendar(onSelected: (value) {
+                        setState(() {
+                          dateSelected = value;
+                        });
+                      }),
+                    ),
                     Container(
                       color: Colors.indigo.withOpacity(.1),
                       child: Column(
@@ -336,7 +345,10 @@ class _SalePageState extends State<SalePage> {
                             ),
                             Text(
                               numberFormat.format(-discount),
-                              style: const TextStyle(fontSize: 20),
+                              style: const TextStyle(
+                                fontSize: 20,
+                                color: Colors.green,
+                              ),
                             ),
                           ],
                         ),
@@ -378,7 +390,10 @@ class _SalePageState extends State<SalePage> {
 
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (_) => PaymentPage(total: total),
+                                  builder: (_) => PaymentPage(
+                                      total: total,
+                                      dateSale:
+                                          dateFormat1.format(dateSelected)),
                                 ),
                               );
                             },
