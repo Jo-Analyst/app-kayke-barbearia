@@ -9,17 +9,19 @@ class ProofPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    closeScreen() {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+        (route) => false,
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Comprovante"),
         leading: IconButton(
-          onPressed: () {
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-              (route) => false,
-            );
-          },
+          onPressed: () => closeScreen(),
           icon: const Icon(
             Icons.close,
             size: 30,
@@ -50,7 +52,7 @@ class ProofPage extends StatelessWidget {
                           "Venda concluída com sucesso.",
                           style: TextStyle(fontSize: 18),
                         ),
-                         Text(
+                        Text(
                           payment["date_sale"],
                           style: const TextStyle(fontSize: 18),
                         ),
@@ -126,13 +128,7 @@ class ProofPage extends StatelessWidget {
               left: 0,
               right: 0,
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => const HomePage()),
-                    (route) => false,
-                  );
-                },
+                onPressed: () => closeScreen(),
                 child: const Padding(
                   padding: EdgeInsets.all(10),
                   child: Text(
