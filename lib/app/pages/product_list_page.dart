@@ -2,6 +2,7 @@ import 'package:app_kaike_barbearia/app/pages/product_form_page.dart';
 import 'package:app_kaike_barbearia/app/utils/content_message.dart';
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
 import 'package:app_kaike_barbearia/app/utils/dialog.dart';
+import 'package:app_kaike_barbearia/app/utils/search_list.dart';
 import 'package:app_kaike_barbearia/app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -18,6 +19,7 @@ class _ProductListPageState extends State<ProductListPage> {
   final searchController = TextEditingController();
   String search = "";
   bool isGranted = false;
+  List<Map<String, dynamic>> filteredList = [];
   final List<Map<String, dynamic>> products = [
     {
       "id": 1,
@@ -58,6 +60,12 @@ class _ProductListPageState extends State<ProductListPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    filteredList = products;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -84,7 +92,7 @@ class _ProductListPageState extends State<ProductListPage> {
       body: products.isEmpty
           ? const Center(
               child: Text(
-                "Não há produto cadastrados...",
+                "Não há produtos cadastrados...",
                 style: TextStyle(fontSize: 20),
               ),
             )
@@ -113,6 +121,7 @@ class _ProductListPageState extends State<ProductListPage> {
                                 searchController.text = "";
                                 setState(() {
                                   search = "";
+                                  filteredList = products;
                                 });
                               },
                               icon: const Icon(Icons.close),
@@ -121,6 +130,7 @@ class _ProductListPageState extends State<ProductListPage> {
                     onChanged: (value) {
                       setState(() {
                         search = value;
+                        filteredList = searchItems(value, products, false);
                       });
                     },
                   ),
@@ -132,9 +142,9 @@ class _ProductListPageState extends State<ProductListPage> {
                           color: Theme.of(context).primaryColor,
                         );
                       },
-                      itemCount: products.length,
+                      itemCount: filteredList.length,
                       itemBuilder: (_, index) {
-                        var product = products[index];
+                        var product = filteredList[index];
                         return Slidable(
                           endActionPane: widget.itFromTheSalesScreen
                               ? null

@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../utils/search_list.dart';
+
 class ClientListPage extends StatefulWidget {
   final bool itFromTheSalesScreen;
   const ClientListPage({required this.itFromTheSalesScreen, super.key});
@@ -19,23 +21,19 @@ class _ClientListPageState extends State<ClientListPage> {
   final searchController = TextEditingController();
   String search = "";
   bool isGranted = false;
+  List<Map<String, dynamic>> filteredList = [];
   final List<Map<String, dynamic>> clients = [
-    {"id": 1, "name": "Juliana Andrade", "phone": "38998269905"},
-    {"id": 2, "name": "Carlos da Silva Xavier", "phone": "38999093710"},
-    {"id": 3, "name": "Maria Francisca santos", "phone": "38998269905"},
-    {"id": 4, "name": "Lucimara Cristina Pereira", "phone": "38998269905"},
-    {"id": 5, "name": "Alberto Rodrigues", "phone": "38998269905"},
-    {"id": 1, "name": "Juliana Andrade", "phone": "38998269905"},
-    {"id": 2, "name": "Carlos da Silva Xavier", "phone": "38999093710"},
-    {"id": 3, "name": "Maria Francisca santos", "phone": "38998269905"},
-    {"id": 4, "name": "Lucimara Cristina Pereira", "phone": "38998269905"},
-    {"id": 5, "name": "Alberto Rodrigues", "phone": "38998269905"},
-    {
-      "id": 5,
-      "name": "Zé Canália",
-      "phone": "38998269905",
-      "observation": "Tá me devendo pra dedel"
-    },
+    {"id": 1, "name": "Valdirene Aparecida Ferreira", "phone": "38998269905"},
+    {"id": 2, "name": "Joelmir Rogério Carvalho", "phone": "38999093710"},
+    {"id": 3, "name": "Maria Lídia Ferrira Carvalho"},
+    {"id": 4, "name": "Noelly Cristina Ferreira Carvalho"},
+    {"id": 5, "name": "Antonny Benneditto Ferreira Carvalho"},
+    {"id": 6, "name": "Juliana Andrade", "phone": "38998269905"},
+    {"id": 7, "name": "Carlos da Silva Xavier", "phone": "38999093710"},
+    {"id": 8, "name": "Maria Francisca santos", "phone": "38998269905"},
+    {"id": 9, "name": "Lucimara Cristina Pereira", "phone": "38998269905"},
+    {"id": 10, "name": "Alberto Rodrigues", "phone": "38998269905"},
+    {"id": 11, "name": "Zé Canália", "observation": "Tá me devendo pra dedel"},
   ];
 
   Future<void> permissionGranted() async {
@@ -61,6 +59,12 @@ class _ClientListPageState extends State<ClientListPage> {
 
   void showMessage(Widget content, Color? color) {
     Message.showMessage(context, content, color);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    filteredList = clients;
   }
 
   @override
@@ -125,6 +129,7 @@ class _ClientListPageState extends State<ClientListPage> {
                                 searchController.text = "";
                                 setState(() {
                                   search = "";
+                                  filteredList = clients;
                                 });
                               },
                               icon: const Icon(Icons.close),
@@ -133,6 +138,7 @@ class _ClientListPageState extends State<ClientListPage> {
                     onChanged: (value) {
                       setState(() {
                         search = value;
+                        filteredList = searchItems(value, clients, false);
                       });
                     },
                   ),
@@ -142,9 +148,9 @@ class _ClientListPageState extends State<ClientListPage> {
                       separatorBuilder: (_, index) {
                         return Divider(color: Theme.of(context).primaryColor);
                       },
-                      itemCount: clients.length,
+                      itemCount: filteredList.length,
                       itemBuilder: (_, index) {
-                        var client = clients[index];
+                        var client = filteredList[index];
                         return Slidable(
                           endActionPane: widget.itFromTheSalesScreen
                               ? null
@@ -203,7 +209,7 @@ class _ClientListPageState extends State<ClientListPage> {
                                 : null,
                             selectedTileColor: Colors.indigo,
                             title: Text(client["name"]),
-                            subtitle: Text(client["phone"]),
+                            subtitle: Text(client["phone"] ?? "Sem número"),
                             leading: CircleAvatar(
                               maxRadius: 30,
                               backgroundColor: Colors.indigo,

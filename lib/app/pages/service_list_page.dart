@@ -2,6 +2,7 @@ import 'package:app_kaike_barbearia/app/pages/service_form_page.dart';
 import 'package:app_kaike_barbearia/app/utils/content_message.dart';
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
 import 'package:app_kaike_barbearia/app/utils/dialog.dart';
+import 'package:app_kaike_barbearia/app/utils/search_list.dart';
 import 'package:app_kaike_barbearia/app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -18,6 +19,7 @@ class _ServiceListPageState extends State<ServiceListPage> {
   final searchController = TextEditingController();
   String search = "";
   bool isGranted = false;
+  List<Map<String, dynamic>> filteredList = [];
   final List<Map<String, dynamic>> services = [
     {"id": 1, "description": "Corte social", "price": 15.00},
     {"id": 2, "description": "pezinho", "price": 12.00},
@@ -26,6 +28,12 @@ class _ServiceListPageState extends State<ServiceListPage> {
 
   void showMessage(Widget content, Color? color) {
     Message.showMessage(context, content, color);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    filteredList = services;
   }
 
   @override
@@ -55,7 +63,7 @@ class _ServiceListPageState extends State<ServiceListPage> {
       body: services.isEmpty
           ? const Center(
               child: Text(
-                "Não há serviço cadastrados...",
+                "Não há serviços cadastrado...",
                 style: TextStyle(fontSize: 20),
               ),
             )
@@ -83,6 +91,7 @@ class _ServiceListPageState extends State<ServiceListPage> {
                                 searchController.text = "";
                                 setState(() {
                                   search = "";
+                                  filteredList = services;
                                 });
                               },
                               icon: const Icon(Icons.close),
@@ -91,6 +100,7 @@ class _ServiceListPageState extends State<ServiceListPage> {
                     onChanged: (value) {
                       setState(() {
                         search = value;
+                        filteredList = searchItems(value, services, true);
                       });
                     },
                   ),
@@ -103,9 +113,9 @@ class _ServiceListPageState extends State<ServiceListPage> {
                           height: 2,
                         );
                       },
-                      itemCount: services.length,
+                      itemCount: filteredList.length,
                       itemBuilder: (_, index) {
-                        var service = services[index];
+                        var service = filteredList[index];
                         return Slidable(
                           endActionPane: widget.itFromTheSalesScreen
                               ? null

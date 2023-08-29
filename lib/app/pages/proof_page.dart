@@ -51,7 +51,7 @@ class ProofPage extends StatelessWidget {
                       children: [
                          Text(
                           isSale ? "Venda concluída com sucesso." : "Prestação de serviço concluído",
-                          style: TextStyle(fontSize: 18),
+                          style: const TextStyle(fontSize: 18),
                         ),
                         Text(
                           payment["date_sale"],
