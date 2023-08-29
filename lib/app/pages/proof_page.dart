@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 
 class ProofPage extends StatelessWidget {
   final double saleTotal;
+  final bool isSale;
   final Map<String, dynamic> payment;
-  const ProofPage({required this.payment, required this.saleTotal, super.key});
+  const ProofPage({required this.isSale,required this.payment, required this.saleTotal, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +49,8 @@ class ProofPage extends StatelessWidget {
                     color: Colors.indigo.withOpacity(.1),
                     child: Column(
                       children: [
-                        const Text(
-                          "Venda concluída com sucesso.",
+                         Text(
+                          isSale ? "Venda concluída com sucesso." : "Prestação de serviço concluído",
                           style: TextStyle(fontSize: 18),
                         ),
                         Text(

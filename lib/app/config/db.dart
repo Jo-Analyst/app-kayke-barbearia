@@ -30,7 +30,7 @@ class DB {
         );
 
         db.execute(
-          "CREATE TABLE provision_of_services (id INTEGER PRIMARY KEY, date TEXT NOT NULL, time TEXT NOT NULL, client_id INTEGER, service_id INTEGER, FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE CASCADE, FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE SET NULL)",
+          "CREATE TABLE provision_of_services (id INTEGER PRIMARY KEY, date TEXT NOT NULL, time TEXT NOT NULL, sub_total REAL NOT NULL, price_product REAL NOT NULL, client_id INTEGER, service_id INTEGER, FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE CASCADE, FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE SET NULL)",
         );
 
         db.execute("CREATE TABLE payments_services (id INTEGER PRIMARY KEY, species TEXT, service_id INTEGER, FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE CASCADE)");

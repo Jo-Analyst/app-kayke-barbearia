@@ -1,4 +1,5 @@
 import 'package:app_kaike_barbearia/app/pages/client_form_page.dart';
+import 'package:app_kaike_barbearia/app/pages/provision_of_service_page.dart';
 import 'package:app_kaike_barbearia/app/pages/sale_page.dart';
 import 'package:app_kaike_barbearia/app/pages/service_form_page.dart';
 import 'package:app_kaike_barbearia/app/pages/speding.form_page.dart';
@@ -30,7 +31,14 @@ showModal(BuildContext context) {
             Column(
               children: [
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const ProvisionOfServicePage(),
+                      ),
+                    );
+                  },
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),

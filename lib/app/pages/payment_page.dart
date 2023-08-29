@@ -12,7 +12,13 @@ import 'proof_page.dart';
 class PaymentPage extends StatefulWidget {
   final double total;
   final String dateSale;
-  const PaymentPage({required this.total, required this.dateSale, super.key});
+  final bool isSale;
+  const PaymentPage({
+    required this.isSale,
+    required this.total,
+    required this.dateSale,
+    super.key,
+  });
 
   @override
   State<PaymentPage> createState() => _PaymentPageState();
@@ -108,6 +114,7 @@ class _PaymentPageState extends State<PaymentPage> {
         builder: (_) => ProofPage(
           payment: payment,
           saleTotal: widget.total,
+          isSale: widget.isSale,
         ),
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:app_kaike_barbearia/app/pages/discount_page.dart';
 import 'package:app_kaike_barbearia/app/pages/payment_page.dart';
-import 'package:app_kaike_barbearia/app/pages/product_list_page.dart';
+import 'package:app_kaike_barbearia/app/pages/service_list_page.dart';
 import 'package:app_kaike_barbearia/app/template/calendar.dart';
 import 'package:app_kaike_barbearia/app/utils/content_message.dart';
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
@@ -10,52 +10,23 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../utils/snackbar.dart';
 
-class SalePage extends StatefulWidget {
-  const SalePage({super.key});
+class ProvisionOfServicePage extends StatefulWidget {
+  const ProvisionOfServicePage({super.key});
 
   @override
-  State<SalePage> createState() => _SalePageState();
+  State<ProvisionOfServicePage> createState() => _ProvisionOfServicePageState();
 }
 
-class _SalePageState extends State<SalePage> {
+class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
   List<Map<String, dynamic>> items = [];
   double discount = 0, subtotal = 0, total = 0, profitTotal = 0;
   DateTime dateSelected = DateTime.now();
 
-  changeValueAfterQuantityIncrement(int index) {
-    var item = items[index];
-    setState(() {
-      if (item["quantity"] == 999) return;
-      item["quantity"]++;
-      calculateSubTotalAndSubProfitByItems(
-          items[index]["quantity"], items[index]["sale_value"], index);
-    });
-  }
-
-  changeValueAfterQuantityDecrease(int index) {
-    setState(() {
-      if (items[index]["quantity"] == 1) return;
-      items[index]["quantity"]--;
-      calculateSubTotalAndSubProfitByItems(
-          items[index]["quantity"], items[index]["sale_value"], index);
-    });
-  }
-
-  calculateSubTotalAndSubProfitByItems(int quantity, double price, int index) {
-    double profit = items[index]["profit_value"];
-    items[index]["subtotal"] = quantity * price;
-    items[index]["sub_profit_value"] = quantity * profit;
-
-    calculateSubTotalAndProfitTotal();
-  }
-
-  calculateSubTotalAndProfitTotal() {
+  calculateSubTotal() {
     subtotal = 0;
-    profitTotal = 0;
     setState(() {
       for (var item in items) {
-        subtotal += item["subtotal"];
-        profitTotal += item["sub_profit_value"];
+        subtotal += item["price"];
       }
     });
     if (items.isEmpty || discount > subtotal) {
@@ -74,13 +45,22 @@ class _SalePageState extends State<SalePage> {
     Message.showMessage(context, content, color);
   }
 
+  showTime(int index) {
+    showTimePicker(context: context, initialTime: items[index]["time"])
+        .then((time) {
+      setState(() {
+        items[index]["time"] = time ?? TimeOfDay.now();
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double heightScreen = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Venda"),
+        title: const Text("Serviço"),
       ),
       body: Stack(
         children: [
@@ -107,7 +87,7 @@ class _SalePageState extends State<SalePage> {
                               final itemsSelected =
                                   await Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (_) => const ProductListPage(
+                                  builder: (_) => const ServiceListPage(
                                     itFromTheSalesScreen: true,
                                   ),
                                 ),
@@ -117,7 +97,7 @@ class _SalePageState extends State<SalePage> {
                                 setState(() {
                                   items.add(itemsSelected);
                                 });
-                                calculateSubTotalAndProfitTotal();
+                                calculateSubTotal();
                               }
                             },
                             child: Container(
@@ -143,7 +123,7 @@ class _SalePageState extends State<SalePage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   const Text(
-                                    "Adicionar Produto",
+                                    "Adicionar serviço",
                                     style: TextStyle(fontSize: 20),
                                   ),
                                   Icon(
@@ -170,7 +150,7 @@ class _SalePageState extends State<SalePage> {
                                         onPressed: (_) async {
                                           items.removeAt(index);
                                           setState(() {
-                                            calculateSubTotalAndProfitTotal();
+                                            calculateSubTotal();
                                           });
                                         },
                                         backgroundColor: Colors.red,
@@ -180,56 +160,47 @@ class _SalePageState extends State<SalePage> {
                                     ],
                                   ),
                                   child: ListTile(
-                                    horizontalTitleGap: 0,
                                     minVerticalPadding: 0,
-                                    leading: const Icon(
-                                      FontAwesomeIcons.box,
-                                      color: Color.fromARGB(255, 105, 123, 223),
+                                    leading: CircleAvatar(
+                                      radius: 30,
+                                      child: FittedBox(
+                                        fit: BoxFit.fitWidth,
+                                        child: Text(
+                                          numberFormat.format(item["price"]),
+                                          style: const TextStyle(fontSize: 12),
+                                        ),
+                                      ),
                                     ),
                                     title: Text(
-                                      item["name"],
+                                      item["description"],
                                       style: const TextStyle(fontSize: 20),
                                     ),
-                                    subtitle: Text(
-                                      "${item["quantity"].toString()}x ${numberFormat.format(item["subtotal"])}",
-                                      style: const TextStyle(fontSize: 16),
+                                    subtitle: Row(
+                                      children: [
+                                        Flexible(
+                                          child: Text(
+                                            "Hor.: ${item["time"].format(context)}",
+                                            style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                     trailing: SizedBox(
                                       width: 127,
-                                      child: Row(
-                                        children: [
-                                          IconButton(
-                                            onPressed: () =>
-                                                changeValueAfterQuantityDecrease(
-                                                    index),
-                                            icon: Icon(
-                                              Icons.remove_circle_outline,
-                                              size: 30,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                            ),
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: IconButton(
+                                          onPressed: () => showTime(index),
+                                          icon: Icon(
+                                            Icons.more_time_sharp,
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            size: 35,
                                           ),
-                                          Container(
-                                            width: 31,
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              item["quantity"].toString(),
-                                              style:
-                                                  const TextStyle(fontSize: 18),
-                                            ),
-                                          ),
-                                          IconButton(
-                                            onPressed: () =>
-                                                changeValueAfterQuantityIncrement(
-                                                    index),
-                                            icon: Icon(
-                                              Icons.add_circle_outline,
-                                              size: 30,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                            ),
-                                          ),
-                                        ],
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -280,7 +251,7 @@ class _SalePageState extends State<SalePage> {
                             const ContentMessage(
                               icon: FontAwesomeIcons.circleExclamation,
                               title:
-                                  "Adicione ou crie um produto para aplicar um desconto.",
+                                  "Adicione ou crie um serviço para aplicar um desconto.",
                             ),
                             Colors.orange,
                           );
@@ -299,7 +270,7 @@ class _SalePageState extends State<SalePage> {
                           setState(() {
                             discount = money;
                           });
-                          calculateSubTotalAndProfitTotal();
+                          calculateSubTotal();
                         }
                       },
                       child: Row(
@@ -380,7 +351,7 @@ class _SalePageState extends State<SalePage> {
                                 showMessage(
                                   const ContentMessage(
                                     title:
-                                        "Selecione ou crie um produto para a venda.",
+                                        "Selecione ou crie um serviço para continuar.",
                                     icon: FontAwesomeIcons.circleExclamation,
                                   ),
                                   Colors.orange,
@@ -393,7 +364,7 @@ class _SalePageState extends State<SalePage> {
                                   builder: (_) => PaymentPage(
                                     total: total,
                                     dateSale: dateFormat1.format(dateSelected),
-                                    isSale: true,
+                                    isSale: false,
                                   ),
                                 ),
                               );

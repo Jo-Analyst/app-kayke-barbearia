@@ -20,8 +20,8 @@ class _ServiceListPageState extends State<ServiceListPage> {
   bool isGranted = false;
   final List<Map<String, dynamic>> services = [
     {"id": 1, "description": "Corte social", "price": 15.00},
-    {"id": 1, "description": "pezinho", "price": 12.00},
-    {"id": 1, "description": "barbear", "price": 13.00},
+    {"id": 2, "description": "pezinho", "price": 12.00},
+    {"id": 3, "description": "barbear", "price": 13.00},
   ];
 
   void showMessage(Widget content, Color? color) {
@@ -159,6 +159,12 @@ class _ServiceListPageState extends State<ServiceListPage> {
                                   ],
                                 ),
                           child: ListTile(
+                            onTap: () {
+                              if (widget.itFromTheSalesScreen) {
+                                service["time"] = TimeOfDay.now();
+                                Navigator.of(context).pop(service);
+                              }
+                            },
                             contentPadding: const EdgeInsets.all(5),
                             selectedTileColor: Colors.indigo,
                             title: Text(
