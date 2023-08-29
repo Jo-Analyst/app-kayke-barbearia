@@ -15,6 +15,7 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
   List<Contact> _contacts = [];
   List<String> names = [];
   List<String> phones = [];
+  List<Map<String, dynamic>> listContact = [];
 
   Future<void> _fetchContacts() async {
     Iterable<Contact> contacts = await ContactsService.getContacts();
@@ -22,6 +23,19 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
       _contacts = contacts.toList();
       isLoading = false;
     });
+
+    for (int i = 0; i < contacts.toList().length; i++) {
+      listContact.add(
+        {
+          "name": contacts.toList()[i].displayName,
+        },
+      );
+      final phones = contacts.toList()[i].phones!;
+      for (var phone in phones) {
+        listContact[i]["phone"] = phone.value;
+      }
+    }
+    print(listContact);
   }
 
   @override
@@ -61,12 +75,18 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
       ),
       body: isLoading
           ? const SizedBox(
-            width: double.infinity,
+              width: double.infinity,
               height: double.infinity,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [CircularProgressIndicator(), Text("Carregando...", style: TextStyle(fontSize: 20),)],
+                children: [
+                  CircularProgressIndicator(),
+                  Text(
+                    "Carregando...",
+                    style: TextStyle(fontSize: 20),
+                  )
+                ],
               ),
             )
           : Padding(
