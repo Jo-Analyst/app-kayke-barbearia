@@ -1,4 +1,4 @@
-import 'package:app_kaike_barbearia/app/template/list_payment_receivable.dart';
+import 'package:app_kaike_barbearia/app/template/list_payment.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -15,89 +15,108 @@ class _PaymentListPageState extends State<PaymentListPage>
   List<Map<String, dynamic>> paymentsSales = [
     {
       "date_sale": "30/08/2023",
-      "client_name": "client avulso",
       "value": 100,
-      "situation": "Recebido"
+      "amount_paid": 100,
+      "situation": "Recebido",
+      "specie": "Dinheiro"
     },
     {
       "date_sale": "30/08/2023",
       "client_name": "Valdirene Aparecida Ferreira",
       "value": 200,
-      "situation": "Recebido"
+      "amount_paid": 200,
+      "situation": "Recebido",
+      "specie": "Dinheiro"
     },
     {
       "date_sale": "30/08/2023",
-      "client_name": "client avulso",
       "value": 100,
-      "situation": "Recebido"
+      "amount_paid": 100,
+      "situation": "Recebido",
+      "specie": "Dinheiro"
     },
     {
       "date_sale": "30/08/2023",
       "client_name": "Valdirene Aparecida Ferreira",
       "value": 200,
-      "situation": "Recebido"
+      "amount_paid": 200,
+      "situation": "Recebido",
+      "specie": "Dinheiro"
     },
     {
       "date_sale": "30/08/2023",
-      "client_name": "client avulso",
       "value": 100,
-      "situation": "Recebido"
+      "amount_paid": 100,
+      "situation": "Recebido",
+      "specie": "Dinheiro"
     },
     {
       "date_sale": "30/08/2023",
       "client_name": "Valdirene Aparecida Ferreira",
       "value": 200,
-      "situation": "Recebido"
+      "amount_paid": 200,
+      "situation": "Recebido",
+      "specie": "Dinheiro"
     },
     {
       "date_sale": "30/08/2023",
-      "client_name": "client avulso",
       "value": 100,
-      "situation": "Recebido"
+      "amount_paid": 100,
+      "situation": "Recebido",
+      "specie": "Dinheiro"
     },
     {
       "date_sale": "30/08/2023",
       "client_name": "Valdirene Aparecida Ferreira",
       "value": 200,
-      "situation": "Recebido"
+      "amount_paid": 200,
+      "situation": "Recebido",
+      "specie": "Dinheiro"
     },
     {
       "date_sale": "30/08/2023",
-      "client_name": "client avulso",
       "value": 100,
+      "amount_paid": 0,
       "situation": "A receber"
     },
     {
       "date_sale": "30/08/2023",
       "client_name": "Valdirene Aparecida Ferreira",
       "value": 200,
+      "amount_paid": 0,
       "situation": "A receber"
     },
   ];
   List<Map<String, dynamic>> paymentsServices = [
     {
       "date_sale": "30/08/2023",
-      "client_name": "client avulso",
       "value": 100,
-      "situation": "Recebido"
+      "amount_paid": 100,
+      "situation": "Recebido",
+      "specie": "Dinheiro"
     },
     {
       "date_sale": "30/08/2023",
       "client_name": "Joelmir Carvalho",
       "value": 200,
-      "situation": "Recebido"
+      "amount_paid": 200,
+      "situation": "Recebido",
+      "specie": "PIX"
     },
     {
       "date_sale": "30/08/2023",
-      "client_name": "client avulso",
       "value": 100,
-      "situation": "A receber"
+      "amount_paid": 0,
+      "situation": "A receber",
+      "specie": "Dinheiro"
     },
     {
       "date_sale": "30/08/2023",
       "client_name": "Joelmir Carvalho",
       "value": 200,
-      "situation": "A receber"
+      "amount_paid": 0,
+      "situation": "A receber",
+      "specie": "PIX"
     },
   ];
 
@@ -189,8 +208,8 @@ class _PaymentListPageState extends State<PaymentListPage>
             child: TabBarView(
               controller: _tabController,
               children: <Widget>[
-                ListPaymentReceivable(toReceive: paymentsSales),
-                ListPaymentReceivable(toReceive: paymentsServices)
+                ListPayment(payments: paymentsSales),
+                ListPayment(payments: paymentsServices)
               ],
             ),
           ),

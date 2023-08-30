@@ -23,7 +23,7 @@ class DB {
           "CREATE TABLE items_sales (id INTEGER PRIMARY KEY, quantity_items INTEGER, sub_total REAL NOT NULL, price_product REAL NOT NULL, profit_product REAL NOT NULL, product_id INTEGER NOT NULL, sale_id INTEGER NOT NULL, FOREIGN KEY (product_id) REFERENCES products(id), ON DELETE SET NULL, FOREIGN KEY (sale_id) REFERENCES sales(id) ON DELETE CASCADE)",
         );
 
-        db.execute("CREATE TABLE payments_sales (id INTEGER PRIMARY KEY, species TEXT, sale_id INTEGER, FOREIGN KEY (sale_id) REFERENCES sales(id) ON DELETE CASCADE)");
+        db.execute("CREATE TABLE payments_sales (id INTEGER PRIMARY KEY, specie TEXT, amount_paid REAL, sale_id INTEGER, FOREIGN KEY (sale_id) REFERENCES sales(id) ON DELETE CASCADE)");
 
         db.execute(
           "CREATE TABLE services (id INTEGER PRIMARY KEY, description TEXT NOT NULL, price REAL NOT NULL)",
@@ -33,7 +33,7 @@ class DB {
           "CREATE TABLE provision_of_services (id INTEGER PRIMARY KEY, date TEXT NOT NULL, time TEXT NOT NULL, sub_total REAL NOT NULL, price_product REAL NOT NULL, client_id INTEGER, service_id INTEGER, FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE CASCADE, FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE SET NULL)",
         );
 
-        db.execute("CREATE TABLE payments_services (id INTEGER PRIMARY KEY, species TEXT, service_id INTEGER, FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE CASCADE)");
+        db.execute("CREATE TABLE payments_services (id INTEGER PRIMARY KEY, specie TEXT, amount_paid REAL, service_id INTEGER, FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE CASCADE)");
 
         db.execute(
           "CREATE TABLE spending (id INTEGER PRIMARY KEY, name_product TEXT NOT NULL, price REAL NOT NULL, quantity INTEGER NOT NULL, date TEXT NOT NULL)", // spending = gastos da barbearia
