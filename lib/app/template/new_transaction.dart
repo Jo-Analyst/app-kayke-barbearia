@@ -1,17 +1,19 @@
-import 'package:app_kaike_barbearia/app/pages/client_form_page.dart';
-import 'package:app_kaike_barbearia/app/pages/provision_of_service_page.dart';
-import 'package:app_kaike_barbearia/app/pages/sale_page.dart';
-import 'package:app_kaike_barbearia/app/pages/service_form_page.dart';
-import 'package:app_kaike_barbearia/app/pages/speding.form_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../pages/client_form_page.dart';
 import '../pages/product_form_page.dart';
+import '../pages/provision_of_service_page.dart';
+import '../pages/sale_page.dart';
+import '../pages/service_form_page.dart';
+import '../pages/speding.form_page.dart';
 
-showModal(BuildContext context) {
-  showModalBottomSheet(
-    context: context,
-    builder: (_) => Container(
+class NewTransaction extends StatelessWidget {
+  const NewTransaction({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
       color: Colors.indigo.withOpacity(.1),
       padding: const EdgeInsets.all(10),
       child: SizedBox(
@@ -237,6 +239,6 @@ showModal(BuildContext context) {
           ],
         ),
       ),
-    ),
-  );
+    );
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:app_kaike_barbearia/app/pages/cash_flow_page.dart';
 import 'package:app_kaike_barbearia/app/pages/finance_page.dart';
-import 'package:app_kaike_barbearia/app/template/new_transaction_modal.dart';
+import 'package:app_kaike_barbearia/app/template/modal.dart';
+import 'package:app_kaike_barbearia/app/template/new_transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -48,7 +49,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         onPressed: () {
-          showModal(context);
+          showModal(context, const NewTransaction());
         },
         child: const Icon(
           Icons.add,

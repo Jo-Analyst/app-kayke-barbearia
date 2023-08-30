@@ -12,90 +12,92 @@ class PaymentListPage extends StatefulWidget {
 class _PaymentListPageState extends State<PaymentListPage>
     with TickerProviderStateMixin {
   late TabController _tabController;
-  List<Map<String, dynamic>> paymentReceivable = [
+  List<Map<String, dynamic>> paymentsSales = [
     {
       "date_sale": "30/08/2023",
-      "toReceive": 0.00,
-      "specie": "fiado",
-      "sale_venda": 100
+      "client_name": "client avulso",
+      "value": 100,
+      "situation": "Recebido"
     },
     {
       "date_sale": "30/08/2023",
-      "toReceive": 0.00,
-      "specie": "fiado",
-      "sale_venda": 100
+      "client_name": "Valdirene Aparecida Ferreira",
+      "value": 200,
+      "situation": "Recebido"
     },
     {
       "date_sale": "30/08/2023",
-      "toReceive": 0.00,
-      "specie": "fiado",
-      "sale_venda": 100
+      "client_name": "client avulso",
+      "value": 100,
+      "situation": "Recebido"
     },
     {
       "date_sale": "30/08/2023",
-      "toReceive": 0.00,
-      "specie": "fiado",
-      "sale_venda": 100
+      "client_name": "Valdirene Aparecida Ferreira",
+      "value": 200,
+      "situation": "Recebido"
     },
     {
       "date_sale": "30/08/2023",
-      "toReceive": 0.00,
-      "specie": "fiado",
-      "sale_venda": 100
+      "client_name": "client avulso",
+      "value": 100,
+      "situation": "Recebido"
     },
     {
       "date_sale": "30/08/2023",
-      "toReceive": 0.00,
-      "specie": "fiado",
-      "sale_venda": 100
+      "client_name": "Valdirene Aparecida Ferreira",
+      "value": 200,
+      "situation": "Recebido"
     },
     {
       "date_sale": "30/08/2023",
-      "toReceive": 0.00,
-      "specie": "fiado",
-      "sale_venda": 100
+      "client_name": "client avulso",
+      "value": 100,
+      "situation": "Recebido"
     },
     {
       "date_sale": "30/08/2023",
-      "toReceive": 0.00,
-      "specie": "fiado",
-      "sale_venda": 100
+      "client_name": "Valdirene Aparecida Ferreira",
+      "value": 200,
+      "situation": "Recebido"
     },
     {
       "date_sale": "30/08/2023",
-      "toReceive": 0.00,
-      "specie": "fiado",
-      "sale_venda": 100
+      "client_name": "client avulso",
+      "value": 100,
+      "situation": "A receber"
     },
     {
       "date_sale": "30/08/2023",
-      "toReceive": 0.00,
-      "specie": "fiado",
-      "sale_venda": 100
+      "client_name": "Valdirene Aparecida Ferreira",
+      "value": 200,
+      "situation": "A receber"
+    },
+  ];
+  List<Map<String, dynamic>> paymentsServices = [
+    {
+      "date_sale": "30/08/2023",
+      "client_name": "client avulso",
+      "value": 100,
+      "situation": "Recebido"
     },
     {
       "date_sale": "30/08/2023",
-      "toReceive": 0.00,
-      "specie": "fiado",
-      "sale_venda": 100
+      "client_name": "Joelmir Carvalho",
+      "value": 200,
+      "situation": "Recebido"
     },
     {
       "date_sale": "30/08/2023",
-      "toReceive": 0.00,
-      "specie": "fiado",
-      "sale_venda": 100
+      "client_name": "client avulso",
+      "value": 100,
+      "situation": "A receber"
     },
     {
       "date_sale": "30/08/2023",
-      "toReceive": 0.00,
-      "specie": "fiado",
-      "sale_venda": 100
-    },
-    {
-      "date_sale": "30/08/2023",
-      "toReceive": 0.00,
-      "specie": "fiado",
-      "sale_venda": 100
+      "client_name": "Joelmir Carvalho",
+      "value": 200,
+      "situation": "A receber"
     },
   ];
 
@@ -147,7 +149,7 @@ class _PaymentListPageState extends State<PaymentListPage>
                       ),
                       const SizedBox(width: 2),
                       Text(
-                        "A receber",
+                        "Venda",
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize: 17,
@@ -169,7 +171,7 @@ class _PaymentListPageState extends State<PaymentListPage>
                       ),
                       const SizedBox(width: 2),
                       Text(
-                        "Recebidos",
+                        "Serviços",
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize: 17,
@@ -183,12 +185,12 @@ class _PaymentListPageState extends State<PaymentListPage>
             ),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height - 215,
+            height: MediaQuery.of(context).size.height - 240,
             child: TabBarView(
               controller: _tabController,
               children: <Widget>[
-                ListPaymentReceivable(toReceive: paymentReceivable),
-                ListPaymentReceivable(toReceive: paymentReceivable)
+                ListPaymentReceivable(toReceive: paymentsSales),
+                ListPaymentReceivable(toReceive: paymentsServices)
               ],
             ),
           ),
