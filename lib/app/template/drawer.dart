@@ -1,4 +1,5 @@
 import 'package:app_kaike_barbearia/app/pages/client_list_page.dart';
+import 'package:app_kaike_barbearia/app/pages/payment_list_page.dart';
 import 'package:app_kaike_barbearia/app/pages/product_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,6 +12,15 @@ class DrawerComponet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void openScreen(dynamic page) {
+      Navigator.pop(context);
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => page,
+        ),
+      );
+    }
+
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -40,15 +50,9 @@ class DrawerComponet extends StatelessWidget {
                 color: Colors.indigo,
               ),
             ),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) =>
-                      const ClientListPage(itFromTheSalesScreen: false),
-                ),
-              );
-            },
+            onTap: () => openScreen(
+              const ClientListPage(itFromTheSalesScreen: false),
+            ),
           ),
           ListTile(
             leading: const Icon(
@@ -62,16 +66,9 @@ class DrawerComponet extends StatelessWidget {
                 color: Colors.indigo,
               ),
             ),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => const ProductListPage(
-                    itFromTheSalesScreen: false,
-                  ),
-                ),
-              );
-            },
+            onTap: () => openScreen(
+              const ProductListPage(itFromTheSalesScreen: false),
+            ),
           ),
           ListTile(
             leading: const Icon(
@@ -85,16 +82,9 @@ class DrawerComponet extends StatelessWidget {
                 color: Colors.indigo,
               ),
             ),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => const ServiceListPage(
-                    itFromTheSalesScreen: false,
-                  ),
-                ),
-              );
-            },
+            onTap: () => openScreen(
+              const ServiceListPage(itFromTheSalesScreen: false),
+            ),
           ),
           ListTile(
             leading: const Icon(
@@ -108,7 +98,9 @@ class DrawerComponet extends StatelessWidget {
                 color: Colors.indigo,
               ),
             ),
-            onTap: () {},
+            onTap: () => openScreen(
+              const PaymentListPage(),
+            ),
           ),
           ListTile(
             leading: const Icon(
@@ -122,16 +114,9 @@ class DrawerComponet extends StatelessWidget {
                 color: Colors.indigo,
               ),
             ),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => const SpedingListPage(
-                    itFromTheSalesScreen: false,
-                  ),
-                ),
-              );
-            },
+            onTap: () => openScreen(
+              const SpedingListPage(itFromTheSalesScreen: false),
+            ),
           ),
           ListTile(
             leading: const Icon(
