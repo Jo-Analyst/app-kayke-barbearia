@@ -8,7 +8,7 @@ class DetailsPayment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 180,
+      height: payment["situation"] == "Recebido" ? 230 : 310,
       child: ListView(
         children: [
           Container(
@@ -50,19 +50,49 @@ class DetailsPayment extends StatelessWidget {
                               ),
                             ),
                             child: Text(
-                              payment["specie"],
+                              payment["date_sale"],
                               style: const TextStyle(fontSize: 20),
                             ),
                           ),
                           Container(
                             alignment: Alignment.center,
                             width: MediaQuery.of(context).size.width / 2 - 30,
-                            child: Text(
-                              numberFormat.format(payment["value"]),
-                              style: const TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.w700,
-                              ),
+                            child: Column(
+                              children: [
+                                Text(
+                                  payment["specie"],
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                                Text(
+                                  numberFormat.format(payment["value"]),
+                                  style: const TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      color: Colors.indigo.withOpacity(.1),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 8,
+                      ),
+                      child: Row(
+                        children: [
+                          const Text(
+                            "Status: ",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          Text(
+                            payment["situation"],
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ],
@@ -89,30 +119,99 @@ class DetailsPayment extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            child: Container(
-                              alignment: Alignment.topCenter,
-                              width: MediaQuery.of(context).size.width / 2 - 30,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Text(
-                                    "Valor pago",
-                                    style: TextStyle(fontSize: 20),
+                            child: Text(
+                              payment["date_sale"],
+                              style: const TextStyle(fontSize: 20),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            width: MediaQuery.of(context).size.width / 2 - 30,
+                            child: Column(
+                              children: [
+                                Text(
+                                  payment["specie"] ?? "Fiado",
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                                Text(
+                                  numberFormat.format(payment["value"]),
+                                  style: const TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.w700,
                                   ),
-                                  Text(
-                                    numberFormat.format(payment["amount_paid"]),
-                                    style: const TextStyle(
-                                      fontSize: 28,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      color: Colors.indigo.withOpacity(.1),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 8,
+                      ),
+                      child: Row(
+                        children: [
+                          const Text(
+                            "Status: ",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          Text(
+                            payment["situation"],
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: 80,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 10,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            alignment: Alignment.topCenter,
+                            width: MediaQuery.of(context).size.width / 2 - 30,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Theme.of(context).primaryColor,
                               ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "Valor pago",
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                Text(
+                                  numberFormat.format(payment["amount_paid"]),
+                                  style: const TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           Container(
                             alignment: Alignment.topCenter,
                             width: MediaQuery.of(context).size.width / 2 - 30,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -136,7 +235,7 @@ class DetailsPayment extends StatelessWidget {
                   ],
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.all(10),
             child: ElevatedButton(
                 onPressed: () {},
                 child: Padding(
