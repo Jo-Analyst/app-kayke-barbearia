@@ -12,29 +12,28 @@ class PaymentEditionPage extends StatefulWidget {
 
 class _PaymentEditionPageState extends State<PaymentEditionPage> {
   final valueSaleController = TextEditingController();
+  double amountReceived = 0;
   List<Map<String, dynamic>> receipts = [
     {"date": "30/07/2023", "value": 50.0, "specie": "PIX"},
     {"date": "30/07/2023", "value": 30.0, "specie": "Dinheiro"},
     {"date": "30/07/2023", "value": 50.0, "specie": "PIX"},
-    {"date": "30/07/2023", "value": 30.0, "specie": "Dinheiro"},
-    {"date": "30/07/2023", "value": 50.0, "specie": "PIX"},
-    {"date": "30/07/2023", "value": 30.0, "specie": "Dinheiro"},
-    {"date": "30/07/2023", "value": 50.0, "specie": "PIX"},
-    {"date": "30/07/2023", "value": 30.0, "specie": "Dinheiro"},
-    {"date": "30/07/2023", "value": 50.0, "specie": "PIX"},
-    {"date": "30/07/2023", "value": 30.0, "specie": "Dinheiro"},
-    {"date": "30/07/2023", "value": 50.0, "specie": "PIX"},
-    {"date": "30/07/2023", "value": 30.0, "specie": "Dinheiro"},
-    {"date": "30/07/2023", "value": 50.0, "specie": "PIX"},
-    {"date": "30/07/2023", "value": 30.0, "specie": "Dinheiro"},
-    {"date": "30/07/2023", "value": 50.0, "specie": "PIX"},
-    {"date": "30/07/2023", "value": 30.0, "specie": "Dinheiro"},
+    {"date": "30/07/2023", "value": 20.0, "specie": "Dinheiro"},
   ];
+
+  calculateamountReceived() {
+    setState(() {
+      amountReceived = 0;
+      for (var receipt in receipts) {
+        amountReceived += receipt["value"];
+      }
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     valueSaleController.text = numberFormat.format(widget.valueSale);
+    calculateamountReceived();
   }
 
   @override
@@ -112,7 +111,7 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                           SingleChildScrollView(
                             child: Container(
                               color: Colors.indigo.withOpacity(.1),
-                              height: MediaQuery.of(context).size.height - 370,
+                              height: MediaQuery.of(context).size.height - 400,
                               child: ListView.separated(
                                 shrinkWrap: true,
                                 // physics: const NeverScrollableScrollPhysics(),
@@ -172,7 +171,7 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                                 ),
                               ),
                               Text(
-                                numberFormat.format(80),
+                                numberFormat.format(amountReceived),
                                 style: const TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w700,
@@ -200,8 +199,11 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (_) => const ReceiptPage(
-                          isSale: false, total: 12, dateSale: "dateSale"),
+                      builder: (_) => ReceiptPage(
+                          amountReceived: amountReceived,
+                          isSale: false,
+                          total: widget.valueSale,
+                          dateSale: "dateSale"),
                     ),
                   );
                 },

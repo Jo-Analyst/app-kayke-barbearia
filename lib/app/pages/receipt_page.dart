@@ -11,10 +11,12 @@ import 'proof_page.dart';
 
 class ReceiptPage extends StatefulWidget {
   final double total;
+  final double amountReceived;
   final String dateSale;
   final bool isSale;
   const ReceiptPage({
     required this.isSale,
+    required this.amountReceived,
     required this.total,
     required this.dateSale,
     super.key,
@@ -39,6 +41,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
   void initState() {
     super.initState();
     lastChangeValue = widget.total;
+    amountReceivable = widget.total - widget.amountReceived;
   }
 
   calculateChange() {
@@ -50,7 +53,8 @@ class _ReceiptPageState extends State<ReceiptPage> {
 
   calculateAmountReceivable() {
     setState(() {
-      amountReceivable = widget.total - amountReceived;
+      amountReceivable =
+          widget.total - (amountReceived + widget.amountReceived);
       change = 0;
     });
   }
@@ -173,7 +177,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
                         margin: const EdgeInsets.symmetric(vertical: 10),
                         alignment: Alignment.center,
                         child: Text(
-                          "Valor pago: ${numberFormat.format(widget.total)}",
+                          "Valor pago: ${numberFormat.format(widget.amountReceived)}",
                           style: const TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.w500,
@@ -194,9 +198,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
                             suffixIcon: IconButton(
                               onPressed: () {
                                 setState(() {
-                                  if (amountReceived == widget.total) {
-                                    amountReceived = 0;
-                                  }
+                                  amountReceived = 0;
 
                                   lastChangeValue = amountReceived;
                                   amountReceivedController
