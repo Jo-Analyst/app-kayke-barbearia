@@ -1,3 +1,4 @@
+import 'package:app_kaike_barbearia/app/pages/payment_edition_page.dart';
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
 
@@ -237,16 +238,25 @@ class DetailsPayment extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(10),
             child: ElevatedButton(
-                onPressed: () {},
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Text(
-                    payment["situation"] == "Recebido"
-                        ? "Editar pagamento"
-                        : "Incluir pagamento",
-                    style: const TextStyle(fontSize: 20),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) =>
+                        PaymentEditionPage(valueSale: payment["value"]),
                   ),
-                )),
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Text(
+                  payment["situation"] == "Recebido"
+                      ? "Editar pagamento"
+                      : "Incluir pagamento",
+                  style: const TextStyle(fontSize: 20),
+                ),
+              ),
+            ),
           )
         ],
       ),

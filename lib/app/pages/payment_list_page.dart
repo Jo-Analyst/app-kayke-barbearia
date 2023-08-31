@@ -15,106 +15,106 @@ class _PaymentListPageState extends State<PaymentListPage>
   List<Map<String, dynamic>> paymentsSales = [
     {
       "date_sale": "30/08/2023",
-      "value": 100,
-      "amount_paid": 100,
+      "value": 100.00,
+      "amount_paid": 100.00,
       "situation": "Recebido",
       "specie": "Dinheiro"
     },
     {
       "date_sale": "30/08/2023",
       "client_name": "Valdirene Aparecida Ferreira",
-      "value": 200,
-      "amount_paid": 200,
+      "value": 200.00,
+      "amount_paid": 200.00,
       "situation": "Recebido",
       "specie": "Dinheiro"
     },
     {
       "date_sale": "30/08/2023",
-      "value": 100,
-      "amount_paid": 100,
-      "situation": "Recebido",
-      "specie": "Dinheiro"
-    },
-    {
-      "date_sale": "30/08/2023",
-      "client_name": "Valdirene Aparecida Ferreira",
-      "value": 200,
-      "amount_paid": 200,
-      "situation": "Recebido",
-      "specie": "Dinheiro"
-    },
-    {
-      "date_sale": "30/08/2023",
-      "value": 100,
-      "amount_paid": 100,
+      "value": 100.00,
+      "amount_paid": 100.00,
       "situation": "Recebido",
       "specie": "Dinheiro"
     },
     {
       "date_sale": "30/08/2023",
       "client_name": "Valdirene Aparecida Ferreira",
-      "value": 200,
-      "amount_paid": 200,
+      "value": 200.00,
+      "amount_paid": 200.00,
       "situation": "Recebido",
       "specie": "Dinheiro"
     },
     {
       "date_sale": "30/08/2023",
-      "value": 100,
-      "amount_paid": 100,
+      "value": 100.00,
+      "amount_paid": 100.00,
       "situation": "Recebido",
       "specie": "Dinheiro"
     },
     {
       "date_sale": "30/08/2023",
       "client_name": "Valdirene Aparecida Ferreira",
-      "value": 200,
-      "amount_paid": 200,
+      "value": 200.00,
+      "amount_paid": 200.00,
       "situation": "Recebido",
       "specie": "Dinheiro"
     },
     {
       "date_sale": "30/08/2023",
-      "value": 100,
-      "amount_paid": 0,
+      "value": 100.00,
+      "amount_paid": 100.00,
+      "situation": "Recebido",
+      "specie": "Dinheiro"
+    },
+    {
+      "date_sale": "30/08/2023",
+      "client_name": "Valdirene Aparecida Ferreira",
+      "value": 200.00,
+      "amount_paid": 200.00,
+      "situation": "Recebido",
+      "specie": "Dinheiro"
+    },
+    {
+      "date_sale": "30/08/2023",
+      "value": 100.00,
+      "amount_paid": 0.0,
       "situation": "A receber"
     },
     {
       "date_sale": "30/08/2023",
       "client_name": "Valdirene Aparecida Ferreira",
-      "value": 200,
-      "amount_paid": 0,
+      "value": 200.00,
+      "amount_paid": 0.0,
       "situation": "A receber"
     },
   ];
   List<Map<String, dynamic>> paymentsServices = [
     {
       "date_sale": "30/08/2023",
-      "value": 100,
-      "amount_paid": 100,
+      "value": 100.00,
+      "amount_paid": 100.00,
       "situation": "Recebido",
       "specie": "Dinheiro"
     },
     {
       "date_sale": "30/08/2023",
       "client_name": "Joelmir Carvalho",
-      "value": 200,
-      "amount_paid": 200,
+      "value": 200.00,
+      "amount_paid": 200.00,
       "situation": "Recebido",
       "specie": "PIX"
     },
     {
       "date_sale": "30/08/2023",
-      "value": 100,
-      "amount_paid": 0,
+      "value": 100.00,
+      "amount_paid": 0.0,
       "situation": "A receber",
       "specie": "Dinheiro"
     },
     {
       "date_sale": "30/08/2023",
       "client_name": "Joelmir Carvalho",
-      "value": 200,
-      "amount_paid": 0,
+      "value": 200.00,
+      "amount_paid": 0.0,
       "situation": "A receber",
       "specie": "PIX"
     },
