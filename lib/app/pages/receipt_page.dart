@@ -32,7 +32,8 @@ class _ReceiptPageState extends State<ReceiptPage> {
   double change = 0,
       amountReceived = 0,
       amountReceivable = 0,
-      lastChangeValue = 0;
+      lastChangeValue = 0,
+      remainingAmount = 0; // valor restante
   String typeSpecie = "Dinheiro", titleClient = "Cliente";
   IconData? iconSpeciePayment = Icons.attach_money;
   Map<String, dynamic> client = {}, payment = {};
@@ -42,11 +43,13 @@ class _ReceiptPageState extends State<ReceiptPage> {
     super.initState();
     lastChangeValue = widget.total;
     amountReceivable = widget.total - widget.amountReceived;
+    remainingAmount = amountReceivable;
   }
 
   calculateChange() {
     setState(() {
-      change = amountReceived - widget.total;
+      change = amountReceived  - remainingAmount;
+
       amountReceivable = 0;
     });
   }
@@ -60,7 +63,8 @@ class _ReceiptPageState extends State<ReceiptPage> {
   }
 
   calculate() {
-    if (amountReceived >= widget.total) {
+    print(amountReceived >= remainingAmount);
+    if (amountReceived >= remainingAmount) {
       calculateChange();
     } else {
       calculateAmountReceivable();
@@ -229,7 +233,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
                         padding: const EdgeInsets.all(10),
                         color: Colors.indigo.withOpacity(.1),
                         child: Text(
-                          amountReceived >= widget.total
+                          amountReceived >= remainingAmount
                               ? "Troco: ${numberFormat.format(change)}"
                               : "Valor restante: ${numberFormat.format(amountReceivable)}",
                           style: const TextStyle(
