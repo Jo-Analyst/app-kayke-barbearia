@@ -2,6 +2,8 @@ import 'package:app_kaike_barbearia/app/pages/receipt_page.dart';
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
 
+import 'home_page.dart';
+
 class PaymentEditionPage extends StatefulWidget {
   final double valueSale;
   const PaymentEditionPage({required this.valueSale, super.key});
@@ -28,6 +30,13 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
       }
     });
   }
+    closeScreen() {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+        (route) => false,
+      );
+    }
 
   @override
   void initState() {
@@ -45,10 +54,12 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                closeScreen();
+              },
               icon: const Icon(
-                Icons.check,
-                size: 25,
+                Icons.close,
+                size: 35,
               ),
             ),
           )
@@ -111,7 +122,9 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                           SingleChildScrollView(
                             child: Container(
                               color: Colors.indigo.withOpacity(.1),
-                              height: MediaQuery.of(context).size.height - 400,
+                              height: amountReceived < widget.valueSale
+                                  ? MediaQuery.of(context).size.height - 400
+                                  : MediaQuery.of(context).size.height - 350,
                               child: ListView.separated(
                                 shrinkWrap: true,
                                 // physics: const NeverScrollableScrollPhysics(),
@@ -188,34 +201,44 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
             right: 15,
             left: 15,
             bottom: 10,
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Theme.of(context).primaryColor,
+            child: Visibility(
+              visible: amountReceived < widget.valueSale,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => ReceiptPage(
+                child: TextButton(
+                  onPressed: () async {
+                    final paymentReceived = await Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => ReceiptPage(
                           amountReceived: amountReceived,
                           isSale: false,
                           total: widget.valueSale,
-                          dateSale: "dateSale"),
-                    ),
-                  );
-                },
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.add),
-                    Text(
-                      "Novo recebimento",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ],
+                        ),
+                      ),
+                    );
+
+                    if (paymentReceived != null) {
+                      setState(() {
+                        receipts.add(paymentReceived);
+                        calculateamountReceived();
+                      });
+                    }
+                  },
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.add),
+                      Text(
+                        "Novo recebimento",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
