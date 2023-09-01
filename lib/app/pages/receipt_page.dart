@@ -10,11 +10,15 @@ import '../utils/snackbar.dart';
 
 class ReceiptPage extends StatefulWidget {
   final double total;
-  final double amountReceived;
+  final double totalAmountReceived;
+  final double? amountReceived;
   final bool isSale;
+  final bool isEdition;
   const ReceiptPage({
     required this.isSale,
-    required this.amountReceived,
+    required this.isEdition,
+    this.amountReceived,
+    required this.totalAmountReceived,
     required this.total,
     super.key,
   });
@@ -28,6 +32,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
       MoneyMaskedTextController(leftSymbol: "R\$ ");
   double change = 0,
       amountReceived = 0,
+      totalAmountReceived = 0,
       amountReceivable = 0,
       remainingAmount = 0; // valor restante
   String typeSpecie = "Dinheiro", titleClient = "Cliente";
@@ -38,8 +43,14 @@ class _ReceiptPageState extends State<ReceiptPage> {
   @override
   void initState() {
     super.initState();
-    amountReceivable = widget.total - widget.amountReceived;
+    print(widget.total);
+    print(widget.totalAmountReceived);
+    amountReceivable = widget.total - widget.totalAmountReceived;
     remainingAmount = amountReceivable;
+    if (!widget.isEdition) return;
+
+    amountReceived = widget.amountReceived ?? 0;
+    amountReceivedController.updateValue(amountReceived);
   }
 
   calculateChange() {
@@ -53,13 +64,14 @@ class _ReceiptPageState extends State<ReceiptPage> {
   calculateAmountReceivable() {
     setState(() {
       amountReceivable =
-          widget.total - (amountReceived + widget.amountReceived);
+          widget.total - (amountReceived + widget.totalAmountReceived);
       change = 0;
     });
   }
 
   calculate() {
     if (amountReceived >= remainingAmount) {
+      print("Chamou");
       calculateChange();
     } else {
       calculateAmountReceivable();
@@ -151,7 +163,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
                         margin: const EdgeInsets.symmetric(vertical: 10),
                         alignment: Alignment.center,
                         child: Text(
-                          "Valor pago: ${numberFormat.format(widget.amountReceived)}",
+                          "Valor pago: ${numberFormat.format(widget.totalAmountReceived)}",
                           style: const TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.w500,
@@ -201,7 +213,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
                         padding: const EdgeInsets.all(10),
                         color: Colors.indigo.withOpacity(.1),
                         child: Text(
-                          amountReceived >= remainingAmount
+                          totalAmountReceived >= remainingAmount
                               ? "Troco: ${numberFormat.format(change)}"
                               : "Valor restante: ${numberFormat.format(amountReceivable)}",
                           style: const TextStyle(

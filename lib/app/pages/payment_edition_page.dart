@@ -151,7 +151,31 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                                           motion: const StretchMotion(),
                                           children: [
                                             SlidableAction(
-                                              onPressed: (_) {},
+                                              onPressed: (_) async {
+                                                final paymentReceived =
+                                                    await Navigator.of(context)
+                                                        .push(
+                                                  MaterialPageRoute(
+                                                    builder: (_) => ReceiptPage(
+                                                      amountReceived:
+                                                          receipt["value"],
+                                                      isEdition: true,
+                                                      totalAmountReceived:
+                                                          amountReceived,
+                                                      isSale: false,
+                                                      total: widget.valueSale,
+                                                    ),
+                                                  ),
+                                                );
+
+                                                if (paymentReceived != null) {
+                                                  setState(() {
+                                                    receipts
+                                                        .add(paymentReceived);
+                                                    calculateamountReceived();
+                                                  });
+                                                }
+                                              },
                                               backgroundColor: Colors.amber,
                                               foregroundColor: Colors.white,
                                               icon: Icons.edit_outlined,
@@ -246,7 +270,8 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                     final paymentReceived = await Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (_) => ReceiptPage(
-                          amountReceived: amountReceived,
+                          isEdition: false,
+                          totalAmountReceived: amountReceived,
                           isSale: false,
                           total: widget.valueSale,
                         ),
