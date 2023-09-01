@@ -1,24 +1,19 @@
-import 'package:app_kaike_barbearia/app/pages/client_list_page.dart';
-import 'package:app_kaike_barbearia/app/utils/content_message.dart';
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../template/calendar.dart';
 import '../template/specie_payment_receipt.dart';
 import '../utils/snackbar.dart';
-import 'proof_page.dart';
 
 class ReceiptPage extends StatefulWidget {
   final double total;
   final double amountReceived;
-  final String dateSale;
   final bool isSale;
   const ReceiptPage({
     required this.isSale,
     required this.amountReceived,
     required this.total,
-    required this.dateSale,
     super.key,
   });
 
@@ -32,23 +27,22 @@ class _ReceiptPageState extends State<ReceiptPage> {
   double change = 0,
       amountReceived = 0,
       amountReceivable = 0,
-      lastChangeValue = 0,
       remainingAmount = 0; // valor restante
   String typeSpecie = "Dinheiro", titleClient = "Cliente";
   IconData? iconSpeciePayment = Icons.attach_money;
-  Map<String, dynamic> client = {}, payment = {};
+  Map<String, dynamic> payment = {};
+  DateTime dateSelected = DateTime.now();
 
   @override
   void initState() {
     super.initState();
-    lastChangeValue = widget.total;
     amountReceivable = widget.total - widget.amountReceived;
     remainingAmount = amountReceivable;
   }
 
   calculateChange() {
     setState(() {
-      change = amountReceived  - remainingAmount;
+      change = amountReceived - remainingAmount;
 
       amountReceivable = 0;
     });
@@ -63,67 +57,21 @@ class _ReceiptPageState extends State<ReceiptPage> {
   }
 
   calculate() {
-    print(amountReceived >= remainingAmount);
     if (amountReceived >= remainingAmount) {
       calculateChange();
     } else {
       calculateAmountReceivable();
     }
-
-    changeTitleClient();
   }
 
-  changeTitleClient() {
-    if (client.isEmpty) {
-      titleClient = amountReceived < widget.total ? "Cliente*" : "Cliente";
-    }
-  }
-
-  openScreenClient() async {
-    final clientSelected = await Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => const ClientListPage(
-          itFromTheSalesScreen: true,
-        ),
-      ),
-    );
-
-    if (clientSelected != null) {
-      setState(() {
-        titleClient = clientSelected["name"];
-        client = clientSelected;
-      });
-    }
-  }
-
-  confirmSale() {
-    if (client.isEmpty && amountReceivable > 0) {
-      showMessage(
-          const ContentMessage(
-            title:
-                "Selecione um cliente para concluir a venda. Existe um valor pendente.",
-            icon: FontAwesomeIcons.circleExclamation,
-          ),
-          Colors.orange);
-      return;
-    }
+  confirmPayment() {
     payment = {
-      "client": client.isNotEmpty ? client["name"] : "Cliente avulso",
-      "amount_received": amountReceived,
+      "date": dateFormat1.format(dateSelected),
+      "value": amountReceived  <= remainingAmount ? amountReceived : (amountReceived - change),
       "specie": typeSpecie,
-      "icon": iconSpeciePayment,
-      "date_sale": widget.dateSale
     };
 
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => ProofPage(
-          payment: payment,
-          saleTotal: widget.total,
-          isSale: widget.isSale,
-        ),
-      ),
-    );
+    Navigator.of(context).pop(payment);
   }
 
   void showMessage(Widget content, Color? color) {
@@ -139,10 +87,10 @@ class _ReceiptPageState extends State<ReceiptPage> {
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: () => confirmSale(),
+              onPressed: () => confirmPayment(),
               icon: const Icon(
                 Icons.check,
-                size: 30,
+                size: 35,
               ),
             ),
           ),
@@ -150,10 +98,17 @@ class _ReceiptPageState extends State<ReceiptPage> {
       ),
       body: ListView(
         children: [
+          Calendar(
+            onSelected: (date) {
+              setState(() {
+                dateSelected = date;
+              });
+            },
+          ),
           Container(
             height: MediaQuery.of(context).size.height * .8 + 33,
             padding: const EdgeInsets.only(
-              top: 5,
+              // top: 5,
               left: 15,
               right: 15,
             ),
@@ -194,24 +149,23 @@ class _ReceiptPageState extends State<ReceiptPage> {
                           decimal: true,
                         ),
                         decoration: InputDecoration(
-                            labelText: "Valor do Recebimento",
-                            labelStyle:
-                                const TextStyle(fontWeight: FontWeight.normal),
-                            floatingLabelAlignment:
-                                FloatingLabelAlignment.center,
-                            suffixIcon: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  amountReceived = 0;
+                          labelText: "Valor do Recebimento",
+                          labelStyle:
+                              const TextStyle(fontWeight: FontWeight.normal),
+                          floatingLabelAlignment: FloatingLabelAlignment.center,
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                amountReceived = 0;
 
-                                  lastChangeValue = amountReceived;
-                                  amountReceivedController
-                                      .updateValue(amountReceived);
-                                });
-                                calculate();
-                              },
-                              icon: const Icon(Icons.close),
-                            )),
+                                amountReceivedController
+                                    .updateValue(amountReceived);
+                              });
+                              calculate();
+                            },
+                            icon: const Icon(Icons.close),
+                          ),
+                        ),
                         style: const TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.w700,
@@ -221,7 +175,6 @@ class _ReceiptPageState extends State<ReceiptPage> {
                           setState(() {
                             amountReceived =
                                 amountReceivedController.numberValue;
-                            lastChangeValue = amountReceived;
                           });
                           calculate();
                         },
@@ -247,17 +200,6 @@ class _ReceiptPageState extends State<ReceiptPage> {
                           setState(() {
                             typeSpecie = value;
 
-                            if (typeSpecie == "fiado") {
-                              change = 0;
-                              amountReceivedController.updateValue(change);
-                              amountReceived = 0;
-                              amountReceivable = widget.total;
-                            } else {
-                              amountReceived = lastChangeValue;
-                              amountReceivedController
-                                  .updateValue(amountReceived);
-                            }
-                            iconSpeciePayment = icon;
                             calculate();
                           });
                         },
