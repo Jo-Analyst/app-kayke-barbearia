@@ -2,9 +2,6 @@ import 'package:app_kaike_barbearia/app/pages/receipt_page.dart';
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
 import 'package:app_kaike_barbearia/app/utils/dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-
-import 'home_page.dart';
 
 class PaymentEditionPage extends StatefulWidget {
   final double valueSale;
@@ -31,25 +28,6 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
         amountReceived += receipt["value"];
       }
     });
-  }
-
-  closeScreen() {
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => const HomePage()),
-      (route) => false,
-    );
-  }
-
-  deletePayment(int index, int? idPayment) async {
-    final confirmExit =
-        await showExitDialog(context, "Deseja mesmo excluir este pagamento?");
-
-    if (confirmExit == null || !confirmExit) return;
-
-    receipts.removeAt(index);
-    setState(() {});
-    calculateamountReceived();
   }
 
   @override
@@ -136,10 +114,8 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                           SingleChildScrollView(
                             child: Container(
                               color: Colors.indigo.withOpacity(.1),
-                              height: amountReceived < widget.valueSale
-                                  ? MediaQuery.of(context).size.height - 400
-                                  : MediaQuery.of(context).size.height - 350,
-                              child: ListView.builder(
+                              height: MediaQuery.of(context).size.height - 400,
+                              child: ListView.separated(
                                 shrinkWrap: true,
                                 // physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (_, index) {

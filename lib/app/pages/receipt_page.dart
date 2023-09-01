@@ -1,7 +1,6 @@
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../template/calendar.dart';
 import '../template/specie_payment_receipt.dart';
@@ -66,23 +65,43 @@ class _ReceiptPageState extends State<ReceiptPage> {
     }
   }
 
-  confirmPayment() {
-    if (amountReceived == 0) {
-      showMessage(
-        const ContentMessage(
-          title: "Informe o valor pago pelo cliente.",
-          icon: FontAwesomeIcons.circleExclamation,
+  changeTitleClient() {
+    if (client.isEmpty) {
+      titleClient = amountReceived < widget.total ? "Cliente*" : "Cliente";
+    }
+  }
+
+  openScreenClient() async {
+    final clientSelected = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => const ClientListPage(
+          itFromTheSalesScreen: true,
         ),
-        Colors.orange,
-      );
+      ),
+    );
+
+    if (clientSelected != null) {
+      setState(() {
+        titleClient = clientSelected["name"];
+        client = clientSelected;
+      });
+    }
+  }
+
+  confirmSale() {
+    if (client.isEmpty && amountReceivable > 0) {
+      showMessage(
+          const ContentMessage(
+            title:
+                "Selecione um cliente para concluir a venda. Existe um valor pendente.",
+            icon: FontAwesomeIcons.circleExclamation,
+          ),
+          Colors.orange);
       return;
     }
-
     payment = {
-      "date": dateFormat1.format(dateSelected),
-      "value": amountReceived <= remainingAmount
-          ? amountReceived
-          : (amountReceived - change),
+      "client": client.isNotEmpty ? client["name"] : "Cliente avulso",
+      "amount_received": amountReceived,
       "specie": typeSpecie,
     };
 
