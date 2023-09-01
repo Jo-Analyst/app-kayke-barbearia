@@ -11,13 +11,13 @@ import '../utils/snackbar.dart';
 class ReceiptPage extends StatefulWidget {
   final double total;
   final double totalAmountReceived;
-  final double? amountReceived;
+  final Map<String, dynamic>? receipt;
   final bool isSale;
   final bool isEdition;
   const ReceiptPage({
     required this.isSale,
     required this.isEdition,
-    this.amountReceived,
+    this.receipt,
     required this.totalAmountReceived,
     required this.total,
     super.key,
@@ -34,6 +34,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
       amountReceived = 0,
       totalAmountReceived = 0,
       amountReceivable = 0,
+      valueToResetTheRemainingValue = 0, // valor para zerar o valor restante
       remainingAmount = 0; // valor restante
   String typeSpecie = "Dinheiro", titleClient = "Cliente";
   IconData? iconSpeciePayment = Icons.attach_money;
@@ -43,14 +44,13 @@ class _ReceiptPageState extends State<ReceiptPage> {
   @override
   void initState() {
     super.initState();
-    print(widget.total);
-    print(widget.totalAmountReceived);
     amountReceivable = widget.total - widget.totalAmountReceived;
     remainingAmount = amountReceivable;
     if (!widget.isEdition) return;
 
-    amountReceived = widget.amountReceived ?? 0;
+    amountReceived = widget.receipt!["value"] ?? 0;
     amountReceivedController.updateValue(amountReceived);
+    valueToResetTheRemainingValue = amountReceived + remainingAmount;
   }
 
   calculateChange() {
@@ -70,11 +70,29 @@ class _ReceiptPageState extends State<ReceiptPage> {
   }
 
   calculate() {
-    if (amountReceived >= remainingAmount) {
-      print("Chamou");
-      calculateChange();
+    if (!widget.isEdition) {
+      if (amountReceived >= remainingAmount) {
+        calculateChange();
+      } else {
+        calculateAmountReceivable();
+      }
     } else {
-      calculateAmountReceivable();
+      calculateAmountReceivablefromEdition();
+    }
+  }
+
+  calculateAmountReceivablefromEdition() {
+    if (remainingAmount == 0) {
+      amountReceivable = widget.receipt!["value"] - amountReceived;
+    } else {
+      amountReceivable = remainingAmount;
+      if (amountReceived > widget.receipt!["value"]) {
+        amountReceivable -= (amountReceived - widget.receipt!["value"]);
+      } else if (amountReceived == widget.receipt!["value"]) {
+        amountReceivable = remainingAmount;
+      } else {
+        amountReceivable += (widget.receipt!["value"] - amountReceived);
+      }
     }
   }
 
@@ -99,6 +117,19 @@ class _ReceiptPageState extends State<ReceiptPage> {
     };
 
     Navigator.of(context).pop(payment);
+  }
+
+  String showResult() {
+    String text = "";
+    if (!widget.isEdition) {
+      text = amountReceived > remainingAmount
+          ? "Troco: ${numberFormat.format(change)}"
+          : "Valor restante: ${numberFormat.format(amountReceivable)}";
+    } else {
+      text = "Valor restante: ${numberFormat.format(amountReceivable)}";
+    }
+
+    return text;
   }
 
   void showMessage(Widget content, Color? color) {
@@ -202,6 +233,15 @@ class _ReceiptPageState extends State<ReceiptPage> {
                           setState(() {
                             amountReceived =
                                 amountReceivedController.numberValue;
+
+                            if (widget.isEdition) {
+                              if (amountReceived >
+                                  valueToResetTheRemainingValue) {
+                                amountReceived = valueToResetTheRemainingValue;
+                                amountReceivedController
+                                    .updateValue(amountReceived);
+                              }
+                            }
                           });
                           calculate();
                         },
@@ -213,9 +253,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
                         padding: const EdgeInsets.all(10),
                         color: Colors.indigo.withOpacity(.1),
                         child: Text(
-                          totalAmountReceived >= remainingAmount
-                              ? "Troco: ${numberFormat.format(change)}"
-                              : "Valor restante: ${numberFormat.format(amountReceivable)}",
+                          showResult(),
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w500,

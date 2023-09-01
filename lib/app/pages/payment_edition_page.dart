@@ -157,8 +157,8 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                                                         .push(
                                                   MaterialPageRoute(
                                                     builder: (_) => ReceiptPage(
-                                                      amountReceived:
-                                                          receipt["value"],
+                                                      receipt:
+                                                          receipt,
                                                       isEdition: true,
                                                       totalAmountReceived:
                                                           amountReceived,
