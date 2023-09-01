@@ -1,9 +1,11 @@
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../template/calendar.dart';
 import '../template/specie_payment_receipt.dart';
+import '../utils/content_message.dart';
 import '../utils/snackbar.dart';
 
 class ReceiptPage extends StatefulWidget {
@@ -65,9 +67,22 @@ class _ReceiptPageState extends State<ReceiptPage> {
   }
 
   confirmPayment() {
+    if (amountReceived == 0) {
+      showMessage(
+        const ContentMessage(
+          title: "Informe o valor pago pelo cliente.",
+          icon: FontAwesomeIcons.circleExclamation,
+        ),
+        Colors.orange,
+      );
+      return;
+    }
+
     payment = {
       "date": dateFormat1.format(dateSelected),
-      "value": amountReceived  <= remainingAmount ? amountReceived : (amountReceived - change),
+      "value": amountReceived <= remainingAmount
+          ? amountReceived
+          : (amountReceived - change),
       "specie": typeSpecie,
     };
 

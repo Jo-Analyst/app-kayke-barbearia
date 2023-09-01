@@ -1,5 +1,6 @@
 import 'package:app_kaike_barbearia/app/pages/receipt_page.dart';
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
+import 'package:app_kaike_barbearia/app/utils/dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -17,10 +18,10 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
   final valueSaleController = TextEditingController();
   double amountReceived = 0;
   List<Map<String, dynamic>> receipts = [
-    {"date": "30/07/2023", "value": 50.0, "specie": "PIX"},
-    {"date": "30/07/2023", "value": 30.0, "specie": "Dinheiro"},
-    {"date": "30/07/2023", "value": 50.0, "specie": "PIX"},
-    {"date": "30/07/2023", "value": 20.0, "specie": "Dinheiro"},
+    {"id": 1, "date": "30/07/2023", "value": 50.0, "specie": "PIX"},
+    {"id": 2, "date": "30/07/2023", "value": 30.0, "specie": "Dinheiro"},
+    {"id": 3, "date": "30/07/2023", "value": 50.0, "specie": "PIX"},
+    {"id": 4, "date": "30/07/2023", "value": 20.0, "specie": "Dinheiro"},
   ];
 
   calculateamountReceived() {
@@ -38,6 +39,17 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
       MaterialPageRoute(builder: (context) => const HomePage()),
       (route) => false,
     );
+  }
+
+  deletePayment(int index, int? idPayment) async {
+    final confirmExit =
+        await showExitDialog(context, "Deseja mesmo excluir este pagamento?");
+
+    if (confirmExit == null || !confirmExit) return;
+
+    receipts.removeAt(index);
+    setState(() {});
+    calculateamountReceived();
   }
 
   @override
@@ -127,58 +139,67 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                               height: amountReceived < widget.valueSale
                                   ? MediaQuery.of(context).size.height - 400
                                   : MediaQuery.of(context).size.height - 350,
-                              child: ListView.separated(
+                              child: ListView.builder(
                                 shrinkWrap: true,
                                 // physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (_, index) {
                                   var receipt = receipts[index];
-                                  return Slidable(
-                                    endActionPane: ActionPane(
-                                      motion: const StretchMotion(),
-                                      children: [
-                                        SlidableAction(
-                                          onPressed: (_) {},
-                                          backgroundColor: Colors.amber,
-                                          foregroundColor: Colors.white,
-                                          icon: Icons.edit_outlined,
-                                          label: "Editar",
+                                  return Column(
+                                    children: [
+                                      Slidable(
+                                        endActionPane: ActionPane(
+                                          motion: const StretchMotion(),
+                                          children: [
+                                            SlidableAction(
+                                              onPressed: (_) {},
+                                              backgroundColor: Colors.amber,
+                                              foregroundColor: Colors.white,
+                                              icon: Icons.edit_outlined,
+                                              label: "Editar",
+                                            ),
+                                            SlidableAction(
+                                              onPressed: (_) => deletePayment(
+                                                  index, receipt["id"]),
+                                              backgroundColor: Colors.red,
+                                              foregroundColor: Colors.white,
+                                              icon: Icons.delete,
+                                              label: "Editar",
+                                            ),
+                                          ],
                                         ),
-                                        SlidableAction(
-                                          onPressed: (_) {},
-                                          backgroundColor: Colors.red,
-                                          foregroundColor: Colors.white,
-                                          icon: Icons.delete,
-                                          label: "Editar",
+                                        child: ListTile(
+                                          minLeadingWidth: 0,
+                                          leading: Icon(
+                                            Icons.monetization_on,
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                          ),
+                                          title: Text(
+                                            numberFormat.format(
+                                              receipt["value"],
+                                            ),
+                                            style:
+                                                const TextStyle(fontSize: 20),
+                                          ),
+                                          subtitle: Text(
+                                            receipt["specie"],
+                                            style:
+                                                const TextStyle(fontSize: 16),
+                                          ),
+                                          trailing: Text(
+                                            receipt["date"],
+                                            style:
+                                                const TextStyle(fontSize: 18),
+                                          ),
                                         ),
-                                      ],
-                                    ),
-                                    child: ListTile(
-                                      minLeadingWidth: 0,
-                                      leading: Icon(
-                                        Icons.monetization_on,
+                                      ),
+                                      Divider(
+                                        height: 0,
                                         color: Theme.of(context).primaryColor,
                                       ),
-                                      title: Text(
-                                        numberFormat.format(
-                                          receipt["value"],
-                                        ),
-                                        style: const TextStyle(fontSize: 20),
-                                      ),
-                                      subtitle: Text(
-                                        receipt["specie"],
-                                        style: const TextStyle(fontSize: 16),
-                                      ),
-                                      trailing: Text(
-                                        receipt["date"],
-                                        style: const TextStyle(fontSize: 18),
-                                      ),
-                                    ),
+                                    ],
                                   );
                                 },
-                                separatorBuilder: (_, __) => Divider(
-                                  height: 0,
-                                  color: Theme.of(context).primaryColor,
-                                ),
                                 itemCount: receipts.length,
                               ),
                             ),
