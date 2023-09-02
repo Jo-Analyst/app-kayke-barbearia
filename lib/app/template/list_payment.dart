@@ -14,42 +14,46 @@ class ListPayment extends StatefulWidget {
 class _ListPaymentState extends State<ListPayment> {
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      separatorBuilder: (_, __) => Divider(
-        height: 0,
-        color: Theme.of(context).primaryColor,
-      ),
+    return ListView.builder(
       itemCount: widget.payments.length,
       itemBuilder: (_, index) {
-        return ListTile(
-          onTap: () => showModal(
-            context,
-            DetailsPayment(
-              payment: widget.payments[index],
+        return Column(
+          children: [
+            ListTile(
+              onTap: () => showModal(
+                context,
+                DetailsPayment(
+                  payment: widget.payments[index],
+                ),
+              ),
+              leading: Chip(
+                backgroundColor: Colors.indigo.withOpacity(.2),
+                label: Text(
+                  numberFormat.format(widget.payments[index]["value"]),
+                  style: const TextStyle(fontSize: 18),
+                ),
+              ),
+              title: Text(
+                widget.payments[index]["date_sale"],
+                style: const TextStyle(fontSize: 18),
+              ),
+              subtitle: Text(
+                widget.payments[index]["client_name"] ?? "Cliente avulso",
+                style: const TextStyle(fontSize: 18),
+              ),
+              trailing: Text(
+                widget.payments[index]["situation"],
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 18,
+                ),
+              ),
             ),
-          ),
-          leading: Chip(
-            backgroundColor: Colors.indigo.withOpacity(.2),
-            label: Text(
-              numberFormat.format(widget.payments[index]["value"]),
-              style: const TextStyle(fontSize: 18),
+            Divider(
+              height: 1,
+              color: Theme.of(context).primaryColor,
             ),
-          ),
-          title: Text(
-            widget.payments[index]["date_sale"],
-            style: const TextStyle(fontSize: 18),
-          ),
-          subtitle: Text(
-            widget.payments[index]["client_name"] ?? "Cliente avulso",
-            style: const TextStyle(fontSize: 18),
-          ),
-          trailing: Text(
-            widget.payments[index]["situation"],
-            style: const TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 18,
-            ),
-          ),
+          ],
         );
       },
     );

@@ -119,7 +119,7 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                         child: const Center(
                           child: Text(
                             "Não há recebimentos.",
-                            style: TextStyle(fontSize: 25),
+                            style: TextStyle(fontSize: 18),
                           ),
                         ))
                     : Column(

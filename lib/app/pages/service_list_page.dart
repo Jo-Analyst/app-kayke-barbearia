@@ -106,94 +106,96 @@ class _ServiceListPageState extends State<ServiceListPage> {
                   ),
                   const SizedBox(height: 20),
                   Expanded(
-                    child: ListView.separated(
-                      separatorBuilder: (__, _) {
-                        return Divider(
-                          color: Theme.of(context).primaryColor,
-                          height: 2,
-                        );
-                      },
+                    child: ListView.builder(
                       itemCount: filteredList.length,
                       itemBuilder: (_, index) {
                         var service = filteredList[index];
-                        return Slidable(
-                          endActionPane: widget.itFromTheSalesScreen
-                              ? null
-                              : ActionPane(
-                                  motion: const StretchMotion(),
-                                  children: [
-                                    SlidableAction(
-                                      onPressed: (_) {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (_) => ServiceFormPage(
-                                              isEdition: true,
-                                              serviceId: service["id"],
-                                              description:
-                                                  service["description"],
-                                              price: service["price"],
-                                              observation:
-                                                  service["observation"],
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      backgroundColor: Colors.amber,
-                                      foregroundColor: Colors.white,
-                                      icon: Icons.edit_outlined,
-                                      label: "Editar",
+                        return Column(
+                          children: [
+                            Slidable(
+                              endActionPane: widget.itFromTheSalesScreen
+                                  ? null
+                                  : ActionPane(
+                                      motion: const StretchMotion(),
+                                      children: [
+                                        SlidableAction(
+                                          onPressed: (_) {
+                                            Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                builder: (_) => ServiceFormPage(
+                                                  isEdition: true,
+                                                  serviceId: service["id"],
+                                                  description:
+                                                      service["description"],
+                                                  price: service["price"],
+                                                  observation:
+                                                      service["observation"],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          backgroundColor: Colors.amber,
+                                          foregroundColor: Colors.white,
+                                          icon: Icons.edit_outlined,
+                                          label: "Editar",
+                                        ),
+                                        SlidableAction(
+                                          onPressed: (_) async {
+                                            final confirmDelete =
+                                                await showExitDialog(context,
+                                                    "Deseja mesmo excluir o serviço '${service["description"]}'?");
+                                            if (confirmDelete!) {
+                                              services.removeAt(index);
+                                              setState(() {});
+                                              showMessage(
+                                                const ContentMessage(
+                                                  title:
+                                                      "Serviço excluido com sucesso.",
+                                                  icon: Icons.info,
+                                                ),
+                                                const Color.fromARGB(
+                                                    255, 199, 82, 74),
+                                              );
+                                            }
+                                          },
+                                          backgroundColor: Colors.red,
+                                          icon: Icons.delete,
+                                          label: "Excluir",
+                                        ),
+                                      ],
                                     ),
-                                    SlidableAction(
-                                      onPressed: (_) async {
-                                        final confirmDelete = await showExitDialog(
-                                            context,
-                                            "Deseja mesmo excluir o serviço '${service["description"]}'?");
-                                        if (confirmDelete!) {
-                                          services.removeAt(index);
-                                          setState(() {});
-                                          showMessage(
-                                            const ContentMessage(
-                                              title:
-                                                  "Serviço excluido com sucesso.",
-                                              icon: Icons.info,
-                                            ),
-                                            const Color.fromARGB(
-                                                255, 199, 82, 74),
-                                          );
-                                        }
-                                      },
-                                      backgroundColor: Colors.red,
-                                      icon: Icons.delete,
-                                      label: "Excluir",
-                                    ),
-                                  ],
+                              child: ListTile(
+                                onTap: () {
+                                  if (widget.itFromTheSalesScreen) {
+                                    service["time"] = TimeOfDay.now();
+                                    Navigator.of(context).pop(service);
+                                  }
+                                },
+                                contentPadding: const EdgeInsets.all(5),
+                                selectedTileColor: Colors.indigo,
+                                title: Text(
+                                  service["description"],
+                                  style: const TextStyle(fontSize: 20),
                                 ),
-                          child: ListTile(
-                            onTap: () {
-                              if (widget.itFromTheSalesScreen) {
-                                service["time"] = TimeOfDay.now();
-                                Navigator.of(context).pop(service);
-                              }
-                            },
-                            contentPadding: const EdgeInsets.all(5),
-                            selectedTileColor: Colors.indigo,
-                            title: Text(
-                              service["description"],
-                              style: const TextStyle(fontSize: 20),
-                            ),
-                            leading: CircleAvatar(
-                              maxRadius: 40,
-                              backgroundColor: Colors.indigo,
-                              foregroundColor: Colors.white,
-                              child: Text(
-                                numberFormat.format(service["price"]),
-                                style: const TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold,
+                                leading: CircleAvatar(
+                                  maxRadius: 40,
+                                  backgroundColor: Colors.indigo,
+                                  foregroundColor: Colors.white,
+                                  child: Text(
+                                    numberFormat.format(service["price"]),
+                                    style: const TextStyle(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
+                            Divider(
+                              height: 1,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ],
                         );
                       },
                     ),

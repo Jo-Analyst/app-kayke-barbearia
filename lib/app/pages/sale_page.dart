@@ -159,86 +159,92 @@ class _SalePageState extends State<SalePage> {
                             constraints: BoxConstraints(
                               maxHeight: heightScreen - 400,
                             ),
-                            child: ListView.separated(
+                            child: ListView.builder(
                               itemBuilder: (_, index) {
                                 final item = items[index];
-                                return Slidable(
-                                  endActionPane: ActionPane(
-                                    motion: const StretchMotion(),
-                                    children: [
-                                      SlidableAction(
-                                        onPressed: (_) async {
-                                          items.removeAt(index);
-                                          setState(() {
-                                            calculateSubTotalAndProfitTotal();
-                                          });
-                                        },
-                                        backgroundColor: Colors.red,
-                                        icon: Icons.delete_outline,
-                                        label: "Excluir",
-                                      ),
-                                    ],
-                                  ),
-                                  child: ListTile(
-                                    horizontalTitleGap: 0,
-                                    minVerticalPadding: 0,
-                                    leading: const Icon(
-                                      FontAwesomeIcons.box,
-                                      color: Color.fromARGB(255, 105, 123, 223),
-                                    ),
-                                    title: Text(
-                                      item["name"],
-                                      style: const TextStyle(fontSize: 20),
-                                    ),
-                                    subtitle: Text(
-                                      "${item["quantity"].toString()}x ${numberFormat.format(item["subtotal"])}",
-                                      style: const TextStyle(fontSize: 16),
-                                    ),
-                                    trailing: SizedBox(
-                                      width: 127,
-                                      child: Row(
+                                return Column(
+                                  children: [
+                                    Slidable(
+                                      endActionPane: ActionPane(
+                                        motion: const StretchMotion(),
                                         children: [
-                                          IconButton(
-                                            onPressed: () =>
-                                                changeValueAfterQuantityDecrease(
-                                                    index),
-                                            icon: Icon(
-                                              Icons.remove_circle_outline,
-                                              size: 30,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                            ),
-                                          ),
-                                          Container(
-                                            width: 31,
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              item["quantity"].toString(),
-                                              style:
-                                                  const TextStyle(fontSize: 18),
-                                            ),
-                                          ),
-                                          IconButton(
-                                            onPressed: () =>
-                                                changeValueAfterQuantityIncrement(
-                                                    index),
-                                            icon: Icon(
-                                              Icons.add_circle_outline,
-                                              size: 30,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                            ),
+                                          SlidableAction(
+                                            onPressed: (_) async {
+                                              items.removeAt(index);
+                                              setState(() {
+                                                calculateSubTotalAndProfitTotal();
+                                              });
+                                            },
+                                            backgroundColor: Colors.red,
+                                            icon: Icons.delete_outline,
+                                            label: "Excluir",
                                           ),
                                         ],
                                       ),
+                                      child: ListTile(
+                                        horizontalTitleGap: 0,
+                                        minVerticalPadding: 0,
+                                        leading: const Icon(
+                                          FontAwesomeIcons.box,
+                                          color: Color.fromARGB(
+                                              255, 105, 123, 223),
+                                        ),
+                                        title: Text(
+                                          item["name"],
+                                          style: const TextStyle(fontSize: 20),
+                                        ),
+                                        subtitle: Text(
+                                          "${item["quantity"].toString()}x ${numberFormat.format(item["subtotal"])}",
+                                          style: const TextStyle(fontSize: 16),
+                                        ),
+                                        trailing: SizedBox(
+                                          width: 127,
+                                          child: Row(
+                                            children: [
+                                              IconButton(
+                                                onPressed: () =>
+                                                    changeValueAfterQuantityDecrease(
+                                                        index),
+                                                icon: Icon(
+                                                  Icons.remove_circle_outline,
+                                                  size: 30,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                ),
+                                              ),
+                                              Container(
+                                                width: 31,
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  item["quantity"].toString(),
+                                                  style: const TextStyle(
+                                                      fontSize: 18),
+                                                ),
+                                              ),
+                                              IconButton(
+                                                onPressed: () =>
+                                                    changeValueAfterQuantityIncrement(
+                                                        index),
+                                                icon: Icon(
+                                                  Icons.add_circle_outline,
+                                                  size: 30,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    Divider(
+                                      height: 1,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  ],
                                 );
                               },
                               itemCount: items.length,
-                              separatorBuilder: (_, index) => Divider(
-                                color: Theme.of(context).primaryColor,
-                              ),
                             ),
                           ),
                         ],

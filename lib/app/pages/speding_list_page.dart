@@ -116,98 +116,102 @@ class _SpedingListPageState extends State<SpedingListPage> {
                   ),
                   const SizedBox(height: 20),
                   Expanded(
-                    child: ListView.separated(
-                      separatorBuilder: (__, _) {
-                        return Divider(
-                          color: Theme.of(context).primaryColor,
-                        );
-                      },
+                    child: ListView.builder(
                       itemCount: spedings.length,
                       itemBuilder: (_, index) {
                         var speding = spedings[index];
 
-                        return Slidable(
-                          endActionPane: widget.itFromTheSalesScreen
-                              ? null
-                              : ActionPane(
-                                  motion: const StretchMotion(),
-                                  children: [
-                                    SlidableAction(
-                                      onPressed: (_) {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (_) => SpedingFormPage(
-                                              isEdition: true,
-                                              spedingId: speding["id"],
-                                              nameProduct:
-                                                  speding["name_product"],
-                                              price: speding["price"],
-                                              quantity: speding["quantity"],
-                                              date: getDateSpedings(
-                                                  speding["date"]),
-                                              observation:
-                                                  speding["observation"],
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      backgroundColor: Colors.amber,
-                                      foregroundColor: Colors.white,
-                                      icon: Icons.edit_outlined,
-                                      label: "Editar",
+                        return Column(
+                          children: [
+                            Slidable(
+                              endActionPane: widget.itFromTheSalesScreen
+                                  ? null
+                                  : ActionPane(
+                                      motion: const StretchMotion(),
+                                      children: [
+                                        SlidableAction(
+                                          onPressed: (_) {
+                                            Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                builder: (_) => SpedingFormPage(
+                                                  isEdition: true,
+                                                  spedingId: speding["id"],
+                                                  nameProduct:
+                                                      speding["name_product"],
+                                                  price: speding["price"],
+                                                  quantity: speding["quantity"],
+                                                  date: getDateSpedings(
+                                                      speding["date"]),
+                                                  observation:
+                                                      speding["observation"],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          backgroundColor: Colors.amber,
+                                          foregroundColor: Colors.white,
+                                          icon: Icons.edit_outlined,
+                                          label: "Editar",
+                                        ),
+                                        SlidableAction(
+                                          onPressed: (_) async {
+                                            final confirmDelete =
+                                                await showExitDialog(context,
+                                                    "Deseja mesmo excluir?");
+                                            if (confirmDelete!) {
+                                              spedings.removeAt(index);
+                                              setState(() {});
+                                              showMessage(
+                                                const ContentMessage(
+                                                  title:
+                                                      "Excluido com sucesso.",
+                                                  icon: Icons.info,
+                                                ),
+                                                const Color.fromARGB(
+                                                    255, 199, 82, 74),
+                                              );
+                                            }
+                                          },
+                                          backgroundColor: Colors.red,
+                                          icon: Icons.delete,
+                                          label: "Excluir",
+                                        ),
+                                      ],
                                     ),
-                                    SlidableAction(
-                                      onPressed: (_) async {
-                                        final confirmDelete =
-                                            await showExitDialog(context,
-                                                "Deseja mesmo excluir?");
-                                        if (confirmDelete!) {
-                                          spedings.removeAt(index);
-                                          setState(() {});
-                                          showMessage(
-                                            const ContentMessage(
-                                              title: "Excluido com sucesso.",
-                                              icon: Icons.info,
-                                            ),
-                                            const Color.fromARGB(
-                                                255, 199, 82, 74),
-                                          );
-                                        }
-                                      },
-                                      backgroundColor: Colors.red,
-                                      icon: Icons.delete,
-                                      label: "Excluir",
-                                    ),
-                                  ],
+                              child: ListTile(
+                                selectedTileColor: Colors.indigo,
+                                title: Text(
+                                  speding["name_product"],
+                                  style: const TextStyle(fontSize: 20),
                                 ),
-                          child: ListTile(
-                            selectedTileColor: Colors.indigo,
-                            title: Text(
-                              speding["name_product"],
-                              style: const TextStyle(fontSize: 20),
-                            ),
-                            subtitle: Text(
-                              dateFormat3
-                                  .format(getDateSpedings(speding["date"])),
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                            trailing: Text(
-                              "${speding["quantity"]}x",
-                              style: const TextStyle(fontSize: 20),
-                            ),
-                            leading: CircleAvatar(
-                              maxRadius: 40,
-                              backgroundColor: Colors.indigo,
-                              foregroundColor: Colors.white,
-                              child: Text(
-                                numberFormat.format(speding["price"]),
-                                style: const TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold,
+                                subtitle: Text(
+                                  dateFormat3
+                                      .format(getDateSpedings(speding["date"])),
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                                trailing: Text(
+                                  "${speding["quantity"]}x",
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                                leading: CircleAvatar(
+                                  maxRadius: 40,
+                                  backgroundColor: Colors.indigo,
+                                  foregroundColor: Colors.white,
+                                  child: Text(
+                                    numberFormat.format(speding["price"]),
+                                    style: const TextStyle(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
+                            Divider(
+                              height: 1,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ],
                         );
                       },
                     ),

@@ -123,50 +123,52 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
                   ),
                   const SizedBox(height: 20),
                   Expanded(
-                    child: ListView.separated(
-                      separatorBuilder: (__, index) {
-                        return Divider(
-                          height: 1,
-                          color: Theme.of(context).primaryColor,
-                        );
-                      },
+                    child: ListView.builder(
                       itemCount: filteredList.length,
                       itemBuilder: (_, index) {
                         var contact = filteredList[index];
-                        return ListTile(
-                          onLongPress: () {
-                            setState(() {
-                              names.contains(contact["name"])
-                                  ? names.remove(contact["name"])
-                                  : names.add(contact["name"]);
+                        return Column(
+                          children: [
+                            ListTile(
+                              onLongPress: () {
+                                setState(() {
+                                  names.contains(contact["name"])
+                                      ? names.remove(contact["name"])
+                                      : names.add(contact["name"]);
 
-                              phones.contains(contact["phone"])
-                                  ? phones.remove(contact["phone"])
-                                  : phones.add(contact["phone"]);
-                            });
-                          },
-                          selected: names.contains(contact["name"]),
-                          selectedTileColor: Colors.indigo,
-                          selectedColor: Colors.white,
-                          title: Text(contact["name"] ?? ""),
-                          subtitle: Text(
-                            contact["phone"],
-                          ),
-                          leading: CircleAvatar(
-                            maxRadius: 25,
-                            backgroundColor: names.contains(contact["name"])
-                                ? Colors.white
-                                : Theme.of(context).primaryColor,
-                            foregroundColor: names.contains(contact["name"])
-                                ? Theme.of(context).primaryColor
-                                : Colors.white,
-                            child: Text(
-                              contact["name"].toString().split("")[0],
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w700,
+                                  phones.contains(contact["phone"])
+                                      ? phones.remove(contact["phone"])
+                                      : phones.add(contact["phone"]);
+                                });
+                              },
+                              selected: names.contains(contact["name"]),
+                              selectedTileColor: Colors.indigo,
+                              selectedColor: Colors.white,
+                              title: Text(contact["name"] ?? ""),
+                              subtitle: Text(
+                                contact["phone"],
+                              ),
+                              leading: CircleAvatar(
+                                maxRadius: 25,
+                                backgroundColor: names.contains(contact["name"])
+                                    ? Colors.white
+                                    : Theme.of(context).primaryColor,
+                                foregroundColor: names.contains(contact["name"])
+                                    ? Theme.of(context).primaryColor
+                                    : Colors.white,
+                                child: Text(
+                                  contact["name"].toString().split("")[0],
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                            Divider(
+                              height: 1,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ],
                         );
                       },
                     ),

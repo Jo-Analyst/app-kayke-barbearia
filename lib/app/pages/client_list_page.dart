@@ -144,81 +144,86 @@ class _ClientListPageState extends State<ClientListPage> {
                   ),
                   const SizedBox(height: 20),
                   Expanded(
-                    child: ListView.separated(
-                      separatorBuilder: (_, index) {
-                        return Divider(color: Theme.of(context).primaryColor);
-                      },
+                    child: ListView.builder(
                       itemCount: filteredList.length,
                       itemBuilder: (_, index) {
                         var client = filteredList[index];
-                        return Slidable(
-                          endActionPane: widget.itFromTheSalesScreen
-                              ? null
-                              : ActionPane(
-                                  motion: const StretchMotion(),
-                                  children: [
-                                    SlidableAction(
-                                      onPressed: (_) {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (_) => ClientFormPage(
-                                              clientId: client["id"],
-                                              name: client["name"],
-                                              phone: client["phone"],
-                                              observation:
-                                                  client["observation"],
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      backgroundColor: Colors.amber,
-                                      foregroundColor: Colors.white,
-                                      icon: Icons.edit_outlined,
-                                      label: "Editar",
+                        return Column(
+                          children: [
+                            Slidable(
+                              endActionPane: widget.itFromTheSalesScreen
+                                  ? null
+                                  : ActionPane(
+                                      motion: const StretchMotion(),
+                                      children: [
+                                        SlidableAction(
+                                          onPressed: (_) {
+                                            Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                builder: (_) => ClientFormPage(
+                                                  clientId: client["id"],
+                                                  name: client["name"],
+                                                  phone: client["phone"],
+                                                  observation:
+                                                      client["observation"],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          backgroundColor: Colors.amber,
+                                          foregroundColor: Colors.white,
+                                          icon: Icons.edit_outlined,
+                                          label: "Editar",
+                                        ),
+                                        SlidableAction(
+                                          onPressed: (_) async {
+                                            final confirmDelete =
+                                                await showExitDialog(context,
+                                                    "Deseja mesmo excluir o(a) cliente '${client["name"]}'?");
+                                            if (confirmDelete!) {
+                                              clients.removeAt(index);
+                                              setState(() {});
+                                              showMessage(
+                                                const ContentMessage(
+                                                  title:
+                                                      "Cliente excluido com sucesso.",
+                                                  icon: Icons.info,
+                                                ),
+                                                const Color.fromARGB(
+                                                    255, 199, 82, 74),
+                                              );
+                                            }
+                                          },
+                                          backgroundColor: Colors.red,
+                                          icon: Icons.delete,
+                                          label: "Excluir",
+                                        ),
+                                      ],
                                     ),
-                                    SlidableAction(
-                                      onPressed: (_) async {
-                                        final confirmDelete = await showExitDialog(
-                                            context,
-                                            "Deseja mesmo excluir o(a) cliente '${client["name"]}'?");
-                                        if (confirmDelete!) {
-                                          clients.removeAt(index);
-                                          setState(() {});
-                                          showMessage(
-                                            const ContentMessage(
-                                              title:
-                                                  "Cliente excluido com sucesso.",
-                                              icon: Icons.info,
-                                            ),
-                                            const Color.fromARGB(
-                                                255, 199, 82, 74),
-                                          );
-                                        }
-                                      },
-                                      backgroundColor: Colors.red,
-                                      icon: Icons.delete,
-                                      label: "Excluir",
-                                    ),
-                                  ],
+                              child: ListTile(
+                                onTap: widget.itFromTheSalesScreen
+                                    ? () {
+                                        Navigator.of(context).pop(client);
+                                      }
+                                    : null,
+                                selectedTileColor: Colors.indigo,
+                                title: Text(client["name"]),
+                                subtitle: Text(client["phone"] ?? "Sem número"),
+                                leading: CircleAvatar(
+                                  maxRadius: 30,
+                                  backgroundColor: Colors.indigo,
+                                  foregroundColor: Colors.white,
+                                  child: Text(
+                                    client["name"].toString().split("")[0],
+                                  ),
                                 ),
-                          child: ListTile(
-                            onTap: widget.itFromTheSalesScreen
-                                ? () {
-                                    Navigator.of(context).pop(client);
-                                  }
-                                : null,
-                            selectedTileColor: Colors.indigo,
-                            title: Text(client["name"]),
-                            subtitle: Text(client["phone"] ?? "Sem número"),
-                            leading: CircleAvatar(
-                              maxRadius: 30,
-                              backgroundColor: Colors.indigo,
-                              foregroundColor: Colors.white,
-                              child: Text(
-                                client["name"].toString().split("")[0],
                               ),
                             ),
-                          ),
+                            Divider(
+                              height: 1,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ],
                         );
                       },
                     ),

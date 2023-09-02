@@ -139,77 +139,84 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
                             constraints: BoxConstraints(
                               maxHeight: heightScreen - 400,
                             ),
-                            child: ListView.separated(
+                            child: ListView.builder(
                               itemBuilder: (_, index) {
                                 final item = items[index];
-                                return Slidable(
-                                  endActionPane: ActionPane(
-                                    motion: const StretchMotion(),
-                                    children: [
-                                      SlidableAction(
-                                        onPressed: (_) async {
-                                          items.removeAt(index);
-                                          setState(() {
-                                            calculateSubTotal();
-                                          });
-                                        },
-                                        backgroundColor: Colors.red,
-                                        icon: Icons.delete_outline,
-                                        label: "Excluir",
+                                return Column(
+                                  children: [
+                                    Slidable(
+                                      endActionPane: ActionPane(
+                                        motion: const StretchMotion(),
+                                        children: [
+                                          SlidableAction(
+                                            onPressed: (_) async {
+                                              items.removeAt(index);
+                                              setState(() {
+                                                calculateSubTotal();
+                                              });
+                                            },
+                                            backgroundColor: Colors.red,
+                                            icon: Icons.delete_outline,
+                                            label: "Excluir",
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                  child: ListTile(
-                                    minVerticalPadding: 0,
-                                    leading: CircleAvatar(
-                                      radius: 30,
-                                      child: FittedBox(
-                                        fit: BoxFit.fitWidth,
-                                        child: Text(
-                                          numberFormat.format(item["price"]),
-                                          style: const TextStyle(fontSize: 12),
-                                        ),
-                                      ),
-                                    ),
-                                    title: Text(
-                                      item["description"],
-                                      style: const TextStyle(fontSize: 20),
-                                    ),
-                                    subtitle: Row(
-                                      children: [
-                                        Flexible(
-                                          child: Text(
-                                            "Hor.: ${item["time"].format(context)}",
-                                            style: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500,
+                                      child: ListTile(
+                                        minVerticalPadding: 0,
+                                        leading: CircleAvatar(
+                                          radius: 30,
+                                          child: FittedBox(
+                                            fit: BoxFit.fitWidth,
+                                            child: Text(
+                                              numberFormat
+                                                  .format(item["price"]),
+                                              style:
+                                                  const TextStyle(fontSize: 12),
                                             ),
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                    trailing: SizedBox(
-                                      width: 127,
-                                      child: Align(
-                                        alignment: Alignment.centerRight,
-                                        child: IconButton(
-                                          onPressed: () => showTime(index),
-                                          icon: Icon(
-                                            Icons.more_time_sharp,
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                            size: 35,
+                                        title: Text(
+                                          item["description"],
+                                          style: const TextStyle(fontSize: 20),
+                                        ),
+                                        subtitle: Row(
+                                          children: [
+                                            Flexible(
+                                              child: Text(
+                                                "Hor.: ${item["time"].format(context)}",
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        trailing: SizedBox(
+                                          width: 127,
+                                          child: Align(
+                                            alignment: Alignment.centerRight,
+                                            child: IconButton(
+                                              onPressed: () => showTime(index),
+                                              icon: Icon(
+                                                Icons.more_time_sharp,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                size: 35,
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
+                                    Divider(
+                                      height: 1,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  ],
                                 );
                               },
                               itemCount: items.length,
-                              separatorBuilder: (_, index) => Divider(
-                                color: Theme.of(context).primaryColor,
-                              ),
                             ),
                           ),
                         ],

@@ -136,105 +136,110 @@ class _ProductListPageState extends State<ProductListPage> {
                   ),
                   const SizedBox(height: 20),
                   Expanded(
-                    child: ListView.separated(
-                      separatorBuilder: (__, _) {
-                        return Divider(
-                          color: Theme.of(context).primaryColor,
-                        );
-                      },
+                    child: ListView.builder(
                       itemCount: filteredList.length,
                       itemBuilder: (_, index) {
                         var product = filteredList[index];
-                        return Slidable(
-                          endActionPane: widget.itFromTheSalesScreen
-                              ? null
-                              : ActionPane(
-                                  motion: const StretchMotion(),
-                                  children: [
-                                    SlidableAction(
-                                      onPressed: (_) {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (_) => ProductFormPage(
-                                              isEdition: true,
-                                              productId: product["id"],
-                                              name: product["name"],
-                                              saleValue: product["sale_value"],
-                                              costValue: product["cost_value"],
-                                              profitValue:
-                                                  product["profit_value"],
-                                              quantity: product["quantity"],
-                                              observation:
-                                                  product["observation"],
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      backgroundColor: Colors.amber,
-                                      foregroundColor: Colors.white,
-                                      icon: Icons.edit_outlined,
-                                      label: "Editar",
+                        return Column(
+                          children: [
+                            Slidable(
+                              endActionPane: widget.itFromTheSalesScreen
+                                  ? null
+                                  : ActionPane(
+                                      motion: const StretchMotion(),
+                                      children: [
+                                        SlidableAction(
+                                          onPressed: (_) {
+                                            Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                builder: (_) => ProductFormPage(
+                                                  isEdition: true,
+                                                  productId: product["id"],
+                                                  name: product["name"],
+                                                  saleValue:
+                                                      product["sale_value"],
+                                                  costValue:
+                                                      product["cost_value"],
+                                                  profitValue:
+                                                      product["profit_value"],
+                                                  quantity: product["quantity"],
+                                                  observation:
+                                                      product["observation"],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          backgroundColor: Colors.amber,
+                                          foregroundColor: Colors.white,
+                                          icon: Icons.edit_outlined,
+                                          label: "Editar",
+                                        ),
+                                        SlidableAction(
+                                          onPressed: (_) async {
+                                            final confirmDelete =
+                                                await showExitDialog(context,
+                                                    "Deseja mesmo excluir o produto '${product["name"]}'?");
+                                            if (confirmDelete!) {
+                                              products.removeAt(index);
+                                              setState(() {});
+                                              showMessage(
+                                                const ContentMessage(
+                                                  title:
+                                                      "Produto excluido com sucesso.",
+                                                  icon: Icons.info,
+                                                ),
+                                                const Color.fromARGB(
+                                                    255, 199, 82, 74),
+                                              );
+                                            }
+                                          },
+                                          backgroundColor: Colors.red,
+                                          icon: Icons.delete,
+                                          label: "Excluir",
+                                        ),
+                                      ],
                                     ),
-                                    SlidableAction(
-                                      onPressed: (_) async {
-                                        final confirmDelete = await showExitDialog(
-                                            context,
-                                            "Deseja mesmo excluir o produto '${product["name"]}'?");
-                                        if (confirmDelete!) {
-                                          products.removeAt(index);
-                                          setState(() {});
-                                          showMessage(
-                                            const ContentMessage(
-                                              title:
-                                                  "Produto excluido com sucesso.",
-                                              icon: Icons.info,
-                                            ),
-                                            const Color.fromARGB(
-                                                255, 199, 82, 74),
-                                          );
-                                        }
-                                      },
-                                      backgroundColor: Colors.red,
-                                      icon: Icons.delete,
-                                      label: "Excluir",
-                                    ),
-                                  ],
+                              child: ListTile(
+                                onTap: widget.itFromTheSalesScreen
+                                    ? () => Navigator.of(context).pop({
+                                          "product_id": product["id"],
+                                          "name": product["name"],
+                                          "quantity": 1,
+                                          "profit_value":
+                                              product["profit_value"],
+                                          "sub_profit_value":
+                                              product["profit_value"],
+                                          "sale_value": product["sale_value"],
+                                          "subtotal": product["sale_value"]
+                                        })
+                                    : null,
+                                selectedTileColor: Colors.indigo,
+                                title: Text(
+                                  product["name"],
+                                  style: const TextStyle(fontSize: 20),
                                 ),
-                          child: ListTile(
-                            onTap: widget.itFromTheSalesScreen
-                                ? () => Navigator.of(context).pop({
-                                      "product_id": product["id"],
-                                      "name": product["name"],
-                                      "quantity": 1,
-                                      "profit_value": product["profit_value"],
-                                      "sub_profit_value":
-                                          product["profit_value"],
-                                      "sale_value": product["sale_value"],
-                                      "subtotal": product["sale_value"]
-                                    })
-                                : null,
-                            selectedTileColor: Colors.indigo,
-                            title: Text(
-                              product["name"],
-                              style: const TextStyle(fontSize: 20),
-                            ),
-                            trailing: Text(
-                              "${product["quantity"]}x",
-                              style: const TextStyle(fontSize: 20),
-                            ),
-                            leading: CircleAvatar(
-                              maxRadius: 40,
-                              backgroundColor: Colors.indigo,
-                              foregroundColor: Colors.white,
-                              child: Text(
-                                numberFormat.format(product["sale_value"]),
-                                style: const TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold,
+                                trailing: Text(
+                                  "${product["quantity"]}x",
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                                leading: CircleAvatar(
+                                  maxRadius: 40,
+                                  backgroundColor: Colors.indigo,
+                                  foregroundColor: Colors.white,
+                                  child: Text(
+                                    numberFormat.format(product["sale_value"]),
+                                    style: const TextStyle(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
+                            Divider(
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ],
                         );
                       },
                     ),
