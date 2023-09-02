@@ -4,6 +4,8 @@ import 'package:app_kaike_barbearia/app/utils/dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+import '../utils/content_message.dart';
+import '../utils/snackbar.dart';
 import 'home_page.dart';
 
 class PaymentEditionPage extends StatefulWidget {
@@ -17,12 +19,7 @@ class PaymentEditionPage extends StatefulWidget {
 class _PaymentEditionPageState extends State<PaymentEditionPage> {
   final valueSaleController = TextEditingController();
   double amountReceived = 0;
-  List<Map<String, dynamic>> receipts = [
-    {"id": 1, "date": "30/07/2023", "value": 50.0, "specie": "PIX"},
-    {"id": 2, "date": "30/07/2023", "value": 30.0, "specie": "Dinheiro"},
-    {"id": 3, "date": "30/07/2023", "value": 50.0, "specie": "PIX"},
-    {"id": 4, "date": "30/07/2023", "value": 20.0, "specie": "Dinheiro"},
-  ];
+  List<Map<String, dynamic>> receipts = [];
 
   calculateamountReceived() {
     setState(() {
@@ -50,6 +47,17 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
     receipts.removeAt(index);
     setState(() {});
     calculateamountReceived();
+    showMessage(
+      const ContentMessage(
+        title: "Pagamento excluido.",
+        icon: Icons.info,
+      ),
+      Colors.red,
+    );
+  }
+
+  void showMessage(Widget content, Color? color) {
+    Message.showMessage(context, content, color);
   }
 
   @override
@@ -105,7 +113,8 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                   textAlign: TextAlign.center,
                 ),
                 receipts.isEmpty
-                    ? SizedBox(
+                    ? Container(
+                      color: Colors.indigo.withOpacity(.1),
                         height: MediaQuery.of(context).size.height - 360,
                         child: const Center(
                           child: Text(
@@ -157,8 +166,7 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                                                         .push(
                                                   MaterialPageRoute(
                                                     builder: (_) => ReceiptPage(
-                                                      receipt:
-                                                          receipt,
+                                                      receipt: receipt,
                                                       isEdition: true,
                                                       totalAmountReceived:
                                                           amountReceived,
@@ -170,9 +178,26 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
 
                                                 if (paymentReceived != null) {
                                                   setState(() {
-                                                    receipts
-                                                        .add(paymentReceived);
+                                                    receipt["id"] =
+                                                        paymentReceived["id"];
+                                                    receipt["value"] =
+                                                        paymentReceived[
+                                                            "value"];
+                                                    receipt["date"] =
+                                                        paymentReceived["date"];
+                                                    receipt["specie"] =
+                                                        paymentReceived[
+                                                            "specie"];
+
                                                     calculateamountReceived();
+                                                    showMessage(
+                                                      const ContentMessage(
+                                                        title:
+                                                            "Pagamento editado com sucesso.",
+                                                        icon: Icons.info,
+                                                      ),
+                                                      Colors.orange,
+                                                    );
                                                   });
                                                 }
                                               },
@@ -187,7 +212,7 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                                               backgroundColor: Colors.red,
                                               foregroundColor: Colors.white,
                                               icon: Icons.delete,
-                                              label: "Editar",
+                                              label: "Excluir",
                                             ),
                                           ],
                                         ),
@@ -218,7 +243,7 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                                         ),
                                       ),
                                       Divider(
-                                        height: 0,
+                                        height: 1,
                                         color: Theme.of(context).primaryColor,
                                       ),
                                     ],
@@ -270,6 +295,7 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                     final paymentReceived = await Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (_) => ReceiptPage(
+                          receipt: const {},
                           isEdition: false,
                           totalAmountReceived: amountReceived,
                           isSale: false,

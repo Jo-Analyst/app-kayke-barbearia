@@ -11,13 +11,13 @@ import '../utils/snackbar.dart';
 class ReceiptPage extends StatefulWidget {
   final double total;
   final double totalAmountReceived;
-  final Map<String, dynamic>? receipt;
+  final Map<String, dynamic> receipt;
   final bool isSale;
   final bool isEdition;
   const ReceiptPage({
     required this.isSale,
     required this.isEdition,
-    this.receipt,
+   required this.receipt,
     required this.totalAmountReceived,
     required this.total,
     super.key,
@@ -36,7 +36,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
       amountReceivable = 0,
       valueToResetTheRemainingValue = 0, // valor para zerar o valor restante
       remainingAmount = 0; // valor restante
-  String typeSpecie = "Dinheiro", titleClient = "Cliente";
+  String typeSpecie = "Dinheiro";
   IconData? iconSpeciePayment = Icons.attach_money;
   Map<String, dynamic> payment = {};
   DateTime dateSelected = DateTime.now();
@@ -48,7 +48,12 @@ class _ReceiptPageState extends State<ReceiptPage> {
     remainingAmount = amountReceivable;
     if (!widget.isEdition) return;
 
-    amountReceived = widget.receipt!["value"] ?? 0;
+    amountReceived = widget.receipt["value"] ?? 0;
+    int year = int.parse(widget.receipt["date"].toString().split("/")[2]);
+    int month = int.parse(widget.receipt["date"].toString().split("/")[1]);
+    int day = int.parse(widget.receipt["date"].toString().split("/")[0]);
+    dateSelected = DateTime(year, month, day);
+    typeSpecie = widget.receipt["specie"];
     amountReceivedController.updateValue(amountReceived);
     valueToResetTheRemainingValue = amountReceived + remainingAmount;
   }
@@ -83,15 +88,15 @@ class _ReceiptPageState extends State<ReceiptPage> {
 
   calculateAmountReceivablefromEdition() {
     if (remainingAmount == 0) {
-      amountReceivable = widget.receipt!["value"] - amountReceived;
+      amountReceivable = widget.receipt["value"] - amountReceived;
     } else {
       amountReceivable = remainingAmount;
-      if (amountReceived > widget.receipt!["value"]) {
-        amountReceivable -= (amountReceived - widget.receipt!["value"]);
-      } else if (amountReceived == widget.receipt!["value"]) {
+      if (amountReceived > widget.receipt["value"]) {
+        amountReceivable -= (amountReceived - widget.receipt["value"]);
+      } else if (amountReceived == widget.receipt["value"]) {
         amountReceivable = remainingAmount;
       } else {
-        amountReceivable += (widget.receipt!["value"] - amountReceived);
+        amountReceivable += (widget.receipt["value"] - amountReceived);
       }
     }
   }
@@ -109,6 +114,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
     }
 
     payment = {
+      "id": widget.isEdition ? widget.receipt["id"] : 0,
       "date": dateFormat1.format(dateSelected),
       "value": amountReceived <= remainingAmount
           ? amountReceived
@@ -157,6 +163,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
       body: ListView(
         children: [
           Calendar(
+            dateInitial: dateSelected,
             onSelected: (date) {
               setState(() {
                 dateSelected = date;
@@ -261,6 +268,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
                         ),
                       ),
                       SpeciePaymentReceipt(
+                        specie: widget.receipt.isNotEmpty ? widget.receipt["specie"] : null,
                         getPaymentTypeName: (value, icon) {
                           setState(() {
                             typeSpecie = value;

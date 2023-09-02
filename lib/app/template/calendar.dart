@@ -4,19 +4,29 @@ import '../utils/convert_values.dart';
 
 class Calendar extends StatefulWidget {
   final Function(DateTime value) onSelected;
-  const Calendar({required this.onSelected, super.key});
+  final DateTime? dateInitial;
+  const Calendar({
+    this.dateInitial,
+    required this.onSelected,
+    super.key,
+  });
 
   @override
   State<Calendar> createState() => _CalendarState();
 }
 
 class _CalendarState extends State<Calendar> {
-  DateTime dateSelected = DateTime.now();
+  late DateTime dateSelected;
+  @override
+  initState() {
+    super.initState();
+    dateSelected = widget.dateInitial ?? DateTime.now();
+  }
 
   showCalendarPicker() {
     showDatePicker(
       context: context,
-      initialDate: dateSelected,
+      initialDate: widget.dateInitial!,
       firstDate: DateTime(2014),
       lastDate: DateTime.now(),
     ).then(

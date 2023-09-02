@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 
 class SpeciePaymentReceipt extends StatefulWidget {
   final Function(String value, IconData icon) getPaymentTypeName;
-  const SpeciePaymentReceipt({required this.getPaymentTypeName, super.key});
+  final String? specie;
+  const SpeciePaymentReceipt({
+    this.specie,
+    required this.getPaymentTypeName,
+    super.key,
+  });
 
   @override
   State<SpeciePaymentReceipt> createState() => _SpeciePaymentReceiptState();
@@ -11,10 +16,10 @@ class SpeciePaymentReceipt extends StatefulWidget {
 
 class _SpeciePaymentReceiptState extends State<SpeciePaymentReceipt> {
   final List<Map<String, dynamic>> listSpeciePayments = [
-    {"specie": "dinheiro", "icon": Icons.attach_money, "isActive": true},
-    {"specie": "crédito", "icon": Icons.credit_card, "isActive": false},
-    {"specie": "débito", "icon": Icons.credit_card, "isActive": false},
-    {"specie": "pix", "icon": Icons.pix, "isActive": false},
+    {"specie": "DINHEIRO", "icon": Icons.attach_money, "isActive": true},
+    {"specie": "CRÉDITO", "icon": Icons.credit_card, "isActive": false},
+    {"specie": "DÉBITO", "icon": Icons.credit_card, "isActive": false},
+    {"specie": "PIX", "icon": Icons.pix, "isActive": false},
   ];
 
   changeColorAfterPaymentTypeBecomesActive(int index) {
@@ -24,6 +29,27 @@ class _SpeciePaymentReceiptState extends State<SpeciePaymentReceipt> {
       }
 
       listSpeciePayments[index]["isActive"] = true;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.specie == null) return;
+    changeTheColorForTheInitiallyChosenPaymentType();
+  }
+
+  changeTheColorForTheInitiallyChosenPaymentType() {
+    setState(() {
+      listSpeciePayments[0]["isActive"] = false;
+
+      for (var listSpecie in listSpeciePayments) {
+        if (listSpecie["specie"].toString().toLowerCase() ==
+            widget.specie!.toLowerCase()) {
+          listSpecie["isActive"] = true;
+          break;
+        }
+      }
     });
   }
 
