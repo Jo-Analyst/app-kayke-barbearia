@@ -60,9 +60,9 @@ class DetailsPayment extends StatelessWidget {
                             width: MediaQuery.of(context).size.width / 2 - 30,
                             child: Column(
                               children: [
-                                Text(
-                                  payment["specie"],
-                                  style: const TextStyle(fontSize: 20),
+                                const Text(
+                                  "Valor",
+                                  style:  TextStyle(fontSize: 20),
                                 ),
                                 Text(
                                   numberFormat.format(payment["value"]),
@@ -130,9 +130,9 @@ class DetailsPayment extends StatelessWidget {
                             width: MediaQuery.of(context).size.width / 2 - 30,
                             child: Column(
                               children: [
-                                Text(
-                                  payment["specie"] ?? "Fiado",
-                                  style: const TextStyle(fontSize: 20),
+                                 const Text(
+                                  "Valor",
+                                  style:  TextStyle(fontSize: 20),
                                 ),
                                 Text(
                                   numberFormat.format(payment["value"]),

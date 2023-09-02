@@ -1,3 +1,4 @@
+import 'package:app_kaike_barbearia/app/template/dialog_filter.dart';
 import 'package:app_kaike_barbearia/app/template/list_payment.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -132,13 +133,15 @@ class _PaymentListPageState extends State<PaymentListPage>
       appBar: AppBar(
         title: const Text("Pagamentos"),
       ),
-      body: ListView(
+      body: Column(
         children: [
           Container(
             color: Colors.indigo.withOpacity(.1),
             alignment: Alignment.centerRight,
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                showFilterDialog(context);
+              },
               icon: const Icon(Icons.filter_list),
             ),
           ),
