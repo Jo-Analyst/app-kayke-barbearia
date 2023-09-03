@@ -1,5 +1,6 @@
 import 'package:app_kaike_barbearia/app/template/dialog_filter.dart';
 import 'package:app_kaike_barbearia/app/template/list_payment.dart';
+import 'package:app_kaike_barbearia/app/utils/search_list.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -13,6 +14,12 @@ class PaymentListPage extends StatefulWidget {
 class _PaymentListPageState extends State<PaymentListPage>
     with TickerProviderStateMixin {
   late TabController _tabController;
+  String optionSelected = "Tudo",
+      lastOptionSale = "Tudo",
+      lastOptionService = "Tudo",
+      tabSelected = "vendas";
+  List<Map<String, dynamic>> filteredPaymentsSales = [];
+  List<Map<String, dynamic>> filteredPaymentsServices = [];
   List<Map<String, dynamic>> paymentsSales = [
     {
       "date_sale": "30/08/2023",
@@ -125,6 +132,32 @@ class _PaymentListPageState extends State<PaymentListPage>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    filteredPaymentsSales = List.from(paymentsSales);
+    filteredPaymentsServices = List.from(paymentsServices);
+  }
+
+  filterLists(String option) {
+    setState(() {
+      if (option == "Tudo") {
+        if (tabSelected == "vendas") {
+          filteredPaymentsSales = List.from(paymentsSales);
+        } else {
+          filteredPaymentsServices = List.from(paymentsServices);
+        }
+      } else {
+        if (tabSelected == "vendas") {
+          filteredPaymentsSales = paymentsSales
+              .where((paymentSale) =>
+                  paymentSale["situation"].toString().contains(option))
+              .toList();
+        } else {
+          filteredPaymentsServices = paymentsServices
+              .where((paymentService) =>
+                  paymentService["situation"].toString().contains(option))
+              .toList();
+        }
+      }
+    });
   }
 
   @override
@@ -139,8 +172,21 @@ class _PaymentListPageState extends State<PaymentListPage>
             color: Colors.indigo.withOpacity(.1),
             alignment: Alignment.centerRight,
             child: IconButton(
-              onPressed: () {
-                showFilterDialog(context);
+              onPressed: () async {
+                optionSelected = tabSelected == "vendas"
+                    ? lastOptionSale
+                    : lastOptionService;
+                final option = await showFilterDialog(context, optionSelected);
+                if (option == null) return;
+                filterLists(option);
+                setState(() {
+                  optionSelected = option;
+                  if (tabSelected == "vendas") {
+                    lastOptionSale = option;
+                  } else {
+                    lastOptionService = option;
+                  }
+                });
               },
               icon: const Icon(Icons.filter_list),
             ),
@@ -156,6 +202,13 @@ class _PaymentListPageState extends State<PaymentListPage>
               color: Colors.indigo.withOpacity(.1),
             ),
             child: TabBar(
+              onTap: (value) {
+                if (value == 0) {
+                  tabSelected = "vendas";
+                } else {
+                  tabSelected = "serviços";
+                }
+              },
               indicatorColor: Colors.indigo,
               tabs: <Tab>[
                 Tab(
@@ -171,7 +224,7 @@ class _PaymentListPageState extends State<PaymentListPage>
                       ),
                       const SizedBox(width: 2),
                       Text(
-                        "Venda",
+                        "Vendas",
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize: 17,
@@ -211,8 +264,8 @@ class _PaymentListPageState extends State<PaymentListPage>
             child: TabBarView(
               controller: _tabController,
               children: <Widget>[
-                ListPayment(payments: paymentsSales),
-                ListPayment(payments: paymentsServices)
+                ListPayment(payments: filteredPaymentsSales),
+                ListPayment(payments: filteredPaymentsServices)
               ],
             ),
           ),

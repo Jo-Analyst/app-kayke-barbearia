@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class FilterListPayment extends StatefulWidget {
-  const FilterListPayment({super.key});
+  final Function(String) onGetOption;
+  final String optionSelected;
+  const FilterListPayment({required this.optionSelected,
+    required this.onGetOption,
+    super.key,
+  });
 
   @override
   State<FilterListPayment> createState() => _FilterListPaymentState();
@@ -14,7 +19,8 @@ class _FilterListPaymentState extends State<FilterListPayment> {
   @override
   void initState() {
     super.initState();
-    currentOptions = options[0];
+    currentOptions = widget.optionSelected;
+    widget.onGetOption(currentOptions);
   }
 
   @override
@@ -25,6 +31,7 @@ class _FilterListPaymentState extends State<FilterListPayment> {
   changeMoney(String value) {
     setState(() {
       currentOptions = value;
+      widget.onGetOption(value);
     });
   }
 
