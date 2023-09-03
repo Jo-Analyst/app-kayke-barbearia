@@ -36,7 +36,10 @@ class DB {
         db.execute("CREATE TABLE payments_services (id INTEGER PRIMARY KEY, specie TEXT, amount_paid REAL, date TEXT, service_id INTEGER, FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE CASCADE)");
 
         db.execute(
-          "CREATE TABLE spending (id INTEGER PRIMARY KEY, name_product TEXT NOT NULL, price REAL NOT NULL, quantity INTEGER NOT NULL, date TEXT NOT NULL)", // spending = gastos da barbearia
+          "CREATE TABLE expenses (id INTEGER PRIMARY KEY, name_product TEXT NOT NULL, price REAL NOT NULL, quantity INTEGER NOT NULL, date TEXT NOT NULL)", // Depesas da barbearia
+        );
+        db.execute(
+          "CREATE TABLE personal_expenses (id INTEGER PRIMARY KEY, name_product TEXT NOT NULL, price REAL NOT NULL, quantity INTEGER NOT NULL, date TEXT NOT NULL)", // Depesas pessoais
         );
       },
       version: 1,

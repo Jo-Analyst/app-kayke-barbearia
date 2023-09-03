@@ -223,6 +223,7 @@ class _PaymentListPageState extends State<PaymentListPage>
   clearTextFormField() {
     searchController.text = "";
     filterByClient();
+    FocusScope.of(context).requestFocus(FocusNode());
     setState(() {
       search = "";
     });
@@ -240,7 +241,10 @@ class _PaymentListPageState extends State<PaymentListPage>
             Container(
               width: double.infinity,
               color: Colors.indigo.withOpacity(.1),
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+              padding: const EdgeInsets.symmetric(
+                vertical: 8,
+                horizontal: 10,
+              ),
               alignment: Alignment.centerRight,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -326,6 +330,8 @@ class _PaymentListPageState extends State<PaymentListPage>
                   } else {
                     tabSelected = "serviços";
                   }
+
+                  clearTextFormField();
                 },
                 indicatorColor: Colors.indigo,
                 tabs: <Tab>[
@@ -378,18 +384,20 @@ class _PaymentListPageState extends State<PaymentListPage>
               ),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height - 260,
+              height: MediaQuery.of(context).size.height - 310,
               child: TabBarView(
                 controller: _tabController,
                 children: <Widget>[
                   ListPayment(
-                      payments: search.isNotEmpty
-                          ? filteredPaymentsByClient
-                          : filteredPaymentsSales),
+                    payments: search.isNotEmpty
+                        ? filteredPaymentsByClient
+                        : filteredPaymentsSales,
+                  ),
                   ListPayment(
-                      payments: search.isNotEmpty
-                          ? filteredPaymentsByClient
-                          : filteredPaymentsServices)
+                    payments: search.isNotEmpty
+                        ? filteredPaymentsByClient
+                        : filteredPaymentsServices,
+                  )
                 ],
               ),
             ),
