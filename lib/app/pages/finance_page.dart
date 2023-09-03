@@ -1,9 +1,11 @@
 import 'package:app_kaike_barbearia/app/template/finance_sales.dart';
 import 'package:app_kaike_barbearia/app/template/finance_services.dart';
-import 'package:app_kaike_barbearia/app/template/finance_spending.dart';
+import 'package:app_kaike_barbearia/app/template/finance_expense.dart';
 import 'package:app_kaike_barbearia/app/template/slide_date.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../template/finance_personal_expense.dart';
 
 class FinancePage extends StatefulWidget {
   const FinancePage({super.key});
@@ -16,14 +18,16 @@ class _FinancePageState extends State<FinancePage>
     with TickerProviderStateMixin {
   FinanceSales financeSales = const FinanceSales();
   FinanceServices financeServices = const FinanceServices();
-  FinanceSpending financeSpending = const FinanceSpending();
+  FinanceExpense financeExpense = const FinanceExpense();
+  FinancePersonalExpense financePersonalExpense =
+      const FinancePersonalExpense();
   int indexSlide = 0;
   late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -35,12 +39,14 @@ class _FinancePageState extends State<FinancePage>
           Container(
             color: Colors.indigo.withOpacity(.1),
             child: TabBar(
+              isScrollable: true,
               indicatorColor: Colors.indigo,
               tabs: <Tab>[
                 Tab(
                   text: null,
                   icon: null,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
                         Icons.shopping_cart_rounded,
@@ -52,7 +58,7 @@ class _FinancePageState extends State<FinancePage>
                         "Vendas",
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
-                          fontSize: 17,
+                          fontSize: 18,
                         ),
                       ),
                     ],
@@ -62,6 +68,7 @@ class _FinancePageState extends State<FinancePage>
                   text: null,
                   icon: null,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
                         FontAwesomeIcons.screwdriverWrench,
@@ -73,7 +80,7 @@ class _FinancePageState extends State<FinancePage>
                         "Serviços",
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
-                          fontSize: 17,
+                          fontSize: 18,
                         ),
                       ),
                     ],
@@ -83,6 +90,7 @@ class _FinancePageState extends State<FinancePage>
                   text: null,
                   icon: null,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
                         Icons.money_off,
@@ -91,10 +99,32 @@ class _FinancePageState extends State<FinancePage>
                       ),
                       const SizedBox(width: 2),
                       Text(
-                        "Despesa",
+                        "Despesa Barbearia",
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
-                          fontSize: 17,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Tab(
+                  text: null,
+                  icon: null,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.money_off,
+                        color: Theme.of(context).primaryColor,
+                        size: 18,
+                      ),
+                      const SizedBox(width: 2),
+                      Text(
+                        "Despesa Pessoal",
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 18,
                         ),
                       ),
                     ],
@@ -111,7 +141,8 @@ class _FinancePageState extends State<FinancePage>
               children: <Widget>[
                 financeSales,
                 financeServices,
-                financeSpending,
+                financeExpense,
+                financePersonalExpense,
               ],
             ),
           ),

@@ -72,20 +72,6 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Pagamento"),
-        actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 10),
-            child: IconButton(
-              onPressed: () {
-                closeScreen();
-              },
-              icon: const Icon(
-                Icons.close,
-                size: 35,
-              ),
-            ),
-          )
-        ],
       ),
       body: Stack(
         children: [
@@ -114,7 +100,7 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                 ),
                 receipts.isEmpty
                     ? Container(
-                      color: Colors.indigo.withOpacity(.1),
+                        color: Colors.indigo.withOpacity(.1),
                         height: MediaQuery.of(context).size.height - 360,
                         child: const Center(
                           child: Text(
@@ -146,7 +132,7 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                             child: Container(
                               color: Colors.indigo.withOpacity(.1),
                               height: amountReceived < widget.valueSale
-                                  ? MediaQuery.of(context).size.height - 400
+                                  ? MediaQuery.of(context).size.height - 455
                                   : MediaQuery.of(context).size.height - 350,
                               child: ListView.builder(
                                 shrinkWrap: true,
@@ -281,48 +267,62 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
             right: 15,
             left: 15,
             bottom: 10,
-            child: Visibility(
-              visible: amountReceived < widget.valueSale,
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: TextButton(
-                  onPressed: () async {
-                    final paymentReceived = await Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => ReceiptPage(
-                          receipt: const {},
-                          isEdition: false,
-                          totalAmountReceived: amountReceived,
-                          isSale: false,
-                          total: widget.valueSale,
-                        ),
+            child: Column(
+              children: [
+                Visibility(
+                  visible: amountReceived < widget.valueSale,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Theme.of(context).primaryColor,
                       ),
-                    );
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: TextButton(
+                      onPressed: () async {
+                        final paymentReceived =
+                            await Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => ReceiptPage(
+                              receipt: const {},
+                              isEdition: false,
+                              totalAmountReceived: amountReceived,
+                              isSale: false,
+                              total: widget.valueSale,
+                            ),
+                          ),
+                        );
 
-                    if (paymentReceived != null) {
-                      setState(() {
-                        receipts.add(paymentReceived);
-                        calculateamountReceived();
-                      });
-                    }
-                  },
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.add),
-                      Text(
-                        "Novo recebimento",
-                        style: TextStyle(fontSize: 20),
+                        if (paymentReceived != null) {
+                          setState(() {
+                            receipts.add(paymentReceived);
+                            calculateamountReceived();
+                          });
+                        }
+                      },
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.add),
+                          Text(
+                            "Novo recebimento",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                      onPressed: () => closeScreen(),
+                      child: const Text(
+                        "Fechar",
+                        style: TextStyle(fontSize: 20),
+                      )),
+                )
+              ],
             ),
           ),
         ],

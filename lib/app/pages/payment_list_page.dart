@@ -1,5 +1,6 @@
 import 'package:app_kaike_barbearia/app/template/dialog_filter.dart';
 import 'package:app_kaike_barbearia/app/template/list_payment.dart';
+import 'package:app_kaike_barbearia/app/template/slide_date.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -168,8 +169,6 @@ class _PaymentListPageState extends State<PaymentListPage>
               .toList();
         }
       }
-
-      clearTextFormField();
     });
   }
 
@@ -178,6 +177,7 @@ class _PaymentListPageState extends State<PaymentListPage>
         tabSelected == "vendas" ? lastOptionSale : lastOptionService;
     final option = await showFilterDialog(context, optionSelected);
     if (option == null) return;
+    clearTextFormField();
     filterLists(option);
 
     setState(() {
@@ -240,18 +240,11 @@ class _PaymentListPageState extends State<PaymentListPage>
             Container(
               width: double.infinity,
               color: Colors.indigo.withOpacity(.1),
-              padding: const EdgeInsets.symmetric(vertical: 8),
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
               alignment: Alignment.centerRight,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  IconButton(
-                    onPressed: () => toggleSearch(),
-                    icon: Icon(
-                      searchByName ? Icons.search_off_sharp : Icons.search,
-                      size: 30,
-                    ),
-                  ),
                   Visibility(
                     visible: searchByName,
                     child: Expanded(
@@ -288,6 +281,13 @@ class _PaymentListPageState extends State<PaymentListPage>
                     ),
                   ),
                   IconButton(
+                    onPressed: () => toggleSearch(),
+                    icon: Icon(
+                      searchByName ? Icons.search_off_sharp : Icons.search,
+                      size: 30,
+                    ),
+                  ),
+                  IconButton(
                     onPressed: () => openDialogFilter(),
                     icon: const Icon(
                       Icons.filter_list,
@@ -296,6 +296,18 @@ class _PaymentListPageState extends State<PaymentListPage>
                   ),
                 ],
               ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    width: 1,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+                color: Colors.indigo.withOpacity(.1),
+              ),
+              child: const SlideDate(),
             ),
             Container(
               decoration: BoxDecoration(

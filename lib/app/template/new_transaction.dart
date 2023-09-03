@@ -6,7 +6,7 @@ import '../pages/product_form_page.dart';
 import '../pages/provision_of_service_page.dart';
 import '../pages/sale_page.dart';
 import '../pages/service_form_page.dart';
-import '../pages/speding.form_page.dart';
+import '../pages/expense_form_page.dart';
 
 class NewTransaction extends StatelessWidget {
   const NewTransaction({super.key});

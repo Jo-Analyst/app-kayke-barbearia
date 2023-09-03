@@ -1,4 +1,5 @@
-import 'package:app_kaike_barbearia/app/pages/speding.form_page.dart';
+import 'package:app_kaike_barbearia/app/pages/expense_form_page.dart';
+import 'package:app_kaike_barbearia/app/pages/personal_expense_form_page.dart';
 import 'package:app_kaike_barbearia/app/utils/content_message.dart';
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
 import 'package:app_kaike_barbearia/app/utils/dialog.dart';
@@ -8,19 +9,19 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../utils/convert_datetime.dart';
 
-class SpedingListPage extends StatefulWidget {
+class PersonalExpenseListPage extends StatefulWidget {
   final bool itFromTheSalesScreen;
-  const SpedingListPage({required this.itFromTheSalesScreen, super.key});
+  const PersonalExpenseListPage({required this.itFromTheSalesScreen, super.key});
 
   @override
-  State<SpedingListPage> createState() => _SpedingListPageState();
+  State<PersonalExpenseListPage> createState() => _PersonalExpenseListPageState();
 }
 
-class _SpedingListPageState extends State<SpedingListPage> {
+class _PersonalExpenseListPageState extends State<PersonalExpenseListPage> {
   final searchController = TextEditingController();
   String search = "";
   bool isGranted = false;
-  final List<Map<String, dynamic>> spedings = [
+  final List<Map<String, dynamic>> expenses = [
     {
       "id": 1,
       "name_product": "Gel Azul",
@@ -52,14 +53,14 @@ class _SpedingListPageState extends State<SpedingListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Despesas"),
+        title: const Text("Despesas pessoais"),
         actions: [
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
               onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => const SpedingFormPage(
+                  builder: (_) => const PersonalExpenseFormPage(
                     isEdition: false,
                   ),
                 ),
@@ -72,7 +73,7 @@ class _SpedingListPageState extends State<SpedingListPage> {
           ),
         ],
       ),
-      body: spedings.isEmpty
+      body: expenses.isEmpty
           ? const Center(
               child: Text(
                 "Não há gastos cadastradoss...",
@@ -117,9 +118,9 @@ class _SpedingListPageState extends State<SpedingListPage> {
                   const SizedBox(height: 20),
                   Expanded(
                     child: ListView.builder(
-                      itemCount: spedings.length,
+                      itemCount: expenses.length,
                       itemBuilder: (_, index) {
-                        var speding = spedings[index];
+                        var speding = expenses[index];
 
                         return Column(
                           children: [
@@ -159,7 +160,7 @@ class _SpedingListPageState extends State<SpedingListPage> {
                                                 await showExitDialog(context,
                                                     "Deseja mesmo excluir?");
                                             if (confirmDelete!) {
-                                              spedings.removeAt(index);
+                                              expenses.removeAt(index);
                                               setState(() {});
                                               showMessage(
                                                 const ContentMessage(

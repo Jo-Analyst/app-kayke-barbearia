@@ -38,7 +38,7 @@ class _FilterListPaymentState extends State<FilterListPayment> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height / 3,
+      height: 180,
       child: Column(
         children: [
           Column(

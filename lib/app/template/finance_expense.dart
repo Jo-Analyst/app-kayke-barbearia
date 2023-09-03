@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../utils/convert_values.dart';
 
-class FinanceSpending extends StatefulWidget {
-  const FinanceSpending({super.key});
+class FinanceExpense extends StatefulWidget {
+  const FinanceExpense({super.key});
 
   @override
-  State<FinanceSpending> createState() => _FinanceSpendingState();
+  State<FinanceExpense> createState() => _FinanceExpenseState();
 }
 
-class _FinanceSpendingState extends State<FinanceSpending> {
+class _FinanceExpenseState extends State<FinanceExpense> {
   // PrimaryScrollController _controller = PrimaryScrollController();
   final List<Map<String, dynamic>> servicesProvided = [
     {"name_product": "Lâmina", "quantity": 5, "price": 15.00},
