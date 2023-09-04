@@ -1,0 +1,44 @@
+import 'package:app_kaike_barbearia/app/providers/client_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
+
+import 'app/pages/home_page.dart';
+
+class AppKaikeBarbearia extends StatelessWidget {
+  const AppKaikeBarbearia({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ClientProvider()),
+      ],
+      child: MaterialApp(
+        title: 'Kaike Barbearia',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          appBarTheme: const AppBarTheme(
+            toolbarHeight: 80,
+            titleTextStyle: TextStyle(fontSize: 25),
+          ),
+          primaryColor: Colors.indigo,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.indigo,
+          ),
+          // useMaterial3: true,
+        ),
+        locale: const Locale('pt', 'BR'),
+        supportedLocales: const [
+          Locale('pt', 'BR'),
+          // Outros idiomas suportados, se necessário
+        ],
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        home: const HomePage(),
+      ),
+    );
+  }
+}

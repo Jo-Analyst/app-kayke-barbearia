@@ -33,7 +33,6 @@ class _ClientListPageState extends State<ClientListPage> {
     {"id": 8, "name": "Maria Francisca santos", "phone": "38998269905"},
     {"id": 9, "name": "Lucimara Cristina Pereira", "phone": "38998269905"},
     {"id": 10, "name": "Alberto Rodrigues", "phone": "38998269905"},
-    {"id": 11, "name": "Zé Canália", "observation": "Tá me devendo pra dedel"},
   ];
 
   Future<void> permissionGranted() async {
@@ -164,8 +163,8 @@ class _ClientListPageState extends State<ClientListPage> {
                                                   clientId: client["id"],
                                                   name: client["name"],
                                                   phone: client["phone"],
-                                                  observation:
-                                                      client["observation"],
+                                                  address:
+                                                      client["address"],
                                                 ),
                                               ),
                                             );

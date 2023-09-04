@@ -1,17 +1,19 @@
+import 'package:app_kaike_barbearia/app/providers/client_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:provider/provider.dart';
 
 class ClientFormPage extends StatefulWidget {
   final String? name;
   final String? phone;
-  final String? observation;
+  final String? address;
   final int? clientId;
 
   const ClientFormPage({
     this.clientId,
     this.name,
     this.phone,
-    this.observation,
+    this.address,
     super.key,
   });
 
@@ -22,7 +24,7 @@ class ClientFormPage extends StatefulWidget {
 class _ClientFormPageState extends State<ClientFormPage> {
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
-  final observationController = TextEditingController();
+  final addressController = TextEditingController();
   final globalKey = GlobalKey<FormState>();
   String? _name = "";
 
@@ -34,7 +36,16 @@ class _ClientFormPageState extends State<ClientFormPage> {
     _name = widget.name;
     nameController.text = _name ?? "";
     phoneController.text = widget.phone ?? "";
-    observationController.text = widget.observation ?? "";
+    addressController.text = widget.address ?? "";
+  }
+
+  saveClient() async {
+    final clientProvider = Provider.of<ClientProvider>(context, listen: false);
+    await clientProvider.save({
+      "name": _name,
+      "phone": phoneController.text,
+      "address": addressController.text
+    });
   }
 
   @override
@@ -48,7 +59,12 @@ class _ClientFormPageState extends State<ClientFormPage> {
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: _name == null || _name!.trim() == "" ? null : () {} ,
+              onPressed: _name == null || _name!.trim() == ""
+                  ? null
+                  : () {
+                      saveClient();
+                      Navigator.of(context).pop();
+                    },
               icon: const Icon(
                 Icons.check,
                 size: 35,
@@ -78,17 +94,19 @@ class _ClientFormPageState extends State<ClientFormPage> {
             TextFormField(
               controller: phoneController,
               keyboardType: TextInputType.phone,
-              inputFormatters: [MaskTextInputFormatter(mask: "(##) # ####-####")],
+              inputFormatters: [
+                MaskTextInputFormatter(mask: "(##) # ####-####")
+              ],
               maxLength: 20,
               decoration: const InputDecoration(labelText: "Cel/Tel(opcional)"),
               style: const TextStyle(fontSize: 18),
             ),
             TextFormField(
-              controller: observationController,
+              controller: addressController,
               textInputAction: TextInputAction.newline,
               maxLines: 3,
               decoration:
-                  const InputDecoration(labelText: "Observação(opcional)"),
+                  const InputDecoration(labelText: "Endereço(opcional)"),
               style: const TextStyle(fontSize: 18),
               maxLength: 1000,
             ),
