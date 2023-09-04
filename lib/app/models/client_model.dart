@@ -13,23 +13,32 @@ class Client {
     this.address,
   });
 
-  void save() async {
+  Future<int> save() async {
+    int lastId = 0;
     final db = await DB.openDatabase();
     if (id == 0) {
-      await db.insert("clients", {"name": name, "phone": phone ?? "", "address": address ?? ""});
+     lastId =  await db.insert("clients",
+          {"name": name, "phone": phone ?? "", "address": address ?? ""});
     } else {
-      await db.update("clients", {"name": name, "phone": phone ?? "", "address": address ?? ""},
+      await db.update("clients",
+          {"name": name, "phone": phone ?? "", "address": address ?? ""},
           where: "id = ?", whereArgs: [id]);
     }
+
+    return lastId;
   }
 
- static void delete(int id) async {
+  static void delete(int id) async {
     final db = await DB.openDatabase();
     await db.delete("clients", where: "id = ?", whereArgs: [id]);
   }
 
- static Future<List<Map<String, dynamic>>> findAll() async {
+  static Future<List<Map<String, dynamic>>> findAll() async {
     final db = await DB.openDatabase();
     return db.query("clients", orderBy: "name");
+  }
+  static Future<List<Map<String, dynamic>>> findByName(String name) async {
+    final db = await DB.openDatabase();
+    return db.rawQuery("SELECT * FROM clients WHERE name LIKE '%$name%'");
   }
 }

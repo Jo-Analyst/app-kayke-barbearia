@@ -27,12 +27,15 @@ class _ClientFormPageState extends State<ClientFormPage> {
   final addressController = TextEditingController();
   final globalKey = GlobalKey<FormState>();
   String? _name = "";
+  int clientId = 0;
 
   @override
   void initState() {
     super.initState();
 
+    print(widget.clientId);
     if (widget.clientId == 0) return;
+    clientId = widget.clientId ?? 0;
     _name = widget.name;
     nameController.text = _name ?? "";
     phoneController.text = widget.phone ?? "";
@@ -42,6 +45,7 @@ class _ClientFormPageState extends State<ClientFormPage> {
   saveClient() async {
     final clientProvider = Provider.of<ClientProvider>(context, listen: false);
     await clientProvider.save({
+      "id": clientId,
       "name": _name,
       "phone": phoneController.text,
       "address": addressController.text

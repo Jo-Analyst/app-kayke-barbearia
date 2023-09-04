@@ -5,16 +5,30 @@ class ClientProvider extends ChangeNotifier {
   final List<Map<String, dynamic>> _items = [];
 
   List<Map<String, dynamic>> get items {
-    return [..._items];
+    return [..._items..sort((a, b) => a["name"].compareTo(b["name"]))];
   }
 
   Future<void> save(Map<String, dynamic> data) async {
-    Client(
+    int lastId = await Client(
       id: data["id"],
       name: data["name"],
       phone: data["phone"],
       address: data["address"],
     ).save();
+
+    if (data["id"] > 0) {
+      _items.removeWhere((item) => item["id"] == data["id"]);
+    }
+
+    _items.add(
+      {
+        "id": data["id"] == 0 ? lastId : data["id"],
+        "name": data["name"],
+        "phone": data["phone"],
+        "address": data["address"],
+      },
+    );
+
     notifyListeners();
   }
 
@@ -23,10 +37,20 @@ class ClientProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  clear() {
+    _items.clear();
+  }
+
   Future<void> load() async {
+    clear();
     final clients = await Client.findAll();
-    for (var client in clients) {
-      _items.add(client);
-    }
+    _items.addAll(clients);
+  }
+
+  Future<void> searchName(String name) async {
+    clear();
+    final clients = await Client.findByName(name);
+    final data = clients.isNotEmpty ? clients : await Client.findAll();
+    _items.addAll(data);
   }
 }
