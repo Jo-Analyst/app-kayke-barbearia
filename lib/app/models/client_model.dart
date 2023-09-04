@@ -17,7 +17,7 @@ class Client {
     int lastId = 0;
     final db = await DB.openDatabase();
     if (id == 0) {
-     lastId =  await db.insert("clients",
+      lastId = await db.insert("clients",
           {"name": name, "phone": phone ?? "", "address": address ?? ""});
     } else {
       await db.update("clients",
@@ -37,6 +37,7 @@ class Client {
     final db = await DB.openDatabase();
     return db.query("clients", orderBy: "name");
   }
+
   static Future<List<Map<String, dynamic>>> findByName(String name) async {
     final db = await DB.openDatabase();
     return db.rawQuery("SELECT * FROM clients WHERE name LIKE '%$name%'");
