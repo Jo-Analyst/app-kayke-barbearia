@@ -67,7 +67,7 @@ class _ClientFormPageState extends State<ClientFormPage> {
                   : () {
                       saveClient();
                       Navigator.of(context).pop();
-                    },
+                    }, 
               icon: const Icon(
                 Icons.check,
                 size: 35,
