@@ -11,10 +11,12 @@ import '../utils/convert_datetime.dart';
 
 class PersonalExpenseListPage extends StatefulWidget {
   final bool itFromTheSalesScreen;
-  const PersonalExpenseListPage({required this.itFromTheSalesScreen, super.key});
+  const PersonalExpenseListPage(
+      {required this.itFromTheSalesScreen, super.key});
 
   @override
-  State<PersonalExpenseListPage> createState() => _PersonalExpenseListPageState();
+  State<PersonalExpenseListPage> createState() =>
+      _PersonalExpenseListPageState();
 }
 
 class _PersonalExpenseListPageState extends State<PersonalExpenseListPage> {
@@ -143,8 +145,6 @@ class _PersonalExpenseListPageState extends State<PersonalExpenseListPage> {
                                                   quantity: speding["quantity"],
                                                   date: getDateSpedings(
                                                       speding["date"]),
-                                                  observation:
-                                                      speding["observation"],
                                                 ),
                                               ),
                                             );
@@ -194,15 +194,15 @@ class _PersonalExpenseListPageState extends State<PersonalExpenseListPage> {
                                   "${speding["quantity"]}x",
                                   style: const TextStyle(fontSize: 20),
                                 ),
-                                leading: CircleAvatar(
-                                  maxRadius: 40,
-                                  backgroundColor: Colors.indigo,
-                                  foregroundColor: Colors.white,
-                                  child: Text(
+                                leading: Chip(
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  label: Text(
                                     numberFormat.format(speding["price"]),
                                     style: const TextStyle(
-                                      fontSize: 11,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.bold,
+                                      color: Colors.white,
                                     ),
                                   ),
                                 ),

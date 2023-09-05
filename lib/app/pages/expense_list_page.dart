@@ -142,8 +142,6 @@ class _SpedingListPageState extends State<SpedingListPage> {
                                                   quantity: speding["quantity"],
                                                   date: getDateSpedings(
                                                       speding["date"]),
-                                                  observation:
-                                                      speding["observation"],
                                                 ),
                                               ),
                                             );
@@ -179,6 +177,7 @@ class _SpedingListPageState extends State<SpedingListPage> {
                                       ],
                                     ),
                               child: ListTile(
+                                minLeadingWidth: 0,
                                 selectedTileColor: Colors.indigo,
                                 title: Text(
                                   speding["name_product"],
@@ -193,16 +192,15 @@ class _SpedingListPageState extends State<SpedingListPage> {
                                   "${speding["quantity"]}x",
                                   style: const TextStyle(fontSize: 20),
                                 ),
-                                leading: CircleAvatar(
-                                  maxRadius: 40,
-                                  backgroundColor: Colors.indigo,
-                                  foregroundColor: Colors.white,
-                                  child: Text(
+                                leading: Chip(
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  label: Text(
                                     numberFormat.format(speding["price"]),
                                     style: const TextStyle(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
                                   ),
                                 ),
                               ),

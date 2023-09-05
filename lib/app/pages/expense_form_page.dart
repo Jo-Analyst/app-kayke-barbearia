@@ -9,7 +9,6 @@ class SpedingFormPage extends StatefulWidget {
   final bool isEdition;
   final String? nameProduct;
   final double? price;
-  final String? observation;
   final int? quantity;
   final DateTime? date;
   const SpedingFormPage({
@@ -19,7 +18,6 @@ class SpedingFormPage extends StatefulWidget {
     this.price,
     this.quantity,
     this.date,
-    this.observation,
     super.key,
   });
 
@@ -31,7 +29,6 @@ class _SpedingFormPageState extends State<SpedingFormPage> {
   final priceController = MoneyMaskedTextController(leftSymbol: "R\$ ");
   final nameProductController = TextEditingController();
   final quantityController = TextEditingController();
-  final observationController = TextEditingController();
   DateTime dateSelected = DateTime.now();
   TimeOfDay timeSelected = TimeOfDay.now();
   String _nameProduct = "";
@@ -69,7 +66,6 @@ class _SpedingFormPageState extends State<SpedingFormPage> {
       quantityController.text = quantity.toString();
       price = widget.price ?? 0.0;
       priceController.updateValue(price);
-      observationController.text = widget.observation ?? "";
       dateSelected = widget.date ?? DateTime.now();
     });
   }
@@ -159,15 +155,6 @@ class _SpedingFormPageState extends State<SpedingFormPage> {
                   ),
                 ),
               ],
-            ),
-            TextFormField(
-              controller: observationController,
-              textInputAction: TextInputAction.newline,
-              maxLines: 3,
-              decoration:
-                  const InputDecoration(labelText: "Observação (opcional)"),
-              style: const TextStyle(fontSize: 18),
-              maxLength: 1000,
             ),
           ],
         ),
