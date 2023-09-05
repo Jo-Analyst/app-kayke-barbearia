@@ -69,7 +69,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
         Provider.of<ProductProvider>(context, listen: false);
     await productProvider.save({
       "id": productId,
-      "name": name,
+      "name": name.trim(),
       "sale_value": saleValueController.numberValue,
       "cost_value": costValueController.numberValue,
       "profit_value": profitValue,
@@ -109,7 +109,9 @@ class _ProductFormPageState extends State<ProductFormPage> {
           children: [
             TextFormField(
               controller: nameController,
+              autofocus: true,
               textInputAction: TextInputAction.done,
+              textCapitalization: TextCapitalization.words,
               maxLength: 100,
               decoration: const InputDecoration(labelText: "Nome*"),
               style: const TextStyle(fontSize: 18),

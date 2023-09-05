@@ -6,6 +6,7 @@ import 'package:app_kaike_barbearia/app/utils/search_list.dart';
 import 'package:app_kaike_barbearia/app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ServiceListPage extends StatefulWidget {
   final bool itFromTheSalesScreen;
@@ -128,8 +129,6 @@ class _ServiceListPageState extends State<ServiceListPage> {
                                                   description:
                                                       service["description"],
                                                   price: service["price"],
-                                                  observation:
-                                                      service["observation"],
                                                 ),
                                               ),
                                             );
@@ -171,28 +170,25 @@ class _ServiceListPageState extends State<ServiceListPage> {
                                     Navigator.of(context).pop(service);
                                   }
                                 },
-                                contentPadding: const EdgeInsets.all(5),
+                                minLeadingWidth: 0,
                                 selectedTileColor: Colors.indigo,
                                 title: Text(
                                   service["description"],
                                   style: const TextStyle(fontSize: 20),
                                 ),
-                                leading: CircleAvatar(
-                                  maxRadius: 40,
-                                  backgroundColor: Colors.indigo,
-                                  foregroundColor: Colors.white,
-                                  child: Text(
-                                    numberFormat.format(service["price"]),
-                                    style: const TextStyle(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                subtitle: Text(
+                                  numberFormat.format(service["price"]),
+                                  style: const TextStyle(
+                                    fontSize: 20,
                                   ),
+                                ),
+                                leading: const Icon(
+                                  FontAwesomeIcons.screwdriverWrench,
+                                  color: Colors.indigo,
                                 ),
                               ),
                             ),
                             Divider(
-                              height: 1,
                               color: Theme.of(context).primaryColor,
                             ),
                           ],

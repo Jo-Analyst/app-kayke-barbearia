@@ -7,6 +7,7 @@ import 'package:app_kaike_barbearia/app/utils/dialog.dart';
 import 'package:app_kaike_barbearia/app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class ProductListPage extends StatefulWidget {
@@ -250,12 +251,14 @@ class _ProductListPageState extends State<ProductListPage> {
                                                                 "sale_value"]
                                                           })
                                                       : null,
+                                                  minLeadingWidth: 0,
                                                   selectedTileColor:
                                                       Colors.indigo,
                                                   title: Text(
                                                     product["name"],
                                                     style: const TextStyle(
-                                                        fontSize: 20),
+                                                      fontSize: 20,
+                                                    ),
                                                   ),
                                                   trailing: Text(
                                                     "${product["quantity"]}x",
@@ -263,17 +266,20 @@ class _ProductListPageState extends State<ProductListPage> {
                                                       fontSize: 20,
                                                     ),
                                                   ),
-                                                  leading: Chip(
-                                                    label: Text(
-                                                      numberFormat.format(
-                                                          product[
-                                                              "sale_value"]),
-                                                      style: const TextStyle(
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
+                                                  subtitle: Text(
+                                                    numberFormat.format(
+                                                        product["sale_value"]),
+                                                    style: const TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                     ),
+                                                  ),
+                                                  leading: Icon(
+                                                    FontAwesomeIcons.box,
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
+                                                    size: 25,
                                                   ),
                                                 ),
                                               ),

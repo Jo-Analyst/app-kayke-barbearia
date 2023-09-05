@@ -45,9 +45,9 @@ class _ClientFormPageState extends State<ClientFormPage> {
     final clientProvider = Provider.of<ClientProvider>(context, listen: false);
     await clientProvider.save({
       "id": clientId,
-      "name": _name,
-      "phone": phoneController.text,
-      "address": addressController.text
+      "name": _name!.trim(),
+      "phone": phoneController.text.trim(),
+      "address": addressController.text.trim()
     });
   }
 

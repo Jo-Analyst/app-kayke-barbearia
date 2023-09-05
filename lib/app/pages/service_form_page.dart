@@ -6,13 +6,11 @@ class ServiceFormPage extends StatefulWidget {
   final bool isEdition;
   final String? description;
   final double? price;
-  final String? observation;
   const ServiceFormPage({
     this.serviceId,
     required this.isEdition,
     this.description,
     this.price,
-    this.observation,
     super.key,
   });
 
@@ -23,7 +21,6 @@ class ServiceFormPage extends StatefulWidget {
 class _ServiceFormPageState extends State<ServiceFormPage> {
   final serviceValueController = MoneyMaskedTextController(leftSymbol: "R\$ ");
   final descriptionController = TextEditingController();
-  final observationController = TextEditingController();
   DateTime dateSelected = DateTime.now();
   TimeOfDay timeSelected = TimeOfDay.now();
   String _description = "";
@@ -44,15 +41,6 @@ class _ServiceFormPageState extends State<ServiceFormPage> {
     );
   }
 
-  // showTime() {
-  //   showTimePicker(context: context, initialTime: timeSelected)
-  //       .then((time) {
-  //     setState(() {
-  //       timeSelected = time ?? timeSelected;
-  //     });
-  //   });
-  // }
-  
   @override
   void initState() {
     super.initState();
@@ -62,7 +50,6 @@ class _ServiceFormPageState extends State<ServiceFormPage> {
     descriptionController.text = _description;
     priceService = widget.price ?? 0.0;
     serviceValueController.updateValue(priceService);
-    observationController.text = widget.observation ?? "";
   }
 
   @override
@@ -104,6 +91,7 @@ class _ServiceFormPageState extends State<ServiceFormPage> {
             ),
             TextFormField(
               controller: serviceValueController,
+              autofocus: true,
               textInputAction: TextInputAction.next,
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
@@ -115,59 +103,6 @@ class _ServiceFormPageState extends State<ServiceFormPage> {
                   priceService = serviceValueController.numberValue;
                 });
               },
-            ),
-            // const SizedBox(height: 10),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     Row(
-            //       children: [
-            //         IconButton(
-            //           onPressed: () => showCalendarPicker(),
-            //           icon: Icon(
-            //             Icons.calendar_month_outlined,
-            //             size: 35,
-            //             color: Theme.of(context).primaryColor,
-            //           ),
-            //         ),
-            //         InkWell(
-            //           onTap: () => showCalendarPicker(),
-            //           child: Text(
-            //             dateFormat3.format(dateSelected),
-            //             style: const TextStyle(fontSize: 20),
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //     Row(
-            //       children: [
-            //         IconButton(
-            //           onPressed: () => showTime(),
-            //           icon: Icon(
-            //             Icons.timer_outlined,
-            //             size: 35,
-            //             color: Theme.of(context).primaryColor,
-            //           ),
-            //         ),
-            //         InkWell(
-            //           onTap: () => showTime(),
-            //           child: Text(
-            //             timeSelected.format(context),
-            //             style: const TextStyle(fontSize: 20),
-            //           ),
-            //         ),
-            //       ],
-            //     )
-            //   ],
-            // ),
-            TextFormField(
-              controller: observationController,
-              textInputAction: TextInputAction.newline,
-              maxLines: 3,
-              decoration:
-                  const InputDecoration(labelText: "Observação (opcional)"),
-              style: const TextStyle(fontSize: 18),
-              maxLength: 1000,
             ),
           ],
         ),
