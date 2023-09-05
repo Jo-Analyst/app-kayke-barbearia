@@ -24,6 +24,7 @@ class _ClientListPageState extends State<ClientListPage> {
   String search = "";
   bool isGranted = false;
   List<Map<String, dynamic>> clients = [];
+  final FocusNode _textFocusNode = FocusNode();
 
   Future<void> permissionGranted() async {
     var status = await Permission.contacts.request();
@@ -33,6 +34,7 @@ class _ClientListPageState extends State<ClientListPage> {
   }
 
   openScreenContacts() async {
+    FocusScope.of(context).requestFocus(FocusNode());
     final contact = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => const ContactPhonePage(),
@@ -54,10 +56,10 @@ class _ClientListPageState extends State<ClientListPage> {
   void initState() {
     super.initState();
     clients.clear();
-    loadClient();
+    loadClients();
   }
 
-  loadClient() async {
+  loadClients() async {
     final clientProvider = Provider.of<ClientProvider>(context, listen: false);
     await clientProvider.load();
     setState(() {
@@ -84,11 +86,14 @@ class _ClientListPageState extends State<ClientListPage> {
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => const ClientFormPage(),
-                ),
-              ),
+              onPressed: () {
+                FocusScope.of(context).requestFocus(FocusNode());
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const ClientFormPage(),
+                  ),
+                );
+              },
               icon: const Icon(
                 Icons.add,
                 size: 35,
@@ -114,6 +119,8 @@ class _ClientListPageState extends State<ClientListPage> {
                       children: [
                         TextField(
                           controller: searchController,
+                          focusNode: _textFocusNode,
+                          textInputAction: TextInputAction.search,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
@@ -128,7 +135,7 @@ class _ClientListPageState extends State<ClientListPage> {
                                       searchController.text = "";
                                       setState(() {
                                         search = "";
-                                        loadClient();
+                                        loadClients();
                                       });
                                     },
                                     icon: const Icon(Icons.close),
@@ -142,8 +149,13 @@ class _ClientListPageState extends State<ClientListPage> {
                           },
                         ),
                         clients.isEmpty
-                            ? const Center(
-                                child: AddNewClient(),
+                            ? Center(
+                                child: AddNewClient(
+                                  closeKeyboard: () =>
+                                      FocusScope.of(context).requestFocus(
+                                    FocusNode(),
+                                  ),
+                                ),
                               )
                             : Expanded(
                                 child: Column(
@@ -166,6 +178,10 @@ class _ClientListPageState extends State<ClientListPage> {
                                                             children: [
                                                               SlidableAction(
                                                                 onPressed: (_) {
+                                                                  FocusScope.of(
+                                                                          context)
+                                                                      .requestFocus(
+                                                                          FocusNode());
                                                                   Navigator.of(
                                                                           context)
                                                                       .push(
@@ -198,6 +214,10 @@ class _ClientListPageState extends State<ClientListPage> {
                                                               SlidableAction(
                                                                 onPressed:
                                                                     (_) async {
+                                                                  FocusScope.of(
+                                                                          context)
+                                                                      .requestFocus(
+                                                                          FocusNode());
                                                                   final confirmDelete =
                                                                       await showExitDialog(
                                                                           context,

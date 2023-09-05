@@ -56,8 +56,7 @@ class ClientProvider extends ChangeNotifier {
 
   Future<void> searchName(String name) async {
     clear();
-    final clients = await Client.findByName(name.trim());
-    // final data = clients.isNotEmpty ? clients : await Client.findAll();
+    final clients = await Client.findByName(name.trim());    
     _items.addAll(clients);
     notifyListeners();
   }

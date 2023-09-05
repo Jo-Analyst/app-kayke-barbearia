@@ -50,7 +50,8 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
 
     int index = 0;
     for (var phone in phones) {
-      clientProvider.save({"id": 0, "name": names[index], "phone": phone, "address": ""});
+      clientProvider
+          .save({"id": 0, "name": names[index], "phone": phone, "address": ""});
       index++;
     }
 
@@ -91,94 +92,103 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
                 ],
               ),
             )
-          : Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 15,
-                vertical: 10,
-              ),
-              child: Column(
-                children: [
-                  TextField(
-                    controller: searchController,
-                    decoration: InputDecoration(
-                      labelText: "Digite para buscar",
-                      suffixIcon: search.isEmpty
-                          ? const Icon(
-                              Icons.search,
-                            )
-                          : IconButton(
-                              onPressed: () {
-                                searchController.text = "";
-                                setState(() {
-                                  search = "";
-                                  filteredList = _contacts;
-                                });
-                              },
-                              icon: const Icon(Icons.close),
-                            ),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        search = value;
-                        filteredList = searchItems(value, _contacts, false);
-                      });
-                    },
+          : filteredList.isEmpty
+              ? const Center(
+                  child: Text(
+                    "Não há contatos em sua telefone.",
+                    style: TextStyle(fontSize: 20),
                   ),
-                  const SizedBox(height: 20),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: filteredList.length,
-                      itemBuilder: (_, index) {
-                        var contact = filteredList[index];
-                        return Column(
-                          children: [
-                            ListTile(
-                              onLongPress: () {
-                                setState(() {
-                                  names.contains(contact["name"])
-                                      ? names.remove(contact["name"])
-                                      : names.add(contact["name"]);
+                )
+              : Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 10,
+                  ),
+                  child: Column(
+                    children: [
+                      TextField(
+                        controller: searchController,
+                        decoration: InputDecoration(
+                          labelText: "Digite para buscar",
+                          suffixIcon: search.isEmpty
+                              ? const Icon(
+                                  Icons.search,
+                                )
+                              : IconButton(
+                                  onPressed: () {
+                                    searchController.text = "";
+                                    setState(() {
+                                      search = "";
+                                      filteredList = _contacts;
+                                    });
+                                  },
+                                  icon: const Icon(Icons.close),
+                                ),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            search = value;
+                            filteredList = searchItems(value, _contacts, false);
+                          });
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: filteredList.length,
+                          itemBuilder: (_, index) {
+                            var contact = filteredList[index];
+                            return Column(
+                              children: [
+                                ListTile(
+                                  onLongPress: () {
+                                    setState(() {
+                                      names.contains(contact["name"])
+                                          ? names.remove(contact["name"])
+                                          : names.add(contact["name"]);
 
-                                  phones.contains(contact["phone"])
-                                      ? phones.remove(contact["phone"])
-                                      : phones.add(contact["phone"]);
-                                });
-                              },
-                              selected: names.contains(contact["name"]),
-                              selectedTileColor: Colors.indigo,
-                              selectedColor: Colors.white,
-                              title: Text(contact["name"] ?? ""),
-                              subtitle: Text(
-                                contact["phone"],
-                              ),
-                              leading: CircleAvatar(
-                                maxRadius: 25,
-                                backgroundColor: names.contains(contact["name"])
-                                    ? Colors.white
-                                    : Theme.of(context).primaryColor,
-                                foregroundColor: names.contains(contact["name"])
-                                    ? Theme.of(context).primaryColor
-                                    : Colors.white,
-                                child: Text(
-                                  contact["name"].toString().split("")[0],
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w700,
+                                      phones.contains(contact["phone"])
+                                          ? phones.remove(contact["phone"])
+                                          : phones.add(contact["phone"]);
+                                    });
+                                  },
+                                  selected: names.contains(contact["name"]),
+                                  selectedTileColor: Colors.indigo,
+                                  selectedColor: Colors.white,
+                                  title: Text(contact["name"] ?? ""),
+                                  subtitle: Text(
+                                    contact["phone"],
+                                  ),
+                                  leading: CircleAvatar(
+                                    maxRadius: 25,
+                                    backgroundColor:
+                                        names.contains(contact["name"])
+                                            ? Colors.white
+                                            : Theme.of(context).primaryColor,
+                                    foregroundColor:
+                                        names.contains(contact["name"])
+                                            ? Theme.of(context).primaryColor
+                                            : Colors.white,
+                                    child: Text(
+                                      contact["name"].toString().split("")[0],
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            Divider(
-                              height: 1,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ],
-                        );
-                      },
-                    ),
+                                Divider(
+                                  height: 1,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
+                ),
     );
   }
 }

@@ -1,11 +1,12 @@
+import 'package:app_kaike_barbearia/app/providers/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+import 'package:provider/provider.dart';
 
 class ProductFormPage extends StatefulWidget {
   final bool isEdition;
   final String? name;
-  final String? observation;
   final double? saleValue;
   final double? costValue;
   final double? profitValue;
@@ -19,7 +20,6 @@ class ProductFormPage extends StatefulWidget {
     this.costValue,
     this.profitValue,
     this.quantity,
-    this.observation,
     super.key,
   });
 
@@ -30,10 +30,9 @@ class ProductFormPage extends StatefulWidget {
 class _ProductFormPageState extends State<ProductFormPage> {
   String name = "";
   double saleValue = 0, costValue = 0, profitValue = 0;
-  int quantity = 0;
+  int quantity = 0, productId = 0;
   final saleValueController = MoneyMaskedTextController(leftSymbol: "R\$ ");
   final costValueController = MoneyMaskedTextController(leftSymbol: "R\$ ");
-  final observationController = TextEditingController();
   final nameController = TextEditingController();
   final quantityController = TextEditingController();
   final profitValueController = TextEditingController();
@@ -53,17 +52,29 @@ class _ProductFormPageState extends State<ProductFormPage> {
       profitValueController.text = "0,00";
       return;
     }
-
+    productId = widget.productId ?? 0;
     nameController.text = widget.name ?? "";
     name = nameController.text;
     profitValue = widget.profitValue!;
-    // saleValue =
-    observationController.text = widget.observation ?? "";
     saleValueController.updateValue(widget.saleValue!);
     costValueController.updateValue(widget.costValue!);
     profitValueController.text =
         widget.profitValue!.toStringAsFixed(2).replaceAll(RegExp(r'\.'), ',');
-    quantityController.text = widget.quantity.toString();
+    quantity = widget.quantity ?? 0;
+    quantityController.text = quantity.toString();
+  }
+
+  saveProduct() async {
+    final productProvider =
+        Provider.of<ProductProvider>(context, listen: false);
+    await productProvider.save({
+      "id": productId,
+      "name": name,
+      "sale_value": saleValueController.numberValue,
+      "cost_value": costValueController.numberValue,
+      "profit_value": profitValue,
+      "quantity": quantity,
+    });
   }
 
   @override
@@ -75,7 +86,12 @@ class _ProductFormPageState extends State<ProductFormPage> {
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: name.trim().isNotEmpty ? () {} : null,
+              onPressed: name.trim().isNotEmpty && quantity > 0
+                  ? () {
+                      saveProduct();
+                      Navigator.of(context).pop();
+                    }
+                  : null,
               icon: const Icon(
                 Icons.check,
                 size: 30,
@@ -93,7 +109,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
           children: [
             TextFormField(
               controller: nameController,
-              textInputAction: TextInputAction.next,
+              textInputAction: TextInputAction.done,
               maxLength: 100,
               decoration: const InputDecoration(labelText: "Nome*"),
               style: const TextStyle(fontSize: 18),
@@ -102,6 +118,12 @@ class _ProductFormPageState extends State<ProductFormPage> {
                   name = value;
                 });
               },
+              onFieldSubmitted: name.trim().isNotEmpty && quantity > 0
+                  ? (_) {
+                      saveProduct();
+                      Navigator.of(context).pop();
+                    }
+                  : null,
             ),
             TextFormField(
               controller: saleValueController,
@@ -151,7 +173,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
             ),
             TextFormField(
               controller: quantityController,
-              textInputAction: TextInputAction.next,
+              textInputAction: TextInputAction.done,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               decoration:
                   const InputDecoration(labelText: "Quantidade de itens*"),
@@ -161,15 +183,12 @@ class _ProductFormPageState extends State<ProductFormPage> {
                   quantity = value.trim().isNotEmpty ? int.parse(value) : 0;
                 });
               },
-            ),
-            TextFormField(
-              controller: observationController,
-              textInputAction: TextInputAction.newline,
-              maxLines: 3,
-              decoration:
-                  const InputDecoration(labelText: "Observação(opcional)"),
-              style: const TextStyle(fontSize: 18),
-              maxLength: 1000,
+              onFieldSubmitted: name.trim().isNotEmpty && quantity > 0
+                  ? (_) {
+                      saveProduct();
+                      Navigator.of(context).pop();
+                    }
+                  : null,
             ),
           ],
         ),

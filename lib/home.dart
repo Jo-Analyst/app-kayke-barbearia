@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'app/pages/home_page.dart';
+import 'app/providers/product_provider.dart';
 
 class AppKaikeBarbearia extends StatelessWidget {
   const AppKaikeBarbearia({super.key});
@@ -13,6 +14,7 @@ class AppKaikeBarbearia extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ClientProvider()),
+        ChangeNotifierProvider(create: (_) => ProductProvider()),
       ],
       child: MaterialApp(
         title: 'Kaike Barbearia',

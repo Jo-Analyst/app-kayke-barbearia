@@ -1,6 +1,6 @@
 import 'package:app_kaike_barbearia/app/config/db.dart';
 
-class ProductModel {
+class Product {
   final int? id;
   final String name;
   final double saleValue;
@@ -8,7 +8,7 @@ class ProductModel {
   final double profitValue;
   final int quantity;
 
-  ProductModel({
+  Product({
     this.id,
     required this.name,
     required this.saleValue,
