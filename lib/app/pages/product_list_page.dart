@@ -260,7 +260,8 @@ class _ProductListPageState extends State<ProductListPage> {
                                                   trailing: Text(
                                                     "${product["quantity"]}x",
                                                     style: const TextStyle(
-                                                        fontSize: 20,),
+                                                      fontSize: 20,
+                                                    ),
                                                   ),
                                                   leading: Chip(
                                                     label: Text(
