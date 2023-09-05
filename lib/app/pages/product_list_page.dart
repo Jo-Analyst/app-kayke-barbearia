@@ -141,7 +141,6 @@ class _ProductListPageState extends State<ProductListPage> {
                             ? Center(
                                 child: AddNewProduct(
                                   closeKeyboard: () {
-                                    print("chamor");
                                     FocusScope.of(context).requestFocus(
                                       FocusNode(),
                                     );
