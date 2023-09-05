@@ -33,7 +33,6 @@ class _ClientFormPageState extends State<ClientFormPage> {
   void initState() {
     super.initState();
 
-    print(widget.clientId);
     if (widget.clientId == 0) return;
     clientId = widget.clientId ?? 0;
     _name = widget.name;
@@ -85,10 +84,18 @@ class _ClientFormPageState extends State<ClientFormPage> {
         child: ListView(
           children: [
             TextFormField(
+              autofocus: true,
+              textCapitalization: TextCapitalization.words,
               controller: nameController,
               maxLength: 100,
               decoration: const InputDecoration(labelText: "Nome*"),
               style: const TextStyle(fontSize: 18),
+              onFieldSubmitted: _name == null || _name!.trim() == ""
+                  ? null
+                  : (value) {
+                      saveClient();
+                      Navigator.of(context).pop();
+                    },
               onChanged: (name) {
                 setState(() {
                   _name = name;

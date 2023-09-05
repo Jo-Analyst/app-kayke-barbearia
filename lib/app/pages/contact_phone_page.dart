@@ -1,6 +1,8 @@
+import 'package:app_kaike_barbearia/app/providers/client_provider.dart';
 import 'package:app_kaike_barbearia/app/utils/search_list.dart';
 import 'package:flutter/material.dart';
 import 'package:contacts_service/contacts_service.dart';
+import 'package:provider/provider.dart';
 
 class ContactPhonePage extends StatefulWidget {
   const ContactPhonePage({super.key});
@@ -43,6 +45,18 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
     filteredList = _contacts;
   }
 
+  importContacts() {
+    final clientProvider = Provider.of<ClientProvider>(context, listen: false);
+
+    int index = 0;
+    for (var phone in phones) {
+      clientProvider.save({"id": 0, "name": names[index], "phone": phone, "address": ""});
+      index++;
+    }
+
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,18 +66,7 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: phones.isNotEmpty
-                  ? () {
-                      List<Map<String, dynamic>> data = [];
-                      int index = 0;
-                      for (var phone in phones) {
-                        data.add({"name": names[index], "phone": phone});
-                        index++;
-                      }
-
-                      Navigator.of(context).pop(data);
-                    }
-                  : null,
+              onPressed: phones.isNotEmpty ? () => importContacts() : null,
               icon: const Icon(
                 Icons.check,
                 size: 30,
