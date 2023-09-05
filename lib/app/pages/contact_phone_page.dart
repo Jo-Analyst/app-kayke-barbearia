@@ -95,7 +95,7 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
           : filteredList.isEmpty
               ? const Center(
                   child: Text(
-                    "Não há contatos em sua telefone.",
+                    "Não há contatos em seu telefone.",
                     style: TextStyle(fontSize: 20),
                   ),
                 )
