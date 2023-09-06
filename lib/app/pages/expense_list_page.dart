@@ -247,33 +247,23 @@ class _SpedingListPageState extends State<SpedingListPage> {
                                                   title: Text(
                                                     expense["name_product"],
                                                     style: const TextStyle(
-                                                        fontSize: 20),
+                                                        fontSize: 220),
                                                   ),
                                                   subtitle: Text(
-                                                    dateFormat3.format(
-                                                        getDateSpedings(
-                                                            expense["date"])),
+                                                    "${expense["quantity"]}x ${numberFormat.format(expense["price"])} = ${numberFormat.format(expense["subtotal"])}",
                                                     style: const TextStyle(
                                                         fontSize: 16),
                                                   ),
-                                                  trailing: Text(
-                                                    "${expense["quantity"]}x",
-                                                    style: const TextStyle(
-                                                        fontSize: 20),
+                                                  leading: Icon(
+                                                    Icons.monetization_on,
+                                                    size: 30,
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
                                                   ),
-                                                  leading: Chip(
-                                                    backgroundColor:
-                                                        Theme.of(context)
-                                                            .primaryColor,
-                                                    label: Text(
-                                                      numberFormat.format(
-                                                          expense["price"]),
-                                                      style: const TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.white),
-                                                    ),
+                                                  trailing: Text(
+                                                    expense["date"],
+                                                    style: const TextStyle(
+                                                        fontSize: 18),
                                                   ),
                                                 ),
                                               ),

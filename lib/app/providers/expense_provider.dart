@@ -35,6 +35,7 @@ class ExpenseProvider extends ChangeNotifier {
         "price": data["price"],
         "quantity": data["quantity"],
         "date": data["date"],
+        "subtotal": data["price"] * data["quantity"]
       },
     );
 
@@ -53,8 +54,19 @@ class ExpenseProvider extends ChangeNotifier {
 
   Future<void> load() async {
     clear();
+    List<Map<String, dynamic>> newItems = [];
     final services = await Expense.findAll();
-    _items.addAll(services);
+    for (var service in services) {
+      newItems.add({
+        "id": service["id"],
+        "name_product": service["name_product"],
+        "price": service["price"],
+        "quantity": service["quantity"],
+        "date": service["date"],
+        "subtotal": service["price"] * service["quantity"]
+      });
+    }
+    _items.addAll(newItems);
   }
 
   Future<void> searchName(String nameProduct) async {
