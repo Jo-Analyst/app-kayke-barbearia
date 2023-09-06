@@ -1,18 +1,22 @@
+import 'package:app_kaike_barbearia/app/providers/expense_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+import 'package:provider/provider.dart';
 
+import '../utils/content_message.dart';
 import '../utils/convert_values.dart';
+import '../utils/snackbar.dart';
 
-class SpedingFormPage extends StatefulWidget {
-  final int? spedingId;
+class ExpenseFormPage extends StatefulWidget {
+  final int? expenseId;
   final bool isEdition;
   final String? nameProduct;
   final double? price;
   final int? quantity;
   final DateTime? date;
-  const SpedingFormPage({
-    this.spedingId,
+  const ExpenseFormPage({
+    this.expenseId,
     required this.isEdition,
     this.nameProduct,
     this.price,
@@ -22,18 +26,19 @@ class SpedingFormPage extends StatefulWidget {
   });
 
   @override
-  State<SpedingFormPage> createState() => _SpedingFormPageState();
+  State<ExpenseFormPage> createState() => _SpedingFormPageState();
 }
 
-class _SpedingFormPageState extends State<SpedingFormPage> {
+class _SpedingFormPageState extends State<ExpenseFormPage> {
   final priceController = MoneyMaskedTextController(leftSymbol: "R\$ ");
   final nameProductController = TextEditingController();
   final quantityController = TextEditingController();
   DateTime dateSelected = DateTime.now();
   TimeOfDay timeSelected = TimeOfDay.now();
-  String _nameProduct = "";
+  String nameProduct = "";
   double price = 0;
   int quantity = 0;
+  int expenseId = 0;
 
   showCalendarPicker() {
     showDatePicker(
@@ -60,14 +65,41 @@ class _SpedingFormPageState extends State<SpedingFormPage> {
 
   loadFields() {
     setState(() {
-      _nameProduct = widget.nameProduct ?? "";
-      nameProductController.text = _nameProduct;
+      nameProduct = widget.nameProduct ?? "";
+      nameProductController.text = nameProduct;
       quantity = widget.quantity ?? 0;
       quantityController.text = quantity.toString();
       price = widget.price ?? 0.0;
       priceController.updateValue(price);
       dateSelected = widget.date ?? DateTime.now();
+      expenseId = widget.expenseId ?? 0;
     });
+  }
+
+  void showMessage(Widget content, Color? color) {
+    Message.showMessage(context, content, color);
+  }
+
+  saveExpense() async {
+    final expenseProvider =
+        Provider.of<ExpenseProvider>(context, listen: false);
+    await expenseProvider.save({
+      "id": expenseId,
+      "name_product": nameProduct,
+      "quantity": quantity,
+      "date": dateFormat1.format(dateSelected),
+      "price": price,
+    });
+
+    showMessage(
+      ContentMessage(
+        title: widget.isEdition
+            ? "Despesa editada com sucesso."
+            : "Despesa cadastrado com sucesso.",
+        icon: Icons.info,
+      ),
+      null,
+    );
   }
 
   @override
@@ -79,8 +111,11 @@ class _SpedingFormPageState extends State<SpedingFormPage> {
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: _nameProduct.isNotEmpty && price > 0 && quantity > 0
-                  ? () {}
+              onPressed: nameProduct.isNotEmpty && price > 0 && quantity > 0
+                  ? () {
+                      saveExpense();
+                      Navigator.of(context).pop();
+                    }
                   : null,
               icon: const Icon(
                 Icons.check,
@@ -102,9 +137,9 @@ class _SpedingFormPageState extends State<SpedingFormPage> {
               maxLength: 100,
               decoration: const InputDecoration(labelText: "Despesa*"),
               style: const TextStyle(fontSize: 18),
-              onChanged: (nameProduct) {
+              onChanged: (value) {
                 setState(() {
-                  _nameProduct = nameProduct.trim();
+                  nameProduct = value.trim();
                 });
               },
             ),

@@ -136,9 +136,9 @@ class _PersonalExpenseListPageState extends State<PersonalExpenseListPage> {
                                           onPressed: (_) {
                                             Navigator.of(context).push(
                                               MaterialPageRoute(
-                                                builder: (_) => SpedingFormPage(
+                                                builder: (_) => ExpenseFormPage(
                                                   isEdition: true,
-                                                  spedingId: speding["id"],
+                                                  expenseId: speding["id"],
                                                   nameProduct:
                                                       speding["name_product"],
                                                   price: speding["price"],

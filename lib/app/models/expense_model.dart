@@ -5,9 +5,11 @@ class Expense {
   final String nameProduct;
   final double price;
   final int quantity;
+  final String date;
 
   Expense({
     this.id,
+    required this.date,
     required this.nameProduct,
     required this.price,
     required this.quantity,
@@ -21,10 +23,19 @@ class Expense {
         "name_product": nameProduct,
         "price": price,
         "quantity": quantity,
+        "date": date,
       });
     } else {
-      await db.update("expenses", {"name_product": nameProduct, "price": price, "quantity": quantity},
-          where: "id = ?", whereArgs: [id]);
+      await db.update(
+          "expenses",
+          {
+            "name_product": nameProduct,
+            "price": price,
+            "quantity": quantity,
+            "date": date,
+          },
+          where: "id = ?",
+          whereArgs: [id]);
     }
 
     return lastId;

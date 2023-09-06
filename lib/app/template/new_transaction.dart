@@ -145,7 +145,7 @@ class NewTransaction extends StatelessWidget {
                     Navigator.of(context).pop();
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (_) => const SpedingFormPage(isEdition: false),
+                        builder: (_) => const ExpenseFormPage(isEdition: false),
                       ),
                     );
                   },
