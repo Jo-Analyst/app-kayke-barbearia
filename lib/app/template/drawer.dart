@@ -116,7 +116,7 @@ class DrawerComponet extends StatelessWidget {
               ),
             ),
             onTap: () => openScreen(
-              const SpedingListPage(itFromTheSalesScreen: false),
+              const ExpenseListPage(itFromTheSalesScreen: false),
             ),
           ),
           ListTile(

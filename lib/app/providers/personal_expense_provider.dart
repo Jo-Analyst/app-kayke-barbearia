@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../models/expense_model.dart';
+import '../models/personal_expense_model.dart';
 
-class ExpenseProvider extends ChangeNotifier {
+class PersonalExpenseProvider extends ChangeNotifier {
   final List<Map<String, dynamic>> _items = [];
 
   List<Map<String, dynamic>> get items {
@@ -16,7 +16,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
   Future<void> save(Map<String, dynamic> data) async {
-    int lastId = await Expense(
+    int lastId = await PersonalExpense(
       id: data["id"],
       nameProduct: data["name_product"],
       price: data["price"],
@@ -43,7 +43,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
   Future<void> delete(int id) async {
-    Expense.delete(id);
+    PersonalExpense.delete(id);
     _items.removeWhere((item) => item["id"] == id);
     notifyListeners();
   }
@@ -54,7 +54,7 @@ class ExpenseProvider extends ChangeNotifier {
 
   Future<void> load() async {
     clear();
-    final services = await Expense.findAll();
+    final services = await PersonalExpense.findAll();
     List<Map<String, dynamic>> newItems = [];
     for (var service in services) {
       newItems.add({
@@ -71,7 +71,8 @@ class ExpenseProvider extends ChangeNotifier {
 
   Future<void> searchName(String nameProduct) async {
     clear();
-    final services = await Expense.findByDescription(nameProduct.trim());
+    final services =
+        await PersonalExpense.findByDescription(nameProduct.trim());
     List<Map<String, dynamic>> newItems = [];
     for (var service in services) {
       newItems.add({

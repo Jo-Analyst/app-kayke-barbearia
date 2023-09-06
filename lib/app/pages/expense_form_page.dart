@@ -95,7 +95,7 @@ class _SpedingFormPageState extends State<ExpenseFormPage> {
       ContentMessage(
         title: widget.isEdition
             ? "Despesa editada com sucesso."
-            : "Despesa cadastrado com sucesso.",
+            : "Despesa cadastrada com sucesso.",
         icon: Icons.info,
       ),
       null,

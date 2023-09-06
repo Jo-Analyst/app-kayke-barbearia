@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'app/pages/home_page.dart';
 import 'app/providers/expense_provider.dart';
+import 'app/providers/personal_expense_provider.dart';
 import 'app/providers/product_provider.dart';
 import 'app/providers/service_provider.dart';
 
@@ -19,6 +20,7 @@ class AppKaikeBarbearia extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProductProvider()),
         ChangeNotifierProvider(create: (_) => ServiceProvider()),
         ChangeNotifierProvider(create: (_) => ExpenseProvider()),
+        ChangeNotifierProvider(create: (_) => PersonalExpenseProvider()),
       ],
       child: MaterialApp(
         title: 'Kaike Barbearia',

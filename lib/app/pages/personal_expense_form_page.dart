@@ -1,42 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/personal_expense_provider.dart';
+import '../utils/content_message.dart';
 import '../utils/convert_values.dart';
+import '../utils/snackbar.dart';
 
 class PersonalExpenseFormPage extends StatefulWidget {
-  final int? spedingId;
+  final int? personalExpenseId;
   final bool isEdition;
   final String? nameProduct;
   final double? price;
-  final String? observation;
   final int? quantity;
   final DateTime? date;
   const PersonalExpenseFormPage({
-    this.spedingId,
+    this.personalExpenseId,
     required this.isEdition,
     this.nameProduct,
     this.price,
     this.quantity,
     this.date,
-    this.observation,
     super.key,
   });
 
   @override
-  State<PersonalExpenseFormPage> createState() => _PersonalExpenseFormPageState();
+  State<PersonalExpenseFormPage> createState() =>
+      _PersonalExpenseFormPageState();
 }
 
 class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage> {
   final priceController = MoneyMaskedTextController(leftSymbol: "R\$ ");
   final nameProductController = TextEditingController();
   final quantityController = TextEditingController();
-  final observationController = TextEditingController();
   DateTime dateSelected = DateTime.now();
   TimeOfDay timeSelected = TimeOfDay.now();
   String _nameProduct = "";
   double price = 0;
   int quantity = 0;
+  int personalExpenseId = 0;
 
   showCalendarPicker() {
     showDatePicker(
@@ -69,22 +72,52 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage> {
       quantityController.text = quantity.toString();
       price = widget.price ?? 0.0;
       priceController.updateValue(price);
-      observationController.text = widget.observation ?? "";
       dateSelected = widget.date ?? DateTime.now();
+      personalExpenseId = widget.personalExpenseId ?? 0;
     });
+  }
+
+  void showMessage(Widget content, Color? color) {
+    Message.showMessage(context, content, color);
+  }
+
+  savePersonalExpense() async {
+    final personalExpenseProvider =
+        Provider.of<PersonalExpenseProvider>(context, listen: false);
+
+    await personalExpenseProvider.save({
+      "id": personalExpenseId,
+      "name_product": _nameProduct,
+      "quantity": quantity,
+      "date": dateFormat1.format(dateSelected),
+      "price": price,
+    });
+
+    showMessage(
+      ContentMessage(
+        title: widget.isEdition
+            ? "Despesa editada com sucesso."
+            : "Despesa cadastrada com sucesso.",
+        icon: Icons.info,
+      ),
+      null,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Despesa"),
+        title: const Text("Despesa pessoal"),
         actions: [
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
               onPressed: _nameProduct.isNotEmpty && price > 0 && quantity > 0
-                  ? () {}
+                  ? () {
+                      savePersonalExpense();
+                      Navigator.of(context).pop();
+                    }
                   : null,
               icon: const Icon(
                 Icons.check,
@@ -159,15 +192,6 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage> {
                   ),
                 ),
               ],
-            ),
-            TextFormField(
-              controller: observationController,
-              textInputAction: TextInputAction.newline,
-              maxLines: 3,
-              decoration:
-                  const InputDecoration(labelText: "Observação (opcional)"),
-              style: const TextStyle(fontSize: 18),
-              maxLength: 1000,
             ),
           ],
         ),

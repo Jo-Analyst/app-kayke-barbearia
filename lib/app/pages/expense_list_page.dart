@@ -12,41 +12,19 @@ import 'package:provider/provider.dart';
 import '../utils/convert_datetime.dart';
 import '../utils/focus_node.dart';
 
-class SpedingListPage extends StatefulWidget {
+class ExpenseListPage extends StatefulWidget {
   final bool itFromTheSalesScreen;
-  const SpedingListPage({required this.itFromTheSalesScreen, super.key});
+  const ExpenseListPage({required this.itFromTheSalesScreen, super.key});
 
   @override
-  State<SpedingListPage> createState() => _SpedingListPageState();
+  State<ExpenseListPage> createState() => _ExpenseListPageState();
 }
 
-class _SpedingListPageState extends State<SpedingListPage> {
+class _ExpenseListPageState extends State<ExpenseListPage> {
   final searchController = TextEditingController();
   String search = "";
   bool isGranted = false, isLoading = true;
-  List<Map<String, dynamic>> expenses = [
-    // {
-    //   "id": 1,
-    //   "name_product": "Gel Azul",
-    //   "price": 20.00,
-    //   "quantity": 10,
-    //   "date": "07/10/2022"
-    // },
-    // {
-    //   "id": 1,
-    //   "name_product": "Gel preto",
-    //   "price": 20.00,
-    //   "quantity": 10,
-    //   "date": "07/10/2022"
-    // },
-    // {
-    //   "id": 1,
-    //   "name_product": "Maquina de barbear",
-    //   "price": 100.00,
-    //   "quantity": 10,
-    //   "date": "07/07/2023"
-    // },
-  ];
+  List<Map<String, dynamic>> expenses = [];
 
   void showMessage(Widget content, Color? color) {
     Message.showMessage(context, content, color);
@@ -247,7 +225,7 @@ class _SpedingListPageState extends State<SpedingListPage> {
                                                   title: Text(
                                                     expense["name_product"],
                                                     style: const TextStyle(
-                                                        fontSize: 220),
+                                                        fontSize: 20),
                                                   ),
                                                   subtitle: Text(
                                                     "${expense["quantity"]}x ${numberFormat.format(expense["price"])} = ${numberFormat.format(expense["subtotal"])}",
