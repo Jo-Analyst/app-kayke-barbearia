@@ -10,6 +10,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../utils/focus_node.dart';
+
 class ProductListPage extends StatefulWidget {
   final bool itFromTheSalesScreen;
   const ProductListPage({required this.itFromTheSalesScreen, super.key});
@@ -19,7 +21,6 @@ class ProductListPage extends StatefulWidget {
 }
 
 class _ProductListPageState extends State<ProductListPage> {
-  final FocusNode _textFocusNode = FocusNode();
   final searchController = TextEditingController();
   String search = "";
   bool isLoading = true;
@@ -50,7 +51,7 @@ class _ProductListPageState extends State<ProductListPage> {
   void deleteProduct(ProductProvider productsProvider, product) async {
     final confirmDelete = await showExitDialog(
         context, "Deseja mesmo excluir o produto '${product["name"]}'?");
-    if (confirmDelete!) {
+    if (confirmDelete == true) {
       productsProvider.delete(product["id"]);
       showMessage(
         const ContentMessage(
@@ -109,7 +110,7 @@ class _ProductListPageState extends State<ProductListPage> {
                         TextField(
                           controller: searchController,
                           textInputAction: TextInputAction.search,
-                          focusNode: _textFocusNode,
+                          focusNode: textFocusNode,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),

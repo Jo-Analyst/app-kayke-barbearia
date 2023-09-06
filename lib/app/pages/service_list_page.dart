@@ -1,12 +1,15 @@
 import 'package:app_kaike_barbearia/app/pages/service_form_page.dart';
+import 'package:app_kaike_barbearia/app/providers/service_provider.dart';
+import 'package:app_kaike_barbearia/app/template/add_service.dart';
 import 'package:app_kaike_barbearia/app/utils/content_message.dart';
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
 import 'package:app_kaike_barbearia/app/utils/dialog.dart';
-import 'package:app_kaike_barbearia/app/utils/search_list.dart';
+import 'package:app_kaike_barbearia/app/utils/focus_node.dart';
 import 'package:app_kaike_barbearia/app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class ServiceListPage extends StatefulWidget {
   final bool itFromTheSalesScreen;
@@ -19,13 +22,9 @@ class ServiceListPage extends StatefulWidget {
 class _ServiceListPageState extends State<ServiceListPage> {
   final searchController = TextEditingController();
   String search = "";
-  bool isGranted = false;
-  List<Map<String, dynamic>> filteredList = [];
-  final List<Map<String, dynamic>> services = [
-    {"id": 1, "description": "Corte social", "price": 15.00},
-    {"id": 2, "description": "pezinho", "price": 12.00},
-    {"id": 3, "description": "barbear", "price": 13.00},
-  ];
+  bool isGranted = false, isLoading = true;
+
+  List<Map<String, dynamic>> services = [];
 
   void showMessage(Widget content, Color? color) {
     Message.showMessage(context, content, color);
@@ -34,7 +33,33 @@ class _ServiceListPageState extends State<ServiceListPage> {
   @override
   void initState() {
     super.initState();
-    filteredList = services;
+    loadServices();
+  }
+
+  loadServices() async {
+    final serviceProvider =
+        Provider.of<ServiceProvider>(context, listen: false);
+    await serviceProvider.load();
+    setState(() {
+      services = serviceProvider.items;
+      isLoading = false;
+    });
+  }
+
+  void deleteService(ServiceProvider serviceProvider, service) async {
+    FocusScope.of(context).requestFocus(FocusNode());
+    final confirmDelete = await showExitDialog(
+        context, "Deseja mesmo excluir o serviço '${service["description"]}'?");
+    if (confirmDelete == true) {
+      serviceProvider.delete(service["id"]);
+      showMessage(
+        const ContentMessage(
+          title: "Serviço excluido com sucesso.",
+          icon: Icons.info,
+        ),
+        const Color.fromARGB(255, 199, 82, 74),
+      );
+    }
   }
 
   @override
@@ -46,13 +71,16 @@ class _ServiceListPageState extends State<ServiceListPage> {
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => const ServiceFormPage(
-                    isEdition: false,
+              onPressed: () {
+                FocusScope.of(context).requestFocus(FocusNode());
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const ServiceFormPage(
+                      isEdition: false,
+                    ),
                   ),
-                ),
-              ),
+                );
+              },
               icon: const Icon(
                 Icons.add,
                 size: 35,
@@ -61,142 +89,179 @@ class _ServiceListPageState extends State<ServiceListPage> {
           ),
         ],
       ),
-      body: services.isEmpty
+      body: isLoading
           ? const Center(
-              child: Text(
-                "Não há serviços cadastrado...",
-                style: TextStyle(fontSize: 20),
-              ),
+              child: CircularProgressIndicator(),
             )
-          : Container(
-              margin: const EdgeInsets.only(top: 10),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 15,
-                vertical: 10,
-              ),
-              child: Column(
-                children: [
-                  TextField(
-                    controller: searchController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      labelText: "Digite para buscar",
-                      suffixIcon: search.isEmpty
-                          ? const Icon(
-                              Icons.search,
-                            )
-                          : IconButton(
-                              onPressed: () {
-                                searchController.text = "";
-                                setState(() {
-                                  search = "";
-                                  filteredList = services;
-                                });
-                              },
-                              icon: const Icon(Icons.close),
-                            ),
+          : SingleChildScrollView(
+              child: Consumer<ServiceProvider>(
+                builder: (context, serviceProvider, _) {
+                  services = serviceProvider.items;
+                  return Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 10,
                     ),
-                    onChanged: (value) {
-                      setState(() {
-                        search = value;
-                        filteredList = searchItems(value, services, true);
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: filteredList.length,
-                      itemBuilder: (_, index) {
-                        var service = filteredList[index];
-                        return Column(
-                          children: [
-                            Slidable(
-                              endActionPane: widget.itFromTheSalesScreen
-                                  ? null
-                                  : ActionPane(
-                                      motion: const StretchMotion(),
-                                      children: [
-                                        SlidableAction(
-                                          onPressed: (_) {
-                                            Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                builder: (_) => ServiceFormPage(
-                                                  isEdition: true,
-                                                  serviceId: service["id"],
-                                                  description:
-                                                      service["description"],
-                                                  price: service["price"],
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                          backgroundColor: Colors.amber,
-                                          foregroundColor: Colors.white,
-                                          icon: Icons.edit_outlined,
-                                          label: "Editar",
-                                        ),
-                                        SlidableAction(
-                                          onPressed: (_) async {
-                                            final confirmDelete =
-                                                await showExitDialog(context,
-                                                    "Deseja mesmo excluir o serviço '${service["description"]}'?");
-                                            if (confirmDelete!) {
-                                              services.removeAt(index);
-                                              setState(() {});
-                                              showMessage(
-                                                const ContentMessage(
-                                                  title:
-                                                      "Serviço excluido com sucesso.",
-                                                  icon: Icons.info,
-                                                ),
-                                                const Color.fromARGB(
-                                                    255, 199, 82, 74),
-                                              );
-                                            }
-                                          },
-                                          backgroundColor: Colors.red,
-                                          icon: Icons.delete,
-                                          label: "Excluir",
-                                        ),
-                                      ],
-                                    ),
-                              child: ListTile(
-                                onTap: () {
-                                  if (widget.itFromTheSalesScreen) {
-                                    service["time"] = TimeOfDay.now();
-                                    Navigator.of(context).pop(service);
-                                  }
-                                },
-                                minLeadingWidth: 0,
-                                selectedTileColor: Colors.indigo,
-                                title: Text(
-                                  service["description"],
-                                  style: const TextStyle(fontSize: 20),
-                                ),
-                                subtitle: Text(
-                                  numberFormat.format(service["price"]),
-                                  style: const TextStyle(
-                                    fontSize: 20,
+                    height: MediaQuery.of(context).size.height - 140,
+                    child: Column(
+                      children: [
+                        TextField(
+                          controller: searchController,
+                          focusNode: textFocusNode,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            labelText: "Digite para buscar",
+                            suffixIcon: search.isEmpty
+                                ? const Icon(
+                                    Icons.search,
+                                  )
+                                : IconButton(
+                                    onPressed: () {
+                                      searchController.text = "";
+                                      setState(() {
+                                        search = "";
+                                        serviceProvider.load();
+                                      });
+                                    },
+                                    icon: const Icon(Icons.close),
+                                  ),
+                          ),
+                          onChanged: (description) {
+                            setState(() {
+                              search = description;
+                              serviceProvider.searchDescription(description);
+                            });
+                          },
+                        ),
+                        services.isEmpty
+                            ? Center(
+                                child: AddNewService(
+                                  closeKeyboard: () =>
+                                      FocusScope.of(context).requestFocus(
+                                    FocusNode(),
                                   ),
                                 ),
-                                leading: const Icon(
-                                  FontAwesomeIcons.screwdriverWrench,
-                                  color: Colors.indigo,
+                              )
+                            : Expanded(
+                                child: Column(
+                                  children: [
+                                    const SizedBox(height: 20),
+                                    Expanded(
+                                      child: ListView.builder(
+                                        itemCount: services.length,
+                                        itemBuilder: (_, index) {
+                                          var service = services[index];
+                                          return Column(
+                                            children: [
+                                              Slidable(
+                                                endActionPane:
+                                                    widget.itFromTheSalesScreen
+                                                        ? null
+                                                        : ActionPane(
+                                                            motion:
+                                                                const StretchMotion(),
+                                                            children: [
+                                                              SlidableAction(
+                                                                onPressed: (_) {
+                                                                  FocusScope.of(
+                                                                          context)
+                                                                      .requestFocus(
+                                                                          FocusNode());
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .push(
+                                                                    MaterialPageRoute(
+                                                                      builder:
+                                                                          (_) =>
+                                                                              ServiceFormPage(
+                                                                        isEdition:
+                                                                            true,
+                                                                        serviceId:
+                                                                            service["id"],
+                                                                        description:
+                                                                            service["description"],
+                                                                        price: service[
+                                                                            "price"],
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                },
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .amber,
+                                                                foregroundColor:
+                                                                    Colors
+                                                                        .white,
+                                                                icon: Icons
+                                                                    .edit_outlined,
+                                                                label: "Editar",
+                                                              ),
+                                                              SlidableAction(
+                                                                onPressed: (_) {
+                                                                  deleteService(
+                                                                      serviceProvider,
+                                                                      service);
+                                                                },
+                                                                backgroundColor:
+                                                                    Colors.red,
+                                                                icon: Icons
+                                                                    .delete,
+                                                                label:
+                                                                    "Excluir",
+                                                              ),
+                                                            ],
+                                                          ),
+                                                child: ListTile(
+                                                  onTap: () {
+                                                    if (widget
+                                                        .itFromTheSalesScreen) {
+                                                      service["time"] =
+                                                          TimeOfDay.now();
+                                                      Navigator.of(context)
+                                                          .pop(service);
+                                                    }
+                                                  },
+                                                  minLeadingWidth: 0,
+                                                  selectedTileColor:
+                                                      Colors.indigo,
+                                                  title: Text(
+                                                    service["description"],
+                                                    style: const TextStyle(
+                                                        fontSize: 20),
+                                                  ),
+                                                  subtitle: Text(
+                                                    numberFormat.format(
+                                                        service["price"]),
+                                                    style: const TextStyle(
+                                                      fontSize: 20,
+                                                    ),
+                                                  ),
+                                                  leading: const Icon(
+                                                    FontAwesomeIcons
+                                                        .screwdriverWrench,
+                                                    color: Colors.indigo,
+                                                  ),
+                                                ),
+                                              ),
+                                              Divider(
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ),
-                            Divider(
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ],
-                        );
-                      },
+                      ],
                     ),
-                  ),
-                ],
+                  );
+                },
               ),
             ),
     );

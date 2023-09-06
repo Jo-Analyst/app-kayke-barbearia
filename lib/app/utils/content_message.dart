@@ -9,7 +9,10 @@ class ContentMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon),
+        Icon(
+          icon,
+          color: Colors.white,
+        ),
         const SizedBox(width: 10),
         Expanded(
           child: Text(

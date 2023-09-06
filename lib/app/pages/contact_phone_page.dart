@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:provider/provider.dart';
 
+import '../utils/content_message.dart';
+import '../utils/snackbar.dart';
+
 class ContactPhonePage extends StatefulWidget {
   const ContactPhonePage({super.key});
 
@@ -45,6 +48,10 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
     filteredList = _contacts;
   }
 
+  void showMessage(Widget content, Color? color) {
+    Message.showMessage(context, content, color);
+  }
+
   importContacts() {
     final clientProvider = Provider.of<ClientProvider>(context, listen: false);
 
@@ -54,7 +61,13 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
           .save({"id": 0, "name": names[index], "phone": phone, "address": ""});
       index++;
     }
-
+    showMessage(
+      const ContentMessage(
+        title: "Cliente importado com sucesso.",
+        icon: Icons.info,
+      ),
+      null,
+    );
     Navigator.of(context).pop();
   }
 
@@ -145,19 +158,19 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
                                     setState(() {
                                       names.contains(contact["name"])
                                           ? names.remove(contact["name"])
-                                          : names.add(contact["name"]);
+                                          : names.add(contact["name"] ?? "Sem nome");
 
                                       phones.contains(contact["phone"])
                                           ? phones.remove(contact["phone"])
-                                          : phones.add(contact["phone"]);
+                                          : phones.add(contact["phone"] ?? "Sem número");
                                     });
                                   },
                                   selected: names.contains(contact["name"]),
                                   selectedTileColor: Colors.indigo,
                                   selectedColor: Colors.white,
-                                  title: Text(contact["name"] ?? ""),
+                                  title: Text(contact["name"] ?? "Sem nome"),
                                   subtitle: Text(
-                                    contact["phone"],
+                                    contact["phone"] ?? "Sem número",
                                   ),
                                   leading: CircleAvatar(
                                     maxRadius: 25,

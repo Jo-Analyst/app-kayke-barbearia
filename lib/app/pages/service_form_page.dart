@@ -1,5 +1,10 @@
+import 'package:app_kaike_barbearia/app/providers/service_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+import 'package:provider/provider.dart';
+
+import '../utils/content_message.dart';
+import '../utils/snackbar.dart';
 
 class ServiceFormPage extends StatefulWidget {
   final int? serviceId;
@@ -21,25 +26,9 @@ class ServiceFormPage extends StatefulWidget {
 class _ServiceFormPageState extends State<ServiceFormPage> {
   final serviceValueController = MoneyMaskedTextController(leftSymbol: "R\$ ");
   final descriptionController = TextEditingController();
-  DateTime dateSelected = DateTime.now();
-  TimeOfDay timeSelected = TimeOfDay.now();
   String _description = "";
-  double priceService = 0;
-
-  showCalendarPicker() {
-    showDatePicker(
-      context: context,
-      initialDate: dateSelected,
-      firstDate: DateTime(2014),
-      lastDate: DateTime.now(),
-    ).then(
-      (date) => setState(() {
-        if (date != null) {
-          dateSelected = date;
-        }
-      }),
-    );
-  }
+  double _priceService = 0;
+  int _serviceId = 0;
 
   @override
   void initState() {
@@ -48,8 +37,33 @@ class _ServiceFormPageState extends State<ServiceFormPage> {
     if (!widget.isEdition) return;
     _description = widget.description ?? "";
     descriptionController.text = _description;
-    priceService = widget.price ?? 0.0;
-    serviceValueController.updateValue(priceService);
+    _priceService = widget.price ?? 0.0;
+    serviceValueController.updateValue(_priceService);
+    _serviceId = widget.serviceId ?? 0;
+  }
+
+  void showMessage(Widget content, Color? color) {
+    Message.showMessage(context, content, color);
+  }
+
+  saveService() async {
+    final serviceProvider =
+        Provider.of<ServiceProvider>(context, listen: false);
+    await serviceProvider.save({
+      "id": _serviceId,
+      "description": _description,
+      "price": _priceService,
+    });
+
+    showMessage(
+      ContentMessage(
+        title: widget.isEdition
+            ? "Serviço editado com sucesso."
+            : "Serviço cadastrado com sucesso.",
+        icon: Icons.info,
+      ),
+      null,
+    );
   }
 
   @override
@@ -61,8 +75,12 @@ class _ServiceFormPageState extends State<ServiceFormPage> {
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed:
-                  _description.isNotEmpty && priceService > 0 ? () {} : null,
+              onPressed: _description.isNotEmpty && _priceService > 0
+                  ? () {
+                      saveService();
+                      Navigator.of(context).pop();
+                    }
+                  : null,
               icon: const Icon(
                 Icons.check,
                 size: 30,
@@ -80,6 +98,7 @@ class _ServiceFormPageState extends State<ServiceFormPage> {
           children: [
             TextFormField(
               controller: descriptionController,
+              textCapitalization: TextCapitalization.sentences,
               maxLength: 100,
               decoration: const InputDecoration(labelText: "Serviço*"),
               style: const TextStyle(fontSize: 18),
@@ -88,11 +107,15 @@ class _ServiceFormPageState extends State<ServiceFormPage> {
                   _description = description.trim();
                 });
               },
+              onFieldSubmitted: _description.isNotEmpty && _priceService > 0
+                  ? (_) {
+                      saveService();
+                      Navigator.of(context).pop();
+                    }
+                  : null,
             ),
             TextFormField(
               controller: serviceValueController,
-              autofocus: true,
-              textInputAction: TextInputAction.next,
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
@@ -100,9 +123,15 @@ class _ServiceFormPageState extends State<ServiceFormPage> {
               style: const TextStyle(fontSize: 18),
               onChanged: (value) {
                 setState(() {
-                  priceService = serviceValueController.numberValue;
+                  _priceService = serviceValueController.numberValue;
                 });
               },
+              onFieldSubmitted: _description.isNotEmpty && _priceService > 0
+                  ? (_) {
+                      saveService();
+                      Navigator.of(context).pop();
+                    }
+                  : null,
             ),
           ],
         ),

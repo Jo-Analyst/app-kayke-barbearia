@@ -6,7 +6,7 @@ class Message {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: content,
-        backgroundColor: backgroundColor ?? const Color.fromARGB(28, 0, 0, 0),
+        backgroundColor: backgroundColor ?? const Color.fromARGB(255, 20, 20, 20),
         duration: const Duration(milliseconds: 3000),
       ),
     );

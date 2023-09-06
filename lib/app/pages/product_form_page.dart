@@ -4,6 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:provider/provider.dart';
 
+import '../utils/content_message.dart';
+import '../utils/snackbar.dart';
+
 class ProductFormPage extends StatefulWidget {
   final bool isEdition;
   final String? name;
@@ -52,6 +55,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
       profitValueController.text = "0,00";
       return;
     }
+    
     productId = widget.productId ?? 0;
     nameController.text = widget.name ?? "";
     name = nameController.text;
@@ -64,6 +68,10 @@ class _ProductFormPageState extends State<ProductFormPage> {
     quantityController.text = quantity.toString();
   }
 
+ void showMessage(Widget content, Color? color) {
+    Message.showMessage(context, content, color);
+  }
+  
   saveProduct() async {
     final productProvider =
         Provider.of<ProductProvider>(context, listen: false);
@@ -75,6 +83,16 @@ class _ProductFormPageState extends State<ProductFormPage> {
       "profit_value": profitValue,
       "quantity": quantity,
     });
+
+    showMessage(
+      ContentMessage(
+        title: widget.isEdition
+            ? "Produto editado com sucesso."
+            : "Produto cadastrado com sucesso.",
+        icon: Icons.info,
+      ),
+      null,
+    );
   }
 
   @override
@@ -109,7 +127,6 @@ class _ProductFormPageState extends State<ProductFormPage> {
           children: [
             TextFormField(
               controller: nameController,
-              autofocus: true,
               textInputAction: TextInputAction.done,
               textCapitalization: TextCapitalization.words,
               maxLength: 100,

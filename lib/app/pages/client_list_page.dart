@@ -10,6 +10,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
+import '../utils/focus_node.dart';
+
 class ClientListPage extends StatefulWidget {
   final bool itFromTheSalesScreen;
   const ClientListPage({required this.itFromTheSalesScreen, super.key});
@@ -24,7 +26,6 @@ class _ClientListPageState extends State<ClientListPage> {
   String search = "";
   bool isGranted = false;
   List<Map<String, dynamic>> clients = [];
-  final FocusNode _textFocusNode = FocusNode();
 
   Future<void> permissionGranted() async {
     var status = await Permission.contacts.request();
@@ -35,17 +36,11 @@ class _ClientListPageState extends State<ClientListPage> {
 
   openScreenContacts() async {
     FocusScope.of(context).requestFocus(FocusNode());
-    final contact = await Navigator.of(context).push(
+    Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => const ContactPhonePage(),
       ),
     );
-
-    if (contact != null) {
-      setState(() {
-        clients.addAll(contact);
-      });
-    }
   }
 
   void showMessage(Widget content, Color? color) {
@@ -66,6 +61,22 @@ class _ClientListPageState extends State<ClientListPage> {
       isLoading = false;
       clients = clientProvider.items;
     });
+  }
+
+  void deleteService(ClientProvider clientsProvider, client) async {
+    FocusScope.of(context).requestFocus(FocusNode());
+    final confirmDelete = await showExitDialog(
+        context, "Deseja mesmo excluir o(a) cliente '${client["name"]}'?");
+    if (confirmDelete == true) {
+      await clientsProvider.delete(client["id"]);
+      showMessage(
+        const ContentMessage(
+          title: "Cliente excluido com sucesso.",
+          icon: Icons.info,
+        ),
+        const Color.fromARGB(255, 199, 82, 74),
+      );
+    }
   }
 
   @override
@@ -90,7 +101,9 @@ class _ClientListPageState extends State<ClientListPage> {
                 FocusScope.of(context).requestFocus(FocusNode());
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => const ClientFormPage(),
+                    builder: (_) => const ClientFormPage(
+                      isEdition: false,
+                    ),
                   ),
                 );
               },
@@ -119,7 +132,7 @@ class _ClientListPageState extends State<ClientListPage> {
                       children: [
                         TextField(
                           controller: searchController,
-                          focusNode: _textFocusNode,
+                          focusNode: textFocusNode,
                           textInputAction: TextInputAction.search,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
@@ -169,88 +182,61 @@ class _ClientListPageState extends State<ClientListPage> {
                                           return Column(
                                             children: [
                                               Slidable(
-                                                endActionPane:
-                                                    widget.itFromTheSalesScreen
-                                                        ? null
-                                                        : ActionPane(
-                                                            motion:
-                                                                const StretchMotion(),
-                                                            children: [
-                                                              SlidableAction(
-                                                                onPressed: (_) {
-                                                                  FocusScope.of(
-                                                                          context)
-                                                                      .requestFocus(
-                                                                          FocusNode());
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .push(
-                                                                    MaterialPageRoute(
-                                                                      builder:
-                                                                          (_) =>
-                                                                              ClientFormPage(
-                                                                        clientId:
-                                                                            client["id"],
-                                                                        name: client[
-                                                                            "name"],
-                                                                        phone: client[
-                                                                            "phone"],
-                                                                        address:
-                                                                            client["address"],
-                                                                      ),
-                                                                    ),
-                                                                  );
-                                                                },
-                                                                backgroundColor:
-                                                                    Colors
-                                                                        .amber,
-                                                                foregroundColor:
-                                                                    Colors
-                                                                        .white,
-                                                                icon: Icons
-                                                                    .edit_outlined,
-                                                                label: "Editar",
-                                                              ),
-                                                              SlidableAction(
-                                                                onPressed:
-                                                                    (_) async {
-                                                                  FocusScope.of(
-                                                                          context)
-                                                                      .requestFocus(
-                                                                          FocusNode());
-                                                                  final confirmDelete =
-                                                                      await showExitDialog(
-                                                                          context,
-                                                                          "Deseja mesmo excluir o(a) cliente '${client["name"]}'?");
-                                                                  if (confirmDelete!) {
-                                                                    await clientsProvider
-                                                                        .delete(
-                                                                            client["id"]);
-                                                                    showMessage(
-                                                                      const ContentMessage(
-                                                                        title:
-                                                                            "Cliente excluido com sucesso.",
-                                                                        icon: Icons
-                                                                            .info,
-                                                                      ),
-                                                                      const Color
-                                                                              .fromARGB(
-                                                                          255,
-                                                                          199,
-                                                                          82,
-                                                                          74),
-                                                                    );
-                                                                  }
-                                                                },
-                                                                backgroundColor:
-                                                                    Colors.red,
-                                                                icon: Icons
-                                                                    .delete,
-                                                                label:
-                                                                    "Excluir",
-                                                              ),
-                                                            ],
+                                                endActionPane: widget
+                                                        .itFromTheSalesScreen
+                                                    ? null
+                                                    : ActionPane(
+                                                        motion:
+                                                            const StretchMotion(),
+                                                        children: [
+                                                          SlidableAction(
+                                                            onPressed: (_) {
+                                                              FocusScope.of(
+                                                                      context)
+                                                                  .requestFocus(
+                                                                      FocusNode());
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .push(
+                                                                MaterialPageRoute(
+                                                                  builder: (_) =>
+                                                                      ClientFormPage(
+                                                                    isEdition:
+                                                                        true,
+                                                                    clientId:
+                                                                        client[
+                                                                            "id"],
+                                                                    name: client[
+                                                                        "name"],
+                                                                    phone: client[
+                                                                        "phone"],
+                                                                    address: client[
+                                                                        "address"],
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            },
+                                                            backgroundColor:
+                                                                Colors.amber,
+                                                            foregroundColor:
+                                                                Colors.white,
+                                                            icon: Icons
+                                                                .edit_outlined,
+                                                            label: "Editar",
                                                           ),
+                                                          SlidableAction(
+                                                            onPressed: (_) {
+                                                              deleteService(
+                                                                  clientsProvider,
+                                                                  client);
+                                                            },
+                                                            backgroundColor:
+                                                                Colors.red,
+                                                            icon: Icons.delete,
+                                                            label: "Excluir",
+                                                          ),
+                                                        ],
+                                                      ),
                                                 child: ListTile(
                                                   onTap: widget
                                                           .itFromTheSalesScreen

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'app/pages/home_page.dart';
 import 'app/providers/product_provider.dart';
+import 'app/providers/service_provider.dart';
 
 class AppKaikeBarbearia extends StatelessWidget {
   const AppKaikeBarbearia({super.key});
@@ -15,6 +16,7 @@ class AppKaikeBarbearia extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => ClientProvider()),
         ChangeNotifierProvider(create: (_) => ProductProvider()),
+        ChangeNotifierProvider(create: (_) => ServiceProvider()),
       ],
       child: MaterialApp(
         title: 'Kaike Barbearia',

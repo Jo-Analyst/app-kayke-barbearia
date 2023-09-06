@@ -1,9 +1,10 @@
-import 'package:app_kaike_barbearia/app/pages/client_form_page.dart';
 import 'package:flutter/material.dart';
 
-class AddNewClient extends StatelessWidget {
+import '../pages/service_form_page.dart';
+
+class AddNewService extends StatelessWidget {
   final Function()? closeKeyboard;
-  const AddNewClient({this.closeKeyboard, super.key});
+  const AddNewService({this.closeKeyboard, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class AddNewClient extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Text(
-            "Cadastro de clientes",
+            "Cadastro de Serviços",
             style: TextStyle(fontSize: 20),
           ),
           Container(
@@ -30,14 +31,14 @@ class AddNewClient extends StatelessWidget {
                 closeKeyboard!();
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => const ClientFormPage(isEdition: false,),
+                    builder: (_) => const ServiceFormPage(isEdition: false),
                   ),
                 );
               },
               child: const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
-                  "Adicionar Cliente",
+                  "Adicionar Serviço",
                   style: TextStyle(fontSize: 20),
                 ),
               ),
