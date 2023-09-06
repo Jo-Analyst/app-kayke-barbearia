@@ -136,6 +136,7 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage> {
           children: [
             TextFormField(
               controller: nameProductController,
+              textCapitalization: TextCapitalization.sentences,
               maxLength: 100,
               decoration: const InputDecoration(labelText: "Despesa*"),
               style: const TextStyle(fontSize: 18),

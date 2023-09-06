@@ -28,7 +28,7 @@ class AppKaikeBarbearia extends StatelessWidget {
         theme: ThemeData(
           appBarTheme: const AppBarTheme(
             toolbarHeight: 80,
-            titleTextStyle: TextStyle(fontSize: 25),
+            titleTextStyle: TextStyle(fontSize: 20),
           ),
           primaryColor: Colors.indigo,
           colorScheme: ColorScheme.fromSeed(
