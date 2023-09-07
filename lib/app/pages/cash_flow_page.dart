@@ -51,7 +51,9 @@ class _CashFlowPageState extends State<CashFlowPage> {
             child: Calendar(
               dateInitial: dateSelected,
               onSelected: (value) {
-                dateSelected = value;
+                setState(() {
+                  dateSelected = value;
+                });
               },
             ),
           ),

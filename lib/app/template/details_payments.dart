@@ -51,7 +51,7 @@ class DetailsPayment extends StatelessWidget {
                               ),
                             ),
                             child: Text(
-                              payment["date_sale"],
+                              payment["date_payment"],
                               style: const TextStyle(fontSize: 20),
                             ),
                           ),

@@ -60,7 +60,7 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Serviço"),
+        title: const Text("Prestação de Serviço"),
       ),
       body: Stack(
         children: [
