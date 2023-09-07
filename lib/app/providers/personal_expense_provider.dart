@@ -27,8 +27,7 @@ class PersonalExpenseProvider extends ChangeNotifier {
     ).save();
 
     if (data["id"] > 0) {
-      _items.removeWhere((item) => item["id"] == data["id"]);
-      itemsFiltered.removeWhere((item) => item["id"] == data["id"]);
+      deleteItem(data["id"]);
     }
     final dataPersonalExpense = {
       "id": data["id"] == 0 ? lastId : data["id"],
@@ -47,9 +46,13 @@ class PersonalExpenseProvider extends ChangeNotifier {
 
   Future<void> delete(int id) async {
     PersonalExpense.delete(id);
+    deleteItem(id);
+    notifyListeners();
+  }
+
+  deleteItem(int id) {
     _items.removeWhere((item) => item["id"] == id);
     itemsFiltered.removeWhere((item) => item["id"] == id);
-    notifyListeners();
   }
 
   clear() {
@@ -77,7 +80,8 @@ class PersonalExpenseProvider extends ChangeNotifier {
 
   Future<void> searchName(String nameProduct) async {
     clear();
-    final personalExpenses = searchItems(nameProduct, itemsFiltered, "name_product");
+    final personalExpenses =
+        searchItems(nameProduct, itemsFiltered, "name_product");
     List<Map<String, dynamic>> newItems = [];
     for (var personalExpense in personalExpenses) {
       newItems.add({

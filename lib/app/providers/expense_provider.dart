@@ -27,8 +27,7 @@ class ExpenseProvider extends ChangeNotifier {
     ).save();
 
     if (data["id"] > 0) {
-      _items.removeWhere((item) => item["id"] == data["id"]);
-      itemsFiltered.removeWhere((item) => item["id"] == data["id"]);
+      deleteItem(data["id"]);
     }
     final dataExpense = {
       "id": data["id"] == 0 ? lastId : data["id"],
@@ -47,9 +46,13 @@ class ExpenseProvider extends ChangeNotifier {
 
   Future<void> delete(int id) async {
     Expense.delete(id);
+    deleteItem(id);
+    notifyListeners();
+  }
+
+  deleteItem(int id) {
     _items.removeWhere((item) => item["id"] == id);
     itemsFiltered.removeWhere((item) => item["id"] == id);
-    notifyListeners();
   }
 
   clear() {

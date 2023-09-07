@@ -24,8 +24,7 @@ class ServiceProvider extends ChangeNotifier {
     ).save();
 
     if (data["id"] > 0) {
-      _items.removeWhere((item) => item["id"] == data["id"]);
-      itemsFiltered.removeWhere((item) => item["id"] == data["id"]);
+      deleteItem(data["id"]);
     }
 
     final dataService = {
@@ -41,9 +40,13 @@ class ServiceProvider extends ChangeNotifier {
 
   Future<void> delete(int id) async {
     Service.delete(id);
+    deleteItem(id);
+    notifyListeners();
+  }
+
+  deleteItem(int id) {
     _items.removeWhere((item) => item["id"] == id);
     itemsFiltered.removeWhere((item) => item["id"] == id);
-    notifyListeners();
   }
 
   clear() {

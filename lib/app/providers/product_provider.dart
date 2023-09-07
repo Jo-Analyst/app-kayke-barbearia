@@ -37,8 +37,7 @@ class ProductProvider extends ChangeNotifier {
     };
 
     if (data["id"] > 0) {
-      _items.removeWhere((item) => item["id"] == data["id"]);
-      itemsFiltered.removeWhere((item) => item["id"] == data["id"]);
+      deleteItem(data["id"]);
     }
 
     _items.add(dataProduct);
@@ -49,9 +48,13 @@ class ProductProvider extends ChangeNotifier {
 
   Future<void> delete(int id) async {
     Product.delete(id);
+    deleteItem(id);
+    notifyListeners();
+  }
+
+  deleteItem(int id) {
     _items.removeWhere((item) => item["id"] == id);
     itemsFiltered.removeWhere((item) => item["id"] == id);
-    notifyListeners();
   }
 
   clear() {
@@ -68,7 +71,7 @@ class ProductProvider extends ChangeNotifier {
 
   Future<void> searchName(String name) async {
     clear();
-    _items = searchItems(name, itemsFiltered, "name");   
+    _items = searchItems(name, itemsFiltered, "name");
     notifyListeners();
   }
 }
