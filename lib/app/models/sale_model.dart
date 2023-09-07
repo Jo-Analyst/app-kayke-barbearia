@@ -29,7 +29,7 @@ class Sale {
           "date_sale": dateSale,
           "profit_value_total": profitValueTotal,
           "value_total": valueTotal,
-          "discount_total": discount,
+          "discount": discount,
           "client_id": clientId ?? 0
         });
       } else {
@@ -48,6 +48,7 @@ class Sale {
 
       for (var itemSale in itemsSale) {
         itemSale["sale_id"] = lastId;
+        itemSale.remove("name");
         await ItemsSale(
                 // quantityItems: itemSale["quantity"],
                 // subTotal: itemSale["sub_total"],

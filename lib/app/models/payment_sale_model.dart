@@ -16,7 +16,7 @@ class PaymentSale {
   });
 
   Future<void> save(Transaction txn) async {
-    await txn.insert("payment_sale", {
+    await txn.insert("payments_sales", {
       "specie": specie,
       "amount_paid": amountPaid,
       "date_payment": datePayment,

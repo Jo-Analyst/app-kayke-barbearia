@@ -1,9 +1,12 @@
+import 'package:app_kaike_barbearia/app/config/db.dart';
 import 'package:app_kaike_barbearia/app/pages/client_list_page.dart';
+import 'package:app_kaike_barbearia/app/providers/sale_provider.dart';
 import 'package:app_kaike_barbearia/app/utils/content_message.dart';
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 import '../template/specie_payment.dart';
 import '../utils/snackbar.dart';
@@ -96,7 +99,7 @@ class _PaymentPageState extends State<PaymentPage> {
     }
   }
 
-  confirmSale() {
+  confirmSale() async {
     if (client.isEmpty && amountReceivable > 0) {
       showMessage(
           const ContentMessage(
@@ -110,10 +113,12 @@ class _PaymentPageState extends State<PaymentPage> {
     payment = {
       "client": client.isNotEmpty ? client["name"] : "Cliente avulso",
       "amount_received": amountReceived,
-      "specie": typeSpecie,
-      "icon": iconSpeciePayment,
+      "specie": amountReceived == 0 ? "Fiado" : typeSpecie,
+      "icon": amountReceived == 0 ? Icons.person_2_outlined : iconSpeciePayment,
       "date_sale": widget.dateSale
     };
+
+    saveSale();
 
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -124,6 +129,27 @@ class _PaymentPageState extends State<PaymentPage> {
         ),
       ),
     );
+  }
+
+  saveSale() async {
+    final saleProvider = Provider.of<SaleProvider>(context, listen: false);
+    if (widget.isSale) {
+      await saleProvider.save(
+        {
+          "date_sale": widget.dateSale,
+          "value_total": widget.total,
+          "profit_value_total": widget.profitTotal,
+          "discount": widget.discount,
+          "client_id": client["id"],
+        },
+        widget.items,
+        {
+          "specie": typeSpecie,
+          "amount_paid": amountReceived,
+          "date_payment": widget.dateSale
+        },
+      );
+    }
   }
 
   void showMessage(Widget content, Color? color) {
