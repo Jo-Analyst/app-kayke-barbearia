@@ -27,14 +27,14 @@ class _PaymentListPageState extends State<PaymentListPage>
       filteredPaymentsServices = [],
       paymentsSales = [
         {
-          "date_sale": "30/08/2023",
+          "date_payment": "30/08/2023",
           "value": 100.00,
           "amount_paid": 100.00,
           "situation": "Recebido",
           "specie": "Dinheiro"
         },
         {
-          "date_sale": "30/08/2023",
+          "date_payment": "30/08/2023",
           "client_name": "Valdirene Aparecida Ferreira",
           "value": 200.00,
           "amount_paid": 200.00,
@@ -42,14 +42,14 @@ class _PaymentListPageState extends State<PaymentListPage>
           "specie": "Dinheiro"
         },
         {
-          "date_sale": "30/08/2023",
+          "date_payment": "30/08/2023",
           "value": 100.00,
           "amount_paid": 100.00,
           "situation": "Recebido",
           "specie": "Dinheiro"
         },
         {
-          "date_sale": "30/08/2023",
+          "date_payment": "30/08/2023",
           "client_name": "Valdirene Aparecida Ferreira",
           "value": 200.00,
           "amount_paid": 200.00,
@@ -57,14 +57,14 @@ class _PaymentListPageState extends State<PaymentListPage>
           "specie": "Dinheiro"
         },
         {
-          "date_sale": "30/08/2023",
+          "date_payment": "30/08/2023",
           "value": 100.00,
           "amount_paid": 100.00,
           "situation": "Recebido",
           "specie": "Dinheiro"
         },
         {
-          "date_sale": "30/08/2023",
+          "date_payment": "30/08/2023",
           "client_name": "Valdirene Aparecida Ferreira",
           "value": 200.00,
           "amount_paid": 200.00,
@@ -72,14 +72,14 @@ class _PaymentListPageState extends State<PaymentListPage>
           "specie": "Dinheiro"
         },
         {
-          "date_sale": "30/08/2023",
+          "date_payment": "30/08/2023",
           "value": 100.00,
           "amount_paid": 100.00,
           "situation": "Recebido",
           "specie": "Dinheiro"
         },
         {
-          "date_sale": "30/08/2023",
+          "date_payment": "30/08/2023",
           "client_name": "Valdirene Aparecida Ferreira",
           "value": 200.00,
           "amount_paid": 200.00,
@@ -87,13 +87,13 @@ class _PaymentListPageState extends State<PaymentListPage>
           "specie": "Dinheiro"
         },
         {
-          "date_sale": "30/08/2023",
+          "date_payment": "30/08/2023",
           "value": 100.00,
           "amount_paid": 0.0,
           "situation": "A receber"
         },
         {
-          "date_sale": "30/08/2023",
+          "date_payment": "30/08/2023",
           "client_name": "Valdirene Aparecida Ferreira",
           "value": 200.00,
           "amount_paid": 0.0,
@@ -102,14 +102,14 @@ class _PaymentListPageState extends State<PaymentListPage>
       ],
       paymentsServices = [
         {
-          "date_sale": "30/08/2023",
+          "date_payment": "30/08/2023",
           "value": 100.00,
           "amount_paid": 100.00,
           "situation": "Recebido",
           "specie": "Dinheiro"
         },
         {
-          "date_sale": "30/08/2023",
+          "date_payment": "30/08/2023",
           "client_name": "Joelmir Carvalho",
           "value": 200.00,
           "amount_paid": 200.00,
@@ -117,14 +117,14 @@ class _PaymentListPageState extends State<PaymentListPage>
           "specie": "PIX"
         },
         {
-          "date_sale": "30/08/2023",
+          "date_payment": "30/08/2023",
           "value": 100.00,
           "amount_paid": 0.0,
           "situation": "A receber",
           "specie": "Dinheiro"
         },
         {
-          "date_sale": "30/08/2023",
+          "date_payment": "30/08/2023",
           "client_name": "Joelmir Carvalho",
           "value": 200.00,
           "amount_paid": 0.0,

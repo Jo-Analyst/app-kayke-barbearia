@@ -33,8 +33,7 @@ class ClientProvider extends ChangeNotifier {
     };
 
     if (data["id"] > 0) {
-      _items.removeWhere((item) => item["id"] == data["id"]);
-      itemsFiltered.removeWhere((item) => item["id"] == data["id"]);
+      deleteItem(data["id"]);
     }
 
     _items.add(dataCliente);
@@ -45,9 +44,13 @@ class ClientProvider extends ChangeNotifier {
 
   Future<void> delete(int id) async {
     Client.delete(id);
+    deleteItem(id);
+    notifyListeners();
+  }
+
+  deleteItem(int id) {
     _items.removeWhere((item) => item["id"] == id);
     itemsFiltered.removeWhere((item) => item["id"] == id);
-    notifyListeners();
   }
 
   clear() {

@@ -1,17 +1,26 @@
+import 'package:sqflite/sqflite.dart';
+
 class PaymentSale {
   final int id;
   final String specie;
   final double amountPaid;
-  final String date;
+  final String datePayment;
   final int saleId;
 
   PaymentSale({
     required this.id,
     required this.specie,
     required this.amountPaid,
-    required this.date,
+    required this.datePayment,
     required this.saleId,
   });
 
-  void save() async {}
+  Future<void> save(Transaction txn) async {
+    await txn.insert("payment_sale", {
+      "specie": specie,
+      "amount_paid": amountPaid,
+      "date_payment": datePayment,
+      "sale_id": saleId
+    },);
+  }
 }

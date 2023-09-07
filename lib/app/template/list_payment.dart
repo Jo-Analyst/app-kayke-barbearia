@@ -34,7 +34,7 @@ class _ListPaymentState extends State<ListPayment> {
                 ),
               ),
               title: Text(
-                widget.payments[index]["date_sale"],
+                widget.payments[index]["date_payment"],
                 style: const TextStyle(fontSize: 18),
               ),
               subtitle: Text(

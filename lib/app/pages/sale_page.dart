@@ -28,7 +28,7 @@ class _SalePageState extends State<SalePage> {
       if (item["quantity"] == 999) return;
       item["quantity"]++;
       calculateSubTotalAndSubProfitByItems(
-          items[index]["quantity"], items[index]["sale_value"], index);
+          items[index]["quantity"], items[index]["price_product"], index);
     });
   }
 
@@ -42,9 +42,9 @@ class _SalePageState extends State<SalePage> {
   }
 
   calculateSubTotalAndSubProfitByItems(int quantity, double price, int index) {
-    double profit = items[index]["profit_value"];
-    items[index]["subtotal"] = quantity * price;
-    items[index]["sub_profit_value"] = quantity * profit;
+    double profit = items[index]["profit_product"];
+    items[index]["sub_total"] = quantity * price;
+    items[index]["sub_profit_product"] = quantity * profit;
 
     calculateSubTotalAndProfitTotal();
   }
@@ -54,8 +54,8 @@ class _SalePageState extends State<SalePage> {
     profitTotal = 0;
     setState(() {
       for (var item in items) {
-        subtotal += item["subtotal"];
-        profitTotal += item["sub_profit_value"];
+        subtotal += item["sub_total"];
+        profitTotal += item["sub_profit_product"];
       }
     });
     if (items.isEmpty || discount > subtotal) {
@@ -194,7 +194,7 @@ class _SalePageState extends State<SalePage> {
                                           style: const TextStyle(fontSize: 20),
                                         ),
                                         subtitle: Text(
-                                          "${item["quantity"].toString()}x ${numberFormat.format(item["subtotal"])}",
+                                          "${item["quantity"].toString()}x ${numberFormat.format(item["sub_total"])}",
                                           style: const TextStyle(fontSize: 16),
                                         ),
                                         trailing: SizedBox(
