@@ -1,9 +1,11 @@
+import 'package:app_kaike_barbearia/app/utils/cache.dart';
+import 'package:app_kaike_barbearia/app/utils/search_list.dart';
 import 'package:flutter/material.dart';
 
 import '../models/expense_model.dart';
 
 class ExpenseProvider extends ChangeNotifier {
-  final List<Map<String, dynamic>> _items = [];
+  List<Map<String, dynamic>> _items = [];
 
   List<Map<String, dynamic>> get items {
     return [
@@ -26,18 +28,19 @@ class ExpenseProvider extends ChangeNotifier {
 
     if (data["id"] > 0) {
       _items.removeWhere((item) => item["id"] == data["id"]);
+      itemsFiltered.removeWhere((item) => item["id"] == data["id"]);
     }
+    final dataExpense = {
+      "id": data["id"] == 0 ? lastId : data["id"],
+      "name_product": data["name_product"],
+      "price": data["price"],
+      "quantity": data["quantity"],
+      "date": data["date"],
+      "subtotal": data["price"] * data["quantity"]
+    };
 
-    _items.add(
-      {
-        "id": data["id"] == 0 ? lastId : data["id"],
-        "name_product": data["name_product"],
-        "price": data["price"],
-        "quantity": data["quantity"],
-        "date": data["date"],
-        "subtotal": data["price"] * data["quantity"]
-      },
-    );
+    _items.add(dataExpense);
+    itemsFiltered.add(dataExpense);
 
     notifyListeners();
   }
@@ -45,6 +48,7 @@ class ExpenseProvider extends ChangeNotifier {
   Future<void> delete(int id) async {
     Expense.delete(id);
     _items.removeWhere((item) => item["id"] == id);
+    itemsFiltered.removeWhere((item) => item["id"] == id);
     notifyListeners();
   }
 
@@ -54,36 +58,38 @@ class ExpenseProvider extends ChangeNotifier {
 
   Future<void> load() async {
     clear();
-    final services = await Expense.findAll();
+    itemsFiltered.clear();
+    final expenses = await Expense.findAll();
     List<Map<String, dynamic>> newItems = [];
-    for (var service in services) {
+    for (var expense in expenses) {
       newItems.add({
-        "id": service["id"],
-        "name_product": service["name_product"],
-        "price": service["price"],
-        "quantity": service["quantity"],
-        "date": service["date"],
-        "subtotal": service["price"] * service["quantity"]
+        "id": expense["id"],
+        "name_product": expense["name_product"],
+        "price": expense["price"],
+        "quantity": expense["quantity"],
+        "date": expense["date"],
+        "subtotal": expense["price"] * expense["quantity"]
       });
     }
     _items.addAll(newItems);
+    itemsFiltered.addAll(newItems);
   }
 
   Future<void> searchName(String nameProduct) async {
     clear();
-    final services = await Expense.findByDescription(nameProduct.trim());
+    final expenses = searchItems(nameProduct, itemsFiltered, "name_product");
     List<Map<String, dynamic>> newItems = [];
-    for (var service in services) {
+    for (var expense in expenses) {
       newItems.add({
-        "id": service["id"],
-        "name_product": service["name_product"],
-        "price": service["price"],
-        "quantity": service["quantity"],
-        "date": service["date"],
-        "subtotal": service["price"] * service["quantity"]
+        "id": expense["id"],
+        "name_product": expense["name_product"],
+        "price": expense["price"],
+        "quantity": expense["quantity"],
+        "date": expense["date"],
+        "subtotal": expense["price"] * expense["quantity"]
       });
     }
-    _items.addAll(newItems);
+    _items = newItems;
     notifyListeners();
   }
 }

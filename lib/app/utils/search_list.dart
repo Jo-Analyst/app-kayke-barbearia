@@ -1,12 +1,12 @@
-List<Map<String, dynamic>> filteredList = [];
+List<Map<String, dynamic>> itemsList = [];
 
 List<Map<String, dynamic>> searchItems(
-    String searchText, List<Map<String, dynamic>> items, bool? isService) {
+    String searchText, List<Map<String, dynamic>> items, String nameColumn) {
   if (searchText.isEmpty) {
-    return filteredList = List.from(items);
+    return itemsList = List.from(items);
   } else {
-    return filteredList = items
-        .where((item) => item[isService! ? "description" : 'name']
+    return itemsList = items
+        .where((item) => item[nameColumn]
             .toString()
             .trim()
             .toLowerCase()

@@ -10,14 +10,16 @@ import 'package:provider/provider.dart';
 import '../providers/personal_expense_provider.dart';
 import '../template/add_personal_expense.dart';
 import '../utils/convert_datetime.dart';
-import '../utils/focus_node.dart';
+import '../utils/cache.dart';
 
 class PersonalExpenseListPage extends StatefulWidget {
   final bool itFromTheSalesScreen;
-  const PersonalExpenseListPage({required this.itFromTheSalesScreen, super.key});
+  const PersonalExpenseListPage(
+      {required this.itFromTheSalesScreen, super.key});
 
   @override
-  State<PersonalExpenseListPage> createState() => _PersonalExpenseListPageState();
+  State<PersonalExpenseListPage> createState() =>
+      _PersonalExpenseListPageState();
 }
 
 class _PersonalExpenseListPageState extends State<PersonalExpenseListPage> {
@@ -42,13 +44,13 @@ class _PersonalExpenseListPageState extends State<PersonalExpenseListPage> {
     await personalExpenseProvider.load();
     setState(() {
       personalExpenses = personalExpenseProvider.items;
-      
+
       isLoading = false;
     });
   }
 
-  void deletePersonalExpense(
-      PersonalExpenseProvider personalExpenseProvider, Map<String, dynamic> personalExpense) async {
+  void deletePersonalExpense(PersonalExpenseProvider personalExpenseProvider,
+      Map<String, dynamic> personalExpense) async {
     FocusScope.of(context).requestFocus(FocusNode());
     final confirmDelete =
         await showExitDialog(context, "Deseja mesmo excluir?");
@@ -153,7 +155,8 @@ class _PersonalExpenseListPageState extends State<PersonalExpenseListPage> {
                                       child: ListView.builder(
                                         itemCount: personalExpenses.length,
                                         itemBuilder: (_, index) {
-                                          var personalExpense = personalExpenses[index];
+                                          var personalExpense =
+                                              personalExpenses[index];
 
                                           return Column(
                                             children: [
@@ -224,20 +227,15 @@ class _PersonalExpenseListPageState extends State<PersonalExpenseListPage> {
                                                   selectedTileColor:
                                                       Colors.indigo,
                                                   title: Text(
-                                                    personalExpense["name_product"],
+                                                    personalExpense[
+                                                        "name_product"],
                                                     style: const TextStyle(
                                                         fontSize: 20),
                                                   ),
                                                   subtitle: Text(
                                                     "${personalExpense["quantity"]}x ${numberFormat.format(personalExpense["price"])} = ${numberFormat.format(personalExpense["subtotal"])}",
                                                     style: const TextStyle(
-                                                        fontSize: 16),
-                                                  ),
-                                                  leading: Icon(
-                                                    Icons.monetization_on,
-                                                    size: 30,
-                                                    color: Theme.of(context)
-                                                        .primaryColor,
+                                                        fontSize: 18),
                                                   ),
                                                   trailing: Text(
                                                     personalExpense["date"],

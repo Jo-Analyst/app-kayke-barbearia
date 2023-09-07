@@ -1,8 +1,10 @@
 import 'package:app_kaike_barbearia/app/models/service_model.dart';
+import 'package:app_kaike_barbearia/app/utils/cache.dart';
+import 'package:app_kaike_barbearia/app/utils/search_list.dart';
 import 'package:flutter/material.dart';
 
 class ServiceProvider extends ChangeNotifier {
-  final List<Map<String, dynamic>> _items = [];
+  List<Map<String, dynamic>> _items = [];
 
   List<Map<String, dynamic>> get items {
     return [
@@ -23,15 +25,16 @@ class ServiceProvider extends ChangeNotifier {
 
     if (data["id"] > 0) {
       _items.removeWhere((item) => item["id"] == data["id"]);
+      itemsFiltered.removeWhere((item) => item["id"] == data["id"]);
     }
 
-    _items.add(
-      {
-        "id": data["id"] == 0 ? lastId : data["id"],
-        "description": data["description"],
-        "price": data["price"],
-      },
-    );
+    final dataService = {
+      "id": data["id"] == 0 ? lastId : data["id"],
+      "description": data["description"],
+      "price": data["price"],
+    };
+
+    _items.add(dataService);
 
     notifyListeners();
   }
@@ -39,6 +42,7 @@ class ServiceProvider extends ChangeNotifier {
   Future<void> delete(int id) async {
     Service.delete(id);
     _items.removeWhere((item) => item["id"] == id);
+    itemsFiltered.removeWhere((item) => item["id"] == id);
     notifyListeners();
   }
 
@@ -48,14 +52,15 @@ class ServiceProvider extends ChangeNotifier {
 
   Future<void> load() async {
     clear();
+    itemsFiltered.clear();
     final services = await Service.findAll();
+    itemsFiltered.addAll(services);
     _items.addAll(services);
   }
 
   Future<void> searchDescription(String description) async {
     clear();
-    final services = await Service.findByDescription(description.trim());
-    _items.addAll(services);
+    _items = searchItems(description, itemsFiltered, "description");
     notifyListeners();
   }
 }

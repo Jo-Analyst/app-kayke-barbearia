@@ -10,7 +10,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/convert_datetime.dart';
-import '../utils/focus_node.dart';
+import '../utils/cache.dart';
 
 class ExpenseListPage extends StatefulWidget {
   final bool itFromTheSalesScreen;
@@ -230,13 +230,7 @@ class _ExpenseListPageState extends State<ExpenseListPage> {
                                                   subtitle: Text(
                                                     "${expense["quantity"]}x ${numberFormat.format(expense["price"])} = ${numberFormat.format(expense["subtotal"])}",
                                                     style: const TextStyle(
-                                                        fontSize: 16),
-                                                  ),
-                                                  leading: Icon(
-                                                    Icons.monetization_on,
-                                                    size: 30,
-                                                    color: Theme.of(context)
-                                                        .primaryColor,
+                                                        fontSize: 18),
                                                   ),
                                                   trailing: Text(
                                                     expense["date"],

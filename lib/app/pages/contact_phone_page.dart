@@ -141,7 +141,7 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
                         onChanged: (value) {
                           setState(() {
                             search = value;
-                            filteredList = searchItems(value, _contacts, false);
+                            filteredList = searchItems(value, _contacts, "name");
                           });
                         },
                       ),

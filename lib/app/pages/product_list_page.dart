@@ -10,7 +10,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-import '../utils/focus_node.dart';
+import '../utils/cache.dart';
 
 class ProductListPage extends StatefulWidget {
   final bool itFromTheSalesScreen;
