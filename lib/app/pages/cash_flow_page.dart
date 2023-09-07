@@ -49,6 +49,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
             padding: const EdgeInsets.symmetric(vertical: 8),
             margin: const EdgeInsets.only(right: 10),
             child: Calendar(
+              dateInitial: dateSelected,
               onSelected: (value) {
                 dateSelected = value;
               },

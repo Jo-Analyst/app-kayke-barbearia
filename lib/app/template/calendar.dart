@@ -20,13 +20,13 @@ class _CalendarState extends State<Calendar> {
   @override
   initState() {
     super.initState();
-    dateSelected = widget.dateInitial ?? DateTime.now();
+    dateSelected = widget.dateInitial;
   }
 
   showCalendarPicker() {
     showDatePicker(
       context: context,
-      initialDate: widget.dateInitial!,
+      initialDate: widget.dateInitial,
       firstDate: DateTime(2014),
       lastDate: DateTime.now(),
     ).then(
