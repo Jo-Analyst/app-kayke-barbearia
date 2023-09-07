@@ -4,9 +4,9 @@ import '../utils/convert_values.dart';
 
 class Calendar extends StatefulWidget {
   final Function(DateTime value) onSelected;
-  final DateTime? dateInitial;
+  final DateTime dateInitial;
   const Calendar({
-    this.dateInitial,
+   required this.dateInitial,
     required this.onSelected,
     super.key,
   });

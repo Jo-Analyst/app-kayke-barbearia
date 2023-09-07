@@ -72,11 +72,13 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Calendar(onSelected: (value) {
-                        setState(() {
-                          dateSelected = value;
-                        });
-                      }),
+                      child: Calendar(
+                          dateInitial: dateSelected,
+                          onSelected: (value) {
+                            setState(() {
+                              dateSelected = value;
+                            });
+                          }),
                     ),
                     Container(
                       color: Colors.indigo.withOpacity(.1),
