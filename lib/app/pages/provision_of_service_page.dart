@@ -369,6 +369,8 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (_) => PaymentPage(
+                                    items: items,
+                                    discount: discount,
                                     total: total,
                                     dateSale: dateFormat1.format(dateSelected),
                                     isSale: false,

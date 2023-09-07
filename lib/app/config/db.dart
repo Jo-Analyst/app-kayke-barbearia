@@ -16,7 +16,7 @@ class DB {
         );
 
         db.execute(
-          "CREATE TABLE sales (id INTEGER PRIMARY KEY, date_sale TEXT NOT NULL, profit_value_total REAL, discount REAL NOT NULL, client_id INTEGER, FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE SET NULL)",
+          "CREATE TABLE sales (id INTEGER PRIMARY KEY, date_sale TEXT NOT NULL, profit_value_total REAL, discount REAL NOT NULL, client_id INTEGER NULL, FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE SET NULL)",
         ); // sales - Vendas
 
         db.execute(

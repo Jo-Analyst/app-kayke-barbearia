@@ -397,6 +397,9 @@ class _SalePageState extends State<SalePage> {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (_) => PaymentPage(
+                                    profitTotal: profitTotal,
+                                    discount: discount,
+                                    items: items,
                                     total: total,
                                     dateSale: dateFormat1.format(dateSelected),
                                     isSale: true,

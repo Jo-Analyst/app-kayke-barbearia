@@ -219,10 +219,15 @@ class _ServiceListPageState extends State<ServiceListPage> {
                                                   onTap: () {
                                                     if (widget
                                                         .itFromTheSalesScreen) {
-                                                      service["time"] =
-                                                          TimeOfDay.now();
                                                       Navigator.of(context)
-                                                          .pop(service);
+                                                          .pop({
+                                                        "id": service["id"],
+                                                        "description": service[
+                                                            "description"],
+                                                        "price":
+                                                            service["price"],
+                                                        "time": TimeOfDay.now(),
+                                                      });
                                                     }
                                                   },
                                                   minLeadingWidth: 0,

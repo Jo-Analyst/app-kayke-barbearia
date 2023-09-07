@@ -13,9 +13,15 @@ class PaymentPage extends StatefulWidget {
   final double total;
   final String dateSale;
   final bool isSale;
+  final double discount;
+  final double? profitTotal;
+  final List<Map<String, dynamic>> items;
   const PaymentPage({
     required this.isSale,
+    required this.items,
+    required this.discount,
     required this.total,
+    this.profitTotal,
     required this.dateSale,
     super.key,
   });
