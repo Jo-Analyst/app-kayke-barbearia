@@ -135,6 +135,7 @@ class _SpedingFormPageState extends State<ExpenseFormPage> {
             TextFormField(
               controller: nameProductController,
               maxLength: 100,
+              textInputAction: TextInputAction.next,
               decoration: const InputDecoration(labelText: "Despesa*"),
               style: const TextStyle(fontSize: 18),
               onChanged: (value) {
@@ -160,6 +161,7 @@ class _SpedingFormPageState extends State<ExpenseFormPage> {
             TextFormField(
               controller: quantityController,
               textInputAction: TextInputAction.next,
+              keyboardType: TextInputType.number,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               decoration:
                   const InputDecoration(labelText: "Quantidade de itens*"),

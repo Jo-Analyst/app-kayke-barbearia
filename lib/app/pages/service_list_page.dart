@@ -109,6 +109,7 @@ class _ServiceListPageState extends State<ServiceListPage> {
                         TextField(
                           controller: searchController,
                           focusNode: textFocusNode,
+                          textInputAction: TextInputAction.search,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
@@ -123,7 +124,7 @@ class _ServiceListPageState extends State<ServiceListPage> {
                                       searchController.text = "";
                                       setState(() {
                                         search = "";
-                                        serviceProvider.load();
+                                        loadServices();
                                       });
                                     },
                                     icon: const Icon(Icons.close),

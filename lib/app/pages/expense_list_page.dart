@@ -110,6 +110,7 @@ class _ExpenseListPageState extends State<ExpenseListPage> {
                         TextField(
                           controller: searchController,
                           focusNode: textFocusNode,
+                          textInputAction: TextInputAction.search,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
@@ -124,7 +125,7 @@ class _ExpenseListPageState extends State<ExpenseListPage> {
                                       searchController.text = "";
                                       setState(() {
                                         search = "";
-                                        expenseProvider.load();
+                                        loadExpenses();
                                       });
                                     },
                                     icon: const Icon(Icons.close),

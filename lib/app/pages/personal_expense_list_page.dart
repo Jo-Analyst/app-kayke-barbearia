@@ -113,6 +113,7 @@ class _PersonalExpenseListPageState extends State<PersonalExpenseListPage> {
                         TextField(
                           controller: searchController,
                           focusNode: textFocusNode,
+                          textInputAction: TextInputAction.search,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
@@ -127,7 +128,7 @@ class _PersonalExpenseListPageState extends State<PersonalExpenseListPage> {
                                       searchController.text = "";
                                       setState(() {
                                         search = "";
-                                        personalExpenseProvider.load();
+                                        loadPersonalExpenses();
                                       });
                                     },
                                     icon: const Icon(Icons.close),

@@ -105,103 +105,96 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
                 ],
               ),
             )
-          : filteredList.isEmpty
-              ? const Center(
-                  child: Text(
-                    "Não há contatos em seu telefone.",
-                    style: TextStyle(fontSize: 20),
+          : Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 15,
+                vertical: 10,
+              ),
+              child: Column(
+                children: [
+                  TextField(
+                    controller: searchController,
+                    decoration: InputDecoration(
+                      labelText: "Digite para buscar",
+                      suffixIcon: search.isEmpty
+                          ? const Icon(
+                              Icons.search,
+                            )
+                          : IconButton(
+                              onPressed: () {
+                                searchController.text = "";
+                                setState(() {
+                                  search = "";
+                                  filteredList = _contacts;
+                                });
+                              },
+                              icon: const Icon(Icons.close),
+                            ),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        search = value;
+                        filteredList = searchItems(value, _contacts, "name");
+                      });
+                    },
                   ),
-                )
-              : Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 15,
-                    vertical: 10,
-                  ),
-                  child: Column(
-                    children: [
-                      TextField(
-                        controller: searchController,
-                        decoration: InputDecoration(
-                          labelText: "Digite para buscar",
-                          suffixIcon: search.isEmpty
-                              ? const Icon(
-                                  Icons.search,
-                                )
-                              : IconButton(
-                                  onPressed: () {
-                                    searchController.text = "";
-                                    setState(() {
-                                      search = "";
-                                      filteredList = _contacts;
-                                    });
-                                  },
-                                  icon: const Icon(Icons.close),
-                                ),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            search = value;
-                            filteredList = searchItems(value, _contacts, "name");
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 20),
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: filteredList.length,
-                          itemBuilder: (_, index) {
-                            var contact = filteredList[index];
-                            return Column(
-                              children: [
-                                ListTile(
-                                  onLongPress: () {
-                                    setState(() {
-                                      names.contains(contact["name"])
-                                          ? names.remove(contact["name"])
-                                          : names.add(contact["name"] ?? "Sem nome");
+                  const SizedBox(height: 20),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: filteredList.length,
+                      itemBuilder: (_, index) {
+                        var contact = filteredList[index];
+                        return Column(
+                          children: [
+                            ListTile(
+                              onLongPress: () {
+                                setState(() {
+                                  names.contains(contact["name"])
+                                      ? names.remove(contact["name"])
+                                      : names
+                                          .add(contact["name"] ?? "Sem nome");
 
-                                      phones.contains(contact["phone"])
-                                          ? phones.remove(contact["phone"])
-                                          : phones.add(contact["phone"] ?? "Sem número");
-                                    });
-                                  },
-                                  selected: names.contains(contact["name"]),
-                                  selectedTileColor: Colors.indigo,
-                                  selectedColor: Colors.white,
-                                  title: Text(contact["name"] ?? "Sem nome"),
-                                  subtitle: Text(
-                                    contact["phone"] ?? "Sem número",
-                                  ),
-                                  leading: CircleAvatar(
-                                    maxRadius: 25,
-                                    backgroundColor:
-                                        names.contains(contact["name"])
-                                            ? Colors.white
-                                            : Theme.of(context).primaryColor,
-                                    foregroundColor:
-                                        names.contains(contact["name"])
-                                            ? Theme.of(context).primaryColor
-                                            : Colors.white,
-                                    child: Text(
-                                      contact["name"].toString().split("")[0],
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
+                                  phones.contains(contact["phone"])
+                                      ? phones.remove(contact["phone"])
+                                      : phones.add(
+                                          contact["phone"] ?? "Sem número");
+                                });
+                              },
+                              selected: names.contains(contact["name"]),
+                              selectedTileColor: Colors.indigo,
+                              selectedColor: Colors.white,
+                              title: Text(contact["name"] ?? "Sem nome"),
+                              subtitle: Text(
+                                contact["phone"] ?? "Sem número",
+                              ),
+                              leading: CircleAvatar(
+                                maxRadius: 25,
+                                backgroundColor: names.contains(contact["name"])
+                                    ? Colors.white
+                                    : Theme.of(context).primaryColor,
+                                foregroundColor: names.contains(contact["name"])
+                                    ? Theme.of(context).primaryColor
+                                    : Colors.white,
+                                child: Text(
+                                  contact["name"].toString().split("")[0],
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                                Divider(
-                                  height: 1,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
-                    ],
+                              ),
+                            ),
+                            Divider(
+                              height: 1,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ],
+                        );
+                      },
+                    ),
                   ),
-                ),
+                ],
+              ),
+            ),
     );
   }
 }

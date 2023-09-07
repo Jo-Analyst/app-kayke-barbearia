@@ -55,7 +55,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
       profitValueController.text = "0,00";
       return;
     }
-    
+
     productId = widget.productId ?? 0;
     nameController.text = widget.name ?? "";
     name = nameController.text;
@@ -68,10 +68,10 @@ class _ProductFormPageState extends State<ProductFormPage> {
     quantityController.text = quantity.toString();
   }
 
- void showMessage(Widget content, Color? color) {
+  void showMessage(Widget content, Color? color) {
     Message.showMessage(context, content, color);
   }
-  
+
   saveProduct() async {
     final productProvider =
         Provider.of<ProductProvider>(context, listen: false);
@@ -194,6 +194,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
               controller: quantityController,
               textInputAction: TextInputAction.done,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              keyboardType: TextInputType.number,
               decoration:
                   const InputDecoration(labelText: "Quantidade de itens*"),
               style: const TextStyle(fontSize: 18),

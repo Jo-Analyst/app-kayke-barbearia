@@ -163,6 +163,7 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage> {
             TextFormField(
               controller: quantityController,
               textInputAction: TextInputAction.next,
+              keyboardType: TextInputType.number,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               decoration:
                   const InputDecoration(labelText: "Quantidade de itens*"),
