@@ -179,7 +179,7 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
                                           ),
                                         ),
                                         title: Text(
-                                          item["description"],
+                                          item["description"] ?? "",
                                           style: const TextStyle(fontSize: 20),
                                         ),
                                         subtitle: Row(

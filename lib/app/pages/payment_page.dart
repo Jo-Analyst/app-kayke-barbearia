@@ -7,6 +7,8 @@ import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../config/db.dart';
+import '../providers/provision_of_service_provider.dart';
 import '../template/specie_payment.dart';
 import '../utils/snackbar.dart';
 import 'proof_page.dart';
@@ -142,10 +144,10 @@ class _PaymentPageState extends State<PaymentPage> {
 
   save() async {
     final saleProvider = Provider.of<SaleProvider>(context, listen: false);
-    // final serviceProvider =
-    //     Provider.of<ProvisionOfProvider>(context, listen: false);
+    final serviceProvider =
+        Provider.of<ProvisionOfServiceProvider>(context, listen: false);
     String columnDate = widget.isSale ? "date_sale" : "date_service";
-    final data = {
+    dynamic data = {
       columnDate: widget.date,
       "value_total": widget.total,
       "profit_value_total": widget.profitTotal,
@@ -162,8 +164,8 @@ class _PaymentPageState extends State<PaymentPage> {
     if (widget.isSale) {
       await saleProvider.save(data, widget.items, payment);
     } else {
-      // data.remove("profit_value_total");
-      // await serviceProvider.save(data, widget.items, payment);
+      data.remove("profit_value_total");
+      await serviceProvider.save(data, widget.items, payment);
     }
   }
 

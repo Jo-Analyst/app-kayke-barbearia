@@ -2,14 +2,14 @@ import 'package:app_kaike_barbearia/app/config/db.dart';
 import 'package:app_kaike_barbearia/app/models/items_service_model.dart';
 import 'package:app_kaike_barbearia/app/models/payment_service_model.dart';
 
-class Sale {
+class ProvisionOfService {
   final int id;
   final String dateService;
   final double valueTotal;
   final double discount;
   final int? clientId;
 
-  Sale({
+  ProvisionOfService({
     required this.id,
     required this.dateService,
     required this.valueTotal,
@@ -17,8 +17,8 @@ class Sale {
     this.clientId,
   });
 
-  Future<int> save(List<Map<String, dynamic>> itemsSale,
-      Map<String, dynamic> paymentSale) async {
+  Future<int> save(List<Map<String, dynamic>> itemsService,
+      Map<String, dynamic> paymentService) async {
     final db = await DB.openDatabase();
     int lastId = 0;
     await db.transaction((txn) async {
@@ -42,16 +42,16 @@ class Sale {
             whereArgs: [id]);
       }
 
-      for (var itemSale in itemsSale) {
-        itemSale.remove("description");
-        itemSale["provision_of_service_id"] = lastId;
-        await ItemsService().save(txn, itemSale);
+      for (var itemService in itemsService) {
+        itemService.remove("description");
+        itemService["provision_of_service_id"] = lastId;
+        await ItemsService().save(txn, itemService);
       }
 
       await PaymentService(
-        id: paymentSale["id"] ?? 0,
-        specie: paymentSale["specie"],
-        amountPaid: paymentSale["amount_paid"],
+        id: paymentService["id"] ?? 0,
+        specie: paymentService["specie"],
+        amountPaid: paymentService["amount_paid"],
         datePayment: dateService,
         provisionOfServiceId: lastId,
       ).save(txn);

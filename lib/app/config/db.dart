@@ -34,10 +34,10 @@ class DB {
         );
 
          db.execute(
-            "CREATE TABLE items_services (id INTEGER PRIMARY KEY, price_service, time_service TEXT NOT NULL, REAL NOT NULL, service_id INTEGER NOT NULL, provision_of_service_id INTEGER NOT NULL, FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE SET NULL, FOREIGN KEY (provision_of_service_id) REFERENCES provision_of_services(id) ON DELETE CASCADE)");
+            "CREATE TABLE items_services (id INTEGER PRIMARY KEY, price_service REAL, time_service TEXT NOT NULL, service_id INTEGER NOT NULL, provision_of_service_id INTEGER NOT NULL, FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE SET NULL, FOREIGN KEY (provision_of_service_id) REFERENCES provision_of_services(id) ON DELETE CASCADE)");
 
         db.execute(
-            "CREATE TABLE payments_services (id INTEGER PRIMARY KEY, specie TEXT, amount_paid REAL, date TEXT, provision_of_service_id INTEGER NOT NULL, FOREIGN KEY (provision_of_service_id) REFERENCES provision_of_services(id) ON DELETE CASCADE)");
+            "CREATE TABLE payments_services (id INTEGER PRIMARY KEY, specie TEXT, amount_paid REAL, date_payment TEXT, provision_of_service_id INTEGER NOT NULL, FOREIGN KEY (provision_of_service_id) REFERENCES provision_of_services(id) ON DELETE CASCADE)");
 
         db.execute(
           "CREATE TABLE expenses (id INTEGER PRIMARY KEY, name_product TEXT NOT NULL, price REAL NOT NULL, quantity INTEGER NOT NULL, date TEXT NOT NULL)", // Depesas da barbearia
