@@ -239,18 +239,21 @@ class _ProductListPageState extends State<ProductListPage> {
                                                                 product["id"],
                                                             "name":
                                                                 product["name"],
-                                                            "quantity": 1,
-                                                            "quantity_items": product["quantity"],
-                                                            "profit_product": product[
-                                                                "profit_value"],
+                                                            "quantity_items":
+                                                                product[
+                                                                    "quantity"],
+                                                            "profit_product":
+                                                                product[
+                                                                    "profit_value"],
                                                             "sub_profit_product":
                                                                 product[
                                                                     "profit_value"],
-                                                            "price_product": product[
-                                                                "sale_value"],
+                                                            "price_product":
+                                                                product[
+                                                                    "sale_value"],
                                                             "sub_total": product[
                                                                 "sale_value"]
-                                                          })
+                                                          },)
                                                       : null,
                                                   minLeadingWidth: 0,
                                                   selectedTileColor:

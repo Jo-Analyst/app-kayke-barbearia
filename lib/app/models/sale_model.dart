@@ -1,6 +1,7 @@
 import 'package:app_kaike_barbearia/app/config/db.dart';
 import 'package:app_kaike_barbearia/app/models/items_sale.dart';
 import 'package:app_kaike_barbearia/app/models/payment_sale_model.dart';
+import 'package:app_kaike_barbearia/app/models/product_model.dart';
 
 class Sale {
   final int id;
@@ -49,6 +50,7 @@ class Sale {
       for (var itemSale in itemsSale) {
         itemSale["sale_id"] = lastId;
         itemSale.remove("name");
+        itemSale.remove("quantity_items");
         await ItemsSale(
                 // quantityItems: itemSale["quantity"],
                 // subTotal: itemSale["sub_total"],
@@ -59,6 +61,8 @@ class Sale {
                 // saleId: lastId,
                 )
             .save(txn, itemSale);
+        await Product.updateQuantity(
+            txn, itemSale["product_id"], itemSale["quantity"]);
       }
 
       await PaymentSale(

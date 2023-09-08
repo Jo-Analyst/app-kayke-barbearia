@@ -29,8 +29,8 @@ class _SalePageState extends State<SalePage> {
     setState(() {
       if (item["quantity"] == quantity) return;
       item["quantity"]++;
-      calculateSubTotalAndSubProfitByItems(
-          items[index]["quantity"], items[index]["price_product"], index);
+      calculateSubTotalAndSubProfitByItems(items[index]["quantity"],
+          items[index]["price_product"], index);
     });
   }
 
@@ -38,8 +38,8 @@ class _SalePageState extends State<SalePage> {
     setState(() {
       if (items[index]["quantity"] == 1) return;
       items[index]["quantity"]--;
-      calculateSubTotalAndSubProfitByItems(
-          items[index]["quantity"], items[index]["sale_value"], index);
+      calculateSubTotalAndSubProfitByItems(items[index]["quantity"],
+          items[index]["price_product"], index);
     });
   }
 
@@ -76,6 +76,19 @@ class _SalePageState extends State<SalePage> {
     Message.showMessage(context, content, color);
   }
 
+  bool productHasBeenAdded(int productId) {
+    // produto foi adicionado
+    bool wasAdded = false;
+    for (var item in items) {
+      if (item["product_id"] == productId) {
+        wasAdded = true;
+        break;
+      }
+    }
+
+    return wasAdded;
+  }
+
   @override
   Widget build(BuildContext context) {
     double heightScreen = MediaQuery.of(context).size.height;
@@ -108,7 +121,7 @@ class _SalePageState extends State<SalePage> {
                         children: [
                           InkWell(
                             onTap: () async {
-                              final itemsSelected =
+                              final itemSelected =
                                   await Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (_) => const ProductListPage(
@@ -117,10 +130,36 @@ class _SalePageState extends State<SalePage> {
                                 ),
                               );
 
-                              if (itemsSelected != null) {
+                              if (itemSelected != null) {
                                 setState(() {
-                                  items.add(itemsSelected);
-                                  quantityItems.add(itemsSelected["quantity_items"]);
+                                  if (productHasBeenAdded(
+                                      itemSelected["product_id"])) {
+                                    showMessage(
+                                      const ContentMessage(
+                                        icon:
+                                            FontAwesomeIcons.circleExclamation,
+                                        title:
+                                            "Você já foi adicionou este produto na lista.",
+                                      ),
+                                      Colors.orange,
+                                    );
+                                    return;
+                                  }
+                                  else if (itemSelected["quantity_items"] == 0) {
+                                    showMessage(
+                                      const ContentMessage(
+                                        icon:
+                                            FontAwesomeIcons.circleExclamation,
+                                        title:
+                                            "Este produto já foi esgotado. Atualize a quantidade na tela de produtos.",
+                                      ),
+                                      Colors.orange,
+                                    );
+                                    return;
+                                  }
+                                  itemSelected["quantity"] = 1;
+                                  items.add(itemSelected);
+                                  quantityItems.add(itemSelected["quantity_items"]);
                                 });
                                 calculateSubTotalAndProfitTotal();
                               }
@@ -222,7 +261,8 @@ class _SalePageState extends State<SalePage> {
                                                 width: 31,
                                                 alignment: Alignment.center,
                                                 child: Text(
-                                                  item["quantity"].toString(),
+                                                  item["quantity"]
+                                                      .toString(),
                                                   style: const TextStyle(
                                                       fontSize: 18),
                                                 ),

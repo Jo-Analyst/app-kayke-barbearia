@@ -1,4 +1,5 @@
 import 'package:app_kaike_barbearia/app/config/db.dart';
+import 'package:sqflite/sqflite.dart';
 
 class Product {
   final int? id;
@@ -48,6 +49,13 @@ class Product {
   static void delete(int id) async {
     final db = await DB.openDatabase();
     await db.delete("products", where: "id = ?", whereArgs: [id]);
+  }
+
+  static Future<void> updateQuantity(
+      Transaction txn, int id, int quantity) async {
+    await txn.rawUpdate(
+        "UPDATE products set quantity = quantity - ? WHERE id = ?",
+        [quantity, id]);
   }
 
   static Future<List<Map<String, dynamic>>> findAll() async {
