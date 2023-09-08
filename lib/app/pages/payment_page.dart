@@ -119,15 +119,18 @@ class _PaymentPageState extends State<PaymentPage> {
           Colors.orange);
       return;
     }
+
     payment = {
       "client": client.isNotEmpty ? client["name"] : "Cliente avulso",
       "amount_received": amountReceived,
       "specie": amountReceived == 0 ? "Fiado" : typeSpecie,
       "icon": amountReceived == 0 ? Icons.person_2_outlined : iconSpeciePayment,
-      "date_sale": widget.date
+      "date": widget.date
     };
 
-    convertTimeItem();
+    if (!widget.isSale) {
+      convertTimeItem();
+    }
 
     save();
 

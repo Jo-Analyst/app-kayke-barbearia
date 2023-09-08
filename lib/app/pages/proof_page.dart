@@ -54,7 +54,7 @@ class ProofPage extends StatelessWidget {
                           style: const TextStyle(fontSize: 18),
                         ),
                         Text(
-                          payment["date_sale"],
+                          payment["date"],
                           style: const TextStyle(fontSize: 18),
                         ),
                         const SizedBox(height: 15),
