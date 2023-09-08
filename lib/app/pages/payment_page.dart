@@ -1,4 +1,3 @@
-import 'package:app_kaike_barbearia/app/config/db.dart';
 import 'package:app_kaike_barbearia/app/pages/client_list_page.dart';
 import 'package:app_kaike_barbearia/app/providers/sale_provider.dart';
 import 'package:app_kaike_barbearia/app/utils/content_message.dart';

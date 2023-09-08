@@ -19,13 +19,15 @@ class SalePage extends StatefulWidget {
 
 class _SalePageState extends State<SalePage> {
   List<Map<String, dynamic>> items = [];
+  List<int> quantityItems = [];
   double discount = 0, subtotal = 0, total = 0, profitTotal = 0;
   DateTime dateSelected = DateTime.now();
 
   changeValueAfterQuantityIncrement(int index) {
     var item = items[index];
+    var quantity = quantityItems[index];
     setState(() {
-      if (item["quantity"] == 999) return;
+      if (item["quantity"] == quantity) return;
       item["quantity"]++;
       calculateSubTotalAndSubProfitByItems(
           items[index]["quantity"], items[index]["price_product"], index);
@@ -118,6 +120,7 @@ class _SalePageState extends State<SalePage> {
                               if (itemsSelected != null) {
                                 setState(() {
                                   items.add(itemsSelected);
+                                  quantityItems.add(itemsSelected["quantity_items"]);
                                 });
                                 calculateSubTotalAndProfitTotal();
                               }
@@ -173,6 +176,7 @@ class _SalePageState extends State<SalePage> {
                                           SlidableAction(
                                             onPressed: (_) async {
                                               items.removeAt(index);
+                                              quantityItems.removeAt(index);
                                               setState(() {
                                                 calculateSubTotalAndProfitTotal();
                                               });

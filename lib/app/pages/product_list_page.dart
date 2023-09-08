@@ -240,6 +240,7 @@ class _ProductListPageState extends State<ProductListPage> {
                                                             "name":
                                                                 product["name"],
                                                             "quantity": 1,
+                                                            "quantity_items": product["quantity"],
                                                             "profit_product": product[
                                                                 "profit_value"],
                                                             "sub_profit_product":
