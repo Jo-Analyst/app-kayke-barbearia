@@ -40,7 +40,7 @@ class Sale {
               "date_sale": dateSale,
               "profit_value_total": profitValueTotal,
               "value_total": valueTotal,
-              "discount_total": discount,
+              "discount": discount,
               "client_id": clientId ?? 0
             },
             where: "id = ?",
@@ -51,16 +51,7 @@ class Sale {
         itemSale["sale_id"] = lastId;
         itemSale.remove("name");
         itemSale.remove("quantity_items");
-        await ItemsSale(
-                // quantityItems: itemSale["quantity"],
-                // subTotal: itemSale["sub_total"],
-                // priceProduct: itemSale["sale_value"],
-                // profitProduct: itemSale["profit_product"],
-                // subProfitTotal: itemSale["sub_profit_product"],
-                // productId: itemSale["product_id"],
-                // saleId: lastId,
-                )
-            .save(txn, itemSale);
+        await ItemsSale().save(txn, itemSale);
         await Product.updateQuantity(
             txn, itemSale["product_id"], itemSale["quantity"]);
       }

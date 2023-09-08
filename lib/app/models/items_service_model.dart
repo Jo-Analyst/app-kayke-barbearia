@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 
-class ItemsSale {
+class ItemsService {
   Future<void> save(Transaction txn, Map<String, dynamic> itemsSale) async {
-    await txn.insert("items_sales", itemsSale);
+    await txn.insert("items_services", itemsSale);
   }
 }

@@ -226,7 +226,6 @@ class _ServiceListPageState extends State<ServiceListPage> {
                                                             "description"],
                                                         "price":
                                                             service["price"],
-                                                        "time": TimeOfDay.now(),
                                                       });
                                                     }
                                                   },

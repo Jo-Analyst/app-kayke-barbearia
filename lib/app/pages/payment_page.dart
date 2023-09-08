@@ -49,6 +49,7 @@ class _PaymentPageState extends State<PaymentPage> {
     amountReceived = widget.total;
     lastChangeValue = widget.total;
     amountReceivedController.updateValue(amountReceived);
+    print(widget.items);
   }
 
   calculateChange() {

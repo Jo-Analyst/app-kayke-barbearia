@@ -49,9 +49,15 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
     showTimePicker(context: context, initialTime: items[index]["time"])
         .then((time) {
       setState(() {
-        items[index]["time"] = time ?? TimeOfDay.now();
+        items[index]["time"] = time;
       });
     });
+  }
+
+  convertTimeItem() {
+    for (var item in items) {
+      item["time"] = item["time"].format(context);
+    }
   }
 
   @override
@@ -97,6 +103,7 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
 
                               if (itemsSelected != null) {
                                 setState(() {
+                                  itemsSelected["time"] = TimeOfDay.now();
                                   items.add(itemsSelected);
                                 });
                                 calculateSubTotal();
@@ -368,6 +375,7 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
                                 return;
                               }
 
+                              convertTimeItem();
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (_) => PaymentPage(
