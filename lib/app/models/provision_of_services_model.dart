@@ -5,7 +5,6 @@ import 'package:app_kaike_barbearia/app/models/payment_service_model.dart';
 class Sale {
   final int id;
   final String dateService;
-  final String timeService;
   final double valueTotal;
   final double discount;
   final int? clientId;
@@ -13,7 +12,6 @@ class Sale {
   Sale({
     required this.id,
     required this.dateService,
-    required this.timeService,
     required this.valueTotal,
     required this.discount,
     this.clientId,
@@ -27,7 +25,6 @@ class Sale {
       if (id == 0) {
         lastId = await txn.insert("provision_of_services", {
           "date_service": dateService,
-          "time_service": timeService,
           "value_total": valueTotal,
           "discount": discount,
           "client_id": clientId ?? 0
@@ -37,7 +34,6 @@ class Sale {
             "provision_of_services",
             {
               "date_service": dateService,
-              "time_service": timeService,
               "value_total": valueTotal,
               "discount": discount,
               "client_id": clientId ?? 0
@@ -47,6 +43,7 @@ class Sale {
       }
 
       for (var itemSale in itemsSale) {
+        itemSale.remove("description");
         itemSale["provision_of_service_id"] = lastId;
         await ItemsService().save(txn, itemSale);
       }

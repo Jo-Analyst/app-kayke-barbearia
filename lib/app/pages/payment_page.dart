@@ -13,7 +13,7 @@ import 'proof_page.dart';
 
 class PaymentPage extends StatefulWidget {
   final double total;
-  final String dateSale;
+  final String date;
   final bool isSale;
   final double discount;
   final double? profitTotal;
@@ -24,7 +24,7 @@ class PaymentPage extends StatefulWidget {
     required this.discount,
     required this.total,
     this.profitTotal,
-    required this.dateSale,
+    required this.date,
     super.key,
   });
 
@@ -42,6 +42,7 @@ class _PaymentPageState extends State<PaymentPage> {
   String typeSpecie = "Dinheiro", titleClient = "Cliente";
   IconData? iconSpeciePayment = Icons.attach_money;
   Map<String, dynamic> client = {}, payment = {};
+  dynamic items = [];
 
   @override
   void initState() {
@@ -49,7 +50,13 @@ class _PaymentPageState extends State<PaymentPage> {
     amountReceived = widget.total;
     lastChangeValue = widget.total;
     amountReceivedController.updateValue(amountReceived);
-    print(widget.items);
+    items = widget.items;
+  }
+
+  convertTimeItem() {
+    for (var item in items) {
+      item["time_service"] = item["time_service"].format(context);
+    }
   }
 
   calculateChange() {
@@ -115,10 +122,12 @@ class _PaymentPageState extends State<PaymentPage> {
       "amount_received": amountReceived,
       "specie": amountReceived == 0 ? "Fiado" : typeSpecie,
       "icon": amountReceived == 0 ? Icons.person_2_outlined : iconSpeciePayment,
-      "date_sale": widget.dateSale
+      "date_sale": widget.date
     };
 
-    saveSale();
+    convertTimeItem();
+
+    save();
 
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -131,24 +140,30 @@ class _PaymentPageState extends State<PaymentPage> {
     );
   }
 
-  saveSale() async {
+  save() async {
     final saleProvider = Provider.of<SaleProvider>(context, listen: false);
+    // final serviceProvider =
+    //     Provider.of<ProvisionOfProvider>(context, listen: false);
+    String columnDate = widget.isSale ? "date_sale" : "date_service";
+    final data = {
+      columnDate: widget.date,
+      "value_total": widget.total,
+      "profit_value_total": widget.profitTotal,
+      "discount": widget.discount,
+      "client_id": client["id"],
+    };
+
+    final payment = {
+      "specie": typeSpecie,
+      "amount_paid": amountReceived,
+      "date_payment": widget.date
+    };
+
     if (widget.isSale) {
-      await saleProvider.save(
-        {
-          "date_sale": widget.dateSale,
-          "value_total": widget.total,
-          "profit_value_total": widget.profitTotal,
-          "discount": widget.discount,
-          "client_id": client["id"],
-        },
-        widget.items,
-        {
-          "specie": typeSpecie,
-          "amount_paid": amountReceived,
-          "date_payment": widget.dateSale
-        },
-      );
+      await saleProvider.save(data, widget.items, payment);
+    } else {
+      // data.remove("profit_value_total");
+      // await serviceProvider.save(data, widget.items, payment);
     }
   }
 

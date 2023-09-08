@@ -447,7 +447,7 @@ class _SalePageState extends State<SalePage> {
                                     discount: discount,
                                     items: items,
                                     total: total,
-                                    dateSale: dateFormat1.format(dateSelected),
+                                    date: dateFormat1.format(dateSelected),
                                     isSale: true,
                                   ),
                                 ),

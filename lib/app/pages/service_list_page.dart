@@ -221,10 +221,10 @@ class _ServiceListPageState extends State<ServiceListPage> {
                                                         .itFromTheSalesScreen) {
                                                       Navigator.of(context)
                                                           .pop({
-                                                        "id": service["id"],
+                                                        "service_id": service["id"],
                                                         "description": service[
                                                             "description"],
-                                                        "price":
+                                                        "price_service":
                                                             service["price"],
                                                       });
                                                     }

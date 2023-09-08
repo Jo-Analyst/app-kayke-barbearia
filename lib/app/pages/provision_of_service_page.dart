@@ -26,7 +26,7 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
     subtotal = 0;
     setState(() {
       for (var item in items) {
-        subtotal += item["price"];
+        subtotal += item["price_service"];
       }
     });
     if (items.isEmpty || discount > subtotal) {
@@ -46,18 +46,12 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
   }
 
   showTime(int index) {
-    showTimePicker(context: context, initialTime: items[index]["time"])
+    showTimePicker(context: context, initialTime: items[index]["time_service"])
         .then((time) {
       setState(() {
-        items[index]["time"] = time;
+        items[index]["time_service"] = time;
       });
     });
-  }
-
-  convertTimeItem() {
-    for (var item in items) {
-      item["time"] = item["time"].format(context);
-    }
   }
 
   @override
@@ -103,7 +97,7 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
 
                               if (itemsSelected != null) {
                                 setState(() {
-                                  itemsSelected["time"] = TimeOfDay.now();
+                                  itemsSelected["time_service"] = TimeOfDay.now();
                                   items.add(itemsSelected);
                                 });
                                 calculateSubTotal();
@@ -178,7 +172,7 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
                                             fit: BoxFit.fitWidth,
                                             child: Text(
                                               numberFormat
-                                                  .format(item["price"]),
+                                                  .format(item["price_service"]),
                                               style:
                                                   const TextStyle(fontSize: 12),
                                             ),
@@ -192,7 +186,7 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
                                           children: [
                                             Flexible(
                                               child: Text(
-                                                "Hor.: ${item["time"].format(context)}",
+                                                "Hor.: ${item["time_service"].format(context)}",
                                                 style: const TextStyle(
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.w500,
@@ -375,14 +369,13 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
                                 return;
                               }
 
-                              convertTimeItem();
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (_) => PaymentPage(
                                     items: items,
                                     discount: discount,
                                     total: total,
-                                    dateSale: dateFormat1.format(dateSelected),
+                                    date: dateFormat1.format(dateSelected),
                                     isSale: false,
                                   ),
                                 ),
