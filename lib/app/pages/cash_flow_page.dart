@@ -1,3 +1,4 @@
+import 'package:app_kaike_barbearia/app/controllers/cash_flow_controller.dart';
 import 'package:app_kaike_barbearia/app/template/calendar.dart';
 import 'package:app_kaike_barbearia/app/template/finance_sale_list.dart';
 import 'package:app_kaike_barbearia/app/template/finance_service.list.dart';
@@ -18,10 +19,10 @@ class _CashFlowPageState extends State<CashFlowPage> {
   List<bool> containerButton = [false, false];
   bool activeContainerSale = false;
   bool activeContainerService = false;
-  double balance = 2,
-      valueSale = 1,
-      valueService = 1,
-      valueMoney = 2,
+  double balance = 0,
+      valueSale = 0,
+      valueService = 0,
+      valueMoney = 0,
       valuePix = 0,
       valueCredit = 0,
       valueDebit = 0;
@@ -41,6 +42,21 @@ class _CashFlowPageState extends State<CashFlowPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    loadFieds();
+  }
+
+  loadFieds() async {
+    valueSale = await CashFlowController.getSumTotalSalesByDate(
+        dateFormat1.format(dateSelected));
+    valueService = await CashFlowController.getSumTotalServicesByDate(
+        dateFormat1.format(dateSelected));
+    balance = valueSale + valueService;
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
@@ -53,6 +69,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
               onSelected: (value) {
                 setState(() {
                   dateSelected = value;
+                   loadFieds();
                 });
               },
             ),

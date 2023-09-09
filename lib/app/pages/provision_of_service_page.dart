@@ -45,13 +45,14 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
     Message.showMessage(context, content, color);
   }
 
-  showTime(int index) {
-    showTimePicker(context: context, initialTime: items[index]["time_service"])
-        .then((time) {
+  showTime(int index) async {
+    final time = await showTimePicker(
+        context: context, initialTime: items[index]["time_service"]);
+    if (time != null) {
       setState(() {
-        items[index]["time_service"] = time ?? items[index]["time_service"];
+        items[index]["time_service"] = time;
       });
-    });
+    }
   }
 
   @override
