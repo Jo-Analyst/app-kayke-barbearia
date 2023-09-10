@@ -7,7 +7,6 @@ import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-import '../config/db.dart';
 import '../providers/provision_of_service_provider.dart';
 import '../template/specie_payment.dart';
 import '../utils/snackbar.dart';

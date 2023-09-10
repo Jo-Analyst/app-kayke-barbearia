@@ -17,15 +17,31 @@ class CashFlowPage extends StatefulWidget {
 class _CashFlowPageState extends State<CashFlowPage> {
   DateTime dateSelected = DateTime.now();
   List<bool> containerButton = [false, false];
+  List<Map<String, dynamic>> valuesSalesBySpecies = [];
+  List<Map<String, dynamic>> valuesServicesBySpecies = [];
   bool activeContainerSale = false;
   bool activeContainerService = false;
   double balance = 0,
       valueSale = 0,
       valueService = 0,
       valueMoney = 0,
+      valueMoneySale = 0,
+      valueMoneyService = 0,
       valuePix = 0,
+      valuePixSale = 0,
+      valuePixService = 0,
       valueCredit = 0,
-      valueDebit = 0;
+      valueCreditSale = 0,
+      valueCreditService = 0,
+      valueDebit = 0,
+      valueDebitSale = 0,
+      valueDebitService = 0,
+      valueReceived = 0,
+      valueReceivedSale = 0,
+      valueReceivedService = 0,
+      valueCompleted = 0,
+      valueCompletedSale = 0,
+      valueCompletedService = 0;
 
   changeContainerSale() {
     setState(() {
@@ -44,16 +60,86 @@ class _CashFlowPageState extends State<CashFlowPage> {
   @override
   void initState() {
     super.initState();
-    loadFieds();
+    loadFields();
   }
 
-  loadFieds() async {
+  loadFields() async {
     valueSale = await CashFlowController.getSumTotalSalesByDate(
         dateFormat1.format(dateSelected));
     valueService = await CashFlowController.getSumTotalServicesByDate(
         dateFormat1.format(dateSelected));
     balance = valueSale + valueService;
     setState(() {});
+    loadFieldsPayments();
+  }
+
+  loadFieldsPayments() async {
+    valuesSalesBySpecies = await CashFlowController.getSumValuesSalesBySpecie(
+        dateFormat1.format(dateSelected));
+    valuesServicesBySpecies =
+        await CashFlowController.getSumValuesServicesBySpecie(
+            dateFormat1.format(dateSelected));
+    getValuesForEachSpecies();
+    addValuesForEachSpecies();
+  }
+
+  addValuesForEachSpecies() {
+    setState(() {
+      valueMoney = 0;
+      valuePix = 0;
+      valueCredit = 0;
+      valueDebit = 0;
+      valueMoney =
+          valuesSalesBySpecies.isNotEmpty || valuesServicesBySpecies.isNotEmpty
+              ? valueMoneySale + valueMoneyService
+              : 0.0;
+      valuePix =
+          valuesSalesBySpecies.isNotEmpty || valuesServicesBySpecies.isNotEmpty
+              ? valuePixSale + valuePixService
+              : 0.0;
+      valueCredit =
+          valuesSalesBySpecies.isNotEmpty || valuesServicesBySpecies.isNotEmpty
+              ? valueCreditSale + valueCreditService
+              : 0.0;
+      valueDebit =
+          valuesSalesBySpecies.isNotEmpty || valuesServicesBySpecies.isNotEmpty
+              ? valueDebitSale + valueDebitService
+              : 0.0;
+    });
+  }
+
+  getValuesForEachSpecies() {
+    for (var valueSaleBySpecie in valuesSalesBySpecies) {
+      if (valueSaleBySpecie["specie"].toString().toLowerCase() == "dinheiro") {
+        valueMoneySale = valueSaleBySpecie["value"];
+      }
+      if (valueSaleBySpecie["specie"].toString().toLowerCase() == "pix") {
+        valuePixSale = valueSaleBySpecie["value"];
+      }
+      if (valueSaleBySpecie["specie"].toString().toLowerCase() == "crédito") {
+        valueCreditSale = valueSaleBySpecie["value"];
+      }
+      if (valueSaleBySpecie["specie"].toString().toLowerCase() == "débito") {
+        valueDebitSale = valueSaleBySpecie["value"];
+      }
+    }
+
+    for (var valueServiceBySpecie in valuesServicesBySpecies) {
+      if (valueServiceBySpecie["specie"].toString().toLowerCase() ==
+          "dinheiro") {
+        valueMoneyService = valueServiceBySpecie["value"];
+      }
+      if (valueServiceBySpecie["specie"].toString().toLowerCase() == "pix") {
+        valuePixService = valueServiceBySpecie["value"];
+      }
+      if (valueServiceBySpecie["specie"].toString().toLowerCase() ==
+          "crédito") {
+        valueCreditService = valueServiceBySpecie["value"];
+      }
+      if (valueServiceBySpecie["specie"].toString().toLowerCase() == "débito") {
+        valueDebitService = valueServiceBySpecie["value"];
+      }
+    }
   }
 
   @override
@@ -69,7 +155,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
               onSelected: (value) {
                 setState(() {
                   dateSelected = value;
-                   loadFieds();
+                  loadFields();
                 });
               },
             ),
@@ -270,16 +356,16 @@ class _CashFlowPageState extends State<CashFlowPage> {
                   value: valueDebit,
                   color: Colors.purple,
                 ),
-                PaymentContainer(
+                const PaymentContainer(
                   icon: FontAwesomeIcons.handHoldingDollar,
                   specie: "A receber",
-                  value: valueDebit,
+                  value: 0.0,
                   color: Colors.redAccent,
                 ),
                 PaymentContainer(
                   icon: Icons.check_circle,
                   specie: "Concluído",
-                  value: valueDebit,
+                  value: valueCompleted,
                   color: Theme.of(context).primaryColor,
                 ),
               ],
