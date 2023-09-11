@@ -15,15 +15,15 @@ class ProvisionOfServiceProvider extends ChangeNotifier {
     items.clear();
   }
 
-  save(Map<String, dynamic> sale, List<Map<String, dynamic>> itemsSale,
-      Map<String, dynamic> paymentSale) async {
+  save(Map<String, dynamic> sale, List<Map<String, dynamic>> itemsService,
+      Map<String, dynamic> paymentService) async {
     final lastId = await ProvisionOfService(
       id: sale["id"] ?? 0,
       dateService: sale["date_service"],
       discount: sale["discount"],
       valueTotal: sale["value_total"],
       clientId: sale["client_id"],
-    ).save(itemsSale, paymentSale);
+    ).save(itemsService, paymentService);
 
     _items.add({
       "id": sale["id"] ?? lastId,

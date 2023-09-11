@@ -43,7 +43,8 @@ class _PaymentPageState extends State<PaymentPage> {
   String typeSpecie = "Dinheiro", titleClient = "Cliente";
   IconData? iconSpeciePayment = Icons.attach_money;
   Map<String, dynamic> client = {}, payment = {};
-  dynamic items = [];
+  bool isConfirmSaleOrProvisionOfService = false;
+  List<Map<String, dynamic>> items = [];
 
   @override
   void initState() {
@@ -51,14 +52,23 @@ class _PaymentPageState extends State<PaymentPage> {
     amountReceived = widget.total;
     lastChangeValue = widget.total;
     amountReceivedController.updateValue(amountReceived);
-    items = widget.items;
-    print(items);
+    items.addAll(widget.items);
   }
 
-  convertTimeItem() {
+  convertTimeInString() {
     for (var item in items) {
       item["time_service"] = item["time_service"].format(context);
     }
+  }
+
+  convertStringInTime() {
+    for (var item in items) {
+      item["time_service"] = TimeOfDay(
+          hour: int.parse(item["time_service"].toString().split(":")[0]),
+          minute: int.parse(item["time_service"].toString().split(":")[1]));
+    }
+
+    print(items);
   }
 
   calculateChange() {
@@ -120,6 +130,7 @@ class _PaymentPageState extends State<PaymentPage> {
       return;
     }
 
+    isConfirmSaleOrProvisionOfService = true;
     payment = {
       "client": client.isNotEmpty ? client["name"] : "Cliente avulso",
       "amount_received": amountReceived,
@@ -129,11 +140,12 @@ class _PaymentPageState extends State<PaymentPage> {
     };
 
     if (!widget.isSale) {
-      convertTimeItem();
+      convertTimeInString();
+      
     }
 
     await save();
-    items.clear();
+    convertStringInTime();
   }
 
   Future<void> save() async {
@@ -156,10 +168,10 @@ class _PaymentPageState extends State<PaymentPage> {
     };
 
     if (widget.isSale) {
-      await saleProvider.save(data, widget.items, payment);
+      await saleProvider.save(data, items, payment);
     } else {
       data.remove("profit_value_total");
-      await serviceProvider.save(data, widget.items, payment);
+      await serviceProvider.save(data, items, payment);
     }
   }
 
@@ -178,6 +190,9 @@ class _PaymentPageState extends State<PaymentPage> {
             child: IconButton(
               onPressed: () {
                 confirmSale();
+
+                if (!isConfirmSaleOrProvisionOfService) return;
+
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (_) => ProofPage(
