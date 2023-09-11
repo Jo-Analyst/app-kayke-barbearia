@@ -56,19 +56,19 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   convertTimeInString() {
+    if (widget.isSale) return;
     for (var item in items) {
       item["time_service"] = item["time_service"].format(context);
     }
   }
 
   convertStringInTime() {
+    if (widget.isSale) return;
     for (var item in items) {
       item["time_service"] = TimeOfDay(
           hour: int.parse(item["time_service"].toString().split(":")[0]),
           minute: int.parse(item["time_service"].toString().split(":")[1]));
     }
-
-    print(items);
   }
 
   calculateChange() {
@@ -139,10 +139,7 @@ class _PaymentPageState extends State<PaymentPage> {
       "date": widget.date
     };
 
-    if (!widget.isSale) {
-      convertTimeInString();
-      
-    }
+    convertTimeInString();
 
     await save();
     convertStringInTime();
