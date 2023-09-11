@@ -1,5 +1,5 @@
-import 'package:app_kaike_barbearia/app/utils/cache.dart';
-import 'package:app_kaike_barbearia/app/utils/search_list.dart';
+import 'package:app_kayke_barbearia/app/utils/cache.dart';
+import 'package:app_kayke_barbearia/app/utils/search_list.dart';
 import 'package:flutter/material.dart';
 
 import '../models/personal_expense_model.dart';

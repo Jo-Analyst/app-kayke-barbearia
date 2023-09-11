@@ -1,4 +1,4 @@
-import 'package:app_kaike_barbearia/app/template/specie_payment_container.dart';
+import 'package:app_kayke_barbearia/app/template/specie_payment_container.dart';
 import 'package:flutter/material.dart';
 
 class SpeciePaymentReceipt extends StatefulWidget {

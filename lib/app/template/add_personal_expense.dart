@@ -1,6 +1,5 @@
-import 'package:app_kaike_barbearia/app/pages/personal_expense_form_page.dart';
+import 'package:app_kayke_barbearia/app/pages/personal_expense_form_page.dart';
 import 'package:flutter/material.dart';
-
 
 class AddNewPersonalExpense extends StatelessWidget {
   final Function()? closeKeyboard;
@@ -31,7 +30,8 @@ class AddNewPersonalExpense extends StatelessWidget {
                 closeKeyboard!();
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => const PersonalExpenseFormPage(isEdition: false),
+                    builder: (_) =>
+                        const PersonalExpenseFormPage(isEdition: false),
                   ),
                 );
               },

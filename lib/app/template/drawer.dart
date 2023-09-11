@@ -1,7 +1,7 @@
-import 'package:app_kaike_barbearia/app/pages/client_list_page.dart';
-import 'package:app_kaike_barbearia/app/pages/payment_list_page.dart';
-import 'package:app_kaike_barbearia/app/pages/personal_expense_list_page.dart';
-import 'package:app_kaike_barbearia/app/pages/product_list_page.dart';
+import 'package:app_kayke_barbearia/app/pages/client_list_page.dart';
+import 'package:app_kayke_barbearia/app/pages/payment_list_page.dart';
+import 'package:app_kayke_barbearia/app/pages/personal_expense_list_page.dart';
+import 'package:app_kayke_barbearia/app/pages/product_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

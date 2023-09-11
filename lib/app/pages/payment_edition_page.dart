@@ -1,6 +1,6 @@
-import 'package:app_kaike_barbearia/app/pages/receipt_page.dart';
-import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
-import 'package:app_kaike_barbearia/app/utils/dialog.dart';
+import 'package:app_kayke_barbearia/app/pages/receipt_page.dart';
+import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
+import 'package:app_kayke_barbearia/app/utils/dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 

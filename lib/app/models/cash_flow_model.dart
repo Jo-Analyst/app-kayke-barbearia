@@ -1,4 +1,4 @@
-import 'package:app_kaike_barbearia/app/config/db.dart';
+import 'package:app_kayke_barbearia/app/config/db.dart';
 
 class CashFlow {
   final String date;
@@ -42,14 +42,14 @@ class CashFlow {
   Future<List<Map<String, dynamic>>> getListSales() async {
     final db = await DB.openDatabase();
     return db.rawQuery(
-        "SELECT products.name, SUM(items_sales.quantity) AS quantity_items, SUM(sub_total) AS subtotal FROM items_sales INNER JOIN sales ON sales.id = items_sales.sale_id INNER JOIN products ON products.id = items_sales.product_id WHERE sales.date_sale = ? GROUP BY products.name",
+        "SELECT products.name, SUM(items_sales.quantity) AS quantity_items, SUM(items_sales.sub_total) AS subtotal FROM items_sales INNER JOIN sales ON sales.id = items_sales.sale_id INNER JOIN products ON products.id = items_sales.product_id WHERE sales.date_sale = ? GROUP BY products.name",
         [date]);
   }
 
   Future<List<Map<String, dynamic>>> getListServices() async {
     final db = await DB.openDatabase();
     return db.rawQuery(
-        "SELECT services.description, COUNT(items_services.id) AS quantity_services, SUM(price_service) AS subtotal FROM items_services INNER JOIN provision_of_services ON provision_of_services.id = items_services.service_id INNER JOIN services ON services.id = items_services.service_id WHERE provision_of_services.date_service = ? GROUP BY services.description",
+        "SELECT services.description, COUNT(services.id) AS quantity_services, SUM(items_services.price_service) AS subtotal FROM items_services INNER JOIN provision_of_services ON provision_of_services.id = items_services.provision_of_service_id INNER JOIN services ON services.id = items_services.service_id WHERE provision_of_services.date_service = ? GROUP BY services.description",
         [date]);
   }
 }

@@ -1,29 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../controllers/cash_flow_controller.dart';
 import '../utils/convert_values.dart';
 
-class FinanceServiceList extends StatefulWidget {
-  final DateTime dateSelected;
-  const FinanceServiceList({required this.dateSelected, super.key});
-
-  @override
-  State<FinanceServiceList> createState() => _FinanceServiceListState();
-}
-
-class _FinanceServiceListState extends State<FinanceServiceList> {
-  List<Map<String, dynamic>> servicesProvided = [];
-  @override
-  void initState() {
-    super.initState();
-    loadList();
-  }
-
-  loadList() async {
-    servicesProvided =
-        await CashFlowController.getListServices(widget.dateSelected);
-    setState(() {});
-  }
+class FinanceServiceList extends StatelessWidget {
+  final List<Map<String, dynamic>> servicesProvided;
+  const FinanceServiceList({
+    required this.servicesProvided,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

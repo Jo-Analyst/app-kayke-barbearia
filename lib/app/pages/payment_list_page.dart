@@ -1,6 +1,6 @@
-import 'package:app_kaike_barbearia/app/template/dialog_filter.dart';
-import 'package:app_kaike_barbearia/app/template/list_payment.dart';
-import 'package:app_kaike_barbearia/app/template/slide_date.dart';
+import 'package:app_kayke_barbearia/app/template/dialog_filter.dart';
+import 'package:app_kayke_barbearia/app/template/list_payment.dart';
+import 'package:app_kayke_barbearia/app/template/slide_date.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

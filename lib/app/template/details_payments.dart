@@ -1,5 +1,5 @@
-import 'package:app_kaike_barbearia/app/pages/payment_edition_page.dart';
-import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
+import 'package:app_kayke_barbearia/app/pages/payment_edition_page.dart';
+import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
 
 class DetailsPayment extends StatelessWidget {
@@ -62,7 +62,7 @@ class DetailsPayment extends StatelessWidget {
                               children: [
                                 const Text(
                                   "Valor",
-                                  style:  TextStyle(fontSize: 20),
+                                  style: TextStyle(fontSize: 20),
                                 ),
                                 Text(
                                   numberFormat.format(payment["value"]),
@@ -130,9 +130,9 @@ class DetailsPayment extends StatelessWidget {
                             width: MediaQuery.of(context).size.width / 2 - 30,
                             child: Column(
                               children: [
-                                 const Text(
+                                const Text(
                                   "Valor",
-                                  style:  TextStyle(fontSize: 20),
+                                  style: TextStyle(fontSize: 20),
                                 ),
                                 Text(
                                   numberFormat.format(payment["value"]),

@@ -1,10 +1,9 @@
-import 'package:app_kaike_barbearia/app/controllers/cash_flow_controller.dart';
-import 'package:app_kaike_barbearia/app/template/calendar.dart';
-import 'package:app_kaike_barbearia/app/template/finance_sale_list.dart';
-import 'package:app_kaike_barbearia/app/template/finance_service.list.dart';
-import 'package:app_kaike_barbearia/app/template/payment_container.dart';
-import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
-import 'package:app_kaike_barbearia/app/utils/search_list.dart';
+import 'package:app_kayke_barbearia/app/controllers/cash_flow_controller.dart';
+import 'package:app_kayke_barbearia/app/template/calendar.dart';
+import 'package:app_kayke_barbearia/app/template/finance_sale_list.dart';
+import 'package:app_kayke_barbearia/app/template/finance_service.list.dart';
+import 'package:app_kayke_barbearia/app/template/payment_container.dart';
+import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -21,6 +20,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
   List<Map<String, dynamic>> valuesSalesBySpecies = [];
   List<Map<String, dynamic>> valuesServicesBySpecies = [];
   List<Map<String, dynamic>> itemsSales = [];
+  List<Map<String, dynamic>> servicesProvided = [];
   bool activeContainerSale = false;
   bool activeContainerService = false;
   double balance = 0,
@@ -41,10 +41,9 @@ class _CashFlowPageState extends State<CashFlowPage> {
       valueReceived = 0,
       valueCompleted = 0;
 
-  loadListSale() async {
+  loadList() async {
     itemsSales = await CashFlowController.getListSales(dateSelected);
-    setState(() {});
-    print(itemsSales);
+    servicesProvided = await CashFlowController.getListServices(dateSelected);
   }
 
   changeContainerSale() {
@@ -90,7 +89,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
   }
 
   loadFields() async {
-    loadListSale();
+    loadList();
     valueSale = await CashFlowController.getSumTotalSalesByDate(dateSelected);
     valueService =
         await CashFlowController.getSumTotalServicesByDate(dateSelected);
@@ -365,7 +364,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
                   color: Colors.indigo.withOpacity(.1),
                   height: 200,
                   child: FinanceServiceList(
-                    dateSelected: dateSelected,
+                    servicesProvided: servicesProvided,
                   ),
                 ),
               ],

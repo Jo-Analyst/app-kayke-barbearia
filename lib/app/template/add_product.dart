@@ -1,4 +1,4 @@
-import 'package:app_kaike_barbearia/app/pages/product_form_page.dart';
+import 'package:app_kayke_barbearia/app/pages/product_form_page.dart';
 import 'package:flutter/material.dart';
 
 class AddNewProduct extends StatelessWidget {

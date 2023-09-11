@@ -1,6 +1,6 @@
-import 'package:app_kaike_barbearia/app/config/db.dart';
-import 'package:app_kaike_barbearia/app/models/items_service_model.dart';
-import 'package:app_kaike_barbearia/app/models/payment_service_model.dart';
+import 'package:app_kayke_barbearia/app/config/db.dart';
+import 'package:app_kayke_barbearia/app/models/items_service_model.dart';
+import 'package:app_kayke_barbearia/app/models/payment_service_model.dart';
 
 class ProvisionOfService {
   final int id;

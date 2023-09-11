@@ -1,7 +1,7 @@
-import 'package:app_kaike_barbearia/app/pages/client_list_page.dart';
-import 'package:app_kaike_barbearia/app/providers/sale_provider.dart';
-import 'package:app_kaike_barbearia/app/utils/content_message.dart';
-import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
+import 'package:app_kayke_barbearia/app/pages/client_list_page.dart';
+import 'package:app_kayke_barbearia/app/providers/sale_provider.dart';
+import 'package:app_kayke_barbearia/app/utils/content_message.dart';
+import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -52,6 +52,7 @@ class _PaymentPageState extends State<PaymentPage> {
     lastChangeValue = widget.total;
     amountReceivedController.updateValue(amountReceived);
     items = widget.items;
+    print(items);
   }
 
   convertTimeItem() {
@@ -131,20 +132,11 @@ class _PaymentPageState extends State<PaymentPage> {
       convertTimeItem();
     }
 
-    save();
+    await save();
     items.clear();
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => ProofPage(
-          payment: payment,
-          saleTotal: widget.total,
-          isSale: widget.isSale,
-        ),
-      ),
-    );
   }
 
-  save() async {
+  Future<void> save() async {
     final saleProvider = Provider.of<SaleProvider>(context, listen: false);
     final serviceProvider =
         Provider.of<ProvisionOfServiceProvider>(context, listen: false);
@@ -184,7 +176,18 @@ class _PaymentPageState extends State<PaymentPage> {
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: () => confirmSale(),
+              onPressed: () {
+                confirmSale();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => ProofPage(
+                      payment: payment,
+                      saleTotal: widget.total,
+                      isSale: widget.isSale,
+                    ),
+                  ),
+                );
+              },
               icon: const Icon(
                 Icons.check,
                 size: 30,

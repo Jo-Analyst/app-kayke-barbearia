@@ -1,10 +1,10 @@
-import 'package:app_kaike_barbearia/app/pages/product_form_page.dart';
-import 'package:app_kaike_barbearia/app/providers/product_provider.dart';
-import 'package:app_kaike_barbearia/app/template/add_product.dart';
-import 'package:app_kaike_barbearia/app/utils/content_message.dart';
-import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
-import 'package:app_kaike_barbearia/app/utils/dialog.dart';
-import 'package:app_kaike_barbearia/app/utils/snackbar.dart';
+import 'package:app_kayke_barbearia/app/pages/product_form_page.dart';
+import 'package:app_kayke_barbearia/app/providers/product_provider.dart';
+import 'package:app_kayke_barbearia/app/template/add_product.dart';
+import 'package:app_kayke_barbearia/app/utils/content_message.dart';
+import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
+import 'package:app_kayke_barbearia/app/utils/dialog.dart';
+import 'package:app_kayke_barbearia/app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -234,26 +234,28 @@ class _ProductListPageState extends State<ProductListPage> {
                                                           .itFromTheSalesScreen
                                                       ? () =>
                                                           Navigator.of(context)
-                                                              .pop({
-                                                            "product_id":
-                                                                product["id"],
-                                                            "name":
-                                                                product["name"],
-                                                            "quantity_items":
-                                                                product[
-                                                                    "quantity"],
-                                                            "profit_product":
-                                                                product[
-                                                                    "profit_value"],
-                                                            "sub_profit_product":
-                                                                product[
-                                                                    "profit_value"],
-                                                            "price_product":
-                                                                product[
-                                                                    "sale_value"],
-                                                            "sub_total": product[
-                                                                "sale_value"]
-                                                          },)
+                                                              .pop(
+                                                            {
+                                                              "product_id":
+                                                                  product["id"],
+                                                              "name": product[
+                                                                  "name"],
+                                                              "quantity_items":
+                                                                  product[
+                                                                      "quantity"],
+                                                              "profit_product":
+                                                                  product[
+                                                                      "profit_value"],
+                                                              "sub_profit_product":
+                                                                  product[
+                                                                      "profit_value"],
+                                                              "price_product":
+                                                                  product[
+                                                                      "sale_value"],
+                                                              "sub_total": product[
+                                                                  "sale_value"]
+                                                            },
+                                                          )
                                                       : null,
                                                   minLeadingWidth: 0,
                                                   selectedTileColor:

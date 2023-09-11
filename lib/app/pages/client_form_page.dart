@@ -1,4 +1,4 @@
-import 'package:app_kaike_barbearia/app/providers/client_provider.dart';
+import 'package:app_kayke_barbearia/app/providers/client_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';

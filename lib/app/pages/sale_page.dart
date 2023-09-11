@@ -1,9 +1,9 @@
-import 'package:app_kaike_barbearia/app/pages/discount_page.dart';
-import 'package:app_kaike_barbearia/app/pages/payment_page.dart';
-import 'package:app_kaike_barbearia/app/pages/product_list_page.dart';
-import 'package:app_kaike_barbearia/app/template/calendar.dart';
-import 'package:app_kaike_barbearia/app/utils/content_message.dart';
-import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
+import 'package:app_kayke_barbearia/app/pages/discount_page.dart';
+import 'package:app_kayke_barbearia/app/pages/payment_page.dart';
+import 'package:app_kayke_barbearia/app/pages/product_list_page.dart';
+import 'package:app_kayke_barbearia/app/template/calendar.dart';
+import 'package:app_kayke_barbearia/app/utils/content_message.dart';
+import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -29,8 +29,8 @@ class _SalePageState extends State<SalePage> {
     setState(() {
       if (item["quantity"] == quantity) return;
       item["quantity"]++;
-      calculateSubTotalAndSubProfitByItems(items[index]["quantity"],
-          items[index]["price_product"], index);
+      calculateSubTotalAndSubProfitByItems(
+          items[index]["quantity"], items[index]["price_product"], index);
     });
   }
 
@@ -38,8 +38,8 @@ class _SalePageState extends State<SalePage> {
     setState(() {
       if (items[index]["quantity"] == 1) return;
       items[index]["quantity"]--;
-      calculateSubTotalAndSubProfitByItems(items[index]["quantity"],
-          items[index]["price_product"], index);
+      calculateSubTotalAndSubProfitByItems(
+          items[index]["quantity"], items[index]["price_product"], index);
     });
   }
 
@@ -144,8 +144,8 @@ class _SalePageState extends State<SalePage> {
                                       Colors.orange,
                                     );
                                     return;
-                                  }
-                                  else if (itemSelected["quantity_items"] == 0) {
+                                  } else if (itemSelected["quantity_items"] ==
+                                      0) {
                                     showMessage(
                                       const ContentMessage(
                                         icon:
@@ -159,7 +159,8 @@ class _SalePageState extends State<SalePage> {
                                   }
                                   itemSelected["quantity"] = 1;
                                   items.add(itemSelected);
-                                  quantityItems.add(itemSelected["quantity_items"]);
+                                  quantityItems
+                                      .add(itemSelected["quantity_items"]);
                                 });
                                 calculateSubTotalAndProfitTotal();
                               }
@@ -261,8 +262,7 @@ class _SalePageState extends State<SalePage> {
                                                 width: 31,
                                                 alignment: Alignment.center,
                                                 child: Text(
-                                                  item["quantity"]
-                                                      .toString(),
+                                                  item["quantity"].toString(),
                                                   style: const TextStyle(
                                                       fontSize: 18),
                                                 ),

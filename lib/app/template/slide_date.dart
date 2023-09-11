@@ -1,4 +1,4 @@
-import 'package:app_kaike_barbearia/app/utils/month_slide.dart';
+import 'package:app_kayke_barbearia/app/utils/month_slide.dart';
 import 'package:flutter/material.dart';
 
 class SlideDate extends StatefulWidget {

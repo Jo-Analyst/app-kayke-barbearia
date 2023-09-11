@@ -1,5 +1,5 @@
-import 'package:app_kaike_barbearia/app/template/finance_service.list.dart';
-import 'package:app_kaike_barbearia/app/template/payment.dart';
+import 'package:app_kayke_barbearia/app/template/finance_service.list.dart';
+import 'package:app_kayke_barbearia/app/template/payment.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/convert_values.dart';
@@ -52,8 +52,8 @@ class _FinanceServicesState extends State<FinanceServices> {
               color: const Color.fromARGB(17, 63, 81, 181),
               margin: const EdgeInsets.all(10),
               height: 200,
-              child: FinanceServiceList(
-                dateSelected: DateTime.now(),
+              child: const FinanceServiceList(
+                servicesProvided: [],
               ),
             ),
           ),

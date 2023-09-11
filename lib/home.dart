@@ -1,6 +1,6 @@
-import 'package:app_kaike_barbearia/app/providers/client_provider.dart';
-import 'package:app_kaike_barbearia/app/providers/provision_of_service_provider.dart';
-import 'package:app_kaike_barbearia/app/providers/sale_provider.dart';
+import 'package:app_kayke_barbearia/app/providers/client_provider.dart';
+import 'package:app_kayke_barbearia/app/providers/provision_of_service_provider.dart';
+import 'package:app_kayke_barbearia/app/providers/sale_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';

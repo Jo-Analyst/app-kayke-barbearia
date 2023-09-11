@@ -1,7 +1,7 @@
-import 'package:app_kaike_barbearia/app/config/db.dart';
-import 'package:app_kaike_barbearia/app/models/items_sale.dart';
-import 'package:app_kaike_barbearia/app/models/payment_sale_model.dart';
-import 'package:app_kaike_barbearia/app/models/product_model.dart';
+import 'package:app_kayke_barbearia/app/config/db.dart';
+import 'package:app_kayke_barbearia/app/models/items_sale.dart';
+import 'package:app_kayke_barbearia/app/models/payment_sale_model.dart';
+import 'package:app_kayke_barbearia/app/models/product_model.dart';
 
 class Sale {
   final int id;

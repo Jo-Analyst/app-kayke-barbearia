@@ -1,11 +1,11 @@
-import 'package:app_kaike_barbearia/app/pages/service_form_page.dart';
-import 'package:app_kaike_barbearia/app/providers/service_provider.dart';
-import 'package:app_kaike_barbearia/app/template/add_service.dart';
-import 'package:app_kaike_barbearia/app/utils/content_message.dart';
-import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
-import 'package:app_kaike_barbearia/app/utils/dialog.dart';
-import 'package:app_kaike_barbearia/app/utils/cache.dart';
-import 'package:app_kaike_barbearia/app/utils/snackbar.dart';
+import 'package:app_kayke_barbearia/app/pages/service_form_page.dart';
+import 'package:app_kayke_barbearia/app/providers/service_provider.dart';
+import 'package:app_kayke_barbearia/app/template/add_service.dart';
+import 'package:app_kayke_barbearia/app/utils/content_message.dart';
+import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
+import 'package:app_kayke_barbearia/app/utils/dialog.dart';
+import 'package:app_kayke_barbearia/app/utils/cache.dart';
+import 'package:app_kayke_barbearia/app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -221,7 +221,8 @@ class _ServiceListPageState extends State<ServiceListPage> {
                                                         .itFromTheSalesScreen) {
                                                       Navigator.of(context)
                                                           .pop({
-                                                        "service_id": service["id"],
+                                                        "service_id":
+                                                            service["id"],
                                                         "description": service[
                                                             "description"],
                                                         "price_service":

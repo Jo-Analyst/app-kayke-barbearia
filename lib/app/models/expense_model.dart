@@ -1,4 +1,4 @@
-import 'package:app_kaike_barbearia/app/config/db.dart';
+import 'package:app_kayke_barbearia/app/config/db.dart';
 
 class Expense {
   final int? id;

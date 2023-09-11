@@ -1,4 +1,4 @@
-import 'package:app_kaike_barbearia/app/models/sale_model.dart';
+import 'package:app_kayke_barbearia/app/models/sale_model.dart';
 import 'package:flutter/material.dart';
 
 class SaleProvider extends ChangeNotifier {

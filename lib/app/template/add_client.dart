@@ -1,4 +1,4 @@
-import 'package:app_kaike_barbearia/app/pages/client_form_page.dart';
+import 'package:app_kayke_barbearia/app/pages/client_form_page.dart';
 import 'package:flutter/material.dart';
 
 class AddNewClient extends StatelessWidget {
@@ -30,7 +30,9 @@ class AddNewClient extends StatelessWidget {
                 closeKeyboard!();
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => const ClientFormPage(isEdition: false,),
+                    builder: (_) => const ClientFormPage(
+                      isEdition: false,
+                    ),
                   ),
                 );
               },

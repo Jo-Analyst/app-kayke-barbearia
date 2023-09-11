@@ -1,5 +1,5 @@
-import 'package:app_kaike_barbearia/app/providers/client_provider.dart';
-import 'package:app_kaike_barbearia/app/utils/search_list.dart';
+import 'package:app_kayke_barbearia/app/providers/client_provider.dart';
+import 'package:app_kayke_barbearia/app/utils/search_list.dart';
 import 'package:flutter/material.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:provider/provider.dart';

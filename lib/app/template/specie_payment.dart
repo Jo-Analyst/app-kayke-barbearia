@@ -1,4 +1,4 @@
-import 'package:app_kaike_barbearia/app/template/specie_payment_container.dart';
+import 'package:app_kayke_barbearia/app/template/specie_payment_container.dart';
 import 'package:flutter/material.dart';
 
 class SpeciePayment extends StatefulWidget {
@@ -42,7 +42,8 @@ class _SpeciePaymentState extends State<SpeciePayment> {
             InkWell(
               onTap: () {
                 changeColorAfterPaymentTypeBecomesActive(0);
-                widget.getPaymentTypeName(listSpeciePayments[0]["specie"], listSpeciePayments[0]["icon"]);
+                widget.getPaymentTypeName(listSpeciePayments[0]["specie"],
+                    listSpeciePayments[0]["icon"]);
               },
               child: SpeciePaymentContainer(
                 title: "Dinheiro",
@@ -61,7 +62,8 @@ class _SpeciePaymentState extends State<SpeciePayment> {
             InkWell(
               onTap: () {
                 changeColorAfterPaymentTypeBecomesActive(1);
-                widget.getPaymentTypeName(listSpeciePayments[1]["specie"], listSpeciePayments[1]["icon"]);
+                widget.getPaymentTypeName(listSpeciePayments[1]["specie"],
+                    listSpeciePayments[1]["icon"]);
               },
               child: SpeciePaymentContainer(
                 title: "Crédito",
@@ -80,7 +82,8 @@ class _SpeciePaymentState extends State<SpeciePayment> {
             InkWell(
               onTap: () {
                 changeColorAfterPaymentTypeBecomesActive(2);
-                widget.getPaymentTypeName(listSpeciePayments[2]["specie"], listSpeciePayments[2]["icon"]);
+                widget.getPaymentTypeName(listSpeciePayments[2]["specie"],
+                    listSpeciePayments[2]["icon"]);
               },
               child: SpeciePaymentContainer(
                 title: "Débito",
@@ -105,7 +108,8 @@ class _SpeciePaymentState extends State<SpeciePayment> {
             InkWell(
               onTap: () {
                 changeColorAfterPaymentTypeBecomesActive(3);
-                widget.getPaymentTypeName(listSpeciePayments[3]["specie"], listSpeciePayments[3]["icon"]);
+                widget.getPaymentTypeName(listSpeciePayments[3]["specie"],
+                    listSpeciePayments[3]["icon"]);
               },
               child: SpeciePaymentContainer(
                 width: MediaQuery.of(context).size.width / 2 - 27,
@@ -125,7 +129,8 @@ class _SpeciePaymentState extends State<SpeciePayment> {
             InkWell(
               onTap: () {
                 changeColorAfterPaymentTypeBecomesActive(4);
-                widget.getPaymentTypeName(listSpeciePayments[4]["specie"], listSpeciePayments[4]["icon"]);
+                widget.getPaymentTypeName(listSpeciePayments[4]["specie"],
+                    listSpeciePayments[4]["icon"]);
               },
               child: SpeciePaymentContainer(
                 width: MediaQuery.of(context).size.width / 2 - 27,

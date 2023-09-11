@@ -2,28 +2,17 @@ import 'package:flutter/material.dart';
 
 import '../utils/convert_values.dart';
 
-class FinanceSaleList extends StatefulWidget {
+class FinanceSaleList extends StatelessWidget {
   final List<Map<String, dynamic>> itemsSale;
   const FinanceSaleList({
     required this.itemsSale,
     super.key,
   });
 
-  @override
-  State<FinanceSaleList> createState() => _FinanceSaleListState();
-}
-
-class _FinanceSaleListState extends State<FinanceSaleList> {
-  @override
-  void initState() {
-    super.initState();
-    print(widget.itemsSale);
-  }
-
-  @override
+   @override
   Widget build(BuildContext context) {
     return Scrollbar(
-      child: widget.itemsSale.isEmpty
+      child: itemsSale.isEmpty
           ? const Center(
               child: Text(
                 "Não há vendas adicionado neste mês.",
@@ -32,7 +21,7 @@ class _FinanceSaleListState extends State<FinanceSaleList> {
             )
           : ListView(
               shrinkWrap: true,
-              children: widget.itemsSale.map(
+              children: itemsSale.map(
                 (item) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(

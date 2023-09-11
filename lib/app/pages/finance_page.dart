@@ -1,7 +1,7 @@
-import 'package:app_kaike_barbearia/app/template/finance_sales.dart';
-import 'package:app_kaike_barbearia/app/template/finance_services.dart';
-import 'package:app_kaike_barbearia/app/template/finance_expense.dart';
-import 'package:app_kaike_barbearia/app/template/slide_date.dart';
+import 'package:app_kayke_barbearia/app/template/finance_sales.dart';
+import 'package:app_kayke_barbearia/app/template/finance_services.dart';
+import 'package:app_kayke_barbearia/app/template/finance_expense.dart';
+import 'package:app_kayke_barbearia/app/template/slide_date.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

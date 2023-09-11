@@ -1,12 +1,16 @@
-import 'package:app_kaike_barbearia/app/pages/home_page.dart';
-import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
+import 'package:app_kayke_barbearia/app/pages/home_page.dart';
+import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
 
 class ProofPage extends StatelessWidget {
   final double saleTotal;
   final bool isSale;
   final Map<String, dynamic> payment;
-  const ProofPage({required this.isSale,required this.payment, required this.saleTotal, super.key});
+  const ProofPage(
+      {required this.isSale,
+      required this.payment,
+      required this.saleTotal,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +53,10 @@ class ProofPage extends StatelessWidget {
                     color: Colors.indigo.withOpacity(.1),
                     child: Column(
                       children: [
-                         Text(
-                          isSale ? "Venda concluída com sucesso." : "Prestação de serviço concluído",
+                        Text(
+                          isSale
+                              ? "Venda concluída com sucesso."
+                              : "Prestação de serviço concluído",
                           style: const TextStyle(fontSize: 18),
                         ),
                         Text(

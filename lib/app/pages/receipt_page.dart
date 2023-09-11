@@ -1,4 +1,4 @@
-import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
+import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,7 +17,7 @@ class ReceiptPage extends StatefulWidget {
   const ReceiptPage({
     required this.isSale,
     required this.isEdition,
-   required this.receipt,
+    required this.receipt,
     required this.totalAmountReceived,
     required this.total,
     super.key,
@@ -268,7 +268,9 @@ class _ReceiptPageState extends State<ReceiptPage> {
                         ),
                       ),
                       SpeciePaymentReceipt(
-                        specie: widget.receipt.isNotEmpty ? widget.receipt["specie"] : null,
+                        specie: widget.receipt.isNotEmpty
+                            ? widget.receipt["specie"]
+                            : null,
                         getPaymentTypeName: (value, icon) {
                           setState(() {
                             typeSpecie = value;
