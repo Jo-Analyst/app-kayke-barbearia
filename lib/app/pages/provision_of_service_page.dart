@@ -47,10 +47,17 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
 
   showTime(int index) async {
     final time = await showTimePicker(
-        context: context, initialTime: items[index]["time_service"]);
+      context: context,
+      initialTime: TimeOfDay(
+        hour: int.parse(items[index]["time_service"].toString().split(":")[0]),
+        minute:
+            int.parse(items[index]["time_service"].toString().split(":")[1]),
+      ),
+    );
+
     if (time != null) {
       setState(() {
-        items[index]["time_service"] = time;
+        items[index]["time_service"] = time.toString().substring(10, 15);
       });
     }
   }
@@ -99,7 +106,9 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
                               if (itemsSelected != null) {
                                 setState(() {
                                   itemsSelected["time_service"] =
-                                      TimeOfDay.now();
+                                      TimeOfDay.now()
+                                          .toString()
+                                          .substring(10, 15);
                                   items.add(itemsSelected);
                                 });
                                 calculateSubTotal();
@@ -188,7 +197,7 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
                                           children: [
                                             Flexible(
                                               child: Text(
-                                                "Hor.: ${item["time_service"].format(context)}",
+                                                "Hor.: ${item["time_service"]}",
                                                 style: const TextStyle(
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.w500,

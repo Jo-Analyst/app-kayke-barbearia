@@ -139,13 +139,20 @@ class _PaymentPageState extends State<PaymentPage> {
       "date": widget.date
     };
 
-    convertTimeInString();
+    save();
 
-    await save();
-    convertStringInTime();
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => ProofPage(
+          payment: payment,
+          saleTotal: widget.total,
+          isSale: widget.isSale,
+        ),
+      ),
+    );
   }
 
-  Future<void> save() async {
+  save() async {
     final saleProvider = Provider.of<SaleProvider>(context, listen: false);
     final serviceProvider =
         Provider.of<ProvisionOfServiceProvider>(context, listen: false);
@@ -185,21 +192,7 @@ class _PaymentPageState extends State<PaymentPage> {
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: () {
-                confirmSale();
-
-                if (!isConfirmSaleOrProvisionOfService) return;
-
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => ProofPage(
-                      payment: payment,
-                      saleTotal: widget.total,
-                      isSale: widget.isSale,
-                    ),
-                  ),
-                );
-              },
+              onPressed: () => confirmSale(),
               icon: const Icon(
                 Icons.check,
                 size: 30,
