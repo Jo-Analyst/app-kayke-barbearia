@@ -77,7 +77,7 @@ class _SalePageState extends State<SalePage> {
   }
 
   bool productHasBeenAdded(int productId) {
-    // produto foi adicionado
+    // produto foi adicionado?
     bool wasAdded = false;
     for (var item in items) {
       if (item["product_id"] == productId) {
@@ -235,7 +235,7 @@ class _SalePageState extends State<SalePage> {
                                               255, 105, 123, 223),
                                         ),
                                         title: Text(
-                                          item["name"],
+                                          item["name"] ?? "",
                                           style: const TextStyle(fontSize: 20),
                                         ),
                                         subtitle: Text(

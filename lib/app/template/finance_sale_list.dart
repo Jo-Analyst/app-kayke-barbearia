@@ -2,22 +2,28 @@ import 'package:flutter/material.dart';
 
 import '../utils/convert_values.dart';
 
-class FinanceSaleList extends StatelessWidget {
-  const FinanceSaleList({super.key});
+class FinanceSaleList extends StatefulWidget {
+  final List<Map<String, dynamic>> itemsSale;
+  const FinanceSaleList({
+    required this.itemsSale,
+    super.key,
+  });
+
+  @override
+  State<FinanceSaleList> createState() => _FinanceSaleListState();
+}
+
+class _FinanceSaleListState extends State<FinanceSaleList> {
+  @override
+  void initState() {
+    super.initState();
+    print(widget.itemsSale);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> productsSold = [
-      {"name": "Gel Azul", "quantity": 5, "price": 50.00},
-      {"name": "Gel Preto", "quantity": 15, "price": 150.00},
-      {"name": "Máquina de barbear", "quantity": 10, "price": 900.00},
-      {"name": "Gel Azul", "quantity": 5, "price": 50.00},
-      {"name": "Gel Preto", "quantity": 15, "price": 150.00},
-      {"name": "Máquina de barbear", "quantity": 10, "price": 900.00},
-    ];
-
     return Scrollbar(
-      child: productsSold.isEmpty
+      child: widget.itemsSale.isEmpty
           ? const Center(
               child: Text(
                 "Não há vendas adicionado neste mês.",
@@ -26,8 +32,8 @@ class FinanceSaleList extends StatelessWidget {
             )
           : ListView(
               shrinkWrap: true,
-              children: productsSold.map(
-                (product) {
+              children: widget.itemsSale.map(
+                (item) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(
                       vertical: 8,
@@ -44,7 +50,7 @@ class FinanceSaleList extends StatelessWidget {
                                   alignment: Alignment.centerLeft,
                                   width: MediaQuery.of(context).size.width / 2,
                                   child: Text(
-                                    product["name"],
+                                    item["name"],
                                     style: const TextStyle(fontSize: 20),
                                   ),
                                 ),
@@ -54,7 +60,7 @@ class FinanceSaleList extends StatelessWidget {
                                   alignment: Alignment.center,
                                   width: MediaQuery.of(context).size.width / 8,
                                   child: Text(
-                                    product["quantity"].toString(),
+                                    item["quantity_items"].toString(),
                                     style: const TextStyle(fontSize: 20),
                                   ),
                                 ),
@@ -64,7 +70,7 @@ class FinanceSaleList extends StatelessWidget {
                                   alignment: Alignment.centerRight,
                                   width: MediaQuery.of(context).size.width / 3,
                                   child: Text(
-                                    numberFormat.format(product["price"]),
+                                    numberFormat.format(item["subtotal"]),
                                     style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w500,

@@ -4,6 +4,7 @@ import 'package:app_kaike_barbearia/app/template/finance_sale_list.dart';
 import 'package:app_kaike_barbearia/app/template/finance_service.list.dart';
 import 'package:app_kaike_barbearia/app/template/payment_container.dart';
 import 'package:app_kaike_barbearia/app/utils/convert_values.dart';
+import 'package:app_kaike_barbearia/app/utils/search_list.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -19,6 +20,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
   List<bool> containerButton = [false, false];
   List<Map<String, dynamic>> valuesSalesBySpecies = [];
   List<Map<String, dynamic>> valuesServicesBySpecies = [];
+  List<Map<String, dynamic>> itemsSales = [];
   bool activeContainerSale = false;
   bool activeContainerService = false;
   double balance = 0,
@@ -37,24 +39,48 @@ class _CashFlowPageState extends State<CashFlowPage> {
       valueDebitSale = 0,
       valueDebitService = 0,
       valueReceived = 0,
-      valueReceivedSale = 0,
-      valueReceivedService = 0,
-      valueCompleted = 0,
-      valueCompletedSale = 0,
-      valueCompletedService = 0;
+      valueCompleted = 0;
+
+  loadListSale() async {
+    itemsSales = await CashFlowController.getListSales(dateSelected);
+    setState(() {});
+    print(itemsSales);
+  }
 
   changeContainerSale() {
     setState(() {
       activeContainerSale = !activeContainerSale;
-      if (activeContainerSale) activeContainerService = false;
+      if (activeContainerSale) {
+        activeContainerService = false;
+      }
     });
+
+    if (!activeContainerSale && !activeContainerService) {
+      loadValuesDefault();
+      return;
+    }
+
+    clearValuesFields();
+    getValuesForEachSpeciesOfSale();
+    addValuesForEachSpecies();
   }
 
   changeContainerService() {
     setState(() {
       activeContainerService = !activeContainerService;
-      if (activeContainerService) activeContainerSale = false;
+      if (activeContainerService) {
+        activeContainerSale = false;
+      }
     });
+
+    if (!activeContainerSale && !activeContainerService) {
+      loadValuesDefault();
+      return;
+    }
+
+    clearValuesFields();
+    getValuesForEachSpeciesOfService();
+    addValuesForEachSpecies();
   }
 
   @override
@@ -64,51 +90,62 @@ class _CashFlowPageState extends State<CashFlowPage> {
   }
 
   loadFields() async {
-    valueSale = await CashFlowController.getSumTotalSalesByDate(
-        dateFormat1.format(dateSelected));
-    valueService = await CashFlowController.getSumTotalServicesByDate(
-        dateFormat1.format(dateSelected));
+    loadListSale();
+    valueSale = await CashFlowController.getSumTotalSalesByDate(dateSelected);
+    valueService =
+        await CashFlowController.getSumTotalServicesByDate(dateSelected);
     balance = valueSale + valueService;
     setState(() {});
     loadFieldsPayments();
   }
 
+  clearValuesFields() {
+    setState(() {
+      valueMoneySale = 0;
+      valueMoneyService = 0;
+      valuePixSale = 0;
+      valuePixService = 0;
+      valueCreditSale = 0;
+      valueCreditService = 0;
+      valueDebitSale = 0;
+      valueDebitService = 0;
+    });
+  }
+
   loadFieldsPayments() async {
-    valuesSalesBySpecies = await CashFlowController.getSumValuesSalesBySpecie(
-        dateFormat1.format(dateSelected));
+    valuesSalesBySpecies =
+        await CashFlowController.getSumValuesSalesBySpecie(dateSelected);
     valuesServicesBySpecies =
-        await CashFlowController.getSumValuesServicesBySpecie(
-            dateFormat1.format(dateSelected));
-    getValuesForEachSpecies();
+        await CashFlowController.getSumValuesServicesBySpecie(dateSelected);
+    loadValuesDefault();
+  }
+
+  loadValuesDefault() {
+    clearValuesFields();
+    getValuesForEachSpeciesOfSale();
+    getValuesForEachSpeciesOfService();
     addValuesForEachSpecies();
   }
 
   addValuesForEachSpecies() {
     setState(() {
-      valueMoney = 0;
-      valuePix = 0;
-      valueCredit = 0;
-      valueDebit = 0;
-      valueMoney =
-          valuesSalesBySpecies.isNotEmpty || valuesServicesBySpecies.isNotEmpty
-              ? valueMoneySale + valueMoneyService
-              : 0.0;
-      valuePix =
-          valuesSalesBySpecies.isNotEmpty || valuesServicesBySpecies.isNotEmpty
-              ? valuePixSale + valuePixService
-              : 0.0;
-      valueCredit =
-          valuesSalesBySpecies.isNotEmpty || valuesServicesBySpecies.isNotEmpty
-              ? valueCreditSale + valueCreditService
-              : 0.0;
-      valueDebit =
-          valuesSalesBySpecies.isNotEmpty || valuesServicesBySpecies.isNotEmpty
-              ? valueDebitSale + valueDebitService
-              : 0.0;
+      valueMoney = valueMoneySale + valueMoneyService;
+      valuePix = valuePixSale + valuePixService;
+      valueCredit = valueCreditSale + valueCreditService;
+      valueDebit = valueDebitSale + valueDebitService;
+      valueCompleted = valueMoney + valuePix + valueCredit + valueDebit;
+      if (!activeContainerSale && !activeContainerService) {
+        valueReceived = balance - valueCompleted;
+      } else if (activeContainerSale) {
+        valueReceived = valueSale - valueCompleted;
+      } else if (activeContainerService) {
+        valueReceived = valueService - valueCompleted;
+      }
     });
   }
 
-  getValuesForEachSpecies() {
+// obter valores para cada espécie
+  getValuesForEachSpeciesOfSale() {
     for (var valueSaleBySpecie in valuesSalesBySpecies) {
       if (valueSaleBySpecie["specie"].toString().toLowerCase() == "dinheiro") {
         valueMoneySale = valueSaleBySpecie["value"];
@@ -123,7 +160,9 @@ class _CashFlowPageState extends State<CashFlowPage> {
         valueDebitSale = valueSaleBySpecie["value"];
       }
     }
+  }
 
+  getValuesForEachSpeciesOfService() {
     for (var valueServiceBySpecie in valuesServicesBySpecies) {
       if (valueServiceBySpecie["specie"].toString().toLowerCase() ==
           "dinheiro") {
@@ -155,6 +194,8 @@ class _CashFlowPageState extends State<CashFlowPage> {
               onSelected: (value) {
                 setState(() {
                   dateSelected = value;
+                  activeContainerSale = false;
+                  activeContainerService = false;
                   loadFields();
                 });
               },
@@ -283,7 +324,10 @@ class _CashFlowPageState extends State<CashFlowPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: const Text(
                     "Vendas:",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
                 Divider(
@@ -293,7 +337,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
                 Container(
                   color: Colors.indigo.withOpacity(.1),
                   height: 200,
-                  child: const FinanceSaleList(),
+                  child: FinanceSaleList(itemsSale: itemsSales),
                 ),
               ],
             ),
@@ -307,7 +351,10 @@ class _CashFlowPageState extends State<CashFlowPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: const Text(
                     "Serviços:",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
                 Divider(
@@ -317,13 +364,18 @@ class _CashFlowPageState extends State<CashFlowPage> {
                 Container(
                   color: Colors.indigo.withOpacity(.1),
                   height: 200,
-                  child: const FinanceServiceList(),
+                  child: FinanceServiceList(
+                    dateSelected: dateSelected,
+                  ),
                 ),
               ],
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 15),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 12.0,
+              vertical: 15,
+            ),
             child: GridView.count(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -356,10 +408,10 @@ class _CashFlowPageState extends State<CashFlowPage> {
                   value: valueDebit,
                   color: Colors.purple,
                 ),
-                const PaymentContainer(
+                PaymentContainer(
                   icon: FontAwesomeIcons.handHoldingDollar,
                   specie: "A receber",
-                  value: 0.0,
+                  value: valueReceived,
                   color: Colors.redAccent,
                 ),
                 PaymentContainer(

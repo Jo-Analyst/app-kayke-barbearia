@@ -132,7 +132,7 @@ class _PaymentPageState extends State<PaymentPage> {
     }
 
     save();
-
+    items.clear();
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => ProofPage(

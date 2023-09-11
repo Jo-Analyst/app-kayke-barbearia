@@ -52,7 +52,9 @@ class _FinanceServicesState extends State<FinanceServices> {
               color: const Color.fromARGB(17, 63, 81, 181),
               margin: const EdgeInsets.all(10),
               height: 200,
-              child: const FinanceServiceList(),
+              child: FinanceServiceList(
+                dateSelected: DateTime.now(),
+              ),
             ),
           ),
           Divider(color: Theme.of(context).primaryColor),

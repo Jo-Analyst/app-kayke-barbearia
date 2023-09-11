@@ -1,18 +1,32 @@
 import 'package:flutter/material.dart';
 
+import '../controllers/cash_flow_controller.dart';
 import '../utils/convert_values.dart';
 
-class FinanceServiceList extends StatelessWidget {
-  const FinanceServiceList({super.key});
+class FinanceServiceList extends StatefulWidget {
+  final DateTime dateSelected;
+  const FinanceServiceList({required this.dateSelected, super.key});
+
+  @override
+  State<FinanceServiceList> createState() => _FinanceServiceListState();
+}
+
+class _FinanceServiceListState extends State<FinanceServiceList> {
+  List<Map<String, dynamic>> servicesProvided = [];
+  @override
+  void initState() {
+    super.initState();
+    loadList();
+  }
+
+  loadList() async {
+    servicesProvided =
+        await CashFlowController.getListServices(widget.dateSelected);
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> servicesProvided = [
-      {"description": "Cortes", "quantity": 5, "price": 75.00},
-      {"description": "Barbear", "quantity": 10, "price": 120.00},
-      {"description": "Pezinho ", "quantity": 10, "price": 100.00},
-    ];
-
     return Scrollbar(
       child: servicesProvided.isEmpty
           ? const Center(
@@ -51,7 +65,7 @@ class FinanceServiceList extends StatelessWidget {
                                   alignment: Alignment.center,
                                   width: MediaQuery.of(context).size.width / 8,
                                   child: Text(
-                                    product["quantity"].toString(),
+                                    product["quantity_services"].toString(),
                                     style: const TextStyle(fontSize: 20),
                                   ),
                                 ),
@@ -61,7 +75,7 @@ class FinanceServiceList extends StatelessWidget {
                                   alignment: Alignment.centerRight,
                                   width: MediaQuery.of(context).size.width / 3,
                                   child: Text(
-                                    numberFormat.format(product["price"]),
+                                    numberFormat.format(product["subtotal"]),
                                     style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w500,

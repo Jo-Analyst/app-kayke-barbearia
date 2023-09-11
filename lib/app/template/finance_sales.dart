@@ -51,7 +51,9 @@ class _FinanceSalesState extends State<FinanceSales> {
             color: const Color.fromARGB(17, 63, 81, 181),
             margin: const EdgeInsets.all(10),
             height: 200,
-            child: const FinanceSaleList(),
+            child: const FinanceSaleList(
+              itemsSale: [],
+            ),
           ),
           Divider(color: Theme.of(context).primaryColor),
           const Payment(),
