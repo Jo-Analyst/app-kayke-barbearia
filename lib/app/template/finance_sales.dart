@@ -5,13 +5,27 @@ import '../utils/convert_values.dart';
 import 'finance_sale_list.dart';
 
 class FinanceSales extends StatefulWidget {
-  const FinanceSales({super.key});
+  final double valueTotal;
+  final List<Map<String, dynamic>> itemsSales;
+  final List<Map<String, dynamic>> itemsPaymentsSales;
+  const FinanceSales({
+    required this.valueTotal,
+    required this.itemsSales,
+    required this.itemsPaymentsSales,
+    super.key,
+  });
 
   @override
   State<FinanceSales> createState() => _FinanceSalesState();
 }
 
 class _FinanceSalesState extends State<FinanceSales> {
+  @override
+  initState() {
+    super.initState();
+    print(widget.itemsPaymentsSales);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,7 +34,7 @@ class _FinanceSalesState extends State<FinanceSales> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            numberFormat.format(1100),
+            numberFormat.format(widget.valueTotal),
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
@@ -51,12 +65,12 @@ class _FinanceSalesState extends State<FinanceSales> {
             color: const Color.fromARGB(17, 63, 81, 181),
             margin: const EdgeInsets.all(10),
             height: 200,
-            child: const FinanceSaleList(
-              itemsSale: [],
+            child: FinanceSaleList(
+              itemsSale: widget.itemsSales,
             ),
           ),
           Divider(color: Theme.of(context).primaryColor),
-          const Payment(),
+          Payment(itemsPaymentsSales: widget.itemsPaymentsSales),
           const SizedBox(height: 20),
           Container(
             color: Colors.indigo.withOpacity(0.1),

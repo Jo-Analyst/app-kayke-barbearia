@@ -1,3 +1,4 @@
+import 'package:app_kayke_barbearia/app/controllers/finance_controller.dart';
 import 'package:app_kayke_barbearia/app/template/finance_sales.dart';
 import 'package:app_kayke_barbearia/app/template/finance_services.dart';
 import 'package:app_kayke_barbearia/app/template/finance_expense.dart';
@@ -17,19 +18,33 @@ class FinancePage extends StatefulWidget {
 
 class _FinancePageState extends State<FinancePage>
     with TickerProviderStateMixin {
-  FinanceSales financeSales = const FinanceSales();
-  FinanceServices financeServices = const FinanceServices();
-  FinanceExpense financeExpense = const FinanceExpense();
-  FinancePersonalExpense financePersonalExpense =
-      const FinancePersonalExpense();
-  int indexSlide = 0, indexPopMenu = 0, month = 0, year = 0;
+  int indexSlide = 0,
+      indexPopMenu = 0,
+      month = DateTime.now().month - 1,
+      year = DateTime.now().year;
   late TabController _tabController;
   DateTime dateInitial = DateTime.now(), dateFinal = DateTime.now();
+  List<Map<String, dynamic>> itemsSales = [];
+  List<Map<String, dynamic>> itemsPaymentsSales = [];
+  double valueTotalSale = 0;
+  String monthAndYear = "";
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
+    monthAndYear = "${DateTime.now().month.toString().padLeft(2, "0")}/$year";
+    loadValues();
+  }
+
+  loadValues() async {
+    valueTotalSale = await FinanceController(monthAndYear: monthAndYear)
+        .getSumSalesbyMonthAndYear();
+    itemsSales =
+        await FinanceController(monthAndYear: monthAndYear).getListSales();
+    itemsPaymentsSales = await FinanceController(monthAndYear: monthAndYear)
+        .getListPaymentsSales();
+    setState(() {});
   }
 
   @override
@@ -55,6 +70,10 @@ class _FinancePageState extends State<FinancePage>
                         onGetDate: (month, year) {
                           this.year = year;
                           this.month = month;
+                          int subMonth = month + 1;
+                          monthAndYear =
+                              "${subMonth.toString().padLeft(2, "0")}/$year";
+                          loadValues();
                         },
                       )
                     : FieldForPeriod(
@@ -219,11 +238,15 @@ class _FinancePageState extends State<FinancePage>
             height: MediaQuery.of(context).size.height + 60,
             child: TabBarView(
               controller: _tabController,
-              children: <Widget>[
-                financeSales,
-                financeServices,
-                financeExpense,
-                financePersonalExpense,
+              children: [
+                FinanceSales(
+                  valueTotal: valueTotalSale,
+                  itemsSales: itemsSales,
+                  itemsPaymentsSales: itemsPaymentsSales,
+                ),
+                const FinanceServices(),
+                const FinanceExpense(),
+                const FinancePersonalExpense(),
               ],
             ),
           ),

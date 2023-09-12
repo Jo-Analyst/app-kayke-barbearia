@@ -23,8 +23,8 @@ class _SlideDateState extends State<SlideDate> {
   @override
   void initState() {
     super.initState();
-    _year = widget.year! == 0 ? DateTime.now().year : widget.year!;
-    _indexMonth = widget.month! == 0 ? DateTime.now().month - 1 : widget.month!;
+    _year = widget.year!;
+    _indexMonth = widget.month!;
     widget.onGetDate(
       _indexMonth,
       _year,

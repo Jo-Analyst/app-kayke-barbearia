@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          menuActived[0]["isActive"] ? "Resumo do mês" : "Fluxo de caixa",
+          menuActived[0]["isActive"] ? "Resumo" : "Fluxo de caixa",
         ),
       ),
       body: menuActived[0]["isActive"]

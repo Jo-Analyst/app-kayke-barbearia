@@ -58,7 +58,7 @@ class _FinanceServicesState extends State<FinanceServices> {
             ),
           ),
           Divider(color: Theme.of(context).primaryColor),
-          const Payment(),
+          const Payment(itemsPaymentsSales: [{"specie": "PIX", "value": 10.0, "quantity": 1}]),
           const SizedBox(height: 20),
           Container(
             color: Colors.indigo.withOpacity(0.1),
