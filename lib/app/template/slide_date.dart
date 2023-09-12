@@ -2,7 +2,11 @@ import 'package:app_kayke_barbearia/app/utils/month_slide.dart';
 import 'package:flutter/material.dart';
 
 class SlideDate extends StatefulWidget {
-  const SlideDate({super.key});
+  final Function(String month, int year) onGetDate;
+  const SlideDate({
+  required  this.onGetDate,
+    super.key,
+  });
 
   @override
   State<SlideDate> createState() => _SlideDateState();
@@ -14,9 +18,8 @@ class _SlideDateState extends State<SlideDate> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // color: const Color.fromARGB(17, 63, 81, 181),
       padding: const EdgeInsets.symmetric(
-        horizontal: 20,
+        horizontal: 5,
         vertical: 10,
       ),
       child: Row(
@@ -33,6 +36,8 @@ class _SlideDateState extends State<SlideDate> {
 
                 indexMonth--;
               });
+
+              widget.onGetDate((indexMonth + 1).toString(), year);
             },
             icon: Icon(
               Icons.keyboard_arrow_left,
@@ -54,6 +59,7 @@ class _SlideDateState extends State<SlideDate> {
                 }
                 indexMonth++;
               });
+              widget.onGetDate((indexMonth + 1).toString(), year);
             },
             icon: Icon(
               Icons.keyboard_arrow_right,

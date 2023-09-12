@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../utils/content_message.dart';
 import '../utils/convert_values.dart';
+import '../utils/show_calendar_picker.dart';
 import '../utils/snackbar.dart';
 
 class ExpenseFormPage extends StatefulWidget {
@@ -39,21 +40,6 @@ class _SpedingFormPageState extends State<ExpenseFormPage> {
   double price = 0;
   int quantity = 0;
   int expenseId = 0;
-
-  showCalendarPicker() {
-    showDatePicker(
-      context: context,
-      initialDate: dateSelected,
-      firstDate: DateTime(2014),
-      lastDate: DateTime.now(),
-    ).then(
-      (date) => setState(() {
-        if (date != null) {
-          dateSelected = date;
-        }
-      }),
-    );
-  }
 
   @override
   void initState() {
@@ -173,25 +159,28 @@ class _SpedingFormPageState extends State<ExpenseFormPage> {
               },
             ),
             const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                InkWell(
-                  onTap: () => showCalendarPicker(),
-                  child: Text(
+            InkWell(
+              onTap: () async {
+                dateSelected = await showCalendarPicker(
+                  context,
+                  dateSelected,
+                );
+                setState(() {});
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
                     dateFormat2.format(dateSelected),
                     style: const TextStyle(fontSize: 20),
                   ),
-                ),
-                IconButton(
-                  onPressed: () => showCalendarPicker(),
-                  icon: Icon(
+                  Icon(
                     Icons.calendar_month_outlined,
                     size: 35,
                     color: Theme.of(context).primaryColor,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),

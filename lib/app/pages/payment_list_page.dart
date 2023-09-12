@@ -311,7 +311,9 @@ class _PaymentListPageState extends State<PaymentListPage>
                 ),
                 color: Colors.indigo.withOpacity(.1),
               ),
-              child: const SlideDate(),
+              child: SlideDate(
+                onGetDate: (month, year) {},
+              ),
             ),
             Container(
               decoration: BoxDecoration(

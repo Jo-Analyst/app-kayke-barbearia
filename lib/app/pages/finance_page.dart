@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../template/finance_personal_expense.dart';
+import '../template/field_for_period.dart';
 
 class FinancePage extends StatefulWidget {
   const FinancePage({super.key});
@@ -21,7 +22,7 @@ class _FinancePageState extends State<FinancePage>
   FinanceExpense financeExpense = const FinanceExpense();
   FinancePersonalExpense financePersonalExpense =
       const FinancePersonalExpense();
-  int indexSlide = 0;
+  int indexSlide = 0, indexPopMenu = 0;
   late TabController _tabController;
 
   @override
@@ -31,11 +32,81 @@ class _FinancePageState extends State<FinancePage>
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _tabController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
-          const SlideDate(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                flex: 11,
+                child: indexPopMenu == 0
+                    ? SlideDate(
+                        onGetDate: (month, year) {
+                          print(year);
+                          print(month);
+                        },
+                      )
+                    : const FieldForPeriod(),
+              ),
+              PopupMenuButton(
+                color: Colors.indigo.withOpacity(.8),
+                icon: Icon(
+                  Icons.more_vert,
+                  color: Theme.of(context).primaryColor,
+                ),
+                iconSize: 30,
+                itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                  const PopupMenuItem(
+                    padding: EdgeInsets.zero,
+                    value: "per-month",
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Text(
+                        "Por Mês",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: "per-periodo",
+                    padding: EdgeInsets.zero,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Text(
+                        "Por Período",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+                onSelected: (option) async {
+                  if (option == "per-month") {
+                    setState(() {
+                      indexPopMenu = 0;
+                    });
+                  } else {
+                    setState(() {
+                      indexPopMenu = 1;
+                    });
+                  }
+                },
+              ),
+            ],
+          ),
           Container(
             color: Colors.indigo.withOpacity(.1),
             child: TabBar(
