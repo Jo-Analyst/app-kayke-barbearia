@@ -22,8 +22,9 @@ class _FinancePageState extends State<FinancePage>
   FinanceExpense financeExpense = const FinanceExpense();
   FinancePersonalExpense financePersonalExpense =
       const FinancePersonalExpense();
-  int indexSlide = 0, indexPopMenu = 0;
+  int indexSlide = 0, indexPopMenu = 0, month = 0, year = 0;
   late TabController _tabController;
+  DateTime dateInitial = DateTime.now(), dateFinal = DateTime.now();
 
   @override
   void initState() {
@@ -49,12 +50,21 @@ class _FinancePageState extends State<FinancePage>
                 flex: 11,
                 child: indexPopMenu == 0
                     ? SlideDate(
+                        year: year,
+                        month: month,
                         onGetDate: (month, year) {
-                          print(year);
-                          print(month);
+                          this.year = year;
+                          this.month = month;
                         },
                       )
-                    : const FieldForPeriod(),
+                    : FieldForPeriod(
+                        dateInitial: dateInitial,
+                        dateFinal: dateFinal,
+                        onGetDates: (dateInitial, dateFinal) {
+                          this.dateInitial = dateInitial;
+                          this.dateFinal = dateFinal;
+                        },
+                      ),
               ),
               PopupMenuButton(
                 color: Colors.indigo.withOpacity(.8),

@@ -2,9 +2,13 @@ import 'package:app_kayke_barbearia/app/utils/month_slide.dart';
 import 'package:flutter/material.dart';
 
 class SlideDate extends StatefulWidget {
-  final Function(String month, int year) onGetDate;
+  final Function(int month, int year) onGetDate;
+  final int? year;
+  final int? month;
   const SlideDate({
-  required  this.onGetDate,
+    this.year,
+    this.month,
+    required this.onGetDate,
     super.key,
   });
 
@@ -13,8 +17,20 @@ class SlideDate extends StatefulWidget {
 }
 
 class _SlideDateState extends State<SlideDate> {
-  int indexMonth = int.parse(DateTime.now().month.toString()) - 1;
-  int year = int.parse(DateTime.now().year.toString());
+  int _indexMonth = DateTime.now().month;
+  int _year = DateTime.now().year;
+
+  @override
+  void initState() {
+    super.initState();
+    _year = widget.year! == 0 ? DateTime.now().year : widget.year!;
+    _indexMonth = widget.month! == 0 ? DateTime.now().month - 1 : widget.month!;
+    widget.onGetDate(
+      _indexMonth,
+      _year,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,16 +44,16 @@ class _SlideDateState extends State<SlideDate> {
           IconButton(
             onPressed: () {
               setState(() {
-                if (indexMonth == 0) {
-                  indexMonth = 11;
-                  year--;
+                if (_indexMonth == 0) {
+                  _indexMonth = 11;
+                  _year--;
                   return;
                 }
 
-                indexMonth--;
+                _indexMonth--;
               });
 
-              widget.onGetDate((indexMonth + 1).toString(), year);
+              widget.onGetDate(_indexMonth, _year);
             },
             icon: Icon(
               Icons.keyboard_arrow_left,
@@ -46,20 +62,20 @@ class _SlideDateState extends State<SlideDate> {
             ),
           ),
           Text(
-            "${date[indexMonth]} de $year",
+            "${date[_indexMonth]} de $_year",
             style: const TextStyle(fontSize: 20),
           ),
           IconButton(
             onPressed: () {
               setState(() {
-                if (indexMonth == 11) {
-                  indexMonth = 0;
-                  year++;
+                if (_indexMonth == 11) {
+                  _indexMonth = 0;
+                  _year++;
                   return;
                 }
-                indexMonth++;
+                _indexMonth++;
               });
-              widget.onGetDate((indexMonth + 1).toString(), year);
+              widget.onGetDate(_indexMonth, _year);
             },
             icon: Icon(
               Icons.keyboard_arrow_right,
