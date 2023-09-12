@@ -23,7 +23,6 @@ class _FinanceSalesState extends State<FinanceSales> {
   @override
   initState() {
     super.initState();
-    print(widget.itemsPaymentsSales);
   }
 
   @override

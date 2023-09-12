@@ -14,7 +14,7 @@ class Payment extends StatefulWidget {
 }
 
 class _PaymentState extends State<Payment> {
-   List<Map<String, dynamic>> payments = [
+  List<Map<String, dynamic>> payments = [
     // {
     //   "icon": const Icon(
     //     Icons.pix,
@@ -60,13 +60,12 @@ class _PaymentState extends State<Payment> {
   @override
   void initState() {
     super.initState();
-    payments = widget.itemsPaymentsSales;
   }
 
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: payments.isNotEmpty,
+      visible: widget.itemsPaymentsSales.isNotEmpty,
       child: Column(
         children: [
           Container(
@@ -84,7 +83,7 @@ class _PaymentState extends State<Payment> {
           Container(
             margin: const EdgeInsets.all(10),
             child: Column(
-              children: payments.map(
+              children: widget.itemsPaymentsSales.map(
                 (payment) {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),

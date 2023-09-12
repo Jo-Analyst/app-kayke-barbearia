@@ -8,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../template/finance_personal_expense.dart';
 import '../template/field_for_period.dart';
+import '../utils/get_list_payment.dart';
 
 class FinancePage extends StatefulWidget {
   const FinancePage({super.key});
@@ -42,8 +43,10 @@ class _FinancePageState extends State<FinancePage>
         .getSumSalesbyMonthAndYear();
     itemsSales =
         await FinanceController(monthAndYear: monthAndYear).getListSales();
-    itemsPaymentsSales = await FinanceController(monthAndYear: monthAndYear)
+    final listPaymentsSales = await FinanceController(monthAndYear: monthAndYear)
         .getListPaymentsSales();
+    itemsPaymentsSales = getListPayments(listPaymentsSales);
+
     setState(() {});
   }
 

@@ -47,18 +47,22 @@ class _FinanceServicesState extends State<FinanceServices> {
             ),
           ),
           Divider(color: Theme.of(context).primaryColor),
-          Expanded(
-            child: Container(
-              color: const Color.fromARGB(17, 63, 81, 181),
-              margin: const EdgeInsets.all(10),
-              height: 200,
-              child: const FinanceServiceList(
-                servicesProvided: [],
-              ),
+          Container(
+            color: const Color.fromARGB(17, 63, 81, 181),
+            margin: const EdgeInsets.all(10),
+            height: 200,
+            child: const FinanceServiceList(
+              servicesProvided: [],
             ),
           ),
           Divider(color: Theme.of(context).primaryColor),
-          const Payment(itemsPaymentsSales: [{"specie": "PIX", "value": 10.0, "quantity": 1}]),
+          const Payment(itemsPaymentsSales: [
+            {
+              "specie": "PIX",
+              "value": 10.0,
+              "quantity": 1,
+            }
+          ]),
           const SizedBox(height: 20),
           Container(
             color: Colors.indigo.withOpacity(0.1),
