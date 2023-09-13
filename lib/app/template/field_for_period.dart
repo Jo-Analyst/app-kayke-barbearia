@@ -48,113 +48,117 @@ class _FieldForPeriodState extends State<FieldForPeriod> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              IconButton(
-                onPressed: () async {
-                  final date = await showCalendarPicker(
-                    context,
-                    dateSelectedInitial,
-                  );
+          InkWell(
+            onTap: () async {
+              final date = await showCalendarPicker(
+                context,
+                dateSelectedInitial,
+              );
 
-                  if (date.isAfter(dateSelectedFinal)) {
-                    showMessage(
-                      const ContentMessage(
-                        title:
-                            "A data inicial deve ser menor que a data final.",
-                        icon: FontAwesomeIcons.circleExclamation,
-                      ),
-                      Colors.orange,
-                    );
-                    return;
-                  }
+              if (date.isAfter(dateSelectedFinal)) {
+                showMessage(
+                  const ContentMessage(
+                    title: "A data inicial deve ser menor que a data final.",
+                    icon: FontAwesomeIcons.circleExclamation,
+                  ),
+                  Colors.orange,
+                );
+                return;
+              }
 
-                  setState(() {
-                    dateSelectedInitial = date;
-                  });
+              setState(() {
+                dateSelectedInitial = date;
+              });
 
-                  widget.onGetDates(
-                    dateSelectedInitial,
-                    dateSelectedFinal,
-                  );
-                },
-                icon: Icon(
-                  Icons.calendar_month_outlined,
-                  size: 30,
-                  color: Theme.of(context).primaryColor,
+              widget.onGetDates(
+                dateSelectedInitial,
+                dateSelectedFinal,
+              );
+            },
+            child: Row(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(right: 10),
+                  child: Icon(
+                    Icons.calendar_month_outlined,
+                    size: 30,
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Data inicial",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Data inicial",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                  Text(
-                    dateFormat4.format(dateSelectedInitial),
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                ],
-              ),
-            ],
+                    Text(
+                      dateFormat4.format(dateSelectedInitial),
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-          Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Data final",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  Text(
-                    dateFormat4.format(dateSelectedFinal),
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                ],
-              ),
-              IconButton(
-                onPressed: () async {
-                  DateTime date = await showCalendarPicker(
-                    context,
-                    dateSelectedFinal,
-                  );
+          InkWell(
+            onTap: () async {
+              DateTime date = await showCalendarPicker(
+                context,
+                dateSelectedFinal,
+              );
 
-                  if (date.isBefore(dateSelectedInitial)) {
-                    showMessage(
-                      const ContentMessage(
-                        title:
-                            "A data final deve ser maior que a data inicial.",
-                        icon: FontAwesomeIcons.circleExclamation,
+              if (date.isBefore(dateSelectedInitial)) {
+                showMessage(
+                  const ContentMessage(
+                    title: "A data final deve ser maior que a data inicial.",
+                    icon: FontAwesomeIcons.circleExclamation,
+                  ),
+                  Colors.orange,
+                );
+                return;
+              }
+
+              setState(() {
+                dateSelectedFinal = date;
+              });
+
+              widget.onGetDates(
+                dateSelectedInitial,
+                dateSelectedFinal,
+              );
+            },
+            child: Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    const Text(
+                      "Data final",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
                       ),
-                      Colors.orange,
-                    );
-                    return;
-                  }
-
-                  setState(() {
-                    dateSelectedFinal = date;
-                  });
-
-                  widget.onGetDates(
-                    dateSelectedInitial,
-                    dateSelectedFinal,
-                  );
-                },
-                icon: Icon(
-                  Icons.calendar_month_outlined,
-                  size: 30,
-                  color: Theme.of(context).primaryColor,
+                    ),
+                    Text(
+                      dateFormat4.format(dateSelectedFinal),
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                  ],
                 ),
-              ),
-            ],
+                Container(
+                  margin: const EdgeInsets.only(left: 10),
+                  child: Icon(
+                    Icons.calendar_month_outlined,
+                    size: 30,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+              ],
+            ),
           )
         ],
       ),
