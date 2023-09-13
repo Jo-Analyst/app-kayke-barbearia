@@ -6,9 +6,9 @@ import '../utils/convert_values.dart';
 import 'finance_sale_list.dart';
 
 class FinanceSales extends StatefulWidget {
-  final FinanceSaleValue financeSaleValue;
+  final FinancesSalesValues financesSalesValues;
   const FinanceSales({
-    required this.financeSaleValue,
+    required this.financesSalesValues,
     super.key,
   });
 
@@ -30,7 +30,7 @@ class _FinanceSalesState extends State<FinanceSales> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            numberFormat.format(widget.financeSaleValue.valueTotalSale),
+            numberFormat.format(widget.financesSalesValues.valueTotalSale),
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
@@ -62,30 +62,32 @@ class _FinanceSalesState extends State<FinanceSales> {
             margin: const EdgeInsets.all(10),
             height: 200,
             child: FinanceSaleList(
-              itemsSale: widget.financeSaleValue.itemsSales,
+              itemsSale: widget.financesSalesValues.itemsSales,
             ),
           ),
           Divider(color: Theme.of(context).primaryColor),
           Payment(
-              itemsPaymentsSales: widget.financeSaleValue.itemsPaymentsSales),
+              itemsPaymentsSales:
+                  widget.financesSalesValues.itemsPaymentsSales),
           const SizedBox(height: 20),
           Container(
             color: Colors.indigo.withOpacity(0.1),
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             margin: const EdgeInsets.only(bottom: 10),
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Column(
                   children: [
                     Text(
-                      "R\$ 100,00",
-                      style: TextStyle(
+                      numberFormat
+                          .format(widget.financesSalesValues.valueReceivable),
+                      style: const TextStyle(
                         fontSize: 18,
                         color: Colors.red,
                       ),
                     ),
-                    Text(
+                    const Text(
                       "A receber",
                       style: TextStyle(
                         fontSize: 20,
@@ -97,13 +99,13 @@ class _FinanceSalesState extends State<FinanceSales> {
                 Column(
                   children: [
                     Text(
-                      "R\$ 700,00",
-                      style: TextStyle(
+                      numberFormat.format(widget.financesSalesValues.valuePaid),
+                      style: const TextStyle(
                         fontSize: 18,
                         color: Colors.green,
                       ),
                     ),
-                    Text(
+                    const Text(
                       "Concluído",
                       style: TextStyle(
                         fontSize: 20,
@@ -115,13 +117,13 @@ class _FinanceSalesState extends State<FinanceSales> {
                 Column(
                   children: [
                     Text(
-                      "R\$ 500,00",
-                      style: TextStyle(
+                      numberFormat.format(widget.financesSalesValues.profit),
+                      style: const TextStyle(
                         fontSize: 18,
                         color: Colors.indigo,
                       ),
                     ),
-                    Text(
+                    const Text(
                       "Lucro",
                       style: TextStyle(
                         fontSize: 20,

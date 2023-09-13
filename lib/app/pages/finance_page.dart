@@ -8,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../template/finance_personal_expense.dart';
 import '../template/field_for_period.dart';
+import '../utils/convert_values.dart';
 
 class FinancePage extends StatefulWidget {
   const FinancePage({super.key});
@@ -28,18 +29,23 @@ class _FinancePageState extends State<FinancePage>
   List<Map<String, dynamic>> itemsPaymentsSales = [];
   double valueTotalSale = 0;
   String monthAndYear = "";
-  FinanceSaleValue financeSaleValue = FinanceSaleValue();
+  FinancesSalesValues financesSalesValues = FinancesSalesValues();
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
     monthAndYear = "${DateTime.now().month.toString().padLeft(2, "0")}/$year";
-    loadValues();
   }
 
-  loadValues() async {
-    await financeSaleValue.loadValues(monthAndYear);
+  loadValuesByDate() async {
+    await financesSalesValues.loadValuesByDate(monthAndYear);
+    setState(() {});
+  }
+
+  loadValuesByPeriod() async {
+    await financesSalesValues.loadValuesByPeriod(
+        dateFormat1.format(dateInitial), dateFormat1.format(dateFinal));
     setState(() {});
   }
 
@@ -69,7 +75,7 @@ class _FinancePageState extends State<FinancePage>
                           int subMonth = month + 1;
                           monthAndYear =
                               "${subMonth.toString().padLeft(2, "0")}/$year";
-                          loadValues();
+                          loadValuesByDate();
                         },
                       )
                     : FieldForPeriod(
@@ -78,6 +84,7 @@ class _FinancePageState extends State<FinancePage>
                         onGetDates: (dateInitial, dateFinal) {
                           this.dateInitial = dateInitial;
                           this.dateFinal = dateFinal;
+                          loadValuesByPeriod();
                         },
                       ),
               ),
@@ -122,10 +129,12 @@ class _FinancePageState extends State<FinancePage>
                   if (option == "per-month") {
                     setState(() {
                       indexPopMenu = 0;
+                      loadValuesByDate();
                     });
                   } else {
                     setState(() {
                       indexPopMenu = 1;
+                      loadValuesByPeriod();
                     });
                   }
                 },
@@ -236,7 +245,7 @@ class _FinancePageState extends State<FinancePage>
               controller: _tabController,
               children: [
                 FinanceSales(
-                  financeSaleValue: financeSaleValue,
+                  financesSalesValues: financesSalesValues,
                 ),
                 const FinanceServices(),
                 const FinanceExpense(),
