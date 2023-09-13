@@ -11,12 +11,11 @@ class SpeciePayment extends StatefulWidget {
 
 class _SpeciePaymentState extends State<SpeciePayment> {
   final List<Map<String, dynamic>> listSpeciePayments = [
-    {"specie": "dinheiro", "icon": Icons.attach_money, "isActive": true},
-    {"specie": "crédito", "icon": Icons.credit_card, "isActive": false},
-    {"specie": "débito", "icon": Icons.credit_card, "isActive": false},
-    {"specie": "pix", "icon": Icons.pix, "isActive": false},
-    {"specie": "fiado", "icon": Icons.person_2_outlined, "isActive": false},
-    {"specie": "parcial", "icon": "", "isActive": false},
+    {"specie": "Dinheiro", "icon": Icons.attach_money, "isActive": true},
+    {"specie": "Crédito", "icon": Icons.credit_card, "isActive": false},
+    {"specie": "Débito", "icon": Icons.credit_card, "isActive": false},
+    {"specie": "PIX", "icon": Icons.pix, "isActive": false},
+    {"specie": "Fiado", "icon": Icons.person_2_outlined, "isActive": false},
   ];
 
   changeColorAfterPaymentTypeBecomesActive(int index) {

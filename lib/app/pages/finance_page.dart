@@ -1,4 +1,4 @@
-import 'package:app_kayke_barbearia/app/controllers/finance_controller.dart';
+import 'package:app_kayke_barbearia/app/controllers/finance_sale_values.dart';
 import 'package:app_kayke_barbearia/app/template/finance_sales.dart';
 import 'package:app_kayke_barbearia/app/template/finance_services.dart';
 import 'package:app_kayke_barbearia/app/template/finance_expense.dart';
@@ -8,7 +8,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../template/finance_personal_expense.dart';
 import '../template/field_for_period.dart';
-import '../utils/get_list_payment.dart';
 
 class FinancePage extends StatefulWidget {
   const FinancePage({super.key});
@@ -29,6 +28,7 @@ class _FinancePageState extends State<FinancePage>
   List<Map<String, dynamic>> itemsPaymentsSales = [];
   double valueTotalSale = 0;
   String monthAndYear = "";
+  FinanceSaleValue financeSaleValue = FinanceSaleValue();
 
   @override
   void initState() {
@@ -39,14 +39,7 @@ class _FinancePageState extends State<FinancePage>
   }
 
   loadValues() async {
-    valueTotalSale = await FinanceController(monthAndYear: monthAndYear)
-        .getSumSalesbyMonthAndYear();
-    itemsSales =
-        await FinanceController(monthAndYear: monthAndYear).getListSales();
-    final listPaymentsSales = await FinanceController(monthAndYear: monthAndYear)
-        .getListPaymentsSales();
-    itemsPaymentsSales = getListPayments(listPaymentsSales);
-
+    await financeSaleValue.loadValues(monthAndYear);
     setState(() {});
   }
 
@@ -243,9 +236,7 @@ class _FinancePageState extends State<FinancePage>
               controller: _tabController,
               children: [
                 FinanceSales(
-                  valueTotal: valueTotalSale,
-                  itemsSales: itemsSales,
-                  itemsPaymentsSales: itemsPaymentsSales,
+                  financeSaleValue: financeSaleValue,
                 ),
                 const FinanceServices(),
                 const FinanceExpense(),

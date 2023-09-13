@@ -1,17 +1,14 @@
 import 'package:app_kayke_barbearia/app/template/payment.dart';
 import 'package:flutter/material.dart';
 
+import '../controllers/finance_sale_values.dart';
 import '../utils/convert_values.dart';
 import 'finance_sale_list.dart';
 
 class FinanceSales extends StatefulWidget {
-  final double valueTotal;
-  final List<Map<String, dynamic>> itemsSales;
-  final List<Map<String, dynamic>> itemsPaymentsSales;
+  final FinanceSaleValue financeSaleValue;
   const FinanceSales({
-    required this.valueTotal,
-    required this.itemsSales,
-    required this.itemsPaymentsSales,
+    required this.financeSaleValue,
     super.key,
   });
 
@@ -33,7 +30,7 @@ class _FinanceSalesState extends State<FinanceSales> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            numberFormat.format(widget.valueTotal),
+            numberFormat.format(widget.financeSaleValue.valueTotalSale),
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
@@ -65,11 +62,12 @@ class _FinanceSalesState extends State<FinanceSales> {
             margin: const EdgeInsets.all(10),
             height: 200,
             child: FinanceSaleList(
-              itemsSale: widget.itemsSales,
+              itemsSale: widget.financeSaleValue.itemsSales,
             ),
           ),
           Divider(color: Theme.of(context).primaryColor),
-          Payment(itemsPaymentsSales: widget.itemsPaymentsSales),
+          Payment(
+              itemsPaymentsSales: widget.financeSaleValue.itemsPaymentsSales),
           const SizedBox(height: 20),
           Container(
             color: Colors.indigo.withOpacity(0.1),

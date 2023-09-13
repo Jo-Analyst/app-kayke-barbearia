@@ -14,7 +14,6 @@ class FinanceController {
   }
 
   Future<List<Map<String, dynamic>>> getListPaymentsSales() async {
-    print(await Finance(monthAndYear: monthAndYear).getListPaymentsSales());
     return Finance(monthAndYear: monthAndYear).getListPaymentsSales();
   }
 }
