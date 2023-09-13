@@ -14,7 +14,7 @@ import 'proof_page.dart';
 
 class PaymentPage extends StatefulWidget {
   final double total;
-  final String date;
+  final DateTime date;
   final bool isSale;
   final double discount;
   final double? profitTotal;
@@ -136,7 +136,7 @@ class _PaymentPageState extends State<PaymentPage> {
       "amount_received": amountReceived,
       "specie": amountReceived == 0 ? "Fiado" : typeSpecie,
       "icon": amountReceived == 0 ? Icons.person_2_outlined : iconSpeciePayment,
-      "date": widget.date
+      "date": dateFormat4.format(widget.date)
     };
 
     save();
@@ -168,7 +168,7 @@ class _PaymentPageState extends State<PaymentPage> {
     final payment = {
       "specie": typeSpecie,
       "amount_paid": amountReceived,
-      "date_payment": widget.date
+      "date_payment": dateFormat1.format(widget.date)
     };
 
     if (widget.isSale) {

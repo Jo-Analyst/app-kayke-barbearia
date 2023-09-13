@@ -386,7 +386,7 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
                                     items: items,
                                     discount: discount,
                                     total: total,
-                                    date: dateFormat1.format(dateSelected),
+                                    date: dateSelected,
                                     isSale: false,
                                   ),
                                 ),

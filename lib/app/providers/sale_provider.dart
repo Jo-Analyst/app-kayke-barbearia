@@ -1,4 +1,5 @@
 import 'package:app_kayke_barbearia/app/models/sale_model.dart';
+import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
 
 class SaleProvider extends ChangeNotifier {
@@ -19,7 +20,7 @@ class SaleProvider extends ChangeNotifier {
       Map<String, dynamic> paymentSale) async {
     final lastId = await Sale(
       id: sale["id"] ?? 0,
-      dateSale: sale["date_sale"],
+      dateSale: dateFormat1.format(sale["date_sale"]),
       discount: sale["discount"],
       profitValueTotal: sale["profit_value_total"],
       valueTotal: sale["value_total"],

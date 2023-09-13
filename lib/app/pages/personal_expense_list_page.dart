@@ -192,7 +192,7 @@ class _PersonalExpenseListPageState extends State<PersonalExpenseListPage> {
                                                                             "price"],
                                                                         quantity:
                                                                             personalExpense["quantity"],
-                                                                        date: getDateSpedings(
+                                                                        date: convertStringToDateTime(
                                                                             personalExpense["date"]),
                                                                       ),
                                                                     ),
@@ -239,7 +239,9 @@ class _PersonalExpenseListPageState extends State<PersonalExpenseListPage> {
                                                         fontSize: 18),
                                                   ),
                                                   trailing: Text(
-                                                    personalExpense["date"],
+                                                    changeTheDateWriting(
+                                                        personalExpense[
+                                                            "date"]),
                                                     style: const TextStyle(
                                                         fontSize: 18),
                                                   ),

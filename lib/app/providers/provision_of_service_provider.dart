@@ -1,4 +1,5 @@
 import 'package:app_kayke_barbearia/app/models/provision_of_services_model.dart';
+import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
 
 class ProvisionOfServiceProvider extends ChangeNotifier {
@@ -19,7 +20,7 @@ class ProvisionOfServiceProvider extends ChangeNotifier {
       Map<String, dynamic> paymentService) async {
     final lastId = await ProvisionOfService(
       id: sale["id"] ?? 0,
-      dateService: sale["date_service"],
+      dateService: dateFormat1.format(sale["date_service"]),
       discount: sale["discount"],
       valueTotal: sale["value_total"],
       clientId: sale["client_id"],

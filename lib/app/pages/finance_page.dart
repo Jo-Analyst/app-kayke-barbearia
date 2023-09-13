@@ -35,7 +35,7 @@ class _FinancePageState extends State<FinancePage>
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
-    monthAndYear = "${DateTime.now().month.toString().padLeft(2, "0")}/$year";
+    monthAndYear = "$year-${DateTime.now().month.toString().padLeft(2, "0")}";
   }
 
   loadValuesByDate() async {
@@ -74,7 +74,7 @@ class _FinancePageState extends State<FinancePage>
                           this.month = month;
                           int subMonth = month + 1;
                           monthAndYear =
-                              "${subMonth.toString().padLeft(2, "0")}/$year";
+                              "$year-${subMonth.toString().padLeft(2, "0")}";
                           loadValuesByDate();
                         },
                       )

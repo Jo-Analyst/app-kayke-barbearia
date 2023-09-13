@@ -154,7 +154,6 @@ class _ExpenseListPageState extends State<ExpenseListPage> {
                                         itemCount: expenses.length,
                                         itemBuilder: (_, index) {
                                           var expense = expenses[index];
-
                                           return Column(
                                             children: [
                                               Slidable(
@@ -188,7 +187,7 @@ class _ExpenseListPageState extends State<ExpenseListPage> {
                                                                             "price"],
                                                                         quantity:
                                                                             expense["quantity"],
-                                                                        date: getDateSpedings(
+                                                                        date: convertStringToDateTime(
                                                                             expense["date"]),
                                                                       ),
                                                                     ),
@@ -234,7 +233,8 @@ class _ExpenseListPageState extends State<ExpenseListPage> {
                                                         fontSize: 18),
                                                   ),
                                                   trailing: Text(
-                                                    expense["date"],
+                                                    changeTheDateWriting(
+                                                        expense["date"]),
                                                     style: const TextStyle(
                                                         fontSize: 18),
                                                   ),

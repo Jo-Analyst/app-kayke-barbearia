@@ -95,7 +95,7 @@ class _FieldForPeriodState extends State<FieldForPeriod> {
                     ),
                   ),
                   Text(
-                    dateFormat1.format(dateSelectedInitial),
+                    dateFormat4.format(dateSelectedInitial),
                     style: const TextStyle(fontSize: 18),
                   ),
                 ],
@@ -115,7 +115,7 @@ class _FieldForPeriodState extends State<FieldForPeriod> {
                     ),
                   ),
                   Text(
-                    dateFormat1.format(dateSelectedFinal),
+                    dateFormat4.format(dateSelectedFinal),
                     style: const TextStyle(fontSize: 18),
                   ),
                 ],
