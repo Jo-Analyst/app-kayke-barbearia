@@ -22,7 +22,7 @@ class FinanceServiceList extends StatelessWidget {
           : ListView(
               shrinkWrap: true,
               children: servicesProvided.map(
-                (product) {
+                (service) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(
                       vertical: 8,
@@ -39,7 +39,7 @@ class FinanceServiceList extends StatelessWidget {
                                   alignment: Alignment.centerLeft,
                                   width: MediaQuery.of(context).size.width / 2,
                                   child: Text(
-                                    product["description"],
+                                    service["description"],
                                     style: const TextStyle(fontSize: 20),
                                   ),
                                 ),
@@ -49,7 +49,7 @@ class FinanceServiceList extends StatelessWidget {
                                   alignment: Alignment.center,
                                   width: MediaQuery.of(context).size.width / 8,
                                   child: Text(
-                                    product["quantity_services"].toString(),
+                                    service["quantity_services"].toString(),
                                     style: const TextStyle(fontSize: 20),
                                   ),
                                 ),
@@ -59,7 +59,7 @@ class FinanceServiceList extends StatelessWidget {
                                   alignment: Alignment.centerRight,
                                   width: MediaQuery.of(context).size.width / 3,
                                   child: Text(
-                                    numberFormat.format(product["subtotal"]),
+                                    numberFormat.format(service["subtotal"]),
                                     style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w500,

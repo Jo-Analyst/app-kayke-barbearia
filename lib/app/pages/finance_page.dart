@@ -1,4 +1,5 @@
 import 'package:app_kayke_barbearia/app/controllers/finance_sale_values.dart';
+import 'package:app_kayke_barbearia/app/controllers/finance_service_values.dart';
 import 'package:app_kayke_barbearia/app/template/finance_sales.dart';
 import 'package:app_kayke_barbearia/app/template/finance_services.dart';
 import 'package:app_kayke_barbearia/app/template/finance_expense.dart';
@@ -30,6 +31,7 @@ class _FinancePageState extends State<FinancePage>
   double valueTotalSale = 0;
   String monthAndYear = "";
   FinancesSalesValues financesSalesValues = FinancesSalesValues();
+  FinancesServicesValues financesServicesValues = FinancesServicesValues();
 
   @override
   void initState() {
@@ -40,12 +42,15 @@ class _FinancePageState extends State<FinancePage>
 
   loadValuesByDate() async {
     await financesSalesValues.loadValuesByDate(monthAndYear);
+    await financesServicesValues.loadValuesByDate(monthAndYear);
     setState(() {});
   }
 
   loadValuesByPeriod() async {
-    await financesSalesValues.loadValuesByPeriod(
-        dateFormat1.format(dateInitial), dateFormat1.format(dateFinal));
+    String dateInitial = dateFormat1.format(this.dateInitial),
+        dateFinal = dateFormat1.format(this.dateFinal);
+    await financesSalesValues.loadValuesByPeriod(dateInitial, dateFinal);
+    await financesServicesValues.loadValuesByPeriod(dateInitial, dateFinal);
     setState(() {});
   }
 
@@ -244,10 +249,8 @@ class _FinancePageState extends State<FinancePage>
             child: TabBarView(
               controller: _tabController,
               children: [
-                FinanceSales(
-                  financesSalesValues: financesSalesValues,
-                ),
-                const FinanceServices(),
+                FinanceSales(financesSalesValues: financesSalesValues),
+                FinanceServices(financesServicesValues: financesServicesValues),
                 const FinanceExpense(),
                 const FinancePersonalExpense(),
               ],

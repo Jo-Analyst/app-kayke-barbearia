@@ -5,22 +5,12 @@ import '../controllers/finance_sale_values.dart';
 import '../utils/convert_values.dart';
 import 'finance_sale_list.dart';
 
-class FinanceSales extends StatefulWidget {
+class FinanceSales extends StatelessWidget {
   final FinancesSalesValues financesSalesValues;
   const FinanceSales({
     required this.financesSalesValues,
     super.key,
   });
-
-  @override
-  State<FinanceSales> createState() => _FinanceSalesState();
-}
-
-class _FinanceSalesState extends State<FinanceSales> {
-  @override
-  initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +20,7 @@ class _FinanceSalesState extends State<FinanceSales> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            numberFormat.format(widget.financesSalesValues.valueTotalSale),
+            numberFormat.format(financesSalesValues.valueTotalSale),
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
@@ -62,13 +52,13 @@ class _FinanceSalesState extends State<FinanceSales> {
             margin: const EdgeInsets.all(10),
             height: 200,
             child: FinanceSaleList(
-              itemsSale: widget.financesSalesValues.itemsSales,
+              itemsSale: financesSalesValues.itemsSales,
             ),
           ),
           Divider(color: Theme.of(context).primaryColor),
           Payment(
               itemsPaymentsSales:
-                  widget.financesSalesValues.itemsPaymentsSales),
+                  financesSalesValues.itemsPaymentsSales),
           const SizedBox(height: 20),
           Container(
             color: Colors.indigo.withOpacity(0.1),
@@ -81,7 +71,7 @@ class _FinanceSalesState extends State<FinanceSales> {
                   children: [
                     Text(
                       numberFormat
-                          .format(widget.financesSalesValues.valueReceivable),
+                          .format(financesSalesValues.valueReceivable),
                       style: const TextStyle(
                         fontSize: 18,
                         color: Colors.red,
@@ -99,7 +89,7 @@ class _FinanceSalesState extends State<FinanceSales> {
                 Column(
                   children: [
                     Text(
-                      numberFormat.format(widget.financesSalesValues.valuePaid),
+                      numberFormat.format(financesSalesValues.valuePaid),
                       style: const TextStyle(
                         fontSize: 18,
                         color: Colors.green,
@@ -117,7 +107,7 @@ class _FinanceSalesState extends State<FinanceSales> {
                 Column(
                   children: [
                     Text(
-                      numberFormat.format(widget.financesSalesValues.profit),
+                      numberFormat.format(financesSalesValues.profit),
                       style: const TextStyle(
                         fontSize: 18,
                         color: Colors.indigo,
