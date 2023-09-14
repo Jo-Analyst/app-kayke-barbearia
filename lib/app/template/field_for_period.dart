@@ -7,7 +7,7 @@ import '../utils/content_message.dart';
 import '../utils/snackbar.dart';
 
 class FieldForPeriod extends StatefulWidget {
-  final Function(DateTime dateInitial, DateTime dateFinal) onGetDates;
+  final Function(DateTime dateInitial, DateTime dateFinal,) onGetDates;
   final DateTime dateInitial;
   final DateTime dateFinal;
   const FieldForPeriod({

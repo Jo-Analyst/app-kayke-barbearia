@@ -10,10 +10,10 @@ class PersonalExpenseProvider extends ChangeNotifier {
   List<Map<String, dynamic>> get items {
     return [
       ..._items
-        ..sort((a, b) => a["name_product"]
+        ..sort((a, b) => b["date"]
             .toString()
             .toLowerCase()
-            .compareTo(b["name_product"].toString().toLowerCase()))
+            .compareTo(a["date"].toString().toLowerCase()))
     ];
   }
 

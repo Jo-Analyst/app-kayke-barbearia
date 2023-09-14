@@ -13,14 +13,14 @@ import '../template/financial_report_personal_expense.dart';
 import '../template/field_for_period.dart';
 import '../utils/convert_values.dart';
 
-class FinancialReport extends StatefulWidget {
-  const FinancialReport({super.key});
+class FinancialReportPage extends StatefulWidget {
+  const FinancialReportPage({super.key});
 
   @override
-  State<FinancialReport> createState() => _FinancialReportState();
+  State<FinancialReportPage> createState() => _FinancialReportState();
 }
 
-class _FinancialReportState extends State<FinancialReport>
+class _FinancialReportState extends State<FinancialReportPage>
     with TickerProviderStateMixin {
   int indexSlide = 0,
       indexPopMenu = 0,
@@ -28,8 +28,7 @@ class _FinancialReportState extends State<FinancialReport>
       year = DateTime.now().year;
   late TabController _tabController;
   DateTime dateInitial = DateTime.now(), dateFinal = DateTime.now();
-  List<Map<String, dynamic>> itemsSales = [];
-  List<Map<String, dynamic>> itemsPaymentsSales = [];
+  List<Map<String, dynamic>> itemsSales = [], itemsPaymentsSales = [];
   double valueTotalSale = 0;
   String monthAndYear = "";
   FinancialReportSalesValues financialReportSalesValues =

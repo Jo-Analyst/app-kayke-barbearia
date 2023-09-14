@@ -1,5 +1,5 @@
 import 'package:app_kayke_barbearia/app/pages/cash_flow_page.dart';
-import 'package:app_kayke_barbearia/app/pages/financial_report.dart';
+import 'package:app_kayke_barbearia/app/pages/financial_report_page.dart';
 import 'package:app_kayke_barbearia/app/utils/modal.dart';
 import 'package:app_kayke_barbearia/app/template/new_transaction.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: menuActived[0]["isActive"]
-          ? const FinancialReport()
+          ? const FinancialReportPage()
           : const CashFlowPage(),
       drawer: const DrawerComponet(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
