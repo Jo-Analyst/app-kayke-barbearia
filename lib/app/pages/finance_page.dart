@@ -1,8 +1,9 @@
+import 'package:app_kayke_barbearia/app/controllers/expense_balance_values.dart';
 import 'package:app_kayke_barbearia/app/controllers/finance_sale_values.dart';
 import 'package:app_kayke_barbearia/app/controllers/finance_service_values.dart';
 import 'package:app_kayke_barbearia/app/template/finance_sales.dart';
 import 'package:app_kayke_barbearia/app/template/finance_services.dart';
-import 'package:app_kayke_barbearia/app/template/finance_expense.dart';
+import 'package:app_kayke_barbearia/app/template/expense_balancete.dart';
 import 'package:app_kayke_barbearia/app/template/slide_date.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -32,6 +33,7 @@ class _FinancePageState extends State<FinancePage>
   String monthAndYear = "";
   FinancesSalesValues financesSalesValues = FinancesSalesValues();
   FinancesServicesValues financesServicesValues = FinancesServicesValues();
+  ExpenseBalanceValues expenseBalanceValues = ExpenseBalanceValues();
 
   @override
   void initState() {
@@ -43,6 +45,7 @@ class _FinancePageState extends State<FinancePage>
   loadValuesByDate() async {
     await financesSalesValues.loadValuesByDate(monthAndYear);
     await financesServicesValues.loadValuesByDate(monthAndYear);
+    await expenseBalanceValues.loadValuesByDate(monthAndYear);
     setState(() {});
   }
 
@@ -51,6 +54,7 @@ class _FinancePageState extends State<FinancePage>
         dateFinal = dateFormat1.format(this.dateFinal);
     await financesSalesValues.loadValuesByPeriod(dateInitial, dateFinal);
     await financesServicesValues.loadValuesByPeriod(dateInitial, dateFinal);
+    await expenseBalanceValues.loadValuesByPeriod(dateInitial, dateFinal);
     setState(() {});
   }
 
@@ -251,7 +255,7 @@ class _FinancePageState extends State<FinancePage>
               children: [
                 FinanceSales(financesSalesValues: financesSalesValues),
                 FinanceServices(financesServicesValues: financesServicesValues),
-                const FinanceExpense(),
+                ExpenseBalance(expenseBalanceValues: expenseBalanceValues),
                 const FinancePersonalExpense(),
               ],
             ),

@@ -1,22 +1,21 @@
+import 'package:app_kayke_barbearia/app/controllers/expense_balance_values.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/convert_values.dart';
 
-class FinanceExpense extends StatefulWidget {
-  const FinanceExpense({super.key});
+class ExpenseBalance extends StatefulWidget {
+  final ExpenseBalanceValues expenseBalanceValues;
+
+  const ExpenseBalance({
+    required this.expenseBalanceValues,
+    super.key,
+  });
 
   @override
-  State<FinanceExpense> createState() => _FinanceExpenseState();
+  State<ExpenseBalance> createState() => _ExpenseBalanceState();
 }
 
-class _FinanceExpenseState extends State<FinanceExpense> {
-  // PrimaryScrollController _controller = PrimaryScrollController();
-  final List<Map<String, dynamic>> servicesProvided = [
-    {"name_product": "Lâmina", "quantity": 5, "price": 15.00},
-    {"name_product": "Escova", "quantity": 10, "price": 20.00},
-    {"name_product": "Conta de água", "quantity": 10, "price": 100.00},
-    {"name_product": "Aluguel", "quantity": 10, "price": 250.00},
-  ]; // produtos vendidos
+class _ExpenseBalanceState extends State<ExpenseBalance> {
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,7 @@ class _FinanceExpenseState extends State<FinanceExpense> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            numberFormat.format(135),
+            numberFormat.format(widget.expenseBalanceValues.valueTotal),
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
@@ -57,7 +56,7 @@ class _FinanceExpenseState extends State<FinanceExpense> {
             color: const Color.fromARGB(17, 63, 81, 181),
             margin: const EdgeInsets.all(10),
             height: MediaQuery.of(context).size.height - 450,
-            child: servicesProvided.isEmpty
+            child: widget.expenseBalanceValues.itemsExpense.isEmpty
                 ? const Center(
                     child: Text(
                       "Não há gastos adicionado neste mês.",
@@ -67,7 +66,7 @@ class _FinanceExpenseState extends State<FinanceExpense> {
                 : Scrollbar(
                     child: ListView(
                       shrinkWrap: true,
-                      children: servicesProvided.map(
+                      children: widget.expenseBalanceValues.itemsExpense.map(
                         (product) {
                           return Padding(
                             padding: const EdgeInsets.symmetric(
@@ -84,24 +83,28 @@ class _FinanceExpenseState extends State<FinanceExpense> {
                                       Expanded(
                                         child: Container(
                                           alignment: Alignment.centerLeft,
-                                          width:
-                                              MediaQuery.of(context).size.width /
-                                                  2,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              2,
                                           child: Text(
                                             product["name_product"],
-                                            style: const TextStyle(fontSize: 20),
+                                            style:
+                                                const TextStyle(fontSize: 20),
                                           ),
                                         ),
                                       ),
                                       Expanded(
                                         child: Container(
                                           alignment: Alignment.center,
-                                          width:
-                                              MediaQuery.of(context).size.width /
-                                                  8,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              8,
                                           child: Text(
                                             product["quantity"].toString(),
-                                            style: const TextStyle(fontSize: 20),
+                                            style:
+                                                const TextStyle(fontSize: 20),
                                           ),
                                         ),
                                       ),
