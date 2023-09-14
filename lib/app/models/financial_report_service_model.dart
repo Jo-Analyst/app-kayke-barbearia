@@ -1,11 +1,11 @@
 import '../config/db.dart';
 
-class FinanceServiceModel {
+class FinancialReportServiceModel {
   final String? dateInitial;
   final String? dateFinal;
   final String? monthAndYear;
 
-  FinanceServiceModel({
+  FinancialReportServiceModel({
     this.dateInitial,
     this.dateFinal,
     this.monthAndYear,

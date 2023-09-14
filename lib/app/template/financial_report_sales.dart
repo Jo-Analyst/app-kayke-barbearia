@@ -1,14 +1,14 @@
 import 'package:app_kayke_barbearia/app/template/payment.dart';
 import 'package:flutter/material.dart';
 
-import '../controllers/finance_sale_values.dart';
+import '../controllers/financial_report_sale_values.dart';
 import '../utils/convert_values.dart';
-import 'finance_sale_list.dart';
+import 'financial_report_sale_list.dart';
 
-class FinanceSales extends StatelessWidget {
-  final FinancesSalesValues financesSalesValues;
-  const FinanceSales({
-    required this.financesSalesValues,
+class FinancialReportSales extends StatelessWidget {
+  final FinancialReportSalesValues financialReportSalesValues;
+  const FinancialReportSales({
+    required this.financialReportSalesValues,
     super.key,
   });
 
@@ -20,7 +20,7 @@ class FinanceSales extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            numberFormat.format(financesSalesValues.valueTotalSale),
+            numberFormat.format(financialReportSalesValues.valueTotalSale),
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
@@ -51,14 +51,14 @@ class FinanceSales extends StatelessWidget {
             color: const Color.fromARGB(17, 63, 81, 181),
             margin: const EdgeInsets.all(10),
             height: 200,
-            child: FinanceSaleList(
-              itemsSale: financesSalesValues.itemsSales,
+            child: FinancialReportSaleList(
+              itemsSale: financialReportSalesValues.itemsSales,
             ),
           ),
           Divider(color: Theme.of(context).primaryColor),
           Payment(
               itemsPaymentsSales:
-                  financesSalesValues.itemsPaymentsSales),
+                  financialReportSalesValues.itemsPaymentsSales),
           const SizedBox(height: 20),
           Container(
             color: Colors.indigo.withOpacity(0.1),
@@ -71,7 +71,7 @@ class FinanceSales extends StatelessWidget {
                   children: [
                     Text(
                       numberFormat
-                          .format(financesSalesValues.valueReceivable),
+                          .format(financialReportSalesValues.valueReceivable),
                       style: const TextStyle(
                         fontSize: 18,
                         color: Colors.red,
@@ -89,7 +89,7 @@ class FinanceSales extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      numberFormat.format(financesSalesValues.valuePaid),
+                      numberFormat.format(financialReportSalesValues.valuePaid),
                       style: const TextStyle(
                         fontSize: 18,
                         color: Colors.green,
@@ -107,7 +107,7 @@ class FinanceSales extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      numberFormat.format(financesSalesValues.profit),
+                      numberFormat.format(financialReportSalesValues.profit),
                       style: const TextStyle(
                         fontSize: 18,
                         color: Colors.indigo,

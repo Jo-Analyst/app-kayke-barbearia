@@ -44,7 +44,11 @@ class _FieldForPeriodState extends State<FieldForPeriod> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.only(
+        top: 13,
+        bottom: 13,
+        left: 13,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

@@ -1,7 +1,7 @@
 import 'package:app_kayke_barbearia/app/controllers/cash_flow_controller.dart';
 import 'package:app_kayke_barbearia/app/template/calendar.dart';
-import 'package:app_kayke_barbearia/app/template/finance_sale_list.dart';
-import 'package:app_kayke_barbearia/app/template/finance_service.list.dart';
+import 'package:app_kayke_barbearia/app/template/financial_report_sale_list.dart';
+import 'package:app_kayke_barbearia/app/template/financial_report_service.list.dart';
 import 'package:app_kayke_barbearia/app/template/payment_container.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
@@ -336,7 +336,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
                 Container(
                   color: Colors.indigo.withOpacity(.1),
                   height: 200,
-                  child: FinanceSaleList(itemsSale: itemsSales),
+                  child: FinancialReportSaleList(itemsSale: itemsSales),
                 ),
               ],
             ),
@@ -363,7 +363,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
                 Container(
                   color: Colors.indigo.withOpacity(.1),
                   height: 200,
-                  child: FinanceServiceList(
+                  child: FinancialReportServiceList(
                     servicesProvided: servicesProvided,
                   ),
                 ),

@@ -1,11 +1,11 @@
 import 'package:app_kayke_barbearia/app/config/db.dart';
 
-class FinanceSaleModel {
+class FinancialReportSaleModel {
   final String? dateInitial;
   final String? dateFinal;
   final String? monthAndYear;
 
-  FinanceSaleModel({
+  FinancialReportSaleModel({
     this.dateInitial,
     this.dateFinal,
     this.monthAndYear,

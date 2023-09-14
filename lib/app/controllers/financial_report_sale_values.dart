@@ -1,20 +1,20 @@
 import '../utils/get_list_payment.dart';
-import 'finance_sale_controller.dart';
+import 'financial_report_sale_controller.dart';
 
-class FinancesSalesValues {
+class FinancialReportSalesValues {
   List<Map<String, dynamic>> itemsSales = [];
   List<Map<String, dynamic>> itemsPaymentsSales = [];
   double valueTotalSale = 0, profit = 0, valuePaid = 0, valueReceivable = 0;
 
   loadValuesByDate(String monthAndYear) async {
-    valueTotalSale = await FinanceSaleController(monthAndYear: monthAndYear)
+    valueTotalSale = await FinancialReportSaleController(monthAndYear: monthAndYear)
         .getSumSalesbyMonthAndYear();
 
     itemsSales =
-        await FinanceSaleController(monthAndYear: monthAndYear).getListSales();
+        await FinancialReportSaleController(monthAndYear: monthAndYear).getListSales();
 
     final listPaymentsSales =
-        await FinanceSaleController(monthAndYear: monthAndYear)
+        await FinancialReportSaleController(monthAndYear: monthAndYear)
             .getListPaymentsSales();
 
     itemsPaymentsSales = getListPayments(listPaymentsSales);
@@ -26,15 +26,15 @@ class FinancesSalesValues {
 
   loadValuesByPeriod(String dateInitial, String dateFinal) async {
     valueTotalSale =
-        await FinanceSaleController(dateInitial: dateInitial, dateFinal: dateFinal)
+        await FinancialReportSaleController(dateInitial: dateInitial, dateFinal: dateFinal)
             .getSumSalesbyMonthAndYearByPeriod();
 
-    itemsSales = await FinanceSaleController(
+    itemsSales = await FinancialReportSaleController(
       dateInitial: dateInitial,
       dateFinal: dateFinal,
     ).getListSalesByPeriod();
 
-    final listPaymentsSales = await FinanceSaleController(
+    final listPaymentsSales = await FinancialReportSaleController(
       dateInitial: dateInitial,
       dateFinal: dateFinal,
     ).getListPaymentsSalesByPeriod();

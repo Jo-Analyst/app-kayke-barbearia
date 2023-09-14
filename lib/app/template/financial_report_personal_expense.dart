@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 
 import '../utils/convert_values.dart';
 
-class FinancePersonalExpense extends StatefulWidget {
+class FinancialReportPersonalExpense extends StatefulWidget {
   final PersonalExpenseBalanceValues personalExpenseBalanceValues;
 
-  const FinancePersonalExpense({
+  const FinancialReportPersonalExpense({
     required this.personalExpenseBalanceValues,
     super.key,
   });
 
   @override
-  State<FinancePersonalExpense> createState() => _FinancePersonalExpense();
+  State<FinancialReportPersonalExpense> createState() => _FinancePersonalExpense();
 }
 
-class _FinancePersonalExpense extends State<FinancePersonalExpense> {
+class _FinancePersonalExpense extends State<FinancialReportPersonalExpense> {
   @override
   Widget build(BuildContext context) {
     return Container(

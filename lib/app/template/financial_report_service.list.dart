@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../utils/convert_values.dart';
 
-class FinanceServiceList extends StatelessWidget {
+class FinancialReportServiceList extends StatelessWidget {
   final List<Map<String, dynamic>> servicesProvided;
-  const FinanceServiceList({
+  const FinancialReportServiceList({
     required this.servicesProvided,
     super.key,
   });

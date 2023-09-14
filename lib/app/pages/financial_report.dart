@@ -1,26 +1,26 @@
 import 'package:app_kayke_barbearia/app/controllers/expense_balance_values.dart';
-import 'package:app_kayke_barbearia/app/controllers/finance_sale_values.dart';
-import 'package:app_kayke_barbearia/app/controllers/finance_service_values.dart';
+import 'package:app_kayke_barbearia/app/controllers/financial_report_sale_values.dart';
+import 'package:app_kayke_barbearia/app/controllers/financial_report_service_values.dart';
 import 'package:app_kayke_barbearia/app/controllers/personal_expense_balance_values.dart';
-import 'package:app_kayke_barbearia/app/template/finance_sales.dart';
-import 'package:app_kayke_barbearia/app/template/finance_services.dart';
+import 'package:app_kayke_barbearia/app/template/financial_report_sales.dart';
+import 'package:app_kayke_barbearia/app/template/financial_report_services.dart';
 import 'package:app_kayke_barbearia/app/template/expense_balancete.dart';
 import 'package:app_kayke_barbearia/app/template/slide_date.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../template/finance_personal_expense.dart';
+import '../template/financial_report_personal_expense.dart';
 import '../template/field_for_period.dart';
 import '../utils/convert_values.dart';
 
-class FinancePage extends StatefulWidget {
-  const FinancePage({super.key});
+class FinancialReport extends StatefulWidget {
+  const FinancialReport({super.key});
 
   @override
-  State<FinancePage> createState() => _FinancePageState();
+  State<FinancialReport> createState() => _FinancialReportState();
 }
 
-class _FinancePageState extends State<FinancePage>
+class _FinancialReportState extends State<FinancialReport>
     with TickerProviderStateMixin {
   int indexSlide = 0,
       indexPopMenu = 0,
@@ -32,8 +32,10 @@ class _FinancePageState extends State<FinancePage>
   List<Map<String, dynamic>> itemsPaymentsSales = [];
   double valueTotalSale = 0;
   String monthAndYear = "";
-  FinancesSalesValues financesSalesValues = FinancesSalesValues();
-  FinancesServicesValues financesServicesValues = FinancesServicesValues();
+  FinancialReportSalesValues financialReportSalesValues =
+      FinancialReportSalesValues();
+  FinancialReportServicesValues financialReportServicesValues =
+      FinancialReportServicesValues();
   ExpenseBalanceValues expenseBalanceValues = ExpenseBalanceValues();
   PersonalExpenseBalanceValues personalExpenseBalanceValues =
       PersonalExpenseBalanceValues();
@@ -46,8 +48,8 @@ class _FinancePageState extends State<FinancePage>
   }
 
   loadValuesByDate() async {
-    await financesSalesValues.loadValuesByDate(monthAndYear);
-    await financesServicesValues.loadValuesByDate(monthAndYear);
+    await financialReportSalesValues.loadValuesByDate(monthAndYear);
+    await financialReportServicesValues.loadValuesByDate(monthAndYear);
     await expenseBalanceValues.loadValuesByDate(monthAndYear);
     await personalExpenseBalanceValues.loadValuesByDate(monthAndYear);
     setState(() {});
@@ -56,8 +58,9 @@ class _FinancePageState extends State<FinancePage>
   loadValuesByPeriod() async {
     String dateInitial = dateFormat1.format(this.dateInitial),
         dateFinal = dateFormat1.format(this.dateFinal);
-    await financesSalesValues.loadValuesByPeriod(dateInitial, dateFinal);
-    await financesServicesValues.loadValuesByPeriod(dateInitial, dateFinal);
+    await financialReportSalesValues.loadValuesByPeriod(dateInitial, dateFinal);
+    await financialReportServicesValues.loadValuesByPeriod(
+        dateInitial, dateFinal);
     await expenseBalanceValues.loadValuesByPeriod(dateInitial, dateFinal);
     await personalExpenseBalanceValues.loadValuesByPeriod(
         dateInitial, dateFinal);
@@ -197,7 +200,7 @@ class _FinancePageState extends State<FinancePage>
                       ),
                       const SizedBox(width: 2),
                       Text(
-                        "Serviços",
+                        "Prestação de Serviços",
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize: 18,
@@ -219,7 +222,7 @@ class _FinancePageState extends State<FinancePage>
                       ),
                       const SizedBox(width: 2),
                       Text(
-                        "Despesa Barbearia",
+                        "Despesas da Barbearia",
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize: 18,
@@ -259,10 +262,13 @@ class _FinancePageState extends State<FinancePage>
             child: TabBarView(
               controller: _tabController,
               children: [
-                FinanceSales(financesSalesValues: financesSalesValues),
-                FinanceServices(financesServicesValues: financesServicesValues),
+                FinancialReportSales(
+                    financialReportSalesValues: financialReportSalesValues),
+                FinancialReportServices(
+                    financialReportServicesValues:
+                        financialReportServicesValues),
                 ExpenseBalance(expenseBalanceValues: expenseBalanceValues),
-                FinancePersonalExpense(
+                FinancialReportPersonalExpense(
                   personalExpenseBalanceValues: personalExpenseBalanceValues,
                 ),
               ],

@@ -1,14 +1,14 @@
-import 'package:app_kayke_barbearia/app/controllers/finance_service_values.dart';
-import 'package:app_kayke_barbearia/app/template/finance_service.list.dart';
+import 'package:app_kayke_barbearia/app/controllers/financial_report_service_values.dart';
+import 'package:app_kayke_barbearia/app/template/financial_report_service.list.dart';
 import 'package:app_kayke_barbearia/app/template/payment.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/convert_values.dart';
 
-class FinanceServices extends StatelessWidget {
-  final FinancesServicesValues financesServicesValues;
-  const FinanceServices({
-    required this.financesServicesValues,
+class FinancialReportServices extends StatelessWidget {
+  final FinancialReportServicesValues financialReportServicesValues;
+  const FinancialReportServices({
+    required this.financialReportServicesValues,
     super.key,
   });
 
@@ -20,7 +20,7 @@ class FinanceServices extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            numberFormat.format(financesServicesValues.valueTotal),
+            numberFormat.format(financialReportServicesValues.valueTotal),
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
@@ -51,13 +51,14 @@ class FinanceServices extends StatelessWidget {
             color: const Color.fromARGB(17, 63, 81, 181),
             margin: const EdgeInsets.all(10),
             height: 200,
-            child: FinanceServiceList(
-              servicesProvided: financesServicesValues.itemsServices,
+            child: FinancialReportServiceList(
+              servicesProvided: financialReportServicesValues.itemsServices,
             ),
           ),
           Divider(color: Theme.of(context).primaryColor),
           Payment(
-            itemsPaymentsSales: financesServicesValues.itemsPaymentsServices,
+            itemsPaymentsSales:
+                financialReportServicesValues.itemsPaymentsServices,
           ),
           const SizedBox(height: 20),
           Container(
@@ -74,7 +75,7 @@ class FinanceServices extends StatelessWidget {
                   children: [
                     Text(
                       numberFormat.format(
-                        financesServicesValues.valueReceivable,
+                        financialReportServicesValues.valueReceivable,
                       ),
                       style: const TextStyle(
                         fontSize: 18,
@@ -94,7 +95,7 @@ class FinanceServices extends StatelessWidget {
                   children: [
                     Text(
                       numberFormat.format(
-                        financesServicesValues.valuePaid,
+                        financialReportServicesValues.valuePaid,
                       ),
                       style: const TextStyle(
                         fontSize: 18,
