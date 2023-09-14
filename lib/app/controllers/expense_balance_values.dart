@@ -2,12 +2,14 @@ import 'package:app_kayke_barbearia/app/controllers/expense_balance_controller.d
 
 class ExpenseBalanceValues {
   List<Map<String, dynamic>> itemsExpense = [];
-  double valueTotal = 0, profit = 0, valuePaid = 0, valueReceivable = 0;
+  double valueTotal = 0;
 
   loadValuesByDate(String monthAndYear) async {
     valueTotal = 0;
-    itemsExpense = await ExpenseBalanceController(monthAndYear: monthAndYear)
-        .getListExpenses();
+    itemsExpense = await ExpenseBalanceController(
+      monthAndYear: monthAndYear,
+    ).getListExpenses();
+    
     for (var item in itemsExpense) {
       valueTotal += item["price"];
     }

@@ -1,23 +1,21 @@
+import 'package:app_kayke_barbearia/app/controllers/personal_expense_balance_values.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/convert_values.dart';
 
 class FinancePersonalExpense extends StatefulWidget {
-  const FinancePersonalExpense({super.key});
+  final PersonalExpenseBalanceValues personalExpenseBalanceValues;
+
+  const FinancePersonalExpense({
+    required this.personalExpenseBalanceValues,
+    super.key,
+  });
 
   @override
   State<FinancePersonalExpense> createState() => _FinancePersonalExpense();
 }
 
 class _FinancePersonalExpense extends State<FinancePersonalExpense> {
-  // PrimaryScrollController _controller = PrimaryScrollController();
-  final List<Map<String, dynamic>> servicesProvided = [
-    {"name_product": "Camisa", "quantity": 5, "price": 15.00},
-    {"name_product": "Salgadão", "quantity": 10, "price": 25.00},
-    {"name_product": "Bala", "quantity": 10, "price": 1.00},
-    {"name_product": "Bermuda", "quantity": 2, "price": 80.00},
-  ]; // produtos vendidos
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,7 +24,7 @@ class _FinancePersonalExpense extends State<FinancePersonalExpense> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            numberFormat.format(121),
+            numberFormat.format(widget.personalExpenseBalanceValues.valueTotal),
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
@@ -57,7 +55,7 @@ class _FinancePersonalExpense extends State<FinancePersonalExpense> {
             color: const Color.fromARGB(17, 63, 81, 181),
             margin: const EdgeInsets.all(10),
             height: MediaQuery.of(context).size.height - 450,
-            child: servicesProvided.isEmpty
+            child: widget.personalExpenseBalanceValues.itemsPersonalExpense.isEmpty
                 ? const Center(
                     child: Text(
                       "Não há gastos adicionado neste mês.",
@@ -67,7 +65,7 @@ class _FinancePersonalExpense extends State<FinancePersonalExpense> {
                 : Scrollbar(
                     child: ListView(
                       shrinkWrap: true,
-                      children: servicesProvided.map(
+                      children: widget.personalExpenseBalanceValues.itemsPersonalExpense.map(
                         (product) {
                           return Padding(
                             padding: const EdgeInsets.symmetric(

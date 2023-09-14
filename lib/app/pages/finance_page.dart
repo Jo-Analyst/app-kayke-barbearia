@@ -1,6 +1,7 @@
 import 'package:app_kayke_barbearia/app/controllers/expense_balance_values.dart';
 import 'package:app_kayke_barbearia/app/controllers/finance_sale_values.dart';
 import 'package:app_kayke_barbearia/app/controllers/finance_service_values.dart';
+import 'package:app_kayke_barbearia/app/controllers/personal_expense_balance_values.dart';
 import 'package:app_kayke_barbearia/app/template/finance_sales.dart';
 import 'package:app_kayke_barbearia/app/template/finance_services.dart';
 import 'package:app_kayke_barbearia/app/template/expense_balancete.dart';
@@ -34,6 +35,8 @@ class _FinancePageState extends State<FinancePage>
   FinancesSalesValues financesSalesValues = FinancesSalesValues();
   FinancesServicesValues financesServicesValues = FinancesServicesValues();
   ExpenseBalanceValues expenseBalanceValues = ExpenseBalanceValues();
+  PersonalExpenseBalanceValues personalExpenseBalanceValues =
+      PersonalExpenseBalanceValues();
 
   @override
   void initState() {
@@ -46,6 +49,7 @@ class _FinancePageState extends State<FinancePage>
     await financesSalesValues.loadValuesByDate(monthAndYear);
     await financesServicesValues.loadValuesByDate(monthAndYear);
     await expenseBalanceValues.loadValuesByDate(monthAndYear);
+    await personalExpenseBalanceValues.loadValuesByDate(monthAndYear);
     setState(() {});
   }
 
@@ -55,6 +59,8 @@ class _FinancePageState extends State<FinancePage>
     await financesSalesValues.loadValuesByPeriod(dateInitial, dateFinal);
     await financesServicesValues.loadValuesByPeriod(dateInitial, dateFinal);
     await expenseBalanceValues.loadValuesByPeriod(dateInitial, dateFinal);
+    await personalExpenseBalanceValues.loadValuesByPeriod(
+        dateInitial, dateFinal);
     setState(() {});
   }
 
@@ -256,7 +262,9 @@ class _FinancePageState extends State<FinancePage>
                 FinanceSales(financesSalesValues: financesSalesValues),
                 FinanceServices(financesServicesValues: financesServicesValues),
                 ExpenseBalance(expenseBalanceValues: expenseBalanceValues),
-                const FinancePersonalExpense(),
+                FinancePersonalExpense(
+                  personalExpenseBalanceValues: personalExpenseBalanceValues,
+                ),
               ],
             ),
           ),
