@@ -59,4 +59,17 @@ class ProvisionOfService {
 
     return lastId;
   }
+
+  static Future<List<Map<String, dynamic>>> findByDate(String date) async {
+    final db = await DB.openDatabase();
+    return db.rawQuery("SELECT provision_of_services.id, provision_of_services.value_total, "
+        "(SELECT SUM(amount_paid) FROM payments_services WHERE id = provision_of_services.id) AS amount_paid, "
+        "CASE WHEN (provision_of_services.value_total - (SELECT SUM(amount_paid) FROM payments_services WHERE id = provision_of_services.id) = 0) "
+        "THEN 'Recebido' "
+        "ELSE 'A receber' "
+        "END AS situation, "
+        "COALESCE(clients.name, 'Cliente Avulso') AS client_name, provision_of_services.date_service AS date "
+        "FROM provision_of_services LEFT JOIN clients ON clients.id = provision_of_services.client_id "
+        "WHERE date_service LIKE '%$date%'");
+  }
 }

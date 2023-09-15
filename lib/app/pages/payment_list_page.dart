@@ -1,3 +1,4 @@
+import 'package:app_kayke_barbearia/app/controllers/provision_of_service_controller.dart';
 import 'package:app_kayke_barbearia/app/controllers/sale_controller.dart';
 import 'package:app_kayke_barbearia/app/template/dialog_filter.dart';
 import 'package:app_kayke_barbearia/app/template/list_payment.dart';
@@ -28,53 +29,25 @@ class _PaymentListPageState extends State<PaymentListPage>
       filteredPaymentsByClient = [],
       filteredPaymentsServices = [],
       paymentsSales = [],
-      paymentsServices = [
-        {
-          "date": "2023-08-30",
-          "value_total": 100.00,
-          "client_name": "Valdirene Aparecida Ferreira",
-          "amount_paid": 100.00,
-          "situation": "Recebido",
-          "specie": "Dinheiro"
-        },
-        {
-          "date": "2023-08-30",
-          "client_name": "Joelmir Carvalho",
-          "value_total": 200.00,
-          "amount_paid": 200.00,
-          "situation": "Recebido",
-          "specie": "PIX"
-        },
-        {
-          "date": "2023-08-30",
-          "client_name": "Valdirene Aparecida Ferreira",
-          "value_total": 100.00,
-          "amount_paid": 0.0,
-          "situation": "A receber",
-          "specie": "Dinheiro"
-        },
-        {
-          "date": "2023-08-30",
-          "client_name": "Joelmir Carvalho",
-          "value_total": 200.00,
-          "amount_paid": 0.0,
-          "situation": "A receber",
-          "specie": "PIX"
-        },
-      ];
+      paymentsServices = [];
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    loadDetailsSales("$year-${(month + 1).toString().padLeft(2, "0")}");
+    loadDetailSalesAndServices(
+        "$year-${(month + 1).toString().padLeft(2, "0")}");
 
     filteredPaymentsServices = List.from(paymentsServices);
   }
 
-  loadDetailsSales(String monthAndYear) async {
+  loadDetailSalesAndServices(String monthAndYear) async {
     paymentsSales = await SaleController().getSalesByDate(monthAndYear);
     filteredPaymentsSales = List.from(paymentsSales);
+
+    paymentsServices = await ProvisionOfServiceController()
+        .getProvisionOfServicesByDate(monthAndYear);
+    filteredPaymentsServices = List.from(paymentsServices);
 
     setState(() {});
   }
@@ -253,7 +226,7 @@ class _PaymentListPageState extends State<PaymentListPage>
                 year: year,
                 month: month,
                 onGetDate: (month, year) {
-                  loadDetailsSales(
+                  loadDetailSalesAndServices(
                       "$year-${(month + 1).toString().padLeft(2, "0")}");
                 },
               ),
@@ -334,11 +307,13 @@ class _PaymentListPageState extends State<PaymentListPage>
                 controller: _tabController,
                 children: <Widget>[
                   ListPayment(
+                    typePayment: tabSelected,
                     payments: search.isNotEmpty
                         ? filteredPaymentsByClient
                         : filteredPaymentsSales,
                   ),
                   ListPayment(
+                    typePayment: tabSelected,
                     payments: search.isNotEmpty
                         ? filteredPaymentsByClient
                         : filteredPaymentsServices,
