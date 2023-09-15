@@ -83,6 +83,14 @@ class _PaymentListPageState extends State<PaymentListPage>
     });
   }
 
+  onGetDate(month, year) {
+    loadDetailSalesAndServices(
+        "$year-${(month + 1).toString().padLeft(2, "0")}");
+    optionSelected = "Tudo";
+    lastOptionSale = "Tudo";
+    lastOptionService = "Tudo";
+  }
+
   openDialogFilter() async {
     optionSelected =
         tabSelected == "vendas" ? lastOptionSale : lastOptionService;
@@ -225,10 +233,7 @@ class _PaymentListPageState extends State<PaymentListPage>
               child: SlideDate(
                 year: year,
                 month: month,
-                onGetDate: (month, year) {
-                  loadDetailSalesAndServices(
-                      "$year-${(month + 1).toString().padLeft(2, "0")}");
-                },
+                onGetDate: onGetDate,
               ),
             ),
             Container(

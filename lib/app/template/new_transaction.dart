@@ -115,57 +115,32 @@ class NewTransaction extends StatelessWidget {
                     Navigator.pop(context);
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (_) => const ClientFormPage(isEdition: false,),
+                        builder: (_) => const ClientFormPage(
+                          isEdition: false,
+                        ),
                       ),
                     );
                   },
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Column(
-                        children: [
-                          Icon(
-                            Icons.person_add_alt_1,
-                            color: Colors.indigo,
-                          ),
-                          Text(
-                            "Cliente",
-                            style: TextStyle(fontSize: 17),
-                          ),
-                        ],
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width / 3 - 16,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => const ExpenseFormPage(isEdition: false),
-                      ),
-                    );
-                  },
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Column(
-                        children: [
-                          Icon(
-                            Icons.money_off,
-                            color: Colors.red,
-                          ),
-                          Text(
-                            "Despesa",
-                            style: TextStyle(fontSize: 17),
-                          ),
-                        ],
+                      child: const Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.person_add_alt_1,
+                              color: Colors.indigo,
+                            ),
+                            Text(
+                              "Cliente",
+                              style: TextStyle(fontSize: 17),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -181,23 +156,26 @@ class NewTransaction extends StatelessWidget {
                       ),
                     );
                   },
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Column(
-                        children: [
-                          Icon(
-                            FontAwesomeIcons.box,
-                            color: Colors.indigo,
-                          ),
-                          Text(
-                            "Produto",
-                            style: TextStyle(fontSize: 17),
-                          ),
-                        ],
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width / 3 - 16,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Column(
+                          children: [
+                            Icon(
+                              FontAwesomeIcons.box,
+                              color: Colors.indigo,
+                            ),
+                            Text(
+                              "Produto",
+                              style: TextStyle(fontSize: 17),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -213,23 +191,26 @@ class NewTransaction extends StatelessWidget {
                       ),
                     );
                   },
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Column(
-                        children: [
-                          Icon(
-                            FontAwesomeIcons.screwdriverWrench,
-                            color: Colors.indigo,
-                          ),
-                          Text(
-                            "Serviço",
-                            style: TextStyle(fontSize: 17),
-                          ),
-                        ],
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width / 3 - 16,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Column(
+                          children: [
+                            Icon(
+                              FontAwesomeIcons.screwdriverWrench,
+                              color: Colors.indigo,
+                            ),
+                            Text(
+                              "Serviço",
+                              style: TextStyle(fontSize: 17),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
