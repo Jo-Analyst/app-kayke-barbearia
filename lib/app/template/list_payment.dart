@@ -17,6 +17,7 @@ class _ListPaymentState extends State<ListPayment> {
     return ListView.builder(
       itemCount: widget.payments.length,
       itemBuilder: (_, index) {
+        
         return Column(
           children: [
             ListTile(
@@ -29,12 +30,12 @@ class _ListPaymentState extends State<ListPayment> {
               leading: Chip(
                 backgroundColor: Colors.indigo.withOpacity(.2),
                 label: Text(
-                  numberFormat.format(widget.payments[index]["value"]),
+                  numberFormat.format(widget.payments[index]["value_total"]),
                   style: const TextStyle(fontSize: 18),
                 ),
               ),
               title: Text(
-                widget.payments[index]["date_payment"],
+                widget.payments[index]["date_sale"],
                 style: const TextStyle(fontSize: 18),
               ),
               subtitle: Text(

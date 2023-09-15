@@ -121,6 +121,7 @@ class _SpedingFormPageState extends State<ExpenseFormPage> {
             TextFormField(
               controller: nameProductController,
               maxLength: 100,
+              textCapitalization: TextCapitalization.sentences,
               textInputAction: TextInputAction.next,
               decoration: const InputDecoration(labelText: "Despesa*"),
               style: const TextStyle(fontSize: 18),

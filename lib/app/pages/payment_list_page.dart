@@ -4,6 +4,8 @@ import 'package:app_kayke_barbearia/app/template/slide_date.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../models/sale_model.dart';
+
 class PaymentListPage extends StatefulWidget {
   const PaymentListPage({super.key});
 
@@ -14,6 +16,7 @@ class PaymentListPage extends StatefulWidget {
 class _PaymentListPageState extends State<PaymentListPage>
     with TickerProviderStateMixin {
   final searchController = TextEditingController();
+  int month = DateTime.now().month - 1, year = DateTime.now().year;
   late TabController _tabController;
   String optionSelected = "Tudo",
       lastOptionSale = "Tudo",
@@ -27,106 +30,106 @@ class _PaymentListPageState extends State<PaymentListPage>
       filteredPaymentsServices = [],
       paymentsSales = [
         {
-          "date_payment": "30/08/2023",
-          "value": 100.00,
+          "date_sale": "30/08/2023",
+          "value_total": 100.00,
           "amount_paid": 100.00,
           "situation": "Recebido",
           "specie": "Dinheiro"
         },
         {
-          "date_payment": "30/08/2023",
+          "date_sale": "30/08/2023",
           "client_name": "Valdirene Aparecida Ferreira",
-          "value": 200.00,
+          "value_total": 200.00,
           "amount_paid": 200.00,
           "situation": "Recebido",
           "specie": "Dinheiro"
         },
         {
-          "date_payment": "30/08/2023",
-          "value": 100.00,
+          "date_sale": "30/08/2023",
+          "value_total": 100.00,
           "amount_paid": 100.00,
           "situation": "Recebido",
           "specie": "Dinheiro"
         },
         {
-          "date_payment": "30/08/2023",
+          "date_sale": "30/08/2023",
           "client_name": "Valdirene Aparecida Ferreira",
-          "value": 200.00,
+          "value_total": 200.00,
           "amount_paid": 200.00,
           "situation": "Recebido",
           "specie": "Dinheiro"
         },
         {
-          "date_payment": "30/08/2023",
-          "value": 100.00,
+          "date_sale": "30/08/2023",
+          "value_total": 100.00,
           "amount_paid": 100.00,
           "situation": "Recebido",
           "specie": "Dinheiro"
         },
         {
-          "date_payment": "30/08/2023",
+          "date_sale": "30/08/2023",
           "client_name": "Valdirene Aparecida Ferreira",
-          "value": 200.00,
+          "value_total": 200.00,
           "amount_paid": 200.00,
           "situation": "Recebido",
           "specie": "Dinheiro"
         },
         {
-          "date_payment": "30/08/2023",
-          "value": 100.00,
+          "date_sale": "30/08/2023",
+          "value_total": 100.00,
           "amount_paid": 100.00,
           "situation": "Recebido",
           "specie": "Dinheiro"
         },
         {
-          "date_payment": "30/08/2023",
+          "date_sale": "30/08/2023",
           "client_name": "Valdirene Aparecida Ferreira",
-          "value": 200.00,
+          "value_total": 200.00,
           "amount_paid": 200.00,
           "situation": "Recebido",
           "specie": "Dinheiro"
         },
         {
-          "date_payment": "30/08/2023",
-          "value": 100.00,
+          "date_sale": "30/08/2023",
+          "value_total": 100.00,
           "amount_paid": 0.0,
           "situation": "A receber"
         },
         {
-          "date_payment": "30/08/2023",
+          "date_sale": "30/08/2023",
           "client_name": "Valdirene Aparecida Ferreira",
-          "value": 200.00,
+          "value_total": 200.00,
           "amount_paid": 0.0,
           "situation": "A receber"
         },
       ],
       paymentsServices = [
         {
-          "date_payment": "30/08/2023",
-          "value": 100.00,
+          "date_sale": "30/08/2023",
+          "value_total": 100.00,
           "amount_paid": 100.00,
           "situation": "Recebido",
           "specie": "Dinheiro"
         },
         {
-          "date_payment": "30/08/2023",
+          "date_sale": "30/08/2023",
           "client_name": "Joelmir Carvalho",
-          "value": 200.00,
+          "value_total": 200.00,
           "amount_paid": 200.00,
           "situation": "Recebido",
           "specie": "PIX"
         },
         {
-          "date_payment": "30/08/2023",
-          "value": 100.00,
+          "date_sale": "30/08/2023",
+          "value_total": 100.00,
           "amount_paid": 0.0,
           "situation": "A receber",
           "specie": "Dinheiro"
         },
         {
-          "date_payment": "30/08/2023",
+          "date_sale": "30/08/2023",
           "client_name": "Joelmir Carvalho",
-          "value": 200.00,
+          "value_total": 200.00,
           "amount_paid": 0.0,
           "situation": "A receber",
           "specie": "PIX"
@@ -139,6 +142,14 @@ class _PaymentListPageState extends State<PaymentListPage>
     _tabController = TabController(length: 2, vsync: this);
     filteredPaymentsSales = List.from(paymentsSales);
     filteredPaymentsServices = List.from(paymentsServices);
+    load();
+  }
+
+  load() async {
+    final sales = await Sale.findByDate("2023-09");
+    for (var sale in sales) {
+      print(sale);
+    }
   }
 
   filterLists(String option) {
@@ -312,8 +323,8 @@ class _PaymentListPageState extends State<PaymentListPage>
                 color: Colors.indigo.withOpacity(.1),
               ),
               child: SlideDate(
-                year: 2023,
-                month: 9,
+                year: year,
+                month: month,
                 onGetDate: (month, year) {},
               ),
             ),

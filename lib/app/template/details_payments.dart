@@ -51,7 +51,7 @@ class DetailsPayment extends StatelessWidget {
                               ),
                             ),
                             child: Text(
-                              payment["date_payment"],
+                              payment["date_sale"],
                               style: const TextStyle(fontSize: 20),
                             ),
                           ),
@@ -65,7 +65,7 @@ class DetailsPayment extends StatelessWidget {
                                   style: TextStyle(fontSize: 20),
                                 ),
                                 Text(
-                                  numberFormat.format(payment["value"]),
+                                  numberFormat.format(payment["value_total"]),
                                   style: const TextStyle(
                                     fontSize: 28,
                                     fontWeight: FontWeight.w700,
@@ -121,7 +121,7 @@ class DetailsPayment extends StatelessWidget {
                               ),
                             ),
                             child: Text(
-                              payment["date_payment"],
+                              payment["date_sale"],
                               style: const TextStyle(fontSize: 20),
                             ),
                           ),
@@ -135,7 +135,7 @@ class DetailsPayment extends StatelessWidget {
                                   style: TextStyle(fontSize: 20),
                                 ),
                                 Text(
-                                  numberFormat.format(payment["value"]),
+                                  numberFormat.format(payment["value_total"]),
                                   style: const TextStyle(
                                     fontSize: 28,
                                     fontWeight: FontWeight.w700,
@@ -221,7 +221,7 @@ class DetailsPayment extends StatelessWidget {
                                   style: TextStyle(fontSize: 20),
                                 ),
                                 Text(
-                                  numberFormat.format(payment["value"]),
+                                  numberFormat.format(payment["value_total"]),
                                   style: const TextStyle(
                                     fontSize: 28,
                                     fontWeight: FontWeight.w700,
@@ -243,7 +243,7 @@ class DetailsPayment extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (_) =>
-                        PaymentEditionPage(valueSale: payment["value"]),
+                        PaymentEditionPage(valueSale: payment["value_total"]),
                   ),
                 );
               },

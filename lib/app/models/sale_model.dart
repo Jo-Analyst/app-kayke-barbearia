@@ -67,4 +67,10 @@ class Sale {
 
     return lastId;
   }
+
+  static Future<List<Map<String, dynamic>>> findByDate(String date) async {
+    final db = await DB.openDatabase();
+    return db.rawQuery(
+        "SELECT sales.id, sales.value_total, clients.name AS client_name, sales.value_total - (SELECT SUM(amount_paid) FROM payments_sales WHERE id = sales.id) AS amount_paid FROM sales LEFT JOIN clients ON clients.id = sales.client_id WHERE date_sale LIKE '%$date%'");
+  }
 }

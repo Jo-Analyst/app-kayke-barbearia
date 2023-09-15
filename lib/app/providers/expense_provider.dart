@@ -10,10 +10,23 @@ class ExpenseProvider extends ChangeNotifier {
   List<Map<String, dynamic>> get items {
     return [
       ..._items
-        ..sort((a, b) => a["name_product"]
-            .toString()
-            .toLowerCase()
-            .compareTo(b["name_product"].toString().toLowerCase()))
+        ..sort(
+          (a, b) {
+            final dateComparison = b["date"]
+                .toString()
+                .toLowerCase()
+                .compareTo(a["date"].toString().toLowerCase());
+
+            if (dateComparison != 0) {
+              return dateComparison; // Compara as datas primeiro
+            } else {
+              return a["name_product"].toString().toLowerCase().compareTo(b[
+                      "name_product"]
+                  .toString()
+                  .toLowerCase()); // Compara os nomes em caso de empate nas datas
+            }
+          },
+        )
     ];
   }
 
