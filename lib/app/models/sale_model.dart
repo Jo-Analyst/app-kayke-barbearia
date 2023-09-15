@@ -78,6 +78,6 @@ class Sale {
         "END AS situation, "
         "COALESCE(clients.name, 'Cliente Avulso') AS client_name, sales.date_sale AS date "
         "FROM sales LEFT JOIN clients ON clients.id = sales.client_id "
-        "WHERE date_sale LIKE '%$date%'");
+        "WHERE sales.date_sale LIKE '%$date%' ORDER BY sales.date_sale DESC");
   }
 }

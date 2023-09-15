@@ -123,7 +123,7 @@ class DetailsPayment extends StatelessWidget {
                               ),
                             ),
                             child: Text(
-                              changeTheDateWriting(payment["date_sale"]),
+                              changeTheDateWriting(payment["date"]),
                               style: const TextStyle(fontSize: 20),
                             ),
                           ),
@@ -223,7 +223,7 @@ class DetailsPayment extends StatelessWidget {
                                   style: TextStyle(fontSize: 20),
                                 ),
                                 Text(
-                                  numberFormat.format(payment["value_total"]),
+                                  numberFormat.format((payment["value_total"] - payment["amount_paid"])),
                                   style: const TextStyle(
                                     fontSize: 28,
                                     fontWeight: FontWeight.w700,

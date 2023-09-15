@@ -70,6 +70,6 @@ class ProvisionOfService {
         "END AS situation, "
         "COALESCE(clients.name, 'Cliente Avulso') AS client_name, provision_of_services.date_service AS date "
         "FROM provision_of_services LEFT JOIN clients ON clients.id = provision_of_services.client_id "
-        "WHERE date_service LIKE '%$date%'");
+        "WHERE provision_of_services.date_service LIKE '%$date%' ORDER BY provision_of_services.date_service DESC");
   }
 }
