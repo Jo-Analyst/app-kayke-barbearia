@@ -2,6 +2,8 @@ import 'package:app_kayke_barbearia/app/pages/payment_edition_page.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
 
+import '../utils/convert_datetime.dart';
+
 class DetailsPayment extends StatelessWidget {
   final Map<String, dynamic> payment;
   const DetailsPayment({required this.payment, super.key});
@@ -51,7 +53,7 @@ class DetailsPayment extends StatelessWidget {
                               ),
                             ),
                             child: Text(
-                              payment["date_sale"],
+                              changeTheDateWriting(payment["date"]),
                               style: const TextStyle(fontSize: 20),
                             ),
                           ),
@@ -121,7 +123,7 @@ class DetailsPayment extends StatelessWidget {
                               ),
                             ),
                             child: Text(
-                              payment["date_sale"],
+                              changeTheDateWriting(payment["date_sale"]),
                               style: const TextStyle(fontSize: 20),
                             ),
                           ),

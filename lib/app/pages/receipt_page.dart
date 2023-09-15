@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../template/calendar.dart';
 import '../template/specie_payment_receipt.dart';
 import '../utils/content_message.dart';
+import '../utils/convert_datetime.dart';
 import '../utils/snackbar.dart';
 
 class ReceiptPage extends StatefulWidget {
@@ -48,11 +49,8 @@ class _ReceiptPageState extends State<ReceiptPage> {
     remainingAmount = amountReceivable;
     if (!widget.isEdition) return;
 
-    amountReceived = widget.receipt["value"] ?? 0;
-    int year = int.parse(widget.receipt["date"].toString().split("/")[2]);
-    int month = int.parse(widget.receipt["date"].toString().split("/")[1]);
-    int day = int.parse(widget.receipt["date"].toString().split("/")[0]);
-    dateSelected = DateTime(year, month, day);
+    amountReceived = widget.receipt["value"] ?? 0;    
+    dateSelected = convertStringToDateTime(widget.receipt["date"]);
     typeSpecie = widget.receipt["specie"];
     amountReceivedController.updateValue(amountReceived);
     valueToResetTheRemainingValue = amountReceived + remainingAmount;

@@ -3,6 +3,8 @@ import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:app_kayke_barbearia/app/utils/modal.dart';
 import 'package:flutter/material.dart';
 
+import '../utils/convert_datetime.dart';
+
 class ListPayment extends StatefulWidget {
   final List<Map<String, dynamic>> payments;
   const ListPayment({required this.payments, super.key});
@@ -35,11 +37,11 @@ class _ListPaymentState extends State<ListPayment> {
                 ),
               ),
               title: Text(
-                widget.payments[index]["date_sale"],
+                changeTheDateWriting(widget.payments[index]["date"]),
                 style: const TextStyle(fontSize: 18),
               ),
               subtitle: Text(
-                widget.payments[index]["client_name"] ?? "Cliente avulso",
+                widget.payments[index]["client_name"],
                 style: const TextStyle(fontSize: 18),
               ),
               trailing: Text(

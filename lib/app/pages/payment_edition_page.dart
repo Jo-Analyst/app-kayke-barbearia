@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../utils/content_message.dart';
+import '../utils/convert_datetime.dart';
 import '../utils/snackbar.dart';
 import 'home_page.dart';
 
@@ -136,7 +137,6 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                                   : MediaQuery.of(context).size.height - 350,
                               child: ListView.builder(
                                 shrinkWrap: true,
-                                // physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (_, index) {
                                   var receipt = receipts[index];
                                   return Column(
@@ -222,7 +222,7 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                                                 const TextStyle(fontSize: 16),
                                           ),
                                           trailing: Text(
-                                            receipt["date"],
+                                           changeTheDateWriting( receipt["date"]),
                                             style:
                                                 const TextStyle(fontSize: 18),
                                           ),
