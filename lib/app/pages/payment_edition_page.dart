@@ -32,16 +32,7 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
   List<Map<String, dynamic>> receipts = [];
   bool confirmAction = false;
 
-  calculateAmountReceived() {
-    setState(() {
-      amountReceived = 0;
-      for (var receipt in receipts) {
-        amountReceived += receipt["value"];
-      }
-    });
-  }
-
-  closeScreen() {
+    closeScreen() {
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => const HomePage()),
@@ -58,7 +49,6 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
     receipts.removeAt(index);
     confirmAction = true;
     setState(() {});
-    calculateAmountReceived();
     showMessage(
       const ContentMessage(
         title: "Pagamento excluido.",
@@ -84,7 +74,7 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
         Provider.of<PaymentSaleProvider>(context, listen: false);
     await paymentSaleProvider.loadById(widget.id);
     receipts = paymentSaleProvider.items;
-    calculateAmountReceived();
+    amountReceived = paymentSaleProvider.amountReceived;
     setState(() {});
   }
 
@@ -151,40 +141,47 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                               style: TextStyle(fontSize: 18),
                             ),
                           ))
-                      : Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              width: double.infinity,
-                              padding: const EdgeInsets.all(10),
-                              margin: const EdgeInsets.symmetric(vertical: 10),
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    width: 1,
-                                    color: Theme.of(context).primaryColor,
+                      : Consumer<PaymentSaleProvider>(
+                          builder: (context, paymentProvider, _) {
+                            receipts = paymentProvider.items;
+                            amountReceived = paymentProvider.amountReceived;
+                            return Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  width: double.infinity,
+                                  padding: const EdgeInsets.all(10),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(
+                                        width: 1,
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    "Recebimento(s)",
+                                    style: TextStyle(fontSize: 20),
                                   ),
                                 ),
-                              ),
-                              child: const Text(
-                                "Recebimento(s)",
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            ),
-                            SingleChildScrollView(
-                              child: Container(
-                                color: Colors.indigo.withOpacity(.1),
-                                height: amountReceived < widget.value
-                                    ? confirmAction
-                                        ? MediaQuery.of(context).size.height -
-                                            455
+                                SingleChildScrollView(
+                                  child: Container(
+                                    color: Colors.indigo.withOpacity(.1),
+                                    height: amountReceived < widget.value
+                                        ? confirmAction
+                                            ? MediaQuery.of(context)
+                                                    .size
+                                                    .height -
+                                                455
+                                            : MediaQuery.of(context)
+                                                    .size
+                                                    .height -
+                                                405
                                         : MediaQuery.of(context).size.height -
-                                            405
-                                    : MediaQuery.of(context).size.height - 350,
-                                child: Consumer<PaymentSaleProvider>(
-                                  builder: (context, paymentProvider, _) {
-                                    receipts = paymentProvider.items;
-                                    return ListView.builder(
+                                            350,
+                                    child: ListView.builder(
                                       shrinkWrap: true,
                                       itemCount: receipts.length,
                                       itemBuilder: (_, index) {
@@ -218,8 +215,8 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                                                       if (paymentReceived !=
                                                           null) {
                                                         setState(() {
-                                                          confirmAction = true;                                                          
-                                                          calculateAmountReceived();
+                                                          confirmAction = true;
+                                                          
                                                           showMessage(
                                                             const ContentMessage(
                                                               title:
@@ -289,32 +286,33 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                                           ],
                                         );
                                       },
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  "Total recebido",
-                                  style: TextStyle(
-                                    fontSize: 20,
+                                    ),
                                   ),
                                 ),
-                                Text(
-                                  numberFormat.format(amountReceived),
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
+                                const SizedBox(height: 10),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      "Total recebido",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      numberFormat.format(amountReceived),
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
+                                )
                               ],
-                            )
-                          ],
-                        ),
+                            );
+                          },
+                        )
                 ],
               ),
             ),
@@ -353,7 +351,6 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                             setState(() {
                               confirmAction = true;
                               receipts.add(paymentReceived);
-                              calculateAmountReceived();
                             });
                           }
                         },

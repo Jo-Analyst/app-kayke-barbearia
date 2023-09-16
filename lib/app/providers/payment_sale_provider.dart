@@ -2,7 +2,14 @@ import 'package:app_kayke_barbearia/app/models/payment_sale_model.dart';
 import 'package:flutter/material.dart';
 
 class PaymentSaleProvider extends ChangeNotifier {
+  double _amountReceived = 0;
+
+  double get amountReceived {
+    return _amountReceived;
+  }
+
   List<Map<String, dynamic>> _items = [];
+
   List<Map<String, dynamic>> get items {
     return [
       ..._items
@@ -22,6 +29,7 @@ class PaymentSaleProvider extends ChangeNotifier {
     clear();
     final payments = await PaymentSale.findBySaleId(saleId);
     _items.addAll(payments);
+    calculateAmountReceived();
   }
 
   save(dynamic data) async {
@@ -46,17 +54,25 @@ class PaymentSaleProvider extends ChangeNotifier {
     }
 
     _items.add(dataPayment);
-
+    calculateAmountReceived();
     notifyListeners();
   }
 
   Future<void> delete(int id) async {
     PaymentSale.delete(id);
     deleteItem(id);
+    calculateAmountReceived();
     notifyListeners();
   }
 
   deleteItem(int id) {
     _items.removeWhere((item) => item["id"] == id);
+  }
+
+  calculateAmountReceived() {
+    _amountReceived = 0;
+    for (var item in _items) {
+      _amountReceived += item["value"];
+    }
   }
 }
