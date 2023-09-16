@@ -29,6 +29,7 @@ class PaymentSaleProvider extends ChangeNotifier {
     clear();
     final payments = await PaymentSale.findBySaleId(saleId);
     _items.addAll(payments);
+    print(payments);
     calculateAmountReceived();
   }
 

@@ -32,7 +32,7 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
   List<Map<String, dynamic>> receipts = [];
   bool confirmAction = false;
 
-    closeScreen() {
+  closeScreen() {
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => const HomePage()),
@@ -40,15 +40,17 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
     );
   }
 
-  deletePayment(int index, int? idPayment) async {
+  deletePayment(int index, int idPayment) async {
+    final paymentProvider =
+        Provider.of<PaymentSaleProvider>(context, listen: false);
     final confirmExit =
         await showExitDialog(context, "Deseja mesmo excluir este pagamento?");
 
     if (confirmExit == null || !confirmExit) return;
-
-    receipts.removeAt(index);
-    confirmAction = true;
-    setState(() {});
+    paymentProvider.delete(idPayment);
+    setState(() {
+      confirmAction = true;
+    });
     showMessage(
       const ContentMessage(
         title: "Pagamento excluido.",
@@ -70,11 +72,11 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
   }
 
   loadPayments() async {
-    final paymentSaleProvider =
+    final paymentProvider =
         Provider.of<PaymentSaleProvider>(context, listen: false);
-    await paymentSaleProvider.loadById(widget.id);
-    receipts = paymentSaleProvider.items;
-    amountReceived = paymentSaleProvider.amountReceived;
+    await paymentProvider.loadById(widget.id);
+    receipts = paymentProvider.items;
+    amountReceived = paymentProvider.amountReceived;
     setState(() {});
   }
 
@@ -140,7 +142,8 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                               "Não há recebimentos.",
                               style: TextStyle(fontSize: 18),
                             ),
-                          ))
+                          ),
+                        )
                       : Consumer<PaymentSaleProvider>(
                           builder: (context, paymentProvider, _) {
                             receipts = paymentProvider.items;
@@ -151,8 +154,9 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                                 Container(
                                   width: double.infinity,
                                   padding: const EdgeInsets.all(10),
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  margin: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                  ),
                                   decoration: BoxDecoration(
                                     border: Border(
                                       bottom: BorderSide(
@@ -180,7 +184,7 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                                                     .height -
                                                 405
                                         : MediaQuery.of(context).size.height -
-                                            350,
+                                            390,
                                     child: ListView.builder(
                                       shrinkWrap: true,
                                       itemCount: receipts.length,
@@ -216,7 +220,7 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                                                           null) {
                                                         setState(() {
                                                           confirmAction = true;
-                                                          
+
                                                           showMessage(
                                                             const ContentMessage(
                                                               title:
