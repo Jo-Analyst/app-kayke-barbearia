@@ -312,12 +312,14 @@ class _PaymentListPageState extends State<PaymentListPage>
                 controller: _tabController,
                 children: <Widget>[
                   ListPayment(
+                    isService: tabSelected == "serviços",
                     typePayment: tabSelected,
                     payments: search.isNotEmpty
                         ? filteredPaymentsByClient
                         : filteredPaymentsSales,
                   ),
                   ListPayment(
+                    isService: tabSelected == "serviços",
                     typePayment: tabSelected,
                     payments: search.isNotEmpty
                         ? filteredPaymentsByClient

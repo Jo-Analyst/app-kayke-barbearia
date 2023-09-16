@@ -1,7 +1,9 @@
+import 'package:app_kayke_barbearia/app/providers/payment_sale_provider.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 import '../template/calendar.dart';
 import '../template/specie_payment_receipt.dart';
@@ -10,12 +12,14 @@ import '../utils/convert_datetime.dart';
 import '../utils/snackbar.dart';
 
 class ReceiptPage extends StatefulWidget {
+  final int id;
   final double total;
   final double totalAmountReceived;
   final Map<String, dynamic> receipt;
   final bool isSale;
   final bool isEdition;
   const ReceiptPage({
+    required this.id,
     required this.isSale,
     required this.isEdition,
     required this.receipt,
@@ -49,7 +53,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
     remainingAmount = amountReceivable;
     if (!widget.isEdition) return;
 
-    amountReceived = widget.receipt["value"] ?? 0;    
+    amountReceived = widget.receipt["value"] ?? 0;
     dateSelected = convertStringToDateTime(widget.receipt["date"]);
     typeSpecie = widget.receipt["specie"];
     amountReceivedController.updateValue(amountReceived);
@@ -99,7 +103,9 @@ class _ReceiptPageState extends State<ReceiptPage> {
     }
   }
 
-  confirmPayment() {
+  confirmPayment() async {
+    final paymentProvider =
+        Provider.of<PaymentSaleProvider>(context, listen: false);
     if (amountReceived == 0) {
       showMessage(
         const ContentMessage(
@@ -118,9 +124,10 @@ class _ReceiptPageState extends State<ReceiptPage> {
           ? amountReceived
           : (amountReceived - change),
       "specie": typeSpecie,
+      "sale_id": widget.id
     };
 
-    Navigator.of(context).pop(payment);
+    await paymentProvider.save(payment);
   }
 
   String showResult() {
@@ -149,7 +156,10 @@ class _ReceiptPageState extends State<ReceiptPage> {
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: () => confirmPayment(),
+              onPressed: () {
+                confirmPayment();
+                Navigator.of(context).pop(payment);
+              },
               icon: const Icon(
                 Icons.check,
                 size: 35,

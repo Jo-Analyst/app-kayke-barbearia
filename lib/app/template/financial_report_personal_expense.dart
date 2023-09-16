@@ -58,7 +58,7 @@ class _FinancePersonalExpense extends State<FinancialReportPersonalExpense> {
             child: widget.personalExpenseBalanceValues.itemsPersonalExpense.isEmpty
                 ? const Center(
                     child: Text(
-                      "Não há gastos adicionado neste mês.",
+                      "Não há despesas realizadas neste mês.",
                       style: TextStyle(fontSize: 18),
                     ),
                   )

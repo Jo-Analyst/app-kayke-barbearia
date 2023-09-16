@@ -8,7 +8,10 @@ import '../utils/convert_datetime.dart';
 class ListPayment extends StatefulWidget {
   final List<Map<String, dynamic>> payments;
   final String typePayment;
+final bool isService;
+
   const ListPayment({
+    required this.isService,
     required this.typePayment,
     required this.payments,
     super.key,
@@ -39,6 +42,7 @@ class _ListPaymentState extends State<ListPayment> {
                     onTap: () => showModal(
                       context,
                       DetailsPayment(
+                        isService: widget.isService,
                         payment: widget.payments[index],
                       ),
                     ),

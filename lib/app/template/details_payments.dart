@@ -6,7 +6,8 @@ import '../utils/convert_datetime.dart';
 
 class DetailsPayment extends StatelessWidget {
   final Map<String, dynamic> payment;
-  const DetailsPayment({required this.payment, super.key});
+  final bool isService;
+  const DetailsPayment({required this.isService,required this.payment, super.key,});
 
   @override
   Widget build(BuildContext context) {
@@ -223,7 +224,8 @@ class DetailsPayment extends StatelessWidget {
                                   style: TextStyle(fontSize: 20),
                                 ),
                                 Text(
-                                  numberFormat.format((payment["value_total"] - payment["amount_paid"])),
+                                  numberFormat.format((payment["value_total"] -
+                                      payment["amount_paid"])),
                                   style: const TextStyle(
                                     fontSize: 28,
                                     fontWeight: FontWeight.w700,
@@ -244,8 +246,11 @@ class DetailsPayment extends StatelessWidget {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) =>
-                        PaymentEditionPage(valueSale: payment["value_total"]),
+                    builder: (_) => PaymentEditionPage(
+                      isService: isService,
+                      value: payment["value_total"],
+                      id: payment["id"],
+                    ),
                   ),
                 );
               },

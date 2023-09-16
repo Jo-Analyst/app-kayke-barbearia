@@ -15,7 +15,7 @@ class FinancialReportSaleList extends StatelessWidget {
       child: itemsSale.isEmpty
           ? const Center(
               child: Text(
-                "Não há vendas adicionado neste mês.",
+                "Não há vendas realizadas neste mês.",
                 style: TextStyle(fontSize: 18),
               ),
             )

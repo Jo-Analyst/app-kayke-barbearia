@@ -15,7 +15,7 @@ class FinancialReportServiceList extends StatelessWidget {
       child: servicesProvided.isEmpty
           ? const Center(
               child: Text(
-                "Não há serviços adicionado neste mês.",
+                "Não há serviços prestados neste mês.",
                 style: TextStyle(fontSize: 18),
               ),
             )

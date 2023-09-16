@@ -59,7 +59,7 @@ class _ExpenseBalanceState extends State<ExpenseBalance> {
             child: widget.expenseBalanceValues.itemsExpense.isEmpty
                 ? const Center(
                     child: Text(
-                      "Não há gastos adicionado neste mês.",
+                      "Não há despesas realizadas neste mês.",
                       style: TextStyle(fontSize: 18),
                     ),
                   )
