@@ -1,4 +1,4 @@
-import 'package:app_kayke_barbearia/app/pages/payment_provision%20_of_service_edition_page.dart';
+import 'package:app_kayke_barbearia/app/pages/payment_provision_of_service_edition_page.dart';
 import 'package:app_kayke_barbearia/app/pages/payment_sale_edition_page.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
