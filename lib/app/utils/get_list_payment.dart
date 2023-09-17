@@ -9,6 +9,12 @@ List<Map<String, dynamic>> getListPayments(dynamic itemsPaymentsSales) {
       "quantity": payment["quantity"],
       "value": payment["value"],
     });
+    if (payment["specie"].toString().toLowerCase() == "fiado") {
+      items[index]["icon"] = const Icon(
+        Icons.person_2_outlined,
+        size: 28,
+      );
+    }
     if (payment["specie"].toString().toLowerCase() == "dinheiro") {
       items[index]["icon"] = const Icon(
         Icons.monetization_on,

@@ -16,9 +16,9 @@ class SpeciePaymentReceipt extends StatefulWidget {
 
 class _SpeciePaymentReceiptState extends State<SpeciePaymentReceipt> {
   final List<Map<String, dynamic>> listSpeciePayments = [
-    {"specie": "DINHEIRO", "icon": Icons.attach_money, "isActive": true},
-    {"specie": "CRÉDITO", "icon": Icons.credit_card, "isActive": false},
-    {"specie": "DÉBITO", "icon": Icons.credit_card, "isActive": false},
+    {"specie": "Dinheiro", "icon": Icons.attach_money, "isActive": true},
+    {"specie": "Crédito", "icon": Icons.credit_card, "isActive": false},
+    {"specie": "Débito", "icon": Icons.credit_card, "isActive": false},
     {"specie": "PIX", "icon": Icons.pix, "isActive": false},
   ];
 

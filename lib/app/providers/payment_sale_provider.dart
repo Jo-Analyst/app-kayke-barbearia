@@ -8,7 +8,7 @@ class PaymentSaleProvider extends ChangeNotifier {
     return _amountReceived;
   }
 
-  List<Map<String, dynamic>> _items = [];
+  final List<Map<String, dynamic>> _items = [];
 
   List<Map<String, dynamic>> get items {
     return [

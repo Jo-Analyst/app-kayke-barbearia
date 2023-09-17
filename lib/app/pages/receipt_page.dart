@@ -52,11 +52,13 @@ class _ReceiptPageState extends State<ReceiptPage> {
     super.initState();
     amountReceivable = widget.total - widget.totalAmountReceived;
     remainingAmount = amountReceivable;
-    if (!widget.isEdition) return;
+    if (!widget.isEdition && widget.receipt.isEmpty) return;
 
     amountReceived = widget.receipt["value"] ?? 0;
     dateSelected = convertStringToDateTime(widget.receipt["date"]);
-    typeSpecie = widget.receipt["specie"];
+    typeSpecie = widget.receipt["specie"].toString().toLowerCase() == "fiado"
+        ? "Dinheiro"
+        : widget.receipt["specie"];
     amountReceivedController.updateValue(amountReceived);
     valueToResetTheRemainingValue = amountReceived + remainingAmount;
   }
@@ -119,9 +121,12 @@ class _ReceiptPageState extends State<ReceiptPage> {
       return;
     }
 
-String dataColumn = widget.isService ? "provision_of_service_id" : "sale_id";
+    String dataColumn =
+        widget.isService ? "provision_of_service_id" : "sale_id";
     payment = {
-      "id": widget.isEdition ? widget.receipt["id"] : 0,
+      "id": widget.isEdition || widget.totalAmountReceived == 0
+          ? widget.receipt["id"]
+          : 0,
       "date": dateFormat1.format(dateSelected),
       "value": amountReceived <= remainingAmount
           ? amountReceived
@@ -161,6 +166,7 @@ String dataColumn = widget.isService ? "provision_of_service_id" : "sale_id";
             child: IconButton(
               onPressed: () {
                 confirmPayment();
+                if (amountReceivedController.numberValue == 0) return;
                 Navigator.of(context).pop(payment);
               },
               icon: const Icon(
@@ -279,9 +285,7 @@ String dataColumn = widget.isService ? "provision_of_service_id" : "sale_id";
                         ),
                       ),
                       SpeciePaymentReceipt(
-                        specie: widget.receipt.isNotEmpty
-                            ? widget.receipt["specie"]
-                            : null,
+                        specie: widget.receipt.isNotEmpty ? typeSpecie : null,
                         getPaymentTypeName: (value, icon) {
                           setState(() {
                             typeSpecie = value;

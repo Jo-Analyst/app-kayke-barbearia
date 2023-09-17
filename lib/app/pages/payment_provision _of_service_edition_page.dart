@@ -30,9 +30,10 @@ class PaymentProvisionOfServiceEditionPage extends StatefulWidget {
 
 class _PaymentProvisionOfServiceEditionPageState
     extends State<PaymentProvisionOfServiceEditionPage> {
-  final valueProvisionOfServiceController = TextEditingController();
+  final valueProvisionOfPaymentController = TextEditingController();
   double amountReceived = 0;
   List<Map<String, dynamic>> receipts = [];
+  Map<String, dynamic> receipt = {};
   bool confirmAction = false;
 
   closeScreen() {
@@ -70,7 +71,7 @@ class _PaymentProvisionOfServiceEditionPageState
   @override
   void initState() {
     super.initState();
-    valueProvisionOfServiceController.text = numberFormat.format(widget.value);
+    valueProvisionOfPaymentController.text = numberFormat.format(widget.value);
     loadPayments();
   }
 
@@ -121,10 +122,10 @@ class _PaymentProvisionOfServiceEditionPageState
                   child: ListView(
                     children: [
                       TextFormField(
-                        controller: valueProvisionOfServiceController,
+                        controller: valueProvisionOfPaymentController,
                         readOnly: true,
                         decoration: const InputDecoration(
-                          labelText: "Valor do Serviço",
+                          labelText: "Valor da P. de serviço",
                           labelStyle: TextStyle(
                             fontWeight: FontWeight.normal,
                           ),
@@ -341,7 +342,8 @@ class _PaymentProvisionOfServiceEditionPageState
                                 MaterialPageRoute(
                                   builder: (_) => ReceiptPage(
                                     id: widget.id,
-                                    receipt: const {},
+                                    receipt:
+                                        amountReceived == 0 ? receipts[0] : {},
                                     isEdition: false,
                                     totalAmountReceived: amountReceived,
                                     isService: widget.isService,

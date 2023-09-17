@@ -32,7 +32,7 @@ class PaymentContainer extends StatelessWidget {
           Icon(
             icon,
             color: color,
-            size: 30,
+            size: 28,
           ),
           const SizedBox(width: 5),
           Column(

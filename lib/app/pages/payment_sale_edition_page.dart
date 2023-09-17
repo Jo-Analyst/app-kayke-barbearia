@@ -31,6 +31,7 @@ class _PaymentSaleEditionPageState extends State<PaymentSaleEditionPage> {
   final valueSaleController = TextEditingController();
   double amountReceived = 0;
   List<Map<String, dynamic>> receipts = [];
+  Map<String, dynamic> receipt = {};
   bool confirmAction = false;
 
   closeScreen() {
@@ -49,8 +50,6 @@ class _PaymentSaleEditionPageState extends State<PaymentSaleEditionPage> {
 
     if (confirmExit == null || !confirmExit) return;
     paymentProvider.delete(idPayment);
-    print(paymentProvider.items);
-    print(receipts);
     setState(() {
       confirmAction = true;
     });
@@ -80,6 +79,15 @@ class _PaymentSaleEditionPageState extends State<PaymentSaleEditionPage> {
     await paymentProvider.loadById(widget.id);
     receipts = paymentProvider.items;
     amountReceived = paymentProvider.amountReceived;
+    // receipt = amountReceived == 0
+    //     ? {
+    //         "id": receipts[0]["id"],
+    //         "value": receipts[0]["value"],
+    //         "date": receipts[0]["date"],
+    //         "sale_id": receipts[0]["sale_id"],
+    //       }
+    //     : {};
+
     setState(() {});
   }
 
@@ -341,7 +349,7 @@ class _PaymentSaleEditionPageState extends State<PaymentSaleEditionPage> {
                                 MaterialPageRoute(
                                   builder: (_) => ReceiptPage(
                                     id: widget.id,
-                                    receipt: const {},
+                                    receipt: amountReceived == 0 ? receipts[0] : {},
                                     isEdition: false,
                                     totalAmountReceived: amountReceived,
                                     isService: widget.isService,
