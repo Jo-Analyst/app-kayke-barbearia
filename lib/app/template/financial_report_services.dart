@@ -103,7 +103,7 @@ class FinancialReportServices extends StatelessWidget {
                       ),
                     ),
                     const Text(
-                      "Concluído",
+                      "Recebido",
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,

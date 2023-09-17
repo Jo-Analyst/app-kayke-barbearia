@@ -12,15 +12,15 @@ List<Map<String, dynamic>> getListPayments(dynamic itemsPaymentsSales) {
     if (payment["specie"].toString().toLowerCase() == "dinheiro") {
       items[index]["icon"] = const Icon(
         Icons.monetization_on,
-        color: Colors.green,
-        size: 30,
+        color: Colors.indigo,
+        size: 28,
       );
     }
     if (payment["specie"].toString().toLowerCase() == "pix") {
       items[index]["icon"] = const Icon(
         Icons.pix,
         color: Colors.green,
-        size: 30,
+        size: 28,
       );
     }
     if (payment["specie"].toString().toLowerCase() == "crédito" ||
@@ -28,7 +28,7 @@ List<Map<String, dynamic>> getListPayments(dynamic itemsPaymentsSales) {
       items[index]["icon"] = const Icon(
         Icons.credit_card,
         color: Colors.purple,
-        size: 30,
+        size: 28,
       );
     }
     index++;

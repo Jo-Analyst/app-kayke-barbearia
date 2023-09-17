@@ -1,4 +1,5 @@
-import 'package:app_kayke_barbearia/app/pages/payment_edition_page.dart';
+import 'package:app_kayke_barbearia/app/pages/payment_provision%20_of_service_edition_page.dart';
+import 'package:app_kayke_barbearia/app/pages/payment_sale_edition_page.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +8,11 @@ import '../utils/convert_datetime.dart';
 class DetailsPayment extends StatelessWidget {
   final Map<String, dynamic> payment;
   final bool isService;
-  const DetailsPayment({required this.isService,required this.payment, super.key,});
+  const DetailsPayment({
+    required this.isService,
+    required this.payment,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -246,11 +251,17 @@ class DetailsPayment extends StatelessWidget {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => PaymentEditionPage(
-                      isService: isService,
-                      value: payment["value_total"],
-                      id: payment["id"],
-                    ),
+                    builder: (_) => isService
+                        ? PaymentProvisionOfServiceEditionPage(
+                            isService: isService,
+                            value: payment["value_total"],
+                            id: payment["id"],
+                          )
+                        : PaymentSaleEditionPage(
+                            isService: isService,
+                            value: payment["value_total"],
+                            id: payment["id"],
+                          ),
                   ),
                 );
               },

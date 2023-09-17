@@ -415,7 +415,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
                 ),
                 PaymentContainer(
                   icon: Icons.check_circle,
-                  specie: "Concluído",
+                  specie: "Recebido",
                   value: valueCompleted,
                   color: Theme.of(context).primaryColor,
                 ),

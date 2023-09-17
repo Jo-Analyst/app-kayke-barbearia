@@ -1,7 +1,8 @@
 import 'package:app_kayke_barbearia/app/pages/receipt_page.dart';
-import 'package:app_kayke_barbearia/app/providers/payment_sale_provider.dart';
+import 'package:app_kayke_barbearia/app/providers/payment_provision_of_service_provider.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:app_kayke_barbearia/app/utils/dialog.dart';
+import 'package:app_kayke_barbearia/app/utils/icon_by_specie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
@@ -11,11 +12,11 @@ import '../utils/convert_datetime.dart';
 import '../utils/snackbar.dart';
 import 'home_page.dart';
 
-class PaymentEditionPage extends StatefulWidget {
+class PaymentProvisionOfServiceEditionPage extends StatefulWidget {
   final bool isService;
   final double value;
   final int id;
-  const PaymentEditionPage({
+  const PaymentProvisionOfServiceEditionPage({
     required this.isService,
     required this.id,
     required this.value,
@@ -23,11 +24,13 @@ class PaymentEditionPage extends StatefulWidget {
   });
 
   @override
-  State<PaymentEditionPage> createState() => _PaymentEditionPageState();
+  State<PaymentProvisionOfServiceEditionPage> createState() =>
+      _PaymentProvisionOfServiceEditionPageState();
 }
 
-class _PaymentEditionPageState extends State<PaymentEditionPage> {
-  final valueSaleController = TextEditingController();
+class _PaymentProvisionOfServiceEditionPageState
+    extends State<PaymentProvisionOfServiceEditionPage> {
+  final valueProvisionOfServiceController = TextEditingController();
   double amountReceived = 0;
   List<Map<String, dynamic>> receipts = [];
   bool confirmAction = false;
@@ -42,7 +45,7 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
 
   deletePayment(int index, int idPayment) async {
     final paymentProvider =
-        Provider.of<PaymentSaleProvider>(context, listen: false);
+        Provider.of<PaymentProvisionOfServiceProvider>(context, listen: false);
     final confirmExit =
         await showExitDialog(context, "Deseja mesmo excluir este pagamento?");
 
@@ -67,13 +70,13 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
   @override
   void initState() {
     super.initState();
-    valueSaleController.text = numberFormat.format(widget.value);
+    valueProvisionOfServiceController.text = numberFormat.format(widget.value);
     loadPayments();
   }
 
   loadPayments() async {
     final paymentProvider =
-        Provider.of<PaymentSaleProvider>(context, listen: false);
+        Provider.of<PaymentProvisionOfServiceProvider>(context, listen: false);
     await paymentProvider.loadById(widget.id);
     receipts = paymentProvider.items;
     amountReceived = paymentProvider.amountReceived;
@@ -104,51 +107,50 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                 )
               : null,
         ),
-        body: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 10,
-                horizontal: 15,
-              ),
-              child: ListView(
-                children: [
-                  TextFormField(
-                    controller: valueSaleController,
-                    readOnly: true,
-                    decoration: InputDecoration(
-                      labelText: widget.isService
-                          ? "Valor do Serviço"
-                          : "Valor da Venda",
-                      labelStyle: const TextStyle(
-                        fontWeight: FontWeight.normal,
-                      ),
-                      floatingLabelAlignment: FloatingLabelAlignment.center,
-                    ),
-                    style: const TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    textAlign: TextAlign.center,
+        body: Consumer<PaymentProvisionOfServiceProvider>(
+          builder: (context, paymentProvider, _) {
+            receipts = paymentProvider.items;
+            amountReceived = paymentProvider.amountReceived;
+            return Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 15,
                   ),
-                  receipts.isEmpty
-                      ? Container(
-                          color: Colors.indigo.withOpacity(.1),
-                          height: confirmAction
-                              ? MediaQuery.of(context).size.height - 360
-                              : MediaQuery.of(context).size.height - 300,
-                          child: const Center(
-                            child: Text(
-                              "Não há recebimentos.",
-                              style: TextStyle(fontSize: 18),
-                            ),
+                  child: ListView(
+                    children: [
+                      TextFormField(
+                        controller: valueProvisionOfServiceController,
+                        readOnly: true,
+                        decoration: const InputDecoration(
+                          labelText: "Valor do Serviço",
+                          labelStyle: TextStyle(
+                            fontWeight: FontWeight.normal,
                           ),
-                        )
-                      : Consumer<PaymentSaleProvider>(
-                          builder: (context, paymentProvider, _) {
-                            receipts = paymentProvider.items;
-                            amountReceived = paymentProvider.amountReceived;
-                            return Column(
+                          floatingLabelAlignment: FloatingLabelAlignment.center,
+                        ),
+                        style: const TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      amountReceived == 0
+                          ? Container(
+                              color: Colors.indigo.withOpacity(.1),
+                              height: confirmAction
+                                  ? MediaQuery.of(context).size.height - 360
+                                  : MediaQuery.of(context).size.height - 300,
+                              child: const Center(
+                                child: Text(
+                                  "Não há recebimentos da prestação de serviço realizada. Faça o primeiro pagamento",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                              ),
+                            )
+                          : Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Container(
@@ -210,7 +212,8 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                                                             isEdition: true,
                                                             totalAmountReceived:
                                                                 amountReceived,
-                                                            isSale: false,
+                                                            isService: widget
+                                                                .isService,
                                                             total: widget.value,
                                                           ),
                                                         ),
@@ -257,10 +260,8 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                                               ),
                                               child: ListTile(
                                                 minLeadingWidth: 0,
-                                                leading: Icon(
-                                                  Icons.monetization_on,
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
+                                                leading: IconBySpecie(
+                                                  specie: receipt["specie"],
                                                 ),
                                                 title: Text(
                                                   numberFormat.format(
@@ -314,79 +315,78 @@ class _PaymentEditionPageState extends State<PaymentEditionPage> {
                                   ],
                                 )
                               ],
-                            );
-                          },
-                        )
-                ],
-              ),
-            ),
-            Positioned(
-              right: 15,
-              left: 15,
-              bottom: 10,
-              child: Column(
-                children: [
-                  Visibility(
-                    visible: amountReceived < widget.value,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: TextButton(
-                        onPressed: () async {
-                          final paymentReceived =
-                              await Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => ReceiptPage(
-                                id: widget.id,
-                                receipt: const {},
-                                isEdition: false,
-                                totalAmountReceived: amountReceived,
-                                isSale: false,
-                                total: widget.value,
-                              ),
                             ),
-                          );
-
-                          if (paymentReceived != null) {
-                            setState(() {
-                              confirmAction = true;
-                              receipts.add(paymentReceived);
-                            });
-                          }
-                        },
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.add),
-                            Text(
-                              "Novo recebimento",
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    ],
                   ),
-                  Visibility(
-                    visible: confirmAction,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                          onPressed: () => closeScreen(),
-                          child: const Text(
-                            "Fechar",
-                            style: TextStyle(fontSize: 20),
-                          )),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ],
+                ),
+                Positioned(
+                  right: 15,
+                  left: 15,
+                  bottom: 10,
+                  child: Column(
+                    children: [
+                      Visibility(
+                        visible: amountReceived < widget.value,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: TextButton(
+                            onPressed: () async {
+                              final paymentReceived =
+                                  await Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => ReceiptPage(
+                                    id: widget.id,
+                                    receipt: const {},
+                                    isEdition: false,
+                                    totalAmountReceived: amountReceived,
+                                    isService: widget.isService,
+                                    total: widget.value,
+                                  ),
+                                ),
+                              );
+
+                              if (paymentReceived != null) {
+                                setState(() {
+                                  confirmAction = true;
+                                });
+                              }
+                            },
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.add),
+                                Text(
+                                  "Novo recebimento",
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: confirmAction,
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                              onPressed: () => closeScreen(),
+                              child: const Text(
+                                "Fechar",
+                                style: TextStyle(fontSize: 20),
+                              )),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

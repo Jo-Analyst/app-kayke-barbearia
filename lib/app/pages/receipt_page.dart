@@ -1,3 +1,4 @@
+import 'package:app_kayke_barbearia/app/providers/payment_provision_of_service_provider.dart';
 import 'package:app_kayke_barbearia/app/providers/payment_sale_provider.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +17,11 @@ class ReceiptPage extends StatefulWidget {
   final double total;
   final double totalAmountReceived;
   final Map<String, dynamic> receipt;
-  final bool isSale;
+  final bool isService;
   final bool isEdition;
   const ReceiptPage({
     required this.id,
-    required this.isSale,
+    required this.isService,
     required this.isEdition,
     required this.receipt,
     required this.totalAmountReceived,
@@ -104,8 +105,9 @@ class _ReceiptPageState extends State<ReceiptPage> {
   }
 
   confirmPayment() async {
-    final paymentProvider =
-        Provider.of<PaymentSaleProvider>(context, listen: false);
+    dynamic paymentProvider = widget.isService
+        ? Provider.of<PaymentProvisionOfServiceProvider>(context, listen: false)
+        : Provider.of<PaymentSaleProvider>(context, listen: false);
     if (amountReceived == 0) {
       showMessage(
         const ContentMessage(
@@ -117,6 +119,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
       return;
     }
 
+String dataColumn = widget.isService ? "provision_of_service_id" : "sale_id";
     payment = {
       "id": widget.isEdition ? widget.receipt["id"] : 0,
       "date": dateFormat1.format(dateSelected),
@@ -124,7 +127,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
           ? amountReceived
           : (amountReceived - change),
       "specie": typeSpecie,
-      "sale_id": widget.id
+      dataColumn: widget.id
     };
 
     await paymentProvider.save(payment);

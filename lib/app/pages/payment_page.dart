@@ -310,8 +310,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         getPaymentTypeName: (value, icon) {
                           setState(() {
                             typeSpecie = value;
-
-                            if (typeSpecie == "fiado") {
+                            if (typeSpecie.toLowerCase() == "fiado") {
                               change = 0;
                               amountReceivedController.updateValue(change);
                               amountReceived = 0;

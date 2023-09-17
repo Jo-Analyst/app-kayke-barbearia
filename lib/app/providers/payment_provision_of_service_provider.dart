@@ -1,7 +1,7 @@
-import 'package:app_kayke_barbearia/app/models/payment_sale_model.dart';
+import 'package:app_kayke_barbearia/app/models/payment_service_model.dart';
 import 'package:flutter/material.dart';
 
-class PaymentSaleProvider extends ChangeNotifier {
+class PaymentProvisionOfServiceProvider extends ChangeNotifier {
   double _amountReceived = 0;
 
   double get amountReceived {
@@ -25,20 +25,20 @@ class PaymentSaleProvider extends ChangeNotifier {
     _items.clear();
   }
 
-  loadById(int saleId) async {
+  loadById(int provisionOfServiceId) async {
     clear();
-    final payments = await PaymentSale.findBySaleId(saleId);
+    final payments = await PaymentService.findBySaleId(provisionOfServiceId);
     _items.addAll(payments);
     calculateAmountReceived();
   }
 
   save(dynamic data) async {
-    int lastId = await PaymentSale(
+    int lastId = await PaymentService(
       id: data["id"],
       amountPaid: data["value"],
       datePayment: data["date"],
       specie: data["specie"],
-      saleId: data["sale_id"],
+      provisionOfServiceId: data["provision_of_service_id"],
     ).reserve();
 
     Map<String, dynamic> dataPayment = {
@@ -46,7 +46,7 @@ class PaymentSaleProvider extends ChangeNotifier {
       "value": data["value"],
       "date": data["date"],
       "specie": data["specie"],
-      "sale_id": data["sale_id"],
+      "provision_of_service_id": data["provision_of_service_id"],
     };
 
     if (data["id"] > 0) {
@@ -59,7 +59,7 @@ class PaymentSaleProvider extends ChangeNotifier {
   }
 
   Future<void> delete(int id) async {
-    PaymentSale.delete(id);
+    PaymentService.delete(id);
     deleteItem(id);
     calculateAmountReceived();
     notifyListeners();
