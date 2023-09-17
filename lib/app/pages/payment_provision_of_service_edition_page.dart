@@ -16,10 +16,12 @@ class PaymentProvisionOfServiceEditionPage extends StatefulWidget {
   final bool isService;
   final double value;
   final int id;
+  final bool isCasualCustomer;
   const PaymentProvisionOfServiceEditionPage({
     required this.isService,
     required this.id,
     required this.value,
+    required this.isCasualCustomer,
     super.key,
   });
 
@@ -196,69 +198,79 @@ class _PaymentProvisionOfServiceEditionPageState
                                         return Column(
                                           children: [
                                             Slidable(
-                                              endActionPane: ActionPane(
-                                                motion: const StretchMotion(),
-                                                children: [
-                                                  SlidableAction(
-                                                    onPressed: (_) async {
-                                                      final paymentReceived =
-                                                          await Navigator.of(
-                                                                  context)
-                                                              .push(
-                                                        MaterialPageRoute(
-                                                          builder: (_) =>
-                                                              ReceiptPage(
-                                                            id: widget.id,
-                                                            receipt: receipt,
-                                                            isEdition: true,
-                                                            totalAmountReceived:
-                                                                amountReceived,
-                                                            isService: widget
-                                                                .isService,
-                                                            total: widget.value,
-                                                          ),
+                                              endActionPane: widget
+                                                      .isCasualCustomer
+                                                  ? null
+                                                  : ActionPane(
+                                                      motion:
+                                                          const StretchMotion(),
+                                                      children: [
+                                                        SlidableAction(
+                                                          onPressed: (_) async {
+                                                            final paymentReceived =
+                                                                await Navigator.of(
+                                                                        context)
+                                                                    .push(
+                                                              MaterialPageRoute(
+                                                                builder: (_) =>
+                                                                    ReceiptPage(
+                                                                  id: widget.id,
+                                                                  receipt:
+                                                                      receipt,
+                                                                  isEdition:
+                                                                      true,
+                                                                  totalAmountReceived:
+                                                                      amountReceived,
+                                                                  isService: widget
+                                                                      .isService,
+                                                                  total: widget
+                                                                      .value,
+                                                                ),
+                                                              ),
+                                                            );
+
+                                                            if (paymentReceived !=
+                                                                null) {
+                                                              setState(() {
+                                                                confirmAction =
+                                                                    true;
+
+                                                                showMessage(
+                                                                  const ContentMessage(
+                                                                    title:
+                                                                        "Pagamento editado com sucesso.",
+                                                                    icon: Icons
+                                                                        .info,
+                                                                  ),
+                                                                  Colors.orange,
+                                                                );
+                                                              });
+                                                            }
+                                                          },
+                                                          backgroundColor:
+                                                              Colors.amber,
+                                                          foregroundColor:
+                                                              Colors.white,
+                                                          icon: Icons
+                                                              .edit_outlined,
+                                                          label: "Editar",
                                                         ),
-                                                      );
-
-                                                      if (paymentReceived !=
-                                                          null) {
-                                                        setState(() {
-                                                          confirmAction = true;
-
-                                                          showMessage(
-                                                            const ContentMessage(
-                                                              title:
-                                                                  "Pagamento editado com sucesso.",
-                                                              icon: Icons.info,
+                                                        if (receipts.length > 1)
+                                                          SlidableAction(
+                                                            onPressed: (_) =>
+                                                                deletePayment(
+                                                              index,
+                                                              receipt["id"],
                                                             ),
-                                                            Colors.orange,
-                                                          );
-                                                        });
-                                                      }
-                                                    },
-                                                    backgroundColor:
-                                                        Colors.amber,
-                                                    foregroundColor:
-                                                        Colors.white,
-                                                    icon: Icons.edit_outlined,
-                                                    label: "Editar",
-                                                  ),
-                                                  if (receipts.length > 1)
-                                                    SlidableAction(
-                                                      onPressed: (_) =>
-                                                          deletePayment(
-                                                        index,
-                                                        receipt["id"],
-                                                      ),
-                                                      backgroundColor:
-                                                          Colors.red,
-                                                      foregroundColor:
-                                                          Colors.white,
-                                                      icon: Icons.delete,
-                                                      label: "Excluir",
+                                                            backgroundColor:
+                                                                Colors.red,
+                                                            foregroundColor:
+                                                                Colors.white,
+                                                            icon: Icons.delete,
+                                                            label: "Excluir",
+                                                          ),
+                                                      ],
                                                     ),
-                                                ],
-                                              ),
                                               child: ListTile(
                                                 minLeadingWidth: 0,
                                                 leading: IconBySpecie(
