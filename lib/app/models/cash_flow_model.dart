@@ -28,14 +28,14 @@ class CashFlow {
   Future<List<Map<String, dynamic>>> sumValuesSalesBySpecie() async {
     final db = await DB.openDatabase();
     return db.rawQuery(
-        "SELECT specie, SUM(amount_paid) AS value FROM payments_sales WHERE date_payment = ? GROUP BY specie",
+        "SELECT specie, SUM(amount_paid) AS value FROM payments_sales INNER JOIN sales ON sales.id = payments_sales.sale_id WHERE date_sale = ? GROUP BY specie",
         [date]);
   }
 
   Future<List<Map<String, dynamic>>> sumValuesServicesBySpecie() async {
     final db = await DB.openDatabase();
     return db.rawQuery(
-        "SELECT specie, SUM(amount_paid) AS value FROM payments_services WHERE date_payment = ? GROUP BY specie",
+        "SELECT specie, SUM(amount_paid) AS value FROM payments_services INNER JOIN provision_of_services ON provision_of_services.id = payments_services.provision_of_service_id WHERE date_service = ? GROUP BY specie",
         [date]);
   }
 

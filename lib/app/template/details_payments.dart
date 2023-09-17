@@ -16,6 +16,7 @@ class DetailsPayment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(payment["client_name"].toString().toLowerCase() == "cliente avulso");
     return SizedBox(
       height: payment["situation"] == "Recebido" ? 230 : 310,
       child: ListView(
@@ -258,6 +259,7 @@ class DetailsPayment extends StatelessWidget {
                             id: payment["id"],
                           )
                         : PaymentSaleEditionPage(
+                          isCasualCustomer : payment["client_name"].toString().toLowerCase() == "cliente avulso",
                             isService: isService,
                             value: payment["value_total"],
                             id: payment["id"],
