@@ -63,53 +63,26 @@ class FinancialReportServices extends StatelessWidget {
           const SizedBox(height: 20),
           Container(
             color: Colors.indigo.withOpacity(0.1),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 10,
-            ),
+            padding: const EdgeInsets.all(20),
             margin: const EdgeInsets.only(bottom: 10),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  children: [
-                    Text(
-                      numberFormat.format(
-                        financialReportServicesValues.valueReceivable,
-                      ),
-                      style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.red,
-                      ),
-                    ),
-                    const Text(
-                      "A receber",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
+                const Text(
+                  "Recebido",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-                Column(
-                  children: [
-                    Text(
-                      numberFormat.format(
-                        financialReportServicesValues.valuePaid,
-                      ),
-                      style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.green,
-                      ),
-                    ),
-                    const Text(
-                      "Recebido",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
+                Text(
+                  numberFormat.format(
+                    financialReportServicesValues.valuePaid,
+                  ),
+                  style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.green,
+                      fontWeight: FontWeight.bold),
                 ),
               ],
             ),

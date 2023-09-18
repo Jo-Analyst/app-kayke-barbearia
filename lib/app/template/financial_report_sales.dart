@@ -57,74 +57,58 @@ class FinancialReportSales extends StatelessWidget {
           ),
           Divider(color: Theme.of(context).primaryColor),
           Payment(
-              itemsPaymentsSales:
-                  financialReportSalesValues.itemsPaymentsSales),
+            itemsPaymentsSales: financialReportSalesValues.itemsPaymentsSales,
+          ),
           const SizedBox(height: 20),
           Container(
             color: Colors.indigo.withOpacity(0.1),
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            padding: const EdgeInsets.all(20),
             margin: const EdgeInsets.only(bottom: 10),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  children: [
-                    Text(
-                      numberFormat
-                          .format(financialReportSalesValues.valueReceivable),
-                      style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.red,
-                      ),
-                    ),
-                    const Text(
-                      "A receber",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
+                const Text(
+                  "Total Recebido",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-                Column(
-                  children: [
-                    Text(
-                      numberFormat.format(financialReportSalesValues.valuePaid),
-                      style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.green,
-                      ),
-                    ),
-                    const Text(
-                      "Recebido",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text(
-                      numberFormat.format(financialReportSalesValues.profit),
-                      style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.indigo,
-                      ),
-                    ),
-                    const Text(
-                      "Lucro",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
+                Text(
+                  numberFormat.format(financialReportSalesValues.valuePaid),
+                  style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.green,
+                      fontWeight: FontWeight.bold),
                 ),
               ],
             ),
-          )
+          ),
+          Container(
+            color: Colors.indigo.withOpacity(0.1),
+            padding: const EdgeInsets.all(20),
+            margin: const EdgeInsets.only(bottom: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Lucro",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                Text(
+                  numberFormat.format(financialReportSalesValues.profit),
+                  style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.indigo,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

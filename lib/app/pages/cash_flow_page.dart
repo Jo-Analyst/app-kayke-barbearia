@@ -2,10 +2,9 @@ import 'package:app_kayke_barbearia/app/controllers/cash_flow_controller.dart';
 import 'package:app_kayke_barbearia/app/template/calendar.dart';
 import 'package:app_kayke_barbearia/app/template/financial_report_sale_list.dart';
 import 'package:app_kayke_barbearia/app/template/financial_report_service.list.dart';
-import 'package:app_kayke_barbearia/app/template/payment_container.dart';
+import 'package:app_kayke_barbearia/app/template/payments_containers.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CashFlowPage extends StatefulWidget {
   const CashFlowPage({super.key});
@@ -38,8 +37,8 @@ class _CashFlowPageState extends State<CashFlowPage> {
       valueDebit = 0,
       valueDebitSale = 0,
       valueDebitService = 0,
-      valueReceived = 0,
-      valueCompleted = 0;
+      amountToReceive = 0,
+      amountReceived = 0;
 
   loadList() async {
     itemsSales = await CashFlowController.getListSales(dateSelected);
@@ -132,13 +131,13 @@ class _CashFlowPageState extends State<CashFlowPage> {
       valuePix = valuePixSale + valuePixService;
       valueCredit = valueCreditSale + valueCreditService;
       valueDebit = valueDebitSale + valueDebitService;
-      valueCompleted = valueMoney + valuePix + valueCredit + valueDebit;
+      amountReceived = valueMoney + valuePix + valueCredit + valueDebit;
       if (!activeContainerSale && !activeContainerService) {
-        valueReceived = balance - valueCompleted;
+        amountToReceive = balance - amountReceived;
       } else if (activeContainerSale) {
-        valueReceived = valueSale - valueCompleted;
+        amountToReceive = valueSale - amountReceived;
       } else if (activeContainerService) {
-        valueReceived = valueService - valueCompleted;
+        amountToReceive = valueService - amountReceived;
       }
     });
   }
@@ -213,9 +212,10 @@ class _CashFlowPageState extends State<CashFlowPage> {
                 Text(
                   numberFormat.format(balance),
                   style: const TextStyle(
-                      fontSize: 26,
-                      color: Colors.green,
-                      fontWeight: FontWeight.w500),
+                    fontSize: 26,
+                    color: Colors.green,
+                    fontWeight: FontWeight.w500,
+                  ),
                 )
               ],
             ),
@@ -370,59 +370,14 @@ class _CashFlowPageState extends State<CashFlowPage> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 12.0,
-              vertical: 15,
-            ),
-            child: GridView.count(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: 2,
-              mainAxisSpacing: 15,
-              crossAxisSpacing: 15,
-              childAspectRatio: 2.4,
-              children: [
-                PaymentContainer(
-                  icon: Icons.monetization_on,
-                  specie: "Dinheiro",
-                  value: valueMoney,
-                  color: Theme.of(context).primaryColor,
-                ),
-                PaymentContainer(
-                  icon: Icons.pix,
-                  specie: "PIX",
-                  value: valuePix,
-                  color: Colors.green,
-                ),
-                PaymentContainer(
-                  icon: Icons.credit_card,
-                  specie: "Crédito",
-                  value: valueCredit,
-                  color: Colors.purple,
-                ),
-                PaymentContainer(
-                  icon: Icons.credit_card,
-                  specie: "Débito",
-                  value: valueDebit,
-                  color: Colors.purple,
-                ),
-                PaymentContainer(
-                  icon: FontAwesomeIcons.handHoldingDollar,
-                  specie: "A receber",
-                  value: valueReceived,
-                  color: Colors.redAccent,
-                ),
-                PaymentContainer(
-                  icon: Icons.check_circle,
-                  specie: "Recebido",
-                  value: valueCompleted,
-                  color: Theme.of(context).primaryColor,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 10),
+          PaymentsContainers(
+              valueMoney: valueMoney,
+              valuePix: valuePix,
+              valueCredit: valueCredit,
+              valueDebit: valueDebit,
+              amountToReceive: amountToReceive,
+              amountReceived: amountReceived),
+          const SizedBox(height: 30),
         ],
       ),
     );

@@ -4,6 +4,7 @@ import 'package:app_kayke_barbearia/app/providers/payment_sale_provider.dart';
 import 'package:app_kayke_barbearia/app/providers/provision_of_service_provider.dart';
 import 'package:app_kayke_barbearia/app/providers/sale_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +19,7 @@ class AppKaikeBarbearia extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ClientProvider()),
@@ -28,7 +30,8 @@ class AppKaikeBarbearia extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SaleProvider()),
         ChangeNotifierProvider(create: (_) => ProvisionOfServiceProvider()),
         ChangeNotifierProvider(create: (_) => PaymentSaleProvider()),
-        ChangeNotifierProvider(create: (_) => PaymentProvisionOfServiceProvider()),
+        ChangeNotifierProvider(
+            create: (_) => PaymentProvisionOfServiceProvider()),
       ],
       child: MaterialApp(
         title: 'Kaike Barbearia',
