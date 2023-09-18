@@ -27,6 +27,7 @@ class _ProductListPageState extends State<ProductListPage> {
   bool isGranted = false;
   List<Map<String, dynamic>> filteredList = [];
   List<Map<String, dynamic>> products = [];
+  List<Map<String, dynamic>> productsSelected = [];
 
   void showMessage(Widget content, Color? color) {
     Message.showMessage(context, content, color);
@@ -63,11 +64,69 @@ class _ProductListPageState extends State<ProductListPage> {
     }
   }
 
+  selectProduct(Map<String, dynamic> dataProduct) {
+    final result = productsSelected.any(
+      (product) => product["name"] == dataProduct["name"],
+    );
+    setState(() {
+      !result
+          ? productsSelected.add(dataProduct)
+          : productsSelected.removeWhere(
+              (product) => product["name"] == dataProduct["name"],
+            );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Produtos"),
+        title: Row(
+          children: [
+            Text(productsSelected.isNotEmpty
+                ? productsSelected.length.toString()
+                : "Produtos"),
+            if (productsSelected.isNotEmpty)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          productsSelected = products;
+                        });
+                      },
+                      icon: const Icon(
+                        Icons.select_all,
+                        size: 30,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        productsSelected.clear();
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.cancel_sharp,
+                      size: 30,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(productsSelected);
+                    },
+                    icon: const Icon(
+                      Icons.check,
+                      size: 30,
+                    ),
+                  ),
+                ],
+              ),
+          ],
+        ),
         actions: [
           Container(
             margin: const EdgeInsets.only(right: 10),
@@ -230,33 +289,49 @@ class _ProductListPageState extends State<ProductListPage> {
                                                             ],
                                                           ),
                                                 child: ListTile(
-                                                  onTap: widget
+                                                  selected: productsSelected
+                                                      .any((dataProduct) =>
+                                                          dataProduct["name"] ==
+                                                          product["name"]),
+                                                  selectedColor: Colors.white,
+                                                  onLongPress: widget
                                                           .itFromTheSalesScreen
-                                                      ? () =>
-                                                          Navigator.of(context)
-                                                              .pop(
-                                                            {
-                                                              "product_id":
-                                                                  product["id"],
-                                                              "name": product[
-                                                                  "name"],
-                                                              "quantity_items":
-                                                                  product[
-                                                                      "quantity"],
-                                                              "profit_product":
-                                                                  product[
-                                                                      "profit_value"],
-                                                              "sub_profit_product":
-                                                                  product[
-                                                                      "profit_value"],
-                                                              "price_product":
-                                                                  product[
-                                                                      "sale_value"],
-                                                              "sub_total": product[
-                                                                  "sale_value"]
-                                                            },
-                                                          )
+                                                      ? () {
+                                                          selectProduct(
+                                                              product);
+                                                        }
                                                       : null,
+                                                  onTap:
+                                                      widget.itFromTheSalesScreen &&
+                                                              productsSelected
+                                                                  .isEmpty
+                                                          ? () => Navigator.of(
+                                                                      context)
+                                                                  .pop(
+                                                                {
+                                                                  "product_id":
+                                                                      product[
+                                                                          "id"],
+                                                                  "name": product[
+                                                                      "name"],
+                                                                  "quantity_items":
+                                                                      product[
+                                                                          "quantity"],
+                                                                  "profit_product":
+                                                                      product[
+                                                                          "profit_value"],
+                                                                  "sub_profit_product":
+                                                                      product[
+                                                                          "profit_value"],
+                                                                  "price_product":
+                                                                      product[
+                                                                          "sale_value"],
+                                                                  "sub_total":
+                                                                      product[
+                                                                          "sale_value"]
+                                                                },
+                                                              )
+                                                          : null,
                                                   minLeadingWidth: 0,
                                                   selectedTileColor:
                                                       Colors.indigo,
@@ -283,8 +358,14 @@ class _ProductListPageState extends State<ProductListPage> {
                                                   ),
                                                   leading: Icon(
                                                     FontAwesomeIcons.box,
-                                                    color: Theme.of(context)
-                                                        .primaryColor,
+                                                    color: productsSelected.any(
+                                                            (dataProduct) =>
+                                                                dataProduct[
+                                                                    "name"] ==
+                                                                product["name"])
+                                                        ? Colors.white
+                                                        : Theme.of(context)
+                                                            .primaryColor,
                                                     size: 25,
                                                   ),
                                                 ),

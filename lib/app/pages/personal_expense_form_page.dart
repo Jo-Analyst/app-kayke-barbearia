@@ -39,7 +39,7 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage> {
   TimeOfDay timeSelected = TimeOfDay.now();
   String _nameProduct = "";
   double price = 0;
-  int quantity = 0;
+  int quantity = 1;
   int personalExpenseId = 0;
 
   @override
@@ -54,7 +54,7 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage> {
     setState(() {
       _nameProduct = widget.nameProduct ?? "";
       nameProductController.text = _nameProduct;
-      quantity = widget.quantity ?? 0;
+      quantity = widget.quantity ?? 1;
       quantityController.text = quantity.toString();
       price = widget.price ?? 0.0;
       priceController.updateValue(price);
@@ -99,7 +99,7 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage> {
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: _nameProduct.isNotEmpty && price > 0 && quantity > 0
+              onPressed: _nameProduct.isNotEmpty && price > 0
                   ? () {
                       savePersonalExpense();
                       Navigator.of(context).pop();
@@ -152,11 +152,11 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage> {
               keyboardType: TextInputType.number,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               decoration:
-                  const InputDecoration(labelText: "Quantidade de itens*"),
+                  const InputDecoration(labelText: "Quantidade de itens"),
               style: const TextStyle(fontSize: 18),
               onChanged: (value) {
                 setState(() {
-                  quantity = value.trim().isNotEmpty ? int.parse(value) : 0;
+                  quantity = value.trim().isNotEmpty ? int.parse(value) : 1;
                 });
               },
             ),

@@ -121,7 +121,7 @@ class _SalePageState extends State<SalePage> {
                         children: [
                           InkWell(
                             onTap: () async {
-                              final itemSelected =
+                              final itemsSelected =
                                   await Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (_) => const ProductListPage(
@@ -130,37 +130,50 @@ class _SalePageState extends State<SalePage> {
                                 ),
                               );
 
-                              if (itemSelected != null) {
+                              if (itemsSelected != null) {
                                 setState(() {
-                                  if (productHasBeenAdded(
-                                      itemSelected["product_id"])) {
-                                    showMessage(
-                                      const ContentMessage(
-                                        icon:
-                                            FontAwesomeIcons.circleExclamation,
-                                        title:
-                                            "Você já foi adicionou este produto na lista.",
-                                      ),
-                                      Colors.orange,
-                                    );
-                                    return;
-                                  } else if (itemSelected["quantity_items"] ==
-                                      0) {
-                                    showMessage(
-                                      const ContentMessage(
-                                        icon:
-                                            FontAwesomeIcons.circleExclamation,
-                                        title:
-                                            "Este produto já foi esgotado. Atualize a quantidade na tela de produtos.",
-                                      ),
-                                      Colors.orange,
-                                    );
-                                    return;
+                                  if (itemsSelected.runtimeType.toString() ==
+                                      "List<Map<String, dynamic>>") {
+                                    for (var itemSelected in itemsSelected) {
+                                      if (!productHasBeenAdded(
+                                          itemSelected["id"])) {
+                                        setState(() {
+                                          items.add(itemSelected);
+                                        });
+                                      }
+                                    }
+                                  } else {
+                                    if (productHasBeenAdded(
+                                        itemsSelected["product_id"])) {
+                                      showMessage(
+                                        const ContentMessage(
+                                          icon: FontAwesomeIcons
+                                              .circleExclamation,
+                                          title:
+                                              "Você já foi adicionou este produto na lista.",
+                                        ),
+                                        Colors.orange,
+                                      );
+                                      return;
+                                    } else if (itemsSelected[
+                                            "quantity_items"] ==
+                                        0) {
+                                      showMessage(
+                                        const ContentMessage(
+                                          icon: FontAwesomeIcons
+                                              .circleExclamation,
+                                          title:
+                                              "Este produto já foi esgotado. Atualize a quantidade na tela de produtos.",
+                                        ),
+                                        Colors.orange,
+                                      );
+                                      return;
+                                    }
+                                    itemsSelected["quantity"] = 1;
+                                    items.add(itemsSelected);
+                                    quantityItems
+                                        .add(itemsSelected["quantity_items"]);
                                   }
-                                  itemSelected["quantity"] = 1;
-                                  items.add(itemSelected);
-                                  quantityItems
-                                      .add(itemSelected["quantity_items"]);
                                 });
                                 calculateSubTotalAndProfitTotal();
                               }
