@@ -136,9 +136,11 @@ class _SalePageState extends State<SalePage> {
                                       "List<Map<String, dynamic>>") {
                                     for (var itemSelected in itemsSelected) {
                                       if (!productHasBeenAdded(
-                                          itemSelected["id"])) {
+                                          itemSelected["product_id"])) {
                                         setState(() {
                                           items.add(itemSelected);
+                                          quantityItems.add(
+                                              itemSelected["quantity_items"]);
                                         });
                                       }
                                     }
@@ -169,7 +171,7 @@ class _SalePageState extends State<SalePage> {
                                       );
                                       return;
                                     }
-                                    itemsSelected["quantity"] = 1;
+
                                     items.add(itemsSelected);
                                     quantityItems
                                         .add(itemsSelected["quantity_items"]);
@@ -228,7 +230,10 @@ class _SalePageState extends State<SalePage> {
                                         children: [
                                           SlidableAction(
                                             onPressed: (_) async {
-                                              items.removeAt(index);
+                                              items.removeWhere((i) =>
+                                                  i["product_id"] ==
+                                                  item["product_id"]);
+                                              // items.removeAt(index);
                                               quantityItems.removeAt(index);
                                               setState(() {
                                                 calculateSubTotalAndProfitTotal();

@@ -25,6 +25,7 @@ class _ServiceListPageState extends State<ServiceListPage> {
   bool isGranted = false, isLoading = true;
 
   List<Map<String, dynamic>> services = [];
+  List<Map<String, dynamic>> servicesSelected = [];
 
   void showMessage(Widget content, Color? color) {
     Message.showMessage(context, content, color);
@@ -62,12 +63,79 @@ class _ServiceListPageState extends State<ServiceListPage> {
     }
   }
 
+  selectServices(Map<String, dynamic> dataService) {
+    final result = servicesSelected.any(
+      (service) => service["description"] == dataService["description"],
+    );
+    setState(() {
+      !result
+          ? servicesSelected.add({
+              "service_id": dataService["id"],
+              "description": dataService["description"],
+              "price_service": dataService["price"],
+              "time_service": TimeOfDay.now().toString().substring(10, 15),
+            })
+          : servicesSelected.removeWhere(
+              (service) => service["description"] == dataService["description"],
+            );
+      print(servicesSelected);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Serviços"),
+        title: Text(
+          servicesSelected.isEmpty
+              ? "Serviços"
+              : servicesSelected.length.toString(),
+        ),
         actions: [
+          if (servicesSelected.isNotEmpty)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      servicesSelected.clear();
+                      for (var service in services) {
+                        servicesSelected.add({
+                          "service_id": service["id"],
+                          "description": service["description"],
+                          "price_service": service["price"]
+                        });
+                      }
+                    });
+                  },
+                  icon: const Icon(
+                    Icons.select_all,
+                    size: 30,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      servicesSelected.clear();
+                    });
+                  },
+                  icon: const Icon(
+                    Icons.cancel_sharp,
+                    size: 30,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(servicesSelected);
+                  },
+                  icon: const Icon(
+                    Icons.check,
+                    size: 30,
+                  ),
+                ),
+              ],
+            ),
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
@@ -216,9 +284,23 @@ class _ServiceListPageState extends State<ServiceListPage> {
                                                             ],
                                                           ),
                                                 child: ListTile(
+                                                  selected: servicesSelected
+                                                      .any((dataService) =>
+                                                          dataService[
+                                                              "description"] ==
+                                                          service[
+                                                              "description"]),
+                                                  selectedColor: Colors.white,
+                                                  onLongPress: widget
+                                                          .itFromTheSalesScreen
+                                                      ? () => selectServices(
+                                                          service)
+                                                      : null,
                                                   onTap: () {
                                                     if (widget
-                                                        .itFromTheSalesScreen) {
+                                                            .itFromTheSalesScreen &&
+                                                        servicesSelected
+                                                            .isEmpty) {
                                                       Navigator.of(context)
                                                           .pop({
                                                         "service_id":
@@ -227,6 +309,11 @@ class _ServiceListPageState extends State<ServiceListPage> {
                                                             "description"],
                                                         "price_service":
                                                             service["price"],
+                                                        "time_service":
+                                                            TimeOfDay.now()
+                                                                .toString()
+                                                                .substring(
+                                                                    10, 15)
                                                       });
                                                     }
                                                   },

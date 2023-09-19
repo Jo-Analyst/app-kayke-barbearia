@@ -105,12 +105,12 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
 
                               if (itemsSelected != null) {
                                 setState(() {
-                                  itemsSelected["time_service"] =
-                                      TimeOfDay.now()
-                                          .toString()
-                                          .substring(10, 15);
-                                  items.add(itemsSelected);
+                                  itemsSelected.runtimeType.toString() ==
+                                          "List<Map<String, dynamic>>"
+                                      ? items.addAll(itemsSelected)
+                                      : items.add(itemsSelected);
                                 });
+
                                 calculateSubTotal();
                               }
                             },

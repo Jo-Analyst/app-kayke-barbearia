@@ -64,13 +64,22 @@ class _ProductListPageState extends State<ProductListPage> {
     }
   }
 
-  selectProduct(Map<String, dynamic> dataProduct) {
+  selectProducts(Map<String, dynamic> dataProduct) {
     final result = productsSelected.any(
       (product) => product["name"] == dataProduct["name"],
     );
     setState(() {
       !result
-          ? productsSelected.add(dataProduct)
+          ? productsSelected.add({
+              "product_id": dataProduct["id"],
+              "name": dataProduct["name"],
+              "quantity_items": dataProduct["quantity"],
+              "profit_product": dataProduct["profit_value"],
+              "quantity": 1,
+              "sub_profit_product": dataProduct["profit_value"],
+              "price_product": dataProduct["sale_value"],
+              "sub_total": dataProduct["sale_value"]
+            })
           : productsSelected.removeWhere(
               (product) => product["name"] == dataProduct["name"],
             );
@@ -81,53 +90,59 @@ class _ProductListPageState extends State<ProductListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: [
-            Text(productsSelected.isNotEmpty
-                ? productsSelected.length.toString()
-                : "Produtos"),
-            if (productsSelected.isNotEmpty)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          productsSelected = products;
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.select_all,
-                        size: 30,
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        productsSelected.clear();
-                      });
-                    },
-                    icon: const Icon(
-                      Icons.cancel_sharp,
-                      size: 30,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop(productsSelected);
-                    },
-                    icon: const Icon(
-                      Icons.check,
-                      size: 30,
-                    ),
-                  ),
-                ],
-              ),
-          ],
-        ),
+        title: Text(productsSelected.isNotEmpty
+            ? productsSelected.length.toString()
+            : "Produtos"),
         actions: [
+          if (productsSelected.isNotEmpty)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      productsSelected.clear();
+                      for (var product in products) {
+                        productsSelected.add({
+                          "product_id": product["id"],
+                          "name": product["name"],
+                          "quantity_items": product["quantity"],
+                          "profit_product": product["profit_value"],
+                          "quantity": 1,
+                          "sub_profit_product": product["profit_value"],
+                          "price_product": product["sale_value"],
+                          "sub_total": product["sale_value"]
+                        });
+                      }
+                    });
+                  },
+                  icon: const Icon(
+                    Icons.select_all,
+                    size: 30,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      productsSelected.clear();
+                    });
+                  },
+                  icon: const Icon(
+                    Icons.cancel_sharp,
+                    size: 30,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(productsSelected);
+                  },
+                  icon: const Icon(
+                    Icons.check,
+                    size: 30,
+                  ),
+                ),
+              ],
+            ),
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
@@ -297,7 +312,7 @@ class _ProductListPageState extends State<ProductListPage> {
                                                   onLongPress: widget
                                                           .itFromTheSalesScreen
                                                       ? () {
-                                                          selectProduct(
+                                                          selectProducts(
                                                               product);
                                                         }
                                                       : null,
@@ -317,6 +332,7 @@ class _ProductListPageState extends State<ProductListPage> {
                                                                   "quantity_items":
                                                                       product[
                                                                           "quantity"],
+                                                                  "quantity": 1,
                                                                   "profit_product":
                                                                       product[
                                                                           "profit_value"],
