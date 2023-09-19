@@ -10,8 +10,8 @@ class FinancialReportServicesValues {
     final provisionOfServices =
         await FinancialReportServiceController(monthAndYear: monthAndYear)
             .getSumServicesbyMonthAndYear();
-    valueTotal = provisionOfServices[0]["value_total"];
-    valueTotalDicount = provisionOfServices[0]["discount"];
+    valueTotal = provisionOfServices[0]["value_total"] ?? 0.0;
+    valueTotalDicount = provisionOfServices[0]["discount"] ?? 0.0;
 
     itemsServices =
         await FinancialReportServiceController(monthAndYear: monthAndYear)
@@ -30,8 +30,8 @@ class FinancialReportServicesValues {
     final provisionOfServices = await FinancialReportServiceController(
             dateInitial: dateInitial, dateFinal: dateFinal)
         .getSumServicesbyMonthAndYearByPeriod();
-    valueTotal = provisionOfServices[0]["value_total"];
-    valueTotalDicount = provisionOfServices[0]["discount"];
+    valueTotal = provisionOfServices[0]["value_total"] ?? 0.0;
+    valueTotalDicount = provisionOfServices[0]["discount"] ?? 0.0;
 
     itemsServices = await FinancialReportServiceController(
       dateInitial: dateInitial,

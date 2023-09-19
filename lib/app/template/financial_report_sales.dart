@@ -124,55 +124,6 @@ class FinancialReportSales extends StatelessWidget {
               ],
             ),
           ),
-          // Container(
-          //   color: Colors.indigo.withOpacity(0.1),
-          //   padding: const EdgeInsets.all(20),
-          //   margin: const EdgeInsets.only(bottom: 10),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //     children: [
-          //       const Text(
-          //         "Total Recebido",
-          //         style: TextStyle(
-          //           fontSize: 20,
-          //           fontWeight: FontWeight.w700,
-          //         ),
-          //       ),
-          //       Text(
-          //         numberFormat.format(financialReportSalesValues.valuePaid),
-          //         style: const TextStyle(
-          //             fontSize: 20,
-          //             color: Colors.green,
-          //             fontWeight: FontWeight.bold),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          // Container(
-          //   color: Colors.indigo.withOpacity(0.1),
-          //   padding: const EdgeInsets.all(20),
-          //   margin: const EdgeInsets.only(bottom: 10),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //     children: [
-          //       const Text(
-          //         "Lucro",
-          //         style: TextStyle(
-          //           fontSize: 20,
-          //           fontWeight: FontWeight.w700,
-          //         ),
-          //       ),
-          //       Text(
-          //         numberFormat.format(financialReportSalesValues.profit),
-          //         style: const TextStyle(
-          //           fontSize: 20,
-          //           color: Colors.indigo,
-          //           fontWeight: FontWeight.bold,
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
         ],
       ),
     );

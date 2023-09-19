@@ -103,7 +103,9 @@ class _ServiceListPageState extends State<ServiceListPage> {
                         servicesSelected.add({
                           "service_id": service["id"],
                           "description": service["description"],
-                          "price_service": service["price"]
+                          "price_service": service["price"],
+                          "time_service":
+                              TimeOfDay.now().toString().substring(10, 15),
                         });
                       }
                     });
