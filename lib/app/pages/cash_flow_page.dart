@@ -38,7 +38,10 @@ class _CashFlowPageState extends State<CashFlowPage> {
       valueDebitSale = 0,
       valueDebitService = 0,
       amountToReceive = 0,
-      amountReceived = 0;
+      amountReceived = 0,
+      valueDiscountSale = 0,
+      valueDiscountService = 0,
+      valueDiscount = 0;
 
   loadList() async {
     itemsSales = await CashFlowController.getListSales(dateSelected);
@@ -89,10 +92,17 @@ class _CashFlowPageState extends State<CashFlowPage> {
 
   loadFields() async {
     loadList();
-    valueSale = await CashFlowController.getSumTotalSalesByDate(dateSelected);
-    valueService =
+    final sales = await CashFlowController.getSumTotalSalesByDate(dateSelected);
+    valueSale = sales[0]["value_total"];
+    valueDiscountSale = sales[0]["discount"];
+
+    final services =
         await CashFlowController.getSumTotalServicesByDate(dateSelected);
+    valueService = services[0]["value_total"];
+    valueDiscountService = services[0]["discount"];
+
     balance = valueSale + valueService;
+
     setState(() {});
     loadFieldsPayments();
   }
@@ -133,6 +143,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
       valueDebit = valueDebitSale + valueDebitService;
       amountReceived = valueMoney + valuePix + valueCredit + valueDebit;
       if (!activeContainerSale && !activeContainerService) {
+        valueDiscount = valueDiscountSale + valueDiscountService;
         amountToReceive = balance - amountReceived;
       } else if (activeContainerSale) {
         amountToReceive = valueSale - amountReceived;
@@ -144,6 +155,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
 
 // obter valores para cada espécie
   getValuesForEachSpeciesOfSale() {
+    valueDiscount = valueDiscountSale;
     for (var valueSaleBySpecie in valuesSalesBySpecies) {
       if (valueSaleBySpecie["specie"].toString().toLowerCase() == "dinheiro") {
         valueMoneySale = valueSaleBySpecie["value"];
@@ -161,6 +173,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
   }
 
   getValuesForEachSpeciesOfService() {
+    valueDiscount = valueDiscountService;
     for (var valueServiceBySpecie in valuesServicesBySpecies) {
       if (valueServiceBySpecie["specie"].toString().toLowerCase() ==
           "dinheiro") {
@@ -371,12 +384,14 @@ class _CashFlowPageState extends State<CashFlowPage> {
             ),
           ),
           PaymentsContainers(
-              valueMoney: valueMoney,
-              valuePix: valuePix,
-              valueCredit: valueCredit,
-              valueDebit: valueDebit,
-              amountToReceive: amountToReceive,
-              amountReceived: amountReceived),
+            valueMoney: valueMoney,
+            valuePix: valuePix,
+            valueCredit: valueCredit,
+            valueDebit: valueDebit,
+            amountToReceive: amountToReceive,
+            amountReceived: amountReceived,
+            valueDiscount: valueDiscount,
+          ),
           const SizedBox(height: 30),
         ],
       ),

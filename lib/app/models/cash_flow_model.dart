@@ -9,20 +9,16 @@ class CashFlow {
 
   Future<dynamic> sumTotalSalesByDate() async {
     final db = await DB.openDatabase();
-    final sales = await db.rawQuery(
-        "SELECT SUM(value_total) as total_sale FROM sales WHERE date_sale = ? ",
+    return db.rawQuery(
+        "SELECT SUM(value_total) AS value_total, SUM(discount) AS discount FROM sales WHERE date_sale = ? ",
         [date]);
-
-    return sales[0]["total_sale"] ?? 0.00;
   }
 
   Future<dynamic> sumTotalServicesByDate() async {
     final db = await DB.openDatabase();
-    final service = await db.rawQuery(
-        "SELECT SUM(value_total) as total_sale FROM provision_of_services WHERE date_service = ? ",
+    return await db.rawQuery(
+        "SELECT SUM(value_total) AS value_total,  SUM(discount) AS discount FROM provision_of_services WHERE date_service = ? ",
         [date]);
-
-    return service[0]["total_sale"] ?? 0.00;
   }
 
   Future<List<Map<String, dynamic>>> sumValuesSalesBySpecie() async {

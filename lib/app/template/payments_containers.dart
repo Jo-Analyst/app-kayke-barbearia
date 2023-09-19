@@ -7,6 +7,7 @@ class PaymentsContainers extends StatelessWidget {
   final double valuePix;
   final double valueCredit;
   final double valueDebit;
+  final double valueDiscount;
   final double amountToReceive;
   final double amountReceived;
   const PaymentsContainers({
@@ -14,6 +15,7 @@ class PaymentsContainers extends StatelessWidget {
     required this.valuePix,
     required this.valueCredit,
     required this.valueDebit,
+    required this.valueDiscount,
     required this.amountToReceive,
     required this.amountReceived,
     super.key,
@@ -21,6 +23,7 @@ class PaymentsContainers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(valueDiscount);
     return Column(
       children: [
         Container(
@@ -35,12 +38,14 @@ class PaymentsContainers extends StatelessWidget {
                 specie: "Dinheiro",
                 value: valueMoney,
                 color: Theme.of(context).primaryColor,
+                isItValueToBeReceived: false,
               ),
               PaymentContainer(
                 icon: Icons.pix,
                 specie: "PIX",
                 value: valuePix,
                 color: Colors.green,
+                isItValueToBeReceived: false,
               ),
             ],
           ),
@@ -57,12 +62,14 @@ class PaymentsContainers extends StatelessWidget {
                 specie: "Crédito",
                 value: valueCredit,
                 color: Colors.purple,
+                isItValueToBeReceived: false,
               ),
               PaymentContainer(
                 icon: Icons.credit_card,
                 specie: "Débito",
                 value: valueDebit,
                 color: Colors.purple,
+                isItValueToBeReceived: false,
               ),
             ],
           ),
@@ -75,18 +82,32 @@ class PaymentsContainers extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               PaymentContainer(
+                isItValueToBeReceived: false,
+                icon: Icons.monetization_on_outlined,
+                specie: "Desconto",
+                value: valueDiscount,
+                color: Colors.amber,
+              ),
+              PaymentContainer(
                 icon: FontAwesomeIcons.handHoldingDollar,
                 specie: "A receber",
                 value: amountToReceive,
                 color: Colors.redAccent,
-              ),
-              PaymentContainer(
-                icon: Icons.check_circle,
-                specie: "Recebido",
-                value: amountReceived,
-                color: Theme.of(context).primaryColor,
+                isItValueToBeReceived: false,
               ),
             ],
+          ),
+        ),
+        Container(
+          height: 80,
+          margin: const EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: PaymentContainer(
+            icon: Icons.check_circle,
+            isItValueToBeReceived: true,
+            specie: "Recebido",
+            value: amountReceived,
+            color: Theme.of(context).primaryColor,
           ),
         ),
       ],
