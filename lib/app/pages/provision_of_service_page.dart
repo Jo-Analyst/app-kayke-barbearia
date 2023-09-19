@@ -111,8 +111,6 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
                                       : items.add(itemsSelected);
                                 });
 
-                                print(items);
-
                                 calculateSubTotal();
                               }
                             },

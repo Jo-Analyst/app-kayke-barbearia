@@ -23,7 +23,6 @@ class PaymentsContainers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(valueDiscount);
     return Column(
       children: [
         Container(
