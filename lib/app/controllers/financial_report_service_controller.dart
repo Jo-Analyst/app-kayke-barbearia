@@ -11,7 +11,7 @@ class FinancialReportServiceController {
     this.dateFinal,
   });
 
-  Future<double> getSumServicesbyMonthAndYear() async {
+  Future<List<Map<String, dynamic>>> getSumServicesbyMonthAndYear() async {
     return FinancialReportServiceModel(monthAndYear: monthAndYear).sumServicesbyMonthAndYear();
   }
 
@@ -23,7 +23,7 @@ class FinancialReportServiceController {
     return FinancialReportServiceModel(monthAndYear: monthAndYear).getListPaymentsServices();
   }
 
-  Future<double> getSumServicesbyMonthAndYearByPeriod() async {
+  Future<List<Map<String, dynamic>>> getSumServicesbyMonthAndYearByPeriod() async {
    
     return FinancialReportServiceModel(
       dateInitial: dateInitial,

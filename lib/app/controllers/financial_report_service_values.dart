@@ -4,12 +4,14 @@ import 'financial_report_service_controller.dart';
 class FinancialReportServicesValues {
   List<Map<String, dynamic>> itemsServices = [];
   List<Map<String, dynamic>> itemsPaymentsServices = [];
-  double valueTotal = 0, valuePaid = 0;
+  double valueTotal = 0, valuePaid = 0, valueTotalDicount = 0;
 
   loadValuesByDate(String monthAndYear) async {
-    valueTotal =
+    final provisionOfServices =
         await FinancialReportServiceController(monthAndYear: monthAndYear)
             .getSumServicesbyMonthAndYear();
+    valueTotal = provisionOfServices[0]["value_total"];
+    valueTotalDicount = provisionOfServices[0]["discount"];
 
     itemsServices =
         await FinancialReportServiceController(monthAndYear: monthAndYear)
@@ -25,9 +27,11 @@ class FinancialReportServicesValues {
   }
 
   loadValuesByPeriod(String dateInitial, String dateFinal) async {
-    valueTotal = await FinancialReportServiceController(
+    final provisionOfServices = await FinancialReportServiceController(
             dateInitial: dateInitial, dateFinal: dateFinal)
         .getSumServicesbyMonthAndYearByPeriod();
+    valueTotal = provisionOfServices[0]["value_total"];
+    valueTotalDicount = provisionOfServices[0]["discount"];
 
     itemsServices = await FinancialReportServiceController(
       dateInitial: dateInitial,

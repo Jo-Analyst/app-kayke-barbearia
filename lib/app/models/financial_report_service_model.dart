@@ -11,15 +11,11 @@ class FinancialReportServiceModel {
     this.monthAndYear,
   });
 
-  Future<double> sumServicesbyMonthAndYear() async {
+  Future<List<Map<String, dynamic>>> sumServicesbyMonthAndYear() async {
     final db = await DB.openDatabase();
-    final list = await db.rawQuery(
-      "SELECT SUM(value_total) AS value_total FROM provision_of_services WHERE date_service LIKE '%$monthAndYear%'",
+    return await db.rawQuery(
+      "SELECT SUM(value_total) AS value_total, SUM(discount) as discount FROM provision_of_services WHERE date_service LIKE '%$monthAndYear%'",
     );
-
-    return list[0]["value_total"] != null
-        ? list[0]["value_total"] as double
-        : 0.0;
   }
 
   Future<List<Map<String, dynamic>>> getListServices() async {
@@ -34,14 +30,11 @@ class FinancialReportServiceModel {
         "SELECT payments_services.specie, SUM(payments_services.amount_paid)  AS value, COUNT(payments_services.id) AS quantity FROM payments_services WHERE payments_services.date_payment LIKE '%$monthAndYear%' GROUP BY payments_services.specie");
   }
 
-  Future<double> sumServicesbyMonthAndYearByPeriod() async {
+  Future<List<Map<String, dynamic>>> sumServicesbyMonthAndYearByPeriod() async {
     final db = await DB.openDatabase();
-    final list = await db.rawQuery(
-      "SELECT SUM(value_total) AS value_total FROM provision_of_services WHERE date_service BETWEEN '$dateInitial' AND '$dateFinal'",
+    return db.rawQuery(
+      "SELECT SUM(value_total) AS value_total, SUM(discount) as discount FROM provision_of_services WHERE date_service BETWEEN '$dateInitial' AND '$dateFinal'",
     );
-    return list[0]["value_total"] != null
-        ? list[0]["value_total"] as double
-        : 0.0;
   }
 
   Future<List<Map<String, dynamic>>> getListServicesByPeriod() async {
@@ -55,5 +48,4 @@ class FinancialReportServiceModel {
     return db.rawQuery(
         "SELECT payments_services.specie, SUM(payments_services.amount_paid)  AS value, COUNT(payments_services.id) AS quantity FROM payments_services WHERE payments_services.date_payment BETWEEN '$dateInitial' AND '$dateFinal' GROUP BY payments_services.specie");
   }
-
 }

@@ -11,15 +11,11 @@ class FinancialReportSaleModel {
     this.monthAndYear,
   });
 
-  Future<double> sumSalesbyMonthAndYear() async {
+  Future<List<Map<String, dynamic>>> sumSalesbyMonthAndYear() async {
     final db = await DB.openDatabase();
-    final list = await db.rawQuery(
-      "SELECT SUM(value_total) AS value_total FROM sales WHERE date_sale LIKE '%$monthAndYear%'",
+    return db.rawQuery(
+      "SELECT SUM(value_total) AS value_total, SUM(discount) as discount FROM sales WHERE date_sale LIKE '%$monthAndYear%'",
     );
-
-    return list[0]["value_total"] != null
-        ? list[0]["value_total"] as double
-        : 0.0;
   }
 
   Future<List<Map<String, dynamic>>> getListSales() async {
@@ -34,14 +30,11 @@ class FinancialReportSaleModel {
         "SELECT payments_sales.specie, SUM(payments_sales.amount_paid)  AS value, COUNT(payments_sales.id) AS quantity FROM payments_sales WHERE payments_sales.date_payment LIKE '%$monthAndYear%' GROUP BY payments_sales.specie");
   }
 
-  Future<double> sumSalesbyMonthAndYearByPeriod() async {
+  Future<List<Map<String, dynamic>>> sumSalesbyMonthAndYearByPeriod() async {
     final db = await DB.openDatabase();
-    final list = await db.rawQuery(
-      "SELECT SUM(value_total) AS value_total FROM sales WHERE date_sale BETWEEN '$dateInitial' AND '$dateFinal'",
+    return await db.rawQuery(
+      "SELECT SUM(value_total) AS value_total, SUM(discount) as discount FROM sales WHERE date_sale BETWEEN '$dateInitial' AND '$dateFinal'",
     );
-    return list[0]["value_total"] != null
-        ? list[0]["value_total"] as double
-        : 0.0;
   }
 
   Future<List<Map<String, dynamic>>> getListSalesByPeriod() async {

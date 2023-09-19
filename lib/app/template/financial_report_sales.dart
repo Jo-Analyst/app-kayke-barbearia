@@ -61,54 +61,118 @@ class FinancialReportSales extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Container(
-            color: Colors.indigo.withOpacity(0.1),
-            padding: const EdgeInsets.all(20),
-            margin: const EdgeInsets.only(bottom: 10),
+            color: Colors.indigo.withOpacity(.1),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                const Text(
-                  "Total Recebido",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                  ),
+                Column(
+                  children: [
+                    Text(
+                      numberFormat.format(
+                          financialReportSalesValues.valueTotalDiscount),
+                      style: const TextStyle(
+                        fontSize: 18,
+                        color: Colors.amber,
+                      ),
+                    ),
+                    const Text(
+                      "Desconto",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  numberFormat.format(financialReportSalesValues.valuePaid),
-                  style: const TextStyle(
-                      fontSize: 20,
-                      color: Colors.green,
-                      fontWeight: FontWeight.bold),
+                Column(
+                  children: [
+                    Text(
+                      numberFormat.format(financialReportSalesValues.valuePaid),
+                      style: const TextStyle(
+                        fontSize: 18,
+                        color: Colors.green,
+                      ),
+                    ),
+                    const Text(
+                      "Recebido",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Text(
+                      numberFormat.format(financialReportSalesValues.profit),
+                      style: const TextStyle(
+                        fontSize: 18,
+                        color: Colors.indigo,
+                      ),
+                    ),
+                    const Text(
+                      "Lucro",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
-          Container(
-            color: Colors.indigo.withOpacity(0.1),
-            padding: const EdgeInsets.all(20),
-            margin: const EdgeInsets.only(bottom: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Lucro",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                Text(
-                  numberFormat.format(financialReportSalesValues.profit),
-                  style: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.indigo,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // Container(
+          //   color: Colors.indigo.withOpacity(0.1),
+          //   padding: const EdgeInsets.all(20),
+          //   margin: const EdgeInsets.only(bottom: 10),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     children: [
+          //       const Text(
+          //         "Total Recebido",
+          //         style: TextStyle(
+          //           fontSize: 20,
+          //           fontWeight: FontWeight.w700,
+          //         ),
+          //       ),
+          //       Text(
+          //         numberFormat.format(financialReportSalesValues.valuePaid),
+          //         style: const TextStyle(
+          //             fontSize: 20,
+          //             color: Colors.green,
+          //             fontWeight: FontWeight.bold),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // Container(
+          //   color: Colors.indigo.withOpacity(0.1),
+          //   padding: const EdgeInsets.all(20),
+          //   margin: const EdgeInsets.only(bottom: 10),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     children: [
+          //       const Text(
+          //         "Lucro",
+          //         style: TextStyle(
+          //           fontSize: 20,
+          //           fontWeight: FontWeight.w700,
+          //         ),
+          //       ),
+          //       Text(
+          //         numberFormat.format(financialReportSalesValues.profit),
+          //         style: const TextStyle(
+          //           fontSize: 20,
+          //           color: Colors.indigo,
+          //           fontWeight: FontWeight.bold,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

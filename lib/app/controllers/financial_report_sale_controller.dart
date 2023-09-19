@@ -9,8 +9,9 @@ class FinancialReportSaleController {
     this.dateInitial,
     this.dateFinal,
   });
-  Future<double> getSumSalesbyMonthAndYear() async {
-    return FinancialReportSaleModel(monthAndYear: monthAndYear).sumSalesbyMonthAndYear();
+  Future<List<Map<String, dynamic>>> getSumSalesbyMonthAndYear() async {
+    return FinancialReportSaleModel(monthAndYear: monthAndYear)
+        .sumSalesbyMonthAndYear();
   }
 
   Future<List<Map<String, dynamic>>> getListSales() async {
@@ -18,11 +19,11 @@ class FinancialReportSaleController {
   }
 
   Future<List<Map<String, dynamic>>> getListPaymentsSales() async {
-    return FinancialReportSaleModel(monthAndYear: monthAndYear).getListPaymentsSales();
+    return FinancialReportSaleModel(monthAndYear: monthAndYear)
+        .getListPaymentsSales();
   }
 
-  Future<double> getSumSalesbyMonthAndYearByPeriod() async {
-   
+  Future<List<Map<String, dynamic>>> getSumSalesbyMonthAndYearByPeriod() async {
     return FinancialReportSaleModel(
       dateInitial: dateInitial,
       dateFinal: dateFinal,

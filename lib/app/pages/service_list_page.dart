@@ -78,7 +78,6 @@ class _ServiceListPageState extends State<ServiceListPage> {
           : servicesSelected.removeWhere(
               (service) => service["description"] == dataService["description"],
             );
-      print(servicesSelected);
     });
   }
 
