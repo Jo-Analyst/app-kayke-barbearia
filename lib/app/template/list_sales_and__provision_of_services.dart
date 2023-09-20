@@ -1,24 +1,24 @@
-import 'package:app_kayke_barbearia/app/pages/details_sale.dart';
+import 'package:app_kayke_barbearia/app/pages/details_sale_or_provision_of_service.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/convert_datetime.dart';
 
-class ListSalesAndServices extends StatelessWidget {
-  final List<Map<String, dynamic>> list;
+class ListSalesAndProvisionOfServices extends StatelessWidget {
+  final List<Map<String, dynamic>> itemsList;
   final String typePayment;
   final bool isService;
 
-  const ListSalesAndServices({
+  const ListSalesAndProvisionOfServices({
     required this.isService,
     required this.typePayment,
-    required this.list,
+    required this.itemsList,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return list.isEmpty
+    return itemsList.isEmpty
         ? Center(
             child: Text(
               typePayment == "vendas"
@@ -29,35 +29,36 @@ class ListSalesAndServices extends StatelessWidget {
           )
         : ListView.builder(
             scrollDirection: Axis.vertical,
-            // physics: NeverScrollableScrollPhysics(),
-            itemCount: list.length,
+            itemCount: itemsList.length,
             itemBuilder: (_, index) {
               return Column(
                 children: [
                   ListTile(
                     onTap: () => Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (_) => DetailsSale(list: list[index]),
+                        builder: (_) => DetailsSaleOrProvisionOfService(
+                          isService: isService,
+                            itemsList: itemsList[index]),
                       ),
                     ),
                     leading: Text(
-                      list[index]["id"].toString().padLeft(5, "0"),
+                      itemsList[index]["id"].toString().padLeft(5, "0"),
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                     title: Text(
-                      changeTheDateWriting(list[index]["date"]),
+                      changeTheDateWriting(itemsList[index]["date"]),
                       style: const TextStyle(fontSize: 18),
                     ),
                     subtitle: Text(
-                      list[index]["client_name"],
+                      itemsList[index]["client_name"],
                       style: const TextStyle(fontSize: 18),
                     ),
                     trailing: Text(
                       numberFormat.format(
-                        list[index]["value_total"],
+                        itemsList[index]["value_total"],
                       ),
                       style: const TextStyle(
                         fontWeight: FontWeight.w700,

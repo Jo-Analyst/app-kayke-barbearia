@@ -1,14 +1,13 @@
 import 'package:app_kayke_barbearia/app/pages/receipt_page.dart';
 import 'package:app_kayke_barbearia/app/providers/payment_sale_provider.dart';
+import 'package:app_kayke_barbearia/app/template/list_tile_payment_receipt.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:app_kayke_barbearia/app/utils/dialog.dart';
-import 'package:app_kayke_barbearia/app/utils/icon_by_specie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/content_message.dart';
-import '../utils/convert_datetime.dart';
 import '../utils/snackbar.dart';
 import 'home_page.dart';
 
@@ -269,30 +268,7 @@ class _PaymentSaleEditionPageState extends State<PaymentSaleEditionPage> {
                                                           ),
                                                       ],
                                                     ),
-                                              child: ListTile(
-                                                minLeadingWidth: 0,
-                                                leading: IconBySpecie(
-                                                  specie: receipt["specie"],
-                                                ),
-                                                title: Text(
-                                                  numberFormat.format(
-                                                    receipt["value"],
-                                                  ),
-                                                  style: const TextStyle(
-                                                      fontSize: 20),
-                                                ),
-                                                subtitle: Text(
-                                                  receipt["specie"],
-                                                  style: const TextStyle(
-                                                      fontSize: 16),
-                                                ),
-                                                trailing: Text(
-                                                  changeTheDateWriting(
-                                                      receipt["date"]),
-                                                  style: const TextStyle(
-                                                      fontSize: 18),
-                                                ),
-                                              ),
+                                              child: ListTilePaymentReceipt(receipt: receipt),
                                             ),
                                             Divider(
                                               height: 1,

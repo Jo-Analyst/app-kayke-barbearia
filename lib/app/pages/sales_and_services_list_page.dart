@@ -1,7 +1,7 @@
 import 'package:app_kayke_barbearia/app/controllers/provision_of_service_controller.dart';
 import 'package:app_kayke_barbearia/app/controllers/sale_controller.dart';
 import 'package:app_kayke_barbearia/app/template/dialog_filter.dart';
-import 'package:app_kayke_barbearia/app/template/list_sales_and_services.dart';
+import 'package:app_kayke_barbearia/app/template/list_sales_and__provision_of_services.dart';
 import 'package:app_kayke_barbearia/app/template/slide_date.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -311,15 +311,16 @@ class _SalesAndServicesState extends State<SalesAndServices>
               child: TabBarView(
                 controller: _tabController,
                 children: <Widget>[
-                  ListSalesAndServices(
+                  ListSalesAndProvisionOfServices(
                     isService: tabSelected == "serviços",
                     typePayment: tabSelected,
-                    list: search.isNotEmpty ? filteredByClient : filteredSales,
+                    itemsList:
+                        search.isNotEmpty ? filteredByClient : filteredSales,
                   ),
-                  ListSalesAndServices(
+                  ListSalesAndProvisionOfServices(
                     isService: tabSelected == "serviços",
                     typePayment: tabSelected,
-                    list:
+                    itemsList:
                         search.isNotEmpty ? filteredByClient : filteredServices,
                   )
                 ],
