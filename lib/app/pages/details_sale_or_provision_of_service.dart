@@ -26,7 +26,8 @@ class DetailsSaleOrProvisionOfService extends StatefulWidget {
 
 class _DetailsSaleOrProvisionOfServiceState
     extends State<DetailsSaleOrProvisionOfService> {
-  bool expanded = false;
+  bool expandedContainerSaleOrService = false;
+  bool expandedContainerPayment = false;
   List<Map<String, dynamic>> listSalesOrProvisionOfServices = [];
   List<Map<String, dynamic>> receipts = [];
   double amountReceived = 0;
@@ -130,7 +131,8 @@ class _DetailsSaleOrProvisionOfServiceState
                   children: [
                     InkWell(
                       onTap: () => setState(() {
-                        expanded = !expanded;
+                        expandedContainerSaleOrService =
+                            !expandedContainerSaleOrService;
                       }),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -147,7 +149,7 @@ class _DetailsSaleOrProvisionOfServiceState
                               ),
                             ),
                             Icon(
-                              expanded
+                              expandedContainerSaleOrService
                                   ? Icons.keyboard_arrow_up
                                   : Icons.keyboard_arrow_down,
                               size: 35,
@@ -158,7 +160,7 @@ class _DetailsSaleOrProvisionOfServiceState
                     ),
                     const SizedBox(height: 4),
                     const Divider(color: Colors.indigo, height: 4),
-                    if (expanded)
+                    if (expandedContainerSaleOrService)
                       SizedBox(
                           child: Column(
                         children: listSalesOrProvisionOfServices.map((item) {
@@ -166,9 +168,12 @@ class _DetailsSaleOrProvisionOfServiceState
                             children: [
                               ListTile(
                                 minLeadingWidth: 0,
-                                leading: Icon(widget.isService
-                                    ? FontAwesomeIcons.screwdriverWrench
-                                    : FontAwesomeIcons.boxOpen),
+                                leading: Icon(
+                                  widget.isService
+                                      ? FontAwesomeIcons.screwdriverWrench
+                                      : FontAwesomeIcons.boxOpen,
+                                  size: 18,
+                                ),
                                 title: Text(
                                   item[widget.isService
                                       ? "description"
@@ -196,6 +201,87 @@ class _DetailsSaleOrProvisionOfServiceState
                           );
                         }).toList(),
                       )),
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 10),
+                color: Colors.white,
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: () => setState(() {
+                        expandedContainerPayment = !expandedContainerPayment;
+                      }),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Pagamentos",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Icon(
+                              expandedContainerPayment
+                                  ? Icons.keyboard_arrow_up
+                                  : Icons.keyboard_arrow_down,
+                              size: 35,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    const Divider(color: Colors.indigo, height: 4),
+                    if (expandedContainerPayment)
+                      Column(
+                        children: receipts
+                            .map(
+                              (receipt) => Column(
+                                children: [
+                                  ListTilePaymentReceipt(receipt: receipt),
+                                  const Divider(
+                                    color: Colors.indigo,
+                                    height: 2,
+                                  ),
+                                ],
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    if (expandedContainerPayment)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 15,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Total Recebido",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Text(
+                              numberFormat.format(amountReceived),
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
                   ],
                 ),
               ),
@@ -267,70 +353,7 @@ class _DetailsSaleOrProvisionOfServiceState
                   ],
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 10),
-                color: Colors.white,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 15,
-                  vertical: 10,
-                ),
-                child: Column(
-                  children: [
-                    const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Pagamentos",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    const Divider(color: Colors.indigo, height: 4),
-                    Column(
-                      children: receipts
-                          .map(
-                            (receipt) => Column(
-                              children: [
-                                ListTilePaymentReceipt(receipt: receipt),
-                                const Divider(
-                                  color: Colors.indigo,
-                                  height: 2,
-                                ),
-                              ],
-                            ),
-                          )
-                          .toList(),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 8,
-                        horizontal: 15,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            "Total Recebido",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          Text(
-                            numberFormat.format(amountReceived),
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
+              const Divider(height: 10),
             ],
           ),
         ),
