@@ -2,6 +2,7 @@ import 'package:app_kayke_barbearia/app/pages/client_list_page.dart';
 import 'package:app_kayke_barbearia/app/pages/payment_list_page.dart';
 import 'package:app_kayke_barbearia/app/pages/personal_expense_list_page.dart';
 import 'package:app_kayke_barbearia/app/pages/product_list_page.dart';
+import 'package:app_kayke_barbearia/app/pages/sales_and_services_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -101,6 +102,22 @@ class DrawerComponet extends StatelessWidget {
             ),
             onTap: () => openScreen(
               const PaymentListPage(),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.list,
+              color: Colors.indigo,
+            ),
+            title: const Text(
+              "Vendas e Serviços",
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.indigo,
+              ),
+            ),
+            onTap: () => openScreen(
+              const SalesAndServices(),
             ),
           ),
           ListTile(

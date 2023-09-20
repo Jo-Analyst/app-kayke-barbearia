@@ -98,8 +98,8 @@ class _CashFlowPageState extends State<CashFlowPage> {
 
     final services =
         await CashFlowController.getSumTotalServicesByDate(dateSelected);
-    valueService = services[0]["value_total"];
-    valueDiscountService = services[0]["discount"];
+    valueService = services[0]["value_total"] ?? 0;
+    valueDiscountService = services[0]["discount"] ?? 0;
 
     balance = valueSale + valueService;
 

@@ -70,7 +70,7 @@ class Sale {
 
   static Future<List<Map<String, dynamic>>> findByDate(String date) async {
     final db = await DB.openDatabase();
-    return db.rawQuery("SELECT sales.id, sales.value_total, "
+    return db.rawQuery("SELECT sales.id, sales.value_total, sales.discount, "
         "(SELECT SUM(amount_paid) FROM payments_sales WHERE sale_id = sales.id) AS amount_paid, "
         "CASE WHEN (sales.value_total - (SELECT SUM(amount_paid) FROM payments_sales WHERE sale_id = sales.id) = 0) "
         "THEN 'Recebido' "
