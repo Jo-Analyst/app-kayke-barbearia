@@ -136,7 +136,8 @@ class _SalePageState extends State<SalePage> {
                                       "List<Map<String, dynamic>>") {
                                     for (var itemSelected in itemsSelected) {
                                       if (!productHasBeenAdded(
-                                          itemSelected["product_id"])) {
+                                              itemSelected["product_id"]) &&
+                                          itemSelected["quantity_items"] > 0) {
                                         setState(() {
                                           items.add(itemSelected);
                                           quantityItems.add(

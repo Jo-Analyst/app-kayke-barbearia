@@ -126,7 +126,7 @@ class _ClientFormPageState extends State<ClientFormPage> {
               inputFormatters: [
                 MaskTextInputFormatter(mask: "(##) # ####-####")
               ],
-              maxLength: 20,
+              maxLength: 16,
               decoration: const InputDecoration(labelText: "Cel/Tel(opcional)"),
               style: const TextStyle(fontSize: 18),
             ),

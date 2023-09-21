@@ -81,12 +81,17 @@ class Sale {
         "WHERE sales.date_sale LIKE '%$date%' ORDER BY sales.date_sale DESC");
   }
 
-  static delete(int id) async {
+  static delete(int id, List<Map<String, dynamic>> itemsSale) async {
     final db = await DB.openDatabase();
     await db.transaction((txn) async {
       txn.delete("sales", where: "id = ?", whereArgs: [id]);
       PaymentSale.deleteBySaleId(txn, id);
       ItemsSale.deleteBySaleId(txn, id);
+      print(itemsSale);
+      for (var item in itemsSale) {
+        Product.updateQuantityAfterDeleteSale(
+            txn, item["id"], item["quantity"]);
+      }
     });
   }
 }

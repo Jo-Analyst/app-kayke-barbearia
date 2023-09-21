@@ -8,6 +8,7 @@ import 'package:app_kayke_barbearia/app/utils/content_message.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_datetime.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:app_kayke_barbearia/app/utils/dialog.dart';
+import 'package:app_kayke_barbearia/app/utils/search_list.dart';
 import 'package:app_kayke_barbearia/app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -41,11 +42,11 @@ class _DetailsSaleOrProvisionOfServiceState
   @override
   void initState() {
     super.initState();
-    loadItemsSale();
+    loadItems();
     title = widget.isService ? "Serviço" : "Venda";
   }
 
-  loadItemsSale() async {
+  loadItems() async {
     listSalesOrProvisionOfServices = widget.isService
         ? await ItemsServicesController.getItemsProvisionOfServiceId(
             widget.itemsList["id"])
@@ -79,6 +80,35 @@ class _DetailsSaleOrProvisionOfServiceState
     Navigator.of(context).pop(true);
   }
 
+  deleteSaleOrProvisionOfService() async {
+    final confirmDelete = await showExitDialog(
+        context,
+        widget.isService
+            ? "Deseja mesmo excluir o serviço - ${widget.itemsList["id"].toString().padLeft(5, "0")}?"
+            : "Deseja mesmo excluir a venda - ${widget.itemsList["id"].toString().padLeft(5, "0")}?");
+
+    if (confirmDelete == true) {
+      if (widget.isService) {
+        ProvisionOfServiceController.deleteProvisionOfService(
+            widget.itemsList["id"]);
+      } else {
+        SaleController.deleteSale(widget.itemsList["id"], listSalesOrProvisionOfServices);
+      }
+
+      showMessage(
+        ContentMessage(
+          title: widget.isService
+              ? "Prestação de serviço excluido com sucesso."
+              : "Venda excluida com sucesso.",
+          icon: Icons.info,
+        ),
+        const Color.fromARGB(255, 199, 82, 74),
+      );
+
+      closeScreen();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,34 +119,7 @@ class _DetailsSaleOrProvisionOfServiceState
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: () async {
-                final confirmDelete = await showExitDialog(
-                    context,
-                    widget.isService
-                        ? "Deseja mesmo excluir o serviço - ${widget.itemsList["id"].toString().padLeft(5, "0")}?"
-                        : "Deseja mesmo excluir a venda - ${widget.itemsList["id"].toString().padLeft(5, "0")}?");
-
-                if (confirmDelete == true) {
-                  if (widget.isService) {
-                    ProvisionOfServiceController.deleteProvisionOfService(
-                        widget.itemsList["id"]);
-                  } else {
-                    SaleController.deleteSale(widget.itemsList["id"]);
-                  }
-
-                  showMessage(
-                    ContentMessage(
-                      title: widget.isService
-                          ? "Prestação de serviço excluido com sucesso."
-                          : "Venda excluida com sucesso.",
-                      icon: Icons.info,
-                    ),
-                    const Color.fromARGB(255, 199, 82, 74),
-                  );
-
-                  closeScreen();
-                }
-              },
+              onPressed: () => deleteSaleOrProvisionOfService(),
               icon: const Icon(
                 Icons.delete,
                 size: 25,
