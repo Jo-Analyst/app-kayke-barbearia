@@ -49,7 +49,7 @@ class _SpedingFormPageState extends State<ExpenseFormPage> {
     loadFields();
   }
 
-  loadFields() {
+  void loadFields() {
     setState(() {
       nameProduct = widget.nameProduct ?? "";
       nameProductController.text = nameProduct;
@@ -66,7 +66,7 @@ class _SpedingFormPageState extends State<ExpenseFormPage> {
     Message.showMessage(context, content, color);
   }
 
-  saveExpense() async {
+  void saveExpense() async {
     final expenseProvider =
         Provider.of<ExpenseProvider>(context, listen: false);
     await expenseProvider.save({

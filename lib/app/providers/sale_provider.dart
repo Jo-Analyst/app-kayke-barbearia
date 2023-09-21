@@ -12,11 +12,13 @@ class SaleProvider extends ChangeNotifier {
     ];
   }
 
-  clear() {
+  void clear() {
     items.clear();
   }
 
-  save(Map<String, dynamic> sale, List<Map<String, dynamic>> itemsSale,
+  Future<void> save(
+      Map<String, dynamic> sale,
+      List<Map<String, dynamic>> itemsSale,
       Map<String, dynamic> paymentSale) async {
     final lastId = await Sale(
       id: sale["id"] ?? 0,

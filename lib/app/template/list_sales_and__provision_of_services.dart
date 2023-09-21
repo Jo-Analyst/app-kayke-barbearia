@@ -56,7 +56,7 @@ class _ListSalesAndProvisionOfServicesState
                         if (confirmAction == "delete") {
                           widget.itemsList.removeAt(index);
                           setState(() {});
-                        } else {}
+                        } 
                         widget.onload();
                       }
                     },

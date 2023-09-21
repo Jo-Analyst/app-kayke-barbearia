@@ -37,7 +37,7 @@ class _ServiceListPageState extends State<ServiceListPage> {
     loadServices();
   }
 
-  loadServices() async {
+  void loadServices() async {
     final serviceProvider =
         Provider.of<ServiceProvider>(context, listen: false);
     await serviceProvider.load();
@@ -63,7 +63,7 @@ class _ServiceListPageState extends State<ServiceListPage> {
     }
   }
 
-  selectServices(Map<String, dynamic> dataService) {
+  void selectServices(Map<String, dynamic> dataService) {
     final result = servicesSelected.any(
       (service) => service["description"] == dataService["description"],
     );
@@ -78,6 +78,25 @@ class _ServiceListPageState extends State<ServiceListPage> {
           : servicesSelected.removeWhere(
               (service) => service["description"] == dataService["description"],
             );
+    });
+  }
+
+  void selectAllServices() {
+    setState(() {
+      if (servicesSelected.length == services.length) {
+        servicesSelected.clear();
+        return;
+      }
+
+      servicesSelected.clear();
+      for (var service in services) {
+        servicesSelected.add({
+          "service_id": service["id"],
+          "description": service["description"],
+          "price_service": service["price"],
+          "time_service": TimeOfDay.now().toString().substring(10, 15),
+        });
+      }
     });
   }
 
@@ -96,33 +115,9 @@ class _ServiceListPageState extends State<ServiceListPage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 IconButton(
-                  onPressed: () {
-                    setState(() {
-                      servicesSelected.clear();
-                      for (var service in services) {
-                        servicesSelected.add({
-                          "service_id": service["id"],
-                          "description": service["description"],
-                          "price_service": service["price"],
-                          "time_service":
-                              TimeOfDay.now().toString().substring(10, 15),
-                        });
-                      }
-                    });
-                  },
+                  onPressed: () => selectAllServices(),
                   icon: const Icon(
                     Icons.select_all,
-                    size: 30,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      servicesSelected.clear();
-                    });
-                  },
-                  icon: const Icon(
-                    Icons.cancel_sharp,
                     size: 30,
                   ),
                 ),
@@ -297,31 +292,30 @@ class _ServiceListPageState extends State<ServiceListPage> {
                                                       ? () => selectServices(
                                                           service)
                                                       : null,
-                                                  onTap:
-                                                      widget.itFromTheSalesScreen &&
-                                                              servicesSelected
-                                                                  .isEmpty
-                                                          ? () => Navigator.of(
-                                                                      context)
-                                                                  .pop({
-                                                                "service_id":
-                                                                    service[
-                                                                        "id"],
-                                                                "description":
-                                                                    service[
-                                                                        "description"],
-                                                                "price_service":
-                                                                    service[
-                                                                        "price"],
-                                                                "time_service":
-                                                                    TimeOfDay
-                                                                            .now()
-                                                                        .toString()
-                                                                        .substring(
-                                                                            10,
-                                                                            15)
-                                                              })
-                                                          : null,
+                                                  onTap: () {
+                                                    if (widget
+                                                            .itFromTheSalesScreen &&
+                                                        servicesSelected
+                                                            .isEmpty) {
+                                                      Navigator.of(context)
+                                                          .pop({
+                                                        "service_id":
+                                                            service["id"],
+                                                        "description": service[
+                                                            "description"],
+                                                        "price_service":
+                                                            service["price"],
+                                                        "time_service":
+                                                            TimeOfDay.now()
+                                                                .toString()
+                                                                .substring(
+                                                                    10, 15)
+                                                      });
+                                                      return;
+                                                    }
+
+                                                    selectServices(service);
+                                                  },
                                                   minLeadingWidth: 0,
                                                   selectedTileColor:
                                                       Colors.indigo,

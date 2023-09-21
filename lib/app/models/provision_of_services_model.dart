@@ -69,12 +69,12 @@ class ProvisionOfService {
         "THEN 'Recebido' "
         "ELSE 'A receber' "
         "END AS situation, "
-        "COALESCE(clients.name, 'Cliente Avulso') AS client_name, provision_of_services.date_service AS date "
+        "provision_of_services.client_id, COALESCE(clients.name, 'Cliente Avulso') AS client_name, provision_of_services.date_service AS date "
         "FROM provision_of_services LEFT JOIN clients ON clients.id = provision_of_services.client_id "
         "WHERE provision_of_services.date_service LIKE '%$date%' ORDER BY provision_of_services.date_service DESC");
   }
 
-   static delete(int id) async {
+  static delete(int id) async {
     final db = await DB.openDatabase();
     await db.transaction((txn) async {
       txn.delete("provision_of_services", where: "id = ?", whereArgs: [id]);
@@ -82,4 +82,12 @@ class ProvisionOfService {
       ItemsService.deleteByProvisionOfServiceId(txn, id);
     });
   }
+
+  static Future<void> updateClientAndDate(
+      Map<String, dynamic> data, int provisionOfServiceId) async {
+    final db = await DB.openDatabase();
+    await db.update("provision_of_services", data, where: "id = ?", whereArgs: [provisionOfServiceId]);
+  }
+
+  
 }

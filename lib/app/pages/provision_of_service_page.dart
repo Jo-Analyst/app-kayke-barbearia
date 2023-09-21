@@ -22,7 +22,7 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
   double discount = 0, subtotal = 0, total = 0, profitTotal = 0;
   DateTime dateSelected = DateTime.now();
 
-  calculateSubTotal() {
+  void calculateSubTotal() {
     subtotal = 0;
     setState(() {
       for (var item in items) {
@@ -35,7 +35,7 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
     calculateTotal();
   }
 
-  calculateTotal() {
+  void calculateTotal() {
     setState(() {
       total = subtotal - discount;
     });
@@ -45,7 +45,7 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
     Message.showMessage(context, content, color);
   }
 
-  showTime(int index) async {
+  void showTime(int index) async {
     final time = await showTimePicker(
       context: context,
       initialTime: TimeOfDay(

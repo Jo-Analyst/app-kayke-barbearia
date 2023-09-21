@@ -32,7 +32,7 @@ class _DiscountPageState extends State<DiscountPage> {
     initDicountController();
   }
 
-  initDicountController() {
+  void initDicountController() {
     setState(() {
       discount = widget.discount;
       if (triggeredRadioButton) {
@@ -61,7 +61,7 @@ class _DiscountPageState extends State<DiscountPage> {
     });
   }
 
-  calculateDiscount() {
+  void calculateDiscount() {
     setState(() {
       if (currentOptions == "money") {
         money = discountValueController.numberValue;
@@ -73,7 +73,7 @@ class _DiscountPageState extends State<DiscountPage> {
     });
   }
 
-  changePercentage(String value) {
+  void changePercentage(String value) {
     setState(() {
       triggeredRadioButton = true;
       currentOptions = value;
@@ -81,14 +81,14 @@ class _DiscountPageState extends State<DiscountPage> {
     });
   }
 
-  changeMoney(String value) {
+  void changeMoney(String value) {
     setState(() {
       currentOptions = value;
       initDicountController();
     });
   }
 
-  convertValuesMoneyAndPercentage() {
+  void convertValuesMoneyAndPercentage() {
     if (currentOptions == "money") {
       percentage = (money * 100) / widget.subtotal;
     } else {

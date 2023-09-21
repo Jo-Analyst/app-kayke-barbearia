@@ -46,7 +46,7 @@ class _FinancialReportState extends State<FinancialReportPage>
     monthAndYear = "$year-${DateTime.now().month.toString().padLeft(2, "0")}";
   }
 
-  loadValuesByDate() async {
+  void loadValuesByDate() async {
     await financialReportSalesValues.loadValuesByDate(monthAndYear);
     await financialReportServicesValues.loadValuesByDate(monthAndYear);
     await expenseBalanceValues.loadValuesByDate(monthAndYear);
@@ -54,7 +54,7 @@ class _FinancialReportState extends State<FinancialReportPage>
     setState(() {});
   }
 
-  loadValuesByPeriod() async {
+  void loadValuesByPeriod() async {
     String dateInitial = dateFormat1.format(this.dateInitial),
         dateFinal = dateFormat1.format(this.dateFinal);
     await financialReportSalesValues.loadValuesByPeriod(dateInitial, dateFinal);

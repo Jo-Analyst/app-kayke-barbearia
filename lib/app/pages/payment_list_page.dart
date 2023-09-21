@@ -41,18 +41,19 @@ class _PaymentListPageState extends State<PaymentListPage>
     filteredPaymentsServices = List.from(paymentsServices);
   }
 
-  loadDetailSalesAndServices(String monthAndYear) async {
+  void loadDetailSalesAndServices(String monthAndYear) async {
     paymentsSales = await SaleController.getSalesByDate(monthAndYear);
     filteredPaymentsSales = List.from(paymentsSales);
 
-    paymentsServices = await ProvisionOfServiceController
-        .getProvisionOfServicesByDate(monthAndYear);
+    paymentsServices =
+        await ProvisionOfServiceController.getProvisionOfServicesByDate(
+            monthAndYear);
     filteredPaymentsServices = List.from(paymentsServices);
 
     setState(() {});
   }
 
-  filterLists(String option) {
+  void filterLists(String option) {
     setState(() {
       if (option == "Tudo") {
         if (tabSelected == "vendas") {
@@ -83,7 +84,7 @@ class _PaymentListPageState extends State<PaymentListPage>
     });
   }
 
-  onGetDate(month, year) {
+  void onGetDate(month, year) {
     loadDetailSalesAndServices(
         "$year-${(month + 1).toString().padLeft(2, "0")}");
     optionSelected = "Tudo";
@@ -91,7 +92,7 @@ class _PaymentListPageState extends State<PaymentListPage>
     lastOptionService = "Tudo";
   }
 
-  openDialogFilter() async {
+  void openDialogFilter() async {
     optionSelected =
         tabSelected == "vendas" ? lastOptionSale : lastOptionService;
     final option = await showFilterDialog(context, optionSelected);
@@ -109,7 +110,7 @@ class _PaymentListPageState extends State<PaymentListPage>
     });
   }
 
-  filterByClient() {
+  void filterByClient() {
     if (search.isNotEmpty) {
       filteredPaymentsByClient = tabSelected == "vendas"
           ? filteredPaymentsSales
@@ -129,7 +130,7 @@ class _PaymentListPageState extends State<PaymentListPage>
     }
   }
 
-  toggleSearch() {
+  void toggleSearch() {
     setState(() {
       searchByName = !searchByName;
     });
@@ -139,7 +140,7 @@ class _PaymentListPageState extends State<PaymentListPage>
     }
   }
 
-  clearTextFormField() {
+  void clearTextFormField() {
     searchController.text = "";
     filterByClient();
     FocusScope.of(context).requestFocus(FocusNode());

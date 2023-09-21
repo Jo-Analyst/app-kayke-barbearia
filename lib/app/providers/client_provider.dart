@@ -53,7 +53,7 @@ class ClientProvider extends ChangeNotifier {
     itemsFiltered.removeWhere((item) => item["id"] == id);
   }
 
-  clear() {
+  void clear() {
     _items.clear();
   }
 

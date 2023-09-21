@@ -35,7 +35,7 @@ class _PaymentSaleEditionPageState extends State<PaymentSaleEditionPage> {
   Map<String, dynamic> receipt = {};
   bool confirmAction = false;
 
-  closeScreen() {
+  void closeScreen() {
     if (confirmAction) {
       Navigator.pushAndRemoveUntil(
         context,
@@ -47,7 +47,7 @@ class _PaymentSaleEditionPageState extends State<PaymentSaleEditionPage> {
     }
   }
 
-  deletePayment(int index, int idPayment) async {
+  void deletePayment(int index, int idPayment) async {
     final paymentProvider =
         Provider.of<PaymentSaleProvider>(context, listen: false);
     final confirmExit =
@@ -78,7 +78,7 @@ class _PaymentSaleEditionPageState extends State<PaymentSaleEditionPage> {
     loadPayments();
   }
 
-  loadPayments() async {
+  void loadPayments() async {
     final paymentProvider =
         Provider.of<PaymentSaleProvider>(context, listen: false);
     await paymentProvider.loadById(widget.id);

@@ -9,4 +9,9 @@ class ProvisionOfServiceController {
   static deleteProvisionOfService(int id) async {
     await ProvisionOfService.delete(id);
   }
+
+  static void updateClientAndDate(
+      int provisionOfServiceId, Map<String, dynamic> data) async {
+    await ProvisionOfService.updateClientAndDate(data, provisionOfServiceId);
+  }
 }

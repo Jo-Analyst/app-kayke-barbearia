@@ -40,7 +40,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
   final quantityController = TextEditingController();
   final profitValueController = TextEditingController();
 
-  calculateProfit() {
+  void calculateProfit() {
     setState(() {
       profitValue = saleValue - costValue;
     });

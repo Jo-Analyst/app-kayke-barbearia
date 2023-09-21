@@ -5,7 +5,11 @@ class SaleController {
     return await Sale.findByDate(date);
   }
 
-  static deleteSale(int id, List<Map<String, dynamic>> itemsSale) async {
+  static void deleteSale(int id, List<Map<String, dynamic>> itemsSale) async {
     await Sale.delete(id, itemsSale);
+  }
+
+  static void updateClientAndDate(int saleId, Map<String, dynamic> data) async {
+    await Sale.updateClientAndDate(data, saleId);
   }
 }

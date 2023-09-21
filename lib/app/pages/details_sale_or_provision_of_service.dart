@@ -48,13 +48,9 @@ class _DetailsSaleOrProvisionOfServiceState
   void initState() {
     super.initState();
     loadItems();
-    title = widget.isService ? "S" : "V";
-    shortenName(widget.itemsList["client_name"]);
-    date = widget.itemsList["date"];
-    dateSelected = convertStringToDateTime(date);
   }
 
-  shortenName(String name) {
+  void shortenName(String name) {
     final names = name.toString().split(" ");
     setState(() {
       nameClient = names.length > 1
@@ -63,7 +59,12 @@ class _DetailsSaleOrProvisionOfServiceState
     });
   }
 
-  loadItems() async {
+  void loadItems() async {
+    title = widget.isService ? "S" : "V";
+    shortenName(widget.itemsList["client_name"]);
+    date = widget.itemsList["date"];
+    dateSelected = convertStringToDateTime(date);
+    clientId = widget.itemsList["client_id"];
     listSalesOrProvisionOfServices = widget.isService
         ? await ItemsServicesController.getItemsProvisionOfServiceId(
             widget.itemsList["id"])
@@ -73,7 +74,7 @@ class _DetailsSaleOrProvisionOfServiceState
     setState(() {});
   }
 
-  loadPayments() async {
+  void loadPayments() async {
     dynamic paymentProvider;
     if (widget.isService) {
       paymentProvider = Provider.of<PaymentProvisionOfServiceProvider>(context,
@@ -93,11 +94,11 @@ class _DetailsSaleOrProvisionOfServiceState
     Message.showMessage(context, content, color);
   }
 
-  closeScreen() {
+  void closeScreen() {
     Navigator.of(context).pop("delete");
   }
 
-  deleteSaleOrProvisionOfService() async {
+  void deleteSaleOrProvisionOfService() async {
     final confirmDelete = await showExitDialog(
         context,
         widget.isService
@@ -145,6 +146,7 @@ class _DetailsSaleOrProvisionOfServiceState
 
               if (client != null) {
                 shortenName(client["name"]);
+                clientId = client["id"];
                 setState(() {
                   willChangeClient = true;
                 });
@@ -183,7 +185,24 @@ class _DetailsSaleOrProvisionOfServiceState
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: willChangeDate || willChangeClient ? () {} : null,
+              onPressed: willChangeDate || willChangeClient
+                  ? () {
+                      if (widget.isService) {
+                        ProvisionOfServiceController.updateClientAndDate(
+                            widget.itemsList["id"], {
+                          "client_id": clientId,
+                          "date_service": date,
+                        });
+                      } else {
+                        SaleController.updateClientAndDate(
+                            widget.itemsList["id"], {
+                          "client_id": clientId,
+                          "date_sale": date,
+                        });
+                      }
+                      Navigator.of(context).pop("save");
+                    }
+                  : null,
               icon: const Icon(
                 Icons.check,
                 size: 35,

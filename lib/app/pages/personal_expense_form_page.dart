@@ -50,7 +50,7 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage> {
     loadFields();
   }
 
-  loadFields() {
+  void loadFields() {
     setState(() {
       _nameProduct = widget.nameProduct ?? "";
       nameProductController.text = _nameProduct;
@@ -67,7 +67,7 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage> {
     Message.showMessage(context, content, color);
   }
 
-  savePersonalExpense() async {
+  void savePersonalExpense() async {
     final personalExpenseProvider =
         Provider.of<PersonalExpenseProvider>(context, listen: false);
 

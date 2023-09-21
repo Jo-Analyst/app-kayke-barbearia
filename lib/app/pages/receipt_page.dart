@@ -63,7 +63,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
     valueToResetTheRemainingValue = amountReceived + remainingAmount;
   }
 
-  calculateChange() {
+  void calculateChange() {
     setState(() {
       change = amountReceived - remainingAmount;
 
@@ -71,7 +71,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
     });
   }
 
-  calculateAmountReceivable() {
+  void calculateAmountReceivable() {
     setState(() {
       amountReceivable =
           widget.total - (amountReceived + widget.totalAmountReceived);
@@ -79,7 +79,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
     });
   }
 
-  calculate() {
+  void calculate() {
     if (!widget.isEdition) {
       if (amountReceived >= remainingAmount) {
         calculateChange();
@@ -91,7 +91,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
     }
   }
 
-  calculateAmountReceivablefromEdition() {
+  void calculateAmountReceivablefromEdition() {
     if (remainingAmount == 0) {
       amountReceivable = widget.receipt["value"] - amountReceived;
     } else {
@@ -106,7 +106,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
     }
   }
 
-  confirmPayment() async {
+  void confirmPayment() async {
     dynamic paymentProvider = widget.isService
         ? Provider.of<PaymentProvisionOfServiceProvider>(context, listen: false)
         : Provider.of<PaymentSaleProvider>(context, listen: false);

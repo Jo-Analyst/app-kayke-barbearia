@@ -57,6 +57,7 @@ class Product {
         "UPDATE products set quantity = quantity - ? WHERE id = ?",
         [quantity, id]);
   }
+
   static Future<void> updateQuantityAfterDeleteSale(
       Transaction txn, int id, int quantity) async {
     await txn.rawUpdate(
@@ -73,5 +74,4 @@ class Product {
     final db = await DB.openDatabase();
     return db.rawQuery("SELECT * FROM products WHERE name LIKE '%$name%'");
   }
-  
 }

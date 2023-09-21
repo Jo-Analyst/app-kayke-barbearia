@@ -55,14 +55,14 @@ class _PaymentPageState extends State<PaymentPage> {
     items.addAll(widget.items);
   }
 
-  convertTimeInString() {
+  void convertTimeInString() {
     if (widget.isSale) return;
     for (var item in items) {
       item["time_service"] = item["time_service"].format(context);
     }
   }
 
-  convertStringInTime() {
+  void convertStringInTime() {
     if (widget.isSale) return;
     for (var item in items) {
       item["time_service"] = TimeOfDay(
@@ -71,21 +71,21 @@ class _PaymentPageState extends State<PaymentPage> {
     }
   }
 
-  calculateChange() {
+  void calculateChange() {
     setState(() {
       change = amountReceived - widget.total;
       amountReceivable = 0;
     });
   }
 
-  calculateAmountReceivable() {
+  void calculateAmountReceivable() {
     setState(() {
       amountReceivable = widget.total - amountReceived;
       change = 0;
     });
   }
 
-  calculate() {
+  void calculate() {
     if (amountReceived >= widget.total) {
       calculateChange();
     } else {
@@ -95,13 +95,13 @@ class _PaymentPageState extends State<PaymentPage> {
     changeTitleClient();
   }
 
-  changeTitleClient() {
+  void changeTitleClient() {
     if (client.isEmpty) {
       titleClient = amountReceived < widget.total ? "Cliente*" : "Cliente";
     }
   }
 
-  openScreenClient() async {
+  void openScreenClient() async {
     final clientSelected = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => const ClientListPage(
@@ -118,7 +118,7 @@ class _PaymentPageState extends State<PaymentPage> {
     }
   }
 
-  confirmSale() async {
+  void confirmSale() async {
     if (client.isEmpty && amountReceivable > 0) {
       showMessage(
           const ContentMessage(
@@ -152,7 +152,7 @@ class _PaymentPageState extends State<PaymentPage> {
     );
   }
 
-  save() async {
+  void save() async {
     final saleProvider = Provider.of<SaleProvider>(context, listen: false);
     final serviceProvider =
         Provider.of<ProvisionOfServiceProvider>(context, listen: false);

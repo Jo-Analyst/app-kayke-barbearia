@@ -76,12 +76,13 @@ class Sale {
         "THEN 'Recebido' "
         "ELSE 'A receber' "
         "END AS situation, "
-        "COALESCE(clients.name, 'Cliente Avulso') AS client_name, sales.date_sale AS date "
+        "sales.client_id, COALESCE(clients.name, 'Cliente Avulso') AS client_name, sales.date_sale AS date "
         "FROM sales LEFT JOIN clients ON clients.id = sales.client_id "
         "WHERE sales.date_sale LIKE '%$date%' ORDER BY sales.date_sale DESC");
   }
 
-  static delete(int id, List<Map<String, dynamic>> itemsSale) async {
+  static Future<void> delete(
+      int id, List<Map<String, dynamic>> itemsSale) async {
     final db = await DB.openDatabase();
     await db.transaction((txn) async {
       txn.delete("sales", where: "id = ?", whereArgs: [id]);
@@ -92,5 +93,11 @@ class Sale {
             txn, item["id"], item["quantity"]);
       }
     });
+  }
+
+  static Future<void> updateClientAndDate(
+      Map<String, dynamic> data, int saleId) async {
+    final db = await DB.openDatabase();
+    await db.update("sales", data, where: "id = ?", whereArgs: [saleId]);
   }
 }

@@ -43,7 +43,7 @@ class _SalesAndServicesState extends State<SalesAndServices>
     filteredServices = List.from(services);
   }
 
-  loadDetailSalesAndServices(String monthAndYear) async {
+  void loadDetailSalesAndServices(String monthAndYear) async {
     sales = await SaleController.getSalesByDate(monthAndYear);
     filteredSales = List.from(sales);
 
@@ -54,7 +54,7 @@ class _SalesAndServicesState extends State<SalesAndServices>
     setState(() {});
   }
 
-  filterLists(String option) {
+  void filterLists(String option) {
     setState(() {
       if (option == "Tudo") {
         if (tabSelected == "vendas") {
@@ -85,7 +85,7 @@ class _SalesAndServicesState extends State<SalesAndServices>
     });
   }
 
-  onGetDate(month, year) {
+  void onGetDate(month, year) {
     loadDetailSalesAndServices(
         "$year-${(month + 1).toString().padLeft(2, "0")}");
     optionSelected = "Tudo";
@@ -95,7 +95,7 @@ class _SalesAndServicesState extends State<SalesAndServices>
     this.year = year;
   }
 
-  openDialogFilter() async {
+  void openDialogFilter() async {
     optionSelected =
         tabSelected == "vendas" ? lastOptionSale : lastOptionService;
     final option = await showFilterDialog(context, optionSelected);
@@ -113,7 +113,7 @@ class _SalesAndServicesState extends State<SalesAndServices>
     });
   }
 
-  filterByClient() {
+  void filterByClient() {
     if (search.isNotEmpty) {
       filteredByClient = tabSelected == "vendas"
           ? filteredSales
@@ -133,7 +133,7 @@ class _SalesAndServicesState extends State<SalesAndServices>
     }
   }
 
-  toggleSearch() {
+  void toggleSearch() {
     setState(() {
       searchByName = !searchByName;
     });
@@ -143,7 +143,7 @@ class _SalesAndServicesState extends State<SalesAndServices>
     }
   }
 
-  clearTextFormField() {
+  void clearTextFormField() {
     searchController.text = "";
     filterByClient();
     FocusScope.of(context).requestFocus(FocusNode());
@@ -152,7 +152,7 @@ class _SalesAndServicesState extends State<SalesAndServices>
     });
   }
 
-  closeScreen() {
+  void closeScreen() {
     if (confirmAction) {
       Navigator.pushAndRemoveUntil(
         context,

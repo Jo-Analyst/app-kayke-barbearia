@@ -63,12 +63,12 @@ class PersonalExpenseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  deleteItem(int id) {
+  void deleteItem(int id) {
     _items.removeWhere((item) => item["id"] == id);
     itemsFiltered.removeWhere((item) => item["id"] == id);
   }
 
-  clear() {
+  void clear() {
     _items.clear();
   }
 

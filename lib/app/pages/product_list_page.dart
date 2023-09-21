@@ -39,7 +39,7 @@ class _ProductListPageState extends State<ProductListPage> {
     loadProducts();
   }
 
-  loadProducts() async {
+  void loadProducts() async {
     final productProvider =
         Provider.of<ProductProvider>(context, listen: false);
     await productProvider.load();
@@ -64,7 +64,7 @@ class _ProductListPageState extends State<ProductListPage> {
     }
   }
 
-  selectProducts(Map<String, dynamic> dataProduct) {
+  void selectProducts(Map<String, dynamic> dataProduct) {
     final result = productsSelected.any(
       (product) => product["name"] == dataProduct["name"],
     );
@@ -86,6 +86,29 @@ class _ProductListPageState extends State<ProductListPage> {
     });
   }
 
+  void selectAllProducts() {
+    setState(() {
+      if (productsSelected.length == products.length) {
+        productsSelected.clear();
+        return;
+      }
+
+      productsSelected.clear();
+      for (var product in products) {
+        productsSelected.add({
+          "product_id": product["id"],
+          "name": product["name"],
+          "quantity_items": product["quantity"],
+          "profit_product": product["profit_value"],
+          "quantity": 1,
+          "sub_profit_product": product["profit_value"],
+          "price_product": product["sale_value"],
+          "sub_total": product["sale_value"]
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,36 +122,9 @@ class _ProductListPageState extends State<ProductListPage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 IconButton(
-                  onPressed: () {
-                    setState(() {
-                      productsSelected.clear();
-                      for (var product in products) {
-                        productsSelected.add({
-                          "product_id": product["id"],
-                          "name": product["name"],
-                          "quantity_items": product["quantity"],
-                          "profit_product": product["profit_value"],
-                          "quantity": 1,
-                          "sub_profit_product": product["profit_value"],
-                          "price_product": product["sale_value"],
-                          "sub_total": product["sale_value"]
-                        });
-                      }
-                    });
-                  },
+                  onPressed: () => selectAllProducts(),
                   icon: const Icon(
                     Icons.select_all,
-                    size: 30,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      productsSelected.clear();
-                    });
-                  },
-                  icon: const Icon(
-                    Icons.cancel_sharp,
                     size: 30,
                   ),
                 ),
@@ -316,38 +312,39 @@ class _ProductListPageState extends State<ProductListPage> {
                                                               product);
                                                         }
                                                       : null,
-                                                  onTap:
-                                                      widget.itFromTheSalesScreen &&
-                                                              productsSelected
-                                                                  .isEmpty
-                                                          ? () => Navigator.of(
-                                                                      context)
-                                                                  .pop(
-                                                                {
-                                                                  "product_id":
-                                                                      product[
-                                                                          "id"],
-                                                                  "name": product[
-                                                                      "name"],
-                                                                  "quantity_items":
-                                                                      product[
-                                                                          "quantity"],
-                                                                  "quantity": 1,
-                                                                  "profit_product":
-                                                                      product[
-                                                                          "profit_value"],
-                                                                  "sub_profit_product":
-                                                                      product[
-                                                                          "profit_value"],
-                                                                  "price_product":
-                                                                      product[
-                                                                          "sale_value"],
-                                                                  "sub_total":
-                                                                      product[
-                                                                          "sale_value"]
-                                                                },
-                                                              )
-                                                          : null,
+                                                  onTap: () {
+                                                    if (widget
+                                                            .itFromTheSalesScreen &&
+                                                        productsSelected
+                                                            .isEmpty) {
+                                                      Navigator.of(context).pop(
+                                                        {
+                                                          "product_id":
+                                                              product["id"],
+                                                          "name":
+                                                              product["name"],
+                                                          "quantity_items":
+                                                              product[
+                                                                  "quantity"],
+                                                          "quantity": 1,
+                                                          "profit_product":
+                                                              product[
+                                                                  "profit_value"],
+                                                          "sub_profit_product":
+                                                              product[
+                                                                  "profit_value"],
+                                                          "price_product":
+                                                              product[
+                                                                  "sale_value"],
+                                                          "sub_total": product[
+                                                              "sale_value"]
+                                                        },
+                                                      );
+                                                      return;
+                                                    }
+
+                                                    selectProducts(product);
+                                                  },
                                                   minLeadingWidth: 0,
                                                   selectedTileColor:
                                                       Colors.indigo,

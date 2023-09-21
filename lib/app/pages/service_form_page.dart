@@ -46,7 +46,7 @@ class _ServiceFormPageState extends State<ServiceFormPage> {
     Message.showMessage(context, content, color);
   }
 
-  saveService() async {
+  void saveService() async {
     final serviceProvider =
         Provider.of<ServiceProvider>(context, listen: false);
     await serviceProvider.save({

@@ -38,7 +38,7 @@ class _PaymentProvisionOfServiceEditionPageState
   Map<String, dynamic> receipt = {};
   bool confirmAction = false;
 
-  closeScreen() {
+  void closeScreen() {
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => const HomePage()),
@@ -46,7 +46,7 @@ class _PaymentProvisionOfServiceEditionPageState
     );
   }
 
-  deletePayment(int index, int idPayment) async {
+  void deletePayment(int index, int idPayment) async {
     final paymentProvider =
         Provider.of<PaymentProvisionOfServiceProvider>(context, listen: false);
     final confirmExit =
@@ -77,7 +77,7 @@ class _PaymentProvisionOfServiceEditionPageState
     loadPayments();
   }
 
-  loadPayments() async {
+  void loadPayments() async {
     final paymentProvider =
         Provider.of<PaymentProvisionOfServiceProvider>(context, listen: false);
     await paymentProvider.loadById(widget.id);

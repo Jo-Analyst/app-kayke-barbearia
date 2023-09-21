@@ -26,7 +26,7 @@ class FinancialReportSalesValues {
     sumValuesPaid();
   }
 
-  loadValuesByPeriod(String dateInitial, String dateFinal) async {
+  Future<void> loadValuesByPeriod(String dateInitial, String dateFinal) async {
     final sales = await FinancialReportSaleController(
             dateInitial: dateInitial, dateFinal: dateFinal)
         .getSumSalesbyMonthAndYearByPeriod();

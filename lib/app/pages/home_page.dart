@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
     return isActive ? Colors.amberAccent : Colors.white;
   }
 
-  changeActiveMenu(int index) {
+  void changeActiveMenu(int index) {
     setState(() {
       for (var menu in menuActived) {
         menu["isActive"] = false;

@@ -38,7 +38,7 @@ class _PersonalExpenseListPageState extends State<PersonalExpenseListPage> {
     loadPersonalExpenses();
   }
 
-  loadPersonalExpenses() async {
+  void loadPersonalExpenses() async {
     final personalExpenseProvider =
         Provider.of<PersonalExpenseProvider>(context, listen: false);
     await personalExpenseProvider.load();

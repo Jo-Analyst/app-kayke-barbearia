@@ -21,18 +21,18 @@ class PaymentProvisionOfServiceProvider extends ChangeNotifier {
     ];
   }
 
-  clear() {
+ void clear() {
     _items.clear();
   }
 
-  loadById(int provisionOfServiceId) async {
+ Future<void> loadById(int provisionOfServiceId) async {
     clear();
     final payments = await PaymentService.findBySaleId(provisionOfServiceId);
     _items.addAll(payments);
     calculateAmountReceived();
   }
 
-  save(dynamic data) async {
+ void save(dynamic data) async {
     int lastId = await PaymentService(
       id: data["id"],
       amountPaid: data["value"],
@@ -65,11 +65,11 @@ class PaymentProvisionOfServiceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  deleteItem(int id) {
+ void deleteItem(int id) {
     _items.removeWhere((item) => item["id"] == id);
   }
 
-  calculateAmountReceived() {
+ void calculateAmountReceived() {
     _amountReceived = 0;
     for (var item in _items) {
       _amountReceived += item["value"];

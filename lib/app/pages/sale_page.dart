@@ -23,7 +23,7 @@ class _SalePageState extends State<SalePage> {
   double discount = 0, subtotal = 0, total = 0, profitTotal = 0;
   DateTime dateSelected = DateTime.now();
 
-  changeValueAfterQuantityIncrement(int index) {
+  void changeValueAfterQuantityIncrement(int index) {
     var item = items[index];
     var quantity = quantityItems[index];
     setState(() {
@@ -34,7 +34,7 @@ class _SalePageState extends State<SalePage> {
     });
   }
 
-  changeValueAfterQuantityDecrease(int index) {
+  void changeValueAfterQuantityDecrease(int index) {
     setState(() {
       if (items[index]["quantity"] == 1) return;
       items[index]["quantity"]--;
@@ -43,7 +43,8 @@ class _SalePageState extends State<SalePage> {
     });
   }
 
-  calculateSubTotalAndSubProfitByItems(int quantity, double price, int index) {
+  void calculateSubTotalAndSubProfitByItems(
+      int quantity, double price, int index) {
     double profit = items[index]["profit_product"];
     items[index]["sub_total"] = quantity * price;
     items[index]["sub_profit_product"] = quantity * profit;
@@ -51,7 +52,7 @@ class _SalePageState extends State<SalePage> {
     calculateSubTotalAndProfitTotal();
   }
 
-  calculateSubTotalAndProfitTotal() {
+  void calculateSubTotalAndProfitTotal() {
     subtotal = 0;
     profitTotal = 0;
     setState(() {
@@ -66,7 +67,7 @@ class _SalePageState extends State<SalePage> {
     calculateTotal();
   }
 
-  calculateTotal() {
+  void calculateTotal() {
     setState(() {
       total = subtotal - discount;
     });

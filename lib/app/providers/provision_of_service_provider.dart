@@ -12,11 +12,13 @@ class ProvisionOfServiceProvider extends ChangeNotifier {
     ];
   }
 
-  clear() {
+  void clear() {
     items.clear();
   }
 
-  save(Map<String, dynamic> sale, List<Map<String, dynamic>> itemsService,
+  Future<void> save(
+      Map<String, dynamic> sale,
+      List<Map<String, dynamic>> itemsService,
       Map<String, dynamic> paymentService) async {
     final lastId = await ProvisionOfService(
       id: sale["id"] ?? 0,

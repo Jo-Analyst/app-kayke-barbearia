@@ -36,7 +36,7 @@ class _ExpenseListPageState extends State<ExpenseListPage> {
     loadExpenses();
   }
 
-  loadExpenses() async {
+  void loadExpenses() async {
     final expenseProvider =
         Provider.of<ExpenseProvider>(context, listen: false);
     await expenseProvider.load();
