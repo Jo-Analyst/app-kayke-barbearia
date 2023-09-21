@@ -68,4 +68,8 @@ class PaymentSale {
     final db = await DB.openDatabase();
     await db.delete("payments_sales", where: "id = ?", whereArgs: [id]);
   }
+
+  static void deleteBySaleId(Transaction txn, int saleId) async {
+    txn.delete("payments_sales", where: "sale_id = ?", whereArgs: [saleId]);
+  }
 }

@@ -1,9 +1,14 @@
 import 'package:app_kayke_barbearia/app/controllers/items_sale.controller.dart';
 import 'package:app_kayke_barbearia/app/controllers/items_services.dart';
+import 'package:app_kayke_barbearia/app/controllers/provision_of_service_controller.dart';
+import 'package:app_kayke_barbearia/app/controllers/sale_controller.dart';
 import 'package:app_kayke_barbearia/app/providers/payment_provision_of_service_provider.dart';
 import 'package:app_kayke_barbearia/app/template/list_tile_payment_receipt.dart';
+import 'package:app_kayke_barbearia/app/utils/content_message.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_datetime.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
+import 'package:app_kayke_barbearia/app/utils/dialog.dart';
+import 'package:app_kayke_barbearia/app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +43,6 @@ class _DetailsSaleOrProvisionOfServiceState
     super.initState();
     loadItemsSale();
     title = widget.isService ? "Serviço" : "Venda";
-    print(widget.itemsList);
   }
 
   loadItemsSale() async {
@@ -67,6 +71,14 @@ class _DetailsSaleOrProvisionOfServiceState
     setState(() {});
   }
 
+  void showMessage(Widget content, Color? color) {
+    Message.showMessage(context, content, color);
+  }
+
+  closeScreen() {
+    Navigator.of(context).pop(true);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,7 +89,34 @@ class _DetailsSaleOrProvisionOfServiceState
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                final confirmDelete = await showExitDialog(
+                    context,
+                    widget.isService
+                        ? "Deseja mesmo excluir o serviço - ${widget.itemsList["id"].toString().padLeft(5, "0")}?"
+                        : "Deseja mesmo excluir a venda - ${widget.itemsList["id"].toString().padLeft(5, "0")}?");
+
+                if (confirmDelete == true) {
+                  if (widget.isService) {
+                    ProvisionOfServiceController.deleteProvisionOfService(
+                        widget.itemsList["id"]);
+                  } else {
+                    SaleController.deleteSale(widget.itemsList["id"]);
+                  }
+
+                  showMessage(
+                    ContentMessage(
+                      title: widget.isService
+                          ? "Prestação de serviço excluido com sucesso."
+                          : "Venda excluida com sucesso.",
+                      icon: Icons.info,
+                    ),
+                    const Color.fromARGB(255, 199, 82, 74),
+                  );
+
+                  closeScreen();
+                }
+              },
               icon: const Icon(
                 Icons.delete,
                 size: 25,

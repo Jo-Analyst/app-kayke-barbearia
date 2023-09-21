@@ -93,8 +93,8 @@ class _CashFlowPageState extends State<CashFlowPage> {
   loadFields() async {
     loadList();
     final sales = await CashFlowController.getSumTotalSalesByDate(dateSelected);
-    valueSale = sales[0]["value_total"];
-    valueDiscountSale = sales[0]["discount"];
+    valueSale = sales[0]["value_total"] ?? 0;
+    valueDiscountSale = sales[0]["discount"] ?? 0;
 
     final services =
         await CashFlowController.getSumTotalServicesByDate(dateSelected);

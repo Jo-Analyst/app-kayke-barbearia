@@ -42,10 +42,10 @@ class _PaymentListPageState extends State<PaymentListPage>
   }
 
   loadDetailSalesAndServices(String monthAndYear) async {
-    paymentsSales = await SaleController().getSalesByDate(monthAndYear);
+    paymentsSales = await SaleController.getSalesByDate(monthAndYear);
     filteredPaymentsSales = List.from(paymentsSales);
 
-    paymentsServices = await ProvisionOfServiceController()
+    paymentsServices = await ProvisionOfServiceController
         .getProvisionOfServicesByDate(monthAndYear);
     filteredPaymentsServices = List.from(paymentsServices);
 

@@ -42,11 +42,11 @@ class _SalesAndServicesState extends State<SalesAndServices>
   }
 
   loadDetailSalesAndServices(String monthAndYear) async {
-    sales = await SaleController().getSalesByDate(monthAndYear);
+    sales = await SaleController.getSalesByDate(monthAndYear);
     filteredSales = List.from(sales);
 
-    services = await ProvisionOfServiceController()
-        .getProvisionOfServicesByDate(monthAndYear);
+    services = await ProvisionOfServiceController.getProvisionOfServicesByDate(
+        monthAndYear);
     filteredServices = List.from(services);
 
     setState(() {});
@@ -89,6 +89,8 @@ class _SalesAndServicesState extends State<SalesAndServices>
     optionSelected = "Tudo";
     lastOptionSale = "Tudo";
     lastOptionService = "Tudo";
+    this.month = month;
+    this.year = year;
   }
 
   openDialogFilter() async {
@@ -312,12 +314,20 @@ class _SalesAndServicesState extends State<SalesAndServices>
                 controller: _tabController,
                 children: <Widget>[
                   ListSalesAndProvisionOfServices(
+                    onload: () {
+                      loadDetailSalesAndServices(
+                          "$year-${(month + 1).toString().padLeft(2, "0")}");
+                    },
                     isService: tabSelected == "serviços",
                     typePayment: tabSelected,
                     itemsList:
                         search.isNotEmpty ? filteredByClient : filteredSales,
                   ),
                   ListSalesAndProvisionOfServices(
+                    onload: () {
+                      loadDetailSalesAndServices(
+                          "$year-${(month + 1).toString().padLeft(2, "0")}");
+                    },
                     isService: tabSelected == "serviços",
                     typePayment: tabSelected,
                     itemsList:

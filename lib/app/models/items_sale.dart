@@ -10,4 +10,8 @@ class ItemsSale {
     final db = await DB.openDatabase();
     return db.rawQuery("SELECT products.name, items_sales.quantity, items_sales.sub_total FROM items_sales INNER JOIN products ON products.id = items_sales.product_id  WHERE sale_id = ?", [saleId]);
   }
+
+  static void deleteBySaleId(Transaction txn, int saleId) async {
+    txn.delete("items_sales", where: "sale_id = ?", whereArgs: [saleId]);
+  }
 }

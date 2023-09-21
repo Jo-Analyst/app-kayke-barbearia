@@ -13,4 +13,8 @@ class ItemsService {
         "SELECT services.description, items_services.price_service, items_services.time_service FROM items_services INNER JOIN services ON services.id = items_services.service_id  WHERE provision_of_service_id = ?",
         [provisionOfServiceId]);
   }
+
+  static void deleteByProvisionOfServiceId(Transaction txn, int saleId) async {
+    txn.delete("items_services", where: "provision_of_service_id = ?", whereArgs: [saleId]);
+  }
 }

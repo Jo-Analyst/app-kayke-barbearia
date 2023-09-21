@@ -68,4 +68,8 @@ class PaymentService {
     final db = await DB.openDatabase();
     await db.delete("payments_services", where: "id = ?", whereArgs: [id]);
   }
+
+  static void deleteByProvisionOfServiceId(Transaction txn, int saleId) async {
+    txn.delete("payments_services", where: "provision_of_service_id = ?", whereArgs: [saleId]);
+  }
 }

@@ -297,27 +297,31 @@ class _ServiceListPageState extends State<ServiceListPage> {
                                                       ? () => selectServices(
                                                           service)
                                                       : null,
-                                                  onTap: () {
-                                                    if (widget
-                                                            .itFromTheSalesScreen &&
-                                                        servicesSelected
-                                                            .isEmpty) {
-                                                      Navigator.of(context)
-                                                          .pop({
-                                                        "service_id":
-                                                            service["id"],
-                                                        "description": service[
-                                                            "description"],
-                                                        "price_service":
-                                                            service["price"],
-                                                        "time_service":
-                                                            TimeOfDay.now()
-                                                                .toString()
-                                                                .substring(
-                                                                    10, 15)
-                                                      });
-                                                    }
-                                                  },
+                                                  onTap:
+                                                      widget.itFromTheSalesScreen &&
+                                                              servicesSelected
+                                                                  .isEmpty
+                                                          ? () => Navigator.of(
+                                                                      context)
+                                                                  .pop({
+                                                                "service_id":
+                                                                    service[
+                                                                        "id"],
+                                                                "description":
+                                                                    service[
+                                                                        "description"],
+                                                                "price_service":
+                                                                    service[
+                                                                        "price"],
+                                                                "time_service":
+                                                                    TimeOfDay
+                                                                            .now()
+                                                                        .toString()
+                                                                        .substring(
+                                                                            10,
+                                                                            15)
+                                                              })
+                                                          : null,
                                                   minLeadingWidth: 0,
                                                   selectedTileColor:
                                                       Colors.indigo,

@@ -73,4 +73,13 @@ class ProvisionOfService {
         "FROM provision_of_services LEFT JOIN clients ON clients.id = provision_of_services.client_id "
         "WHERE provision_of_services.date_service LIKE '%$date%' ORDER BY provision_of_services.date_service DESC");
   }
+
+   static delete(int id) async {
+    final db = await DB.openDatabase();
+    await db.transaction((txn) async {
+      txn.delete("provision_of_services", where: "id = ?", whereArgs: [id]);
+      PaymentService.deleteByProvisionOfServiceId(txn, id);
+      ItemsService.deleteByProvisionOfServiceId(txn, id);
+    });
+  }
 }
