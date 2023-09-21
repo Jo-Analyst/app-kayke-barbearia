@@ -44,7 +44,7 @@ class _ListSalesAndProvisionOfServicesState
                 children: [
                   ListTile(
                     onTap: () async {
-                      final confirmeDelete = await Navigator.of(context).push(
+                      final confirmAction = await Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => DetailsSaleOrProvisionOfService(
                               isService: widget.isService,
@@ -52,10 +52,12 @@ class _ListSalesAndProvisionOfServicesState
                         ),
                       );
 
-                      if (confirmeDelete != null) {
-                        widget.itemsList.removeAt(index);
+                      if (confirmAction != null) {
+                        if (confirmAction == "delete") {
+                          widget.itemsList.removeAt(index);
+                          setState(() {});
+                        } else {}
                         widget.onload();
-                        setState(() {});
                       }
                     },
                     leading: Text(

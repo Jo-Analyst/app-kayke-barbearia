@@ -25,7 +25,7 @@ class _SalesAndServicesState extends State<SalesAndServices>
       lastOptionService = "Tudo",
       tabSelected = "vendas",
       search = "";
-  bool searchByName = false, deletedTheSaleOrService = false;
+  bool searchByName = false, confirmAction = false;
   final FocusNode _focusNode = FocusNode();
   List<Map<String, dynamic>> filteredSales = [],
       filteredByClient = [],
@@ -153,7 +153,7 @@ class _SalesAndServicesState extends State<SalesAndServices>
   }
 
   closeScreen() {
-    if (deletedTheSaleOrService) {
+    if (confirmAction) {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => const HomePage()),
@@ -341,7 +341,7 @@ class _SalesAndServicesState extends State<SalesAndServices>
                         loadDetailSalesAndServices(
                             "$year-${(month + 1).toString().padLeft(2, "0")}");
                         setState(() {
-                          deletedTheSaleOrService = true;
+                          confirmAction = true;
                         });
                       },
                       isService: tabSelected == "serviços",
@@ -354,7 +354,7 @@ class _SalesAndServicesState extends State<SalesAndServices>
                         loadDetailSalesAndServices(
                             "$year-${(month + 1).toString().padLeft(2, "0")}");
                         setState(() {
-                          deletedTheSaleOrService = true;
+                          confirmAction = true;
                         });
                       },
                       isService: tabSelected == "serviços",

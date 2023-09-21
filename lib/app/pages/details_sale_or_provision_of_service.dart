@@ -2,12 +2,14 @@ import 'package:app_kayke_barbearia/app/controllers/items_sale.controller.dart';
 import 'package:app_kayke_barbearia/app/controllers/items_services.dart';
 import 'package:app_kayke_barbearia/app/controllers/provision_of_service_controller.dart';
 import 'package:app_kayke_barbearia/app/controllers/sale_controller.dart';
+import 'package:app_kayke_barbearia/app/pages/client_list_page.dart';
 import 'package:app_kayke_barbearia/app/providers/payment_provision_of_service_provider.dart';
 import 'package:app_kayke_barbearia/app/template/list_tile_payment_receipt.dart';
 import 'package:app_kayke_barbearia/app/utils/content_message.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_datetime.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:app_kayke_barbearia/app/utils/dialog.dart';
+import 'package:app_kayke_barbearia/app/utils/show_calendar_picker.dart';
 import 'package:app_kayke_barbearia/app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -31,20 +33,34 @@ class DetailsSaleOrProvisionOfService extends StatefulWidget {
 
 class _DetailsSaleOrProvisionOfServiceState
     extends State<DetailsSaleOrProvisionOfService> {
-  bool expandedContainerSaleOrService = false;
-  bool expandedContainerPayment = false;
+  bool expandedContainerSaleOrService = false,
+      expandedContainerPayment = false,
+      willChangeDate = false,
+      willChangeClient = false;
   List<Map<String, dynamic>> listSalesOrProvisionOfServices = [];
   List<Map<String, dynamic>> receipts = [];
   double amountReceived = 0;
-  String title = "", nameClient = "";
+  String title = "", nameClient = "", date = "";
+  int clientId = 0;
+  DateTime dateSelected = DateTime.now();
 
   @override
   void initState() {
     super.initState();
     loadItems();
-    title = widget.isService ? "Serviço" : "Venda";
-    final names = widget.itemsList["client_name"].toString().split(" ");
-    nameClient = "${names[0]} ${names[names.length - 1]}";
+    title = widget.isService ? "S" : "V";
+    shortenName(widget.itemsList["client_name"]);
+    date = widget.itemsList["date"];
+    dateSelected = convertStringToDateTime(date);
+  }
+
+  shortenName(String name) {
+    final names = name.toString().split(" ");
+    setState(() {
+      nameClient = names.length > 1
+          ? "${names[0]} ${names[names.length - 1]}"
+          : names[0];
+    });
   }
 
   loadItems() async {
@@ -78,7 +94,7 @@ class _DetailsSaleOrProvisionOfServiceState
   }
 
   closeScreen() {
-    Navigator.of(context).pop(true);
+    Navigator.of(context).pop("delete");
   }
 
   deleteSaleOrProvisionOfService() async {
@@ -115,16 +131,62 @@ class _DetailsSaleOrProvisionOfServiceState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-            "$title - ${widget.itemsList["id"].toString().padLeft(5, "0")}"),
+        title: Text(widget.itemsList["id"].toString().padLeft(5, "0")),
         actions: [
+          IconButton(
+            onPressed: () async {
+              final client = await Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const ClientListPage(
+                    itFromTheSalesScreen: true,
+                  ),
+                ),
+              );
+
+              if (client != null) {
+                shortenName(client["name"]);
+                setState(() {
+                  willChangeClient = true;
+                });
+              }
+            },
+            icon: const Icon(
+              Icons.person,
+              size: 25,
+            ),
+          ),
+          IconButton(
+            onPressed: () async {
+              dateSelected = await showCalendarPicker(context, dateSelected);
+              setState(() {
+                date = dateFormat1.format(dateSelected);
+
+                if (date != widget.itemsList["date"]) {
+                  willChangeDate = true;
+                } else {
+                  willChangeDate = false;
+                }
+              });
+            },
+            icon: const Icon(
+              Icons.calendar_month_outlined,
+              size: 25,
+            ),
+          ),
+          IconButton(
+            onPressed: () => deleteSaleOrProvisionOfService(),
+            icon: const Icon(
+              Icons.delete,
+              size: 25,
+            ),
+          ),
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: () => deleteSaleOrProvisionOfService(),
+              onPressed: willChangeDate || willChangeClient ? () {} : null,
               icon: const Icon(
-                Icons.delete,
-                size: 25,
+                Icons.check,
+                size: 35,
               ),
             ),
           ),
@@ -140,32 +202,47 @@ class _DetailsSaleOrProvisionOfServiceState
                   horizontal: 15,
                   vertical: 40,
                 ),
-                child: ListTile(
-                  title: Text(
-                    numberFormat.format(widget.itemsList["value_total"]),
-                    style: const TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w500,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      numberFormat.format(widget.itemsList["value_total"]),
+                      style: const TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                  trailing: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        nameClient,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w300,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            InkWell(
+                              onDoubleTap: () {
+                                shortenName(widget.itemsList["client_name"]);
+                                willChangeClient = false;
+                              },
+                              child: Text(
+                                nameClient,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              changeTheDateWriting(date),
+                              style: const TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      Text(
-                        changeTheDateWriting(widget.itemsList["date"]),
-                        style: const TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
               Container(
@@ -350,7 +427,7 @@ class _DetailsSaleOrProvisionOfServiceState
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(top: 10),
+                margin: const EdgeInsets.symmetric(vertical: 10),
                 padding: const EdgeInsets.symmetric(
                   horizontal: 15,
                   vertical: 10,
@@ -417,7 +494,31 @@ class _DetailsSaleOrProvisionOfServiceState
                   ],
                 ),
               ),
-              const Divider(height: 10),
+              // Container(
+              //   margin: const EdgeInsets.symmetric(
+              //     horizontal: 15,
+              //     vertical: 5,
+              //   ),
+              //   child: Visibility(
+              //     visible: willChangeData,
+              //     child: ElevatedButton(
+              //       onPressed: () {},
+              //       child: const Padding(
+              //         padding: EdgeInsets.symmetric(
+              //           horizontal: 15,
+              //           vertical: 10,
+              //         ),
+              //         child: Row(
+              //           mainAxisAlignment: MainAxisAlignment.center,
+              //           children: [
+              //             Icon(Icons.check),
+              //             Text("Salvar", style: TextStyle(fontSize: 20))
+              //           ],
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),
