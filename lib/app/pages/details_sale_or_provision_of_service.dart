@@ -8,7 +8,6 @@ import 'package:app_kayke_barbearia/app/utils/content_message.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_datetime.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:app_kayke_barbearia/app/utils/dialog.dart';
-import 'package:app_kayke_barbearia/app/utils/search_list.dart';
 import 'package:app_kayke_barbearia/app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -37,13 +36,15 @@ class _DetailsSaleOrProvisionOfServiceState
   List<Map<String, dynamic>> listSalesOrProvisionOfServices = [];
   List<Map<String, dynamic>> receipts = [];
   double amountReceived = 0;
-  String title = "";
+  String title = "", nameClient = "";
 
   @override
   void initState() {
     super.initState();
     loadItems();
     title = widget.isService ? "Serviço" : "Venda";
+    final names = widget.itemsList["client_name"].toString().split(" ");
+    nameClient = "${names[0]} ${names[names.length - 1]}";
   }
 
   loadItems() async {
@@ -84,15 +85,16 @@ class _DetailsSaleOrProvisionOfServiceState
     final confirmDelete = await showExitDialog(
         context,
         widget.isService
-            ? "Deseja mesmo excluir o serviço - ${widget.itemsList["id"].toString().padLeft(5, "0")}?"
-            : "Deseja mesmo excluir a venda - ${widget.itemsList["id"].toString().padLeft(5, "0")}?");
+            ? "Ao excluir você perderá o histórico do pagamento e outro items relacionados ao serviço. Deseja mesmo excluir o serviço - ${widget.itemsList["id"].toString().padLeft(5, "0")}?"
+            : "Ao excluir você perderá o histórico do pagamento e outro items relacionados a venda. Deseja mesmo excluir a venda - ${widget.itemsList["id"].toString().padLeft(5, "0")}?");
 
     if (confirmDelete == true) {
       if (widget.isService) {
         ProvisionOfServiceController.deleteProvisionOfService(
             widget.itemsList["id"]);
       } else {
-        SaleController.deleteSale(widget.itemsList["id"], listSalesOrProvisionOfServices);
+        SaleController.deleteSale(
+            widget.itemsList["id"], listSalesOrProvisionOfServices);
       }
 
       showMessage(
@@ -139,7 +141,7 @@ class _DetailsSaleOrProvisionOfServiceState
                   vertical: 40,
                 ),
                 child: ListTile(
-                  leading: Text(
+                  title: Text(
                     numberFormat.format(widget.itemsList["value_total"]),
                     style: const TextStyle(
                       fontSize: 30,
@@ -147,10 +149,10 @@ class _DetailsSaleOrProvisionOfServiceState
                     ),
                   ),
                   trailing: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        widget.itemsList["client_name"],
+                        nameClient,
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w300,
@@ -200,8 +202,18 @@ class _DetailsSaleOrProvisionOfServiceState
                         ),
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    const Divider(color: Colors.indigo, height: 4),
+                    if (expandedContainerSaleOrService)
+                      Container(
+                        height: 4,
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Theme.of(context).primaryColor,
+                              width: .2,
+                            ),
+                          ),
+                        ),
+                      ),
                     if (expandedContainerSaleOrService)
                       SizedBox(
                           child: Column(
@@ -280,8 +292,18 @@ class _DetailsSaleOrProvisionOfServiceState
                         ),
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    const Divider(color: Colors.indigo, height: 4),
+                    if (expandedContainerPayment)
+                      Container(
+                        height: 4,
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Theme.of(context).primaryColor,
+                              width: .5,
+                            ),
+                          ),
+                        ),
+                      ),
                     if (expandedContainerPayment)
                       Column(
                         children: receipts

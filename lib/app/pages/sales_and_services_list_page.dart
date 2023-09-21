@@ -6,6 +6,8 @@ import 'package:app_kayke_barbearia/app/template/slide_date.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'home_page.dart';
+
 class SalesAndServices extends StatefulWidget {
   const SalesAndServices({super.key});
 
@@ -23,7 +25,7 @@ class _SalesAndServicesState extends State<SalesAndServices>
       lastOptionService = "Tudo",
       tabSelected = "vendas",
       search = "";
-  bool searchByName = false;
+  bool searchByName = false, deletedTheSaleOrService = false;
   final FocusNode _focusNode = FocusNode();
   List<Map<String, dynamic>> filteredSales = [],
       filteredByClient = [],
@@ -150,193 +152,222 @@ class _SalesAndServicesState extends State<SalesAndServices>
     });
   }
 
+  closeScreen() {
+    if (deletedTheSaleOrService) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+        (route) => false,
+      );
+    } else {
+      Navigator.of(context).pop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Vendas e Serviços"),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              color: Colors.indigo.withOpacity(.1),
-              padding: const EdgeInsets.symmetric(
-                vertical: 8,
-                horizontal: 10,
-              ),
-              alignment: Alignment.centerRight,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Visibility(
-                    visible: searchByName,
-                    child: Expanded(
-                      child: TextFormField(
-                        focusNode: _focusNode,
-                        controller: searchController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
+    return WillPopScope(
+      onWillPop: () async {
+        closeScreen();
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () => closeScreen(),
+            icon: const Icon(Icons.arrow_back),
+          ),
+          title: const Text("Vendas e Serviços"),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                width: double.infinity,
+                color: Colors.indigo.withOpacity(.1),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 10,
+                ),
+                alignment: Alignment.centerRight,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Visibility(
+                      visible: searchByName,
+                      child: Expanded(
+                        child: TextFormField(
+                          focusNode: _focusNode,
+                          controller: searchController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            hintText: "Digite para buscar o cliente",
+                            suffixIcon: search.isEmpty
+                                ? null
+                                : IconButton(
+                                    onPressed: () {
+                                      searchController.text = "";
+                                      setState(() {
+                                        search = "";
+                                        filterLists(tabSelected == "vendas"
+                                            ? lastOptionSale
+                                            : lastOptionService);
+                                      });
+                                    },
+                                    icon: const Icon(Icons.close),
+                                  ),
                           ),
-                          hintText: "Digite para buscar o cliente",
-                          suffixIcon: search.isEmpty
-                              ? null
-                              : IconButton(
-                                  onPressed: () {
-                                    searchController.text = "";
-                                    setState(() {
-                                      search = "";
-                                      filterLists(tabSelected == "vendas"
-                                          ? lastOptionSale
-                                          : lastOptionService);
-                                    });
-                                  },
-                                  icon: const Icon(Icons.close),
-                                ),
+                          onChanged: (value) {
+                            setState(() {
+                              search = value;
+                              filterByClient();
+                            });
+                          },
                         ),
-                        onChanged: (value) {
-                          setState(() {
-                            search = value;
-                            filterByClient();
-                          });
-                        },
                       ),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () => toggleSearch(),
-                    icon: Icon(
-                      searchByName ? Icons.search_off_sharp : Icons.search,
-                      size: 30,
+                    IconButton(
+                      onPressed: () => toggleSearch(),
+                      icon: Icon(
+                        searchByName ? Icons.search_off_sharp : Icons.search,
+                        size: 30,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () => openDialogFilter(),
+                      icon: const Icon(
+                        Icons.filter_list,
+                        size: 30,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    top: BorderSide(
+                      width: 1,
+                      color: Theme.of(context).primaryColor,
                     ),
                   ),
-                  IconButton(
-                    onPressed: () => openDialogFilter(),
-                    icon: const Icon(
-                      Icons.filter_list,
-                      size: 30,
+                  color: Colors.indigo.withOpacity(.1),
+                ),
+                child: SlideDate(
+                  year: year,
+                  month: month,
+                  onGetDate: onGetDate,
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    top: BorderSide(
+                      width: 1,
+                      color: Theme.of(context).primaryColor,
                     ),
                   ),
-                ],
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    width: 1,
-                    color: Theme.of(context).primaryColor,
-                  ),
+                  color: Colors.indigo.withOpacity(.1),
                 ),
-                color: Colors.indigo.withOpacity(.1),
-              ),
-              child: SlideDate(
-                year: year,
-                month: month,
-                onGetDate: onGetDate,
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    width: 1,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                ),
-                color: Colors.indigo.withOpacity(.1),
-              ),
-              child: TabBar(
-                onTap: (value) {
-                  if (value == 0) {
-                    tabSelected = "vendas";
-                  } else {
-                    tabSelected = "serviços";
-                  }
+                child: TabBar(
+                  onTap: (value) {
+                    if (value == 0) {
+                      tabSelected = "vendas";
+                    } else {
+                      tabSelected = "serviços";
+                    }
 
-                  clearTextFormField();
-                },
-                indicatorColor: Colors.indigo,
-                tabs: <Tab>[
-                  Tab(
-                    text: null,
-                    icon: null,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.shopping_cart_rounded,
-                          color: Theme.of(context).primaryColor,
-                          size: 18,
-                        ),
-                        const SizedBox(width: 2),
-                        Text(
-                          "Vendas",
-                          style: TextStyle(
+                    clearTextFormField();
+                  },
+                  indicatorColor: Colors.indigo,
+                  tabs: <Tab>[
+                    Tab(
+                      text: null,
+                      icon: null,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.shopping_cart_rounded,
                             color: Theme.of(context).primaryColor,
-                            fontSize: 17,
+                            size: 18,
                           ),
-                        ),
-                      ],
+                          const SizedBox(width: 2),
+                          Text(
+                            "Vendas",
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 17,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Tab(
-                    text: null,
-                    icon: null,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          FontAwesomeIcons.screwdriverWrench,
-                          color: Theme.of(context).primaryColor,
-                          size: 18,
-                        ),
-                        const SizedBox(width: 2),
-                        Text(
-                          "Serviços",
-                          style: TextStyle(
+                    Tab(
+                      text: null,
+                      icon: null,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            FontAwesomeIcons.screwdriverWrench,
                             color: Theme.of(context).primaryColor,
-                            fontSize: 17,
+                            size: 18,
                           ),
-                        ),
-                      ],
+                          const SizedBox(width: 2),
+                          Text(
+                            "Serviços",
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 17,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-                controller: _tabController,
+                  ],
+                  controller: _tabController,
+                ),
               ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height - 310,
-              child: TabBarView(
-                controller: _tabController,
-                children: <Widget>[
-                  ListSalesAndProvisionOfServices(
-                    onload: () {
-                      loadDetailSalesAndServices(
-                          "$year-${(month + 1).toString().padLeft(2, "0")}");
-                    },
-                    isService: tabSelected == "serviços",
-                    typePayment: tabSelected,
-                    itemsList:
-                        search.isNotEmpty ? filteredByClient : filteredSales,
-                  ),
-                  ListSalesAndProvisionOfServices(
-                    onload: () {
-                      loadDetailSalesAndServices(
-                          "$year-${(month + 1).toString().padLeft(2, "0")}");
-                    },
-                    isService: tabSelected == "serviços",
-                    typePayment: tabSelected,
-                    itemsList:
-                        search.isNotEmpty ? filteredByClient : filteredServices,
-                  )
-                ],
+              SizedBox(
+                height: MediaQuery.of(context).size.height - 310,
+                child: TabBarView(
+                  controller: _tabController,
+                  children: <Widget>[
+                    ListSalesAndProvisionOfServices(
+                      onload: () {
+                        loadDetailSalesAndServices(
+                            "$year-${(month + 1).toString().padLeft(2, "0")}");
+                        setState(() {
+                          deletedTheSaleOrService = true;
+                        });
+                      },
+                      isService: tabSelected == "serviços",
+                      typePayment: tabSelected,
+                      itemsList:
+                          search.isNotEmpty ? filteredByClient : filteredSales,
+                    ),
+                    ListSalesAndProvisionOfServices(
+                      onload: () {
+                        loadDetailSalesAndServices(
+                            "$year-${(month + 1).toString().padLeft(2, "0")}");
+                        setState(() {
+                          deletedTheSaleOrService = true;
+                        });
+                      },
+                      isService: tabSelected == "serviços",
+                      typePayment: tabSelected,
+                      itemsList: search.isNotEmpty
+                          ? filteredByClient
+                          : filteredServices,
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

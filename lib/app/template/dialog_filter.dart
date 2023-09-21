@@ -8,14 +8,20 @@ Future<String?> showFilterDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text("Filtrar"),
+        title: const Text(
+          "Filtrar",
+          style: TextStyle(fontSize: 20),
+        ),
         content: FilterListPayment(
           onGetOption: (value) => option = value,
           optionSelected: optionSelected,
         ),
         actions: [
           TextButton(
-            child: const Text('Cancelar'),
+            child: const Text(
+              'Cancelar',
+              style: TextStyle(fontSize: 20),
+            ),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -23,7 +29,10 @@ Future<String?> showFilterDialog(
           Container(
             margin: const EdgeInsets.only(right: 20),
             child: ElevatedButton(
-              child: const Text("OK"),
+              child: const Text(
+                "OK",
+                style: TextStyle(fontSize: 20),
+              ),
               onPressed: () {
                 Navigator.of(context).pop(option);
               },

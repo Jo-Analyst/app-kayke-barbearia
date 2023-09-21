@@ -87,7 +87,6 @@ class Sale {
       txn.delete("sales", where: "id = ?", whereArgs: [id]);
       PaymentSale.deleteBySaleId(txn, id);
       ItemsSale.deleteBySaleId(txn, id);
-      print(itemsSale);
       for (var item in itemsSale) {
         Product.updateQuantityAfterDeleteSale(
             txn, item["id"], item["quantity"]);

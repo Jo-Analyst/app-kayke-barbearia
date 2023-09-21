@@ -36,11 +36,15 @@ class _PaymentSaleEditionPageState extends State<PaymentSaleEditionPage> {
   bool confirmAction = false;
 
   closeScreen() {
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => const HomePage()),
-      (route) => false,
-    );
+    if (confirmAction) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+        (route) => false,
+      );
+    } else {
+      Navigator.of(context).pop();
+    }
   }
 
   deletePayment(int index, int idPayment) async {
@@ -87,11 +91,8 @@ class _PaymentSaleEditionPageState extends State<PaymentSaleEditionPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        if (confirmAction) {
-          closeScreen();
-        } else {
-          Navigator.of(context).pop();
-        }
+        closeScreen();
+
         return false;
       },
       child: Scaffold(
@@ -268,7 +269,8 @@ class _PaymentSaleEditionPageState extends State<PaymentSaleEditionPage> {
                                                           ),
                                                       ],
                                                     ),
-                                              child: ListTilePaymentReceipt(receipt: receipt),
+                                              child: ListTilePaymentReceipt(
+                                                  receipt: receipt),
                                             ),
                                             Divider(
                                               height: 1,
