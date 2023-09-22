@@ -25,7 +25,7 @@ class _SalesAndServicesState extends State<SalesAndServices>
       lastOptionService = "Tudo",
       tabSelected = "vendas",
       search = "";
-  bool searchByName = false, confirmAction = false;
+  bool searchByName = false, confirmAction = false, isLoading = true;
   final FocusNode _focusNode = FocusNode();
   List<Map<String, dynamic>> filteredSales = [],
       filteredByClient = [],
@@ -44,13 +44,14 @@ class _SalesAndServicesState extends State<SalesAndServices>
   }
 
   void loadDetailSalesAndServices(String monthAndYear) async {
+    isLoading = true;
     sales = await SaleController.getSalesByDate(monthAndYear);
     filteredSales = List.from(sales);
 
     services = await ProvisionOfServiceController.getProvisionOfServicesByDate(
         monthAndYear);
     filteredServices = List.from(services);
-
+    isLoading = false;
     setState(() {});
   }
 
@@ -337,6 +338,7 @@ class _SalesAndServicesState extends State<SalesAndServices>
                   controller: _tabController,
                   children: <Widget>[
                     ListSalesAndProvisionOfServices(
+                      isLoading: isLoading,
                       onload: () {
                         loadDetailSalesAndServices(
                             "$year-${(month + 1).toString().padLeft(2, "0")}");
@@ -350,6 +352,7 @@ class _SalesAndServicesState extends State<SalesAndServices>
                           search.isNotEmpty ? filteredByClient : filteredSales,
                     ),
                     ListSalesAndProvisionOfServices(
+                      isLoading: isLoading,
                       onload: () {
                         loadDetailSalesAndServices(
                             "$year-${(month + 1).toString().padLeft(2, "0")}");

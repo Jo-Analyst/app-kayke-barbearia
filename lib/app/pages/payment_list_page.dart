@@ -23,7 +23,7 @@ class _PaymentListPageState extends State<PaymentListPage>
       lastOptionService = "Tudo",
       tabSelected = "vendas",
       search = "";
-  bool searchByName = false;
+  bool searchByName = false, isLoading = true;
   final FocusNode _focusNode = FocusNode();
   List<Map<String, dynamic>> filteredPaymentsSales = [],
       filteredPaymentsByClient = [],
@@ -42,6 +42,7 @@ class _PaymentListPageState extends State<PaymentListPage>
   }
 
   void loadDetailSalesAndServices(String monthAndYear) async {
+    isLoading = true;
     paymentsSales = await SaleController.getSalesByDate(monthAndYear);
     filteredPaymentsSales = List.from(paymentsSales);
 
@@ -49,7 +50,7 @@ class _PaymentListPageState extends State<PaymentListPage>
         await ProvisionOfServiceController.getProvisionOfServicesByDate(
             monthAndYear);
     filteredPaymentsServices = List.from(paymentsServices);
-
+    isLoading = false;
     setState(() {});
   }
 
@@ -313,6 +314,7 @@ class _PaymentListPageState extends State<PaymentListPage>
                 controller: _tabController,
                 children: <Widget>[
                   ListPayment(
+                    isLoading: isLoading,
                     isService: tabSelected == "serviços",
                     typePayment: tabSelected,
                     payments: search.isNotEmpty
@@ -320,6 +322,7 @@ class _PaymentListPageState extends State<PaymentListPage>
                         : filteredPaymentsSales,
                   ),
                   ListPayment(
+                    isLoading: isLoading,
                     isService: tabSelected == "serviços",
                     typePayment: tabSelected,
                     payments: search.isNotEmpty
