@@ -16,7 +16,7 @@ class ContactPhonePage extends StatefulWidget {
 
 class _ContactPhonePageState extends State<ContactPhonePage> {
   final searchController = TextEditingController();
-  bool isLoading = true;
+  bool isLoading = true, selectedEverything = false;
   String search = "";
   final List<Map<String, dynamic>> _contacts = [];
   List<String> names = [];
@@ -52,7 +52,7 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
     Message.showMessage(context, content, color);
   }
 
-  importContacts() {
+  void importContacts() {
     final clientProvider = Provider.of<ClientProvider>(context, listen: false);
 
     int index = 0;
@@ -71,12 +71,63 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
     Navigator.of(context).pop();
   }
 
+  void selectContact(Map<String, dynamic> contact) {
+    setState(() {
+      names.contains(contact["name"])
+          ? names.remove(contact["name"])
+          : names.add(contact["name"] ?? "Sem nome");
+
+      phones.contains(contact["phone"])
+          ? phones.remove(contact["phone"])
+          : phones.add(contact["phone"] ?? "Sem número");
+    });
+  }
+
+  void clearLists() {
+    setState(() {
+      names.clear();
+      phones.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Importar Contatos"),
+        title: Text(
+            names.isNotEmpty ? names.length.toString() : "Importar Contatos"),
         actions: [
+          IconButton(
+            onPressed: phones.isNotEmpty ? () => importContacts() : null,
+            icon: Visibility(
+              visible: names.isNotEmpty,
+              child: IconButton(
+                onPressed: () {
+                  if (selectedEverything) {
+                    clearLists();
+                    setState(() {
+                      selectedEverything = false;
+                    });
+                    return;
+                  }
+
+                  clearLists();
+                  setState(() {
+                    for (var contact in _contacts) {
+                      names.add(contact["name"] ?? "Sem nome");
+                      phones.add(contact["phone"] ?? "Sem número");
+                    }
+
+                    selectedEverything = true;
+                  });
+                },
+                icon: const Icon(
+                  Icons.select_all,
+                  size: 30,
+                ),
+              ),
+            ),
+          ),
           Container(
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
@@ -148,17 +199,12 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
                           children: [
                             ListTile(
                               onLongPress: () {
-                                setState(() {
-                                  names.contains(contact["name"])
-                                      ? names.remove(contact["name"])
-                                      : names
-                                          .add(contact["name"] ?? "Sem nome");
-
-                                  phones.contains(contact["phone"])
-                                      ? phones.remove(contact["phone"])
-                                      : phones.add(
-                                          contact["phone"] ?? "Sem número");
-                                });
+                                selectContact(contact);
+                              },
+                              onTap: () {
+                                if (names.isNotEmpty) {
+                                  selectContact(contact);
+                                }
                               },
                               selected: names.contains(contact["name"]),
                               selectedTileColor: Colors.indigo,

@@ -10,7 +10,6 @@ Future<String?> showFilterDialog(
       return AlertDialog(
         title: const Text(
           "Filtrar",
-          style: TextStyle(fontSize: 20),
         ),
         content: FilterListPayment(
           onGetOption: (value) => option = value,
@@ -20,7 +19,6 @@ Future<String?> showFilterDialog(
           TextButton(
             child: const Text(
               'Cancelar',
-              style: TextStyle(fontSize: 20),
             ),
             onPressed: () {
               Navigator.of(context).pop();
@@ -31,7 +29,6 @@ Future<String?> showFilterDialog(
             child: ElevatedButton(
               child: const Text(
                 "OK",
-                style: TextStyle(fontSize: 20),
               ),
               onPressed: () {
                 Navigator.of(context).pop(option);
