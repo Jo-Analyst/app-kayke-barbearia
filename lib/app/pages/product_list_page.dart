@@ -8,6 +8,7 @@ import 'package:app_kayke_barbearia/app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/cache.dart';
@@ -161,8 +162,13 @@ class _ProductListPageState extends State<ProductListPage> {
         ],
       ),
       body: isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
+          ? Center(
+              child: LoadingAnimationWidget.discreteCircle(
+                color: Theme.of(context).primaryColor,
+                secondRingColor: Colors.amber,
+                thirdRingColor: Colors.purple,
+                size: 50,
+              ),
             )
           : SingleChildScrollView(
               child: Consumer<ProductProvider>(

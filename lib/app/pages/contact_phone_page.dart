@@ -2,6 +2,7 @@ import 'package:app_kayke_barbearia/app/providers/client_provider.dart';
 import 'package:app_kayke_barbearia/app/utils/search_list.dart';
 import 'package:flutter/material.dart';
 import 'package:contacts_service/contacts_service.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/content_message.dart';
@@ -141,15 +142,20 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
         ],
       ),
       body: isLoading
-          ? const SizedBox(
+          ? SizedBox(
               width: double.infinity,
               height: double.infinity,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircularProgressIndicator(),
-                  Text(
+                  LoadingAnimationWidget.discreteCircle(
+                    color: Theme.of(context).primaryColor,
+                    secondRingColor: Colors.amber,
+                    thirdRingColor: Colors.purple,
+                    size: 50,
+                  ),
+                  const Text(
                     "Carregando...",
                     style: TextStyle(fontSize: 20),
                   )

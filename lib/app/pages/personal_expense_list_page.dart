@@ -5,6 +5,7 @@ import 'package:app_kayke_barbearia/app/utils/dialog.dart';
 import 'package:app_kayke_barbearia/app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/personal_expense_provider.dart';
@@ -94,8 +95,13 @@ class _PersonalExpenseListPageState extends State<PersonalExpenseListPage> {
         ],
       ),
       body: isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
+          ? Center(
+              child: LoadingAnimationWidget.discreteCircle(
+                color: Theme.of(context).primaryColor,
+                secondRingColor: Colors.amber,
+                thirdRingColor: Colors.purple,
+                size: 50,
+              ),
             )
           : Consumer<PersonalExpenseProvider>(
               builder: (context, personalExpenseProvider, _) {
