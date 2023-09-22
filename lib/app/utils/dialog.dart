@@ -18,15 +18,13 @@ Future<bool?> showExitDialog(BuildContext context, String content) async {
               Navigator.of(context).pop(false);
             },
           ),
-          Container(
-            child: ElevatedButton(
-              child: const Text(
-                "Excluir",
-              ),
-              onPressed: () {
-                Navigator.of(context).pop(true);
-              },
+          ElevatedButton(
+            child: const Text(
+              "Excluir",
             ),
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
           ),
         ],
       );

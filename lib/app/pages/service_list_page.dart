@@ -5,11 +5,11 @@ import 'package:app_kayke_barbearia/app/utils/content_message.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:app_kayke_barbearia/app/utils/dialog.dart';
 import 'package:app_kayke_barbearia/app/utils/cache.dart';
+import 'package:app_kayke_barbearia/app/utils/loading.dart';
 import 'package:app_kayke_barbearia/app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 class ServiceListPage extends StatefulWidget {
@@ -156,12 +156,7 @@ class _ServiceListPageState extends State<ServiceListPage> {
       ),
       body: isLoading
           ? Center(
-              child: LoadingAnimationWidget.discreteCircle(
-                color: Theme.of(context).primaryColor,
-                secondRingColor: Colors.amber,
-                thirdRingColor: Colors.purple,
-                size: 50,
-              ),
+              child: loading(context, 50),
             )
           : SingleChildScrollView(
               child: Consumer<ServiceProvider>(
