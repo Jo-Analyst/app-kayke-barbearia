@@ -91,6 +91,26 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
     });
   }
 
+  selectAll() {
+    if (selectedEverything) {
+      clearLists();
+      setState(() {
+        selectedEverything = false;
+      });
+      return;
+    }
+
+    clearLists();
+    setState(() {
+      for (var contact in _contacts) {
+        names.add(contact["name"] ?? "Sem nome");
+        phones.add(contact["phone"] ?? "Sem número");
+      }
+
+      selectedEverything = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,25 +123,7 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
             icon: Visibility(
               visible: names.isNotEmpty,
               child: IconButton(
-                onPressed: () {
-                  if (selectedEverything) {
-                    clearLists();
-                    setState(() {
-                      selectedEverything = false;
-                    });
-                    return;
-                  }
-
-                  clearLists();
-                  setState(() {
-                    for (var contact in _contacts) {
-                      names.add(contact["name"] ?? "Sem nome");
-                      phones.add(contact["phone"] ?? "Sem número");
-                    }
-
-                    selectedEverything = true;
-                  });
-                },
+                onPressed: () => selectAll(),
                 icon: const Icon(
                   Icons.select_all,
                   size: 30,
@@ -131,13 +133,15 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
           ),
           Container(
             margin: const EdgeInsets.only(right: 10),
-            child: IconButton(
-              onPressed: phones.isNotEmpty ? () => importContacts() : null,
-              icon: const Icon(
-                Icons.check,
-                size: 30,
-              ),
-            ),
+            child: phones.isNotEmpty
+                ? IconButton(
+                    onPressed: () => importContacts(),
+                    icon: const Icon(
+                      Icons.check,
+                      size: 30,
+                    ),
+                  )
+                : null,
           )
         ],
       ),
@@ -203,9 +207,11 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
                                 selectContact(contact);
                               },
                               onTap: () {
-                                if (names.isNotEmpty) {
-                                  selectContact(contact);
+                                if (names.isEmpty) {
+                                  importContacts();
+                                  return;
                                 }
+                                selectContact(contact);
                               },
                               selected: names.contains(contact["name"]),
                               selectedTileColor: Colors.indigo,
