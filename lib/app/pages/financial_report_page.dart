@@ -38,6 +38,7 @@ class _FinancialReportState extends State<FinancialReportPage>
   ExpenseBalanceValues expenseBalanceValues = ExpenseBalanceValues();
   PersonalExpenseBalanceValues personalExpenseBalanceValues =
       PersonalExpenseBalanceValues();
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -47,14 +48,17 @@ class _FinancialReportState extends State<FinancialReportPage>
   }
 
   void loadValuesByDate() async {
+    isLoading = true;
     await financialReportSalesValues.loadValuesByDate(monthAndYear);
     await financialReportServicesValues.loadValuesByDate(monthAndYear);
     await expenseBalanceValues.loadValuesByDate(monthAndYear);
     await personalExpenseBalanceValues.loadValuesByDate(monthAndYear);
+    isLoading = false;
     setState(() {});
   }
 
   void loadValuesByPeriod() async {
+    isLoading = true;
     String dateInitial = dateFormat1.format(this.dateInitial),
         dateFinal = dateFormat1.format(this.dateFinal);
     await financialReportSalesValues.loadValuesByPeriod(dateInitial, dateFinal);
@@ -63,6 +67,7 @@ class _FinancialReportState extends State<FinancialReportPage>
     await expenseBalanceValues.loadValuesByPeriod(dateInitial, dateFinal);
     await personalExpenseBalanceValues.loadValuesByPeriod(
         dateInitial, dateFinal);
+    isLoading = false;
     setState(() {});
   }
 
@@ -262,12 +267,17 @@ class _FinancialReportState extends State<FinancialReportPage>
               controller: _tabController,
               children: [
                 FinancialReportSales(
+                    isLoading: isLoading,
                     financialReportSalesValues: financialReportSalesValues),
                 FinancialReportServices(
+                    isLoading: isLoading,
                     financialReportServicesValues:
                         financialReportServicesValues),
-                ExpenseBalance(expenseBalanceValues: expenseBalanceValues),
+                ExpenseBalance(
+                    isLoading: isLoading,
+                    expenseBalanceValues: expenseBalanceValues),
                 FinancialReportPersonalExpense(
+                  isLoading: isLoading,
                   personalExpenseBalanceValues: personalExpenseBalanceValues,
                 ),
               ],

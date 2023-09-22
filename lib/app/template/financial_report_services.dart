@@ -1,13 +1,16 @@
 import 'package:app_kayke_barbearia/app/controllers/financial_report_service_values.dart';
 import 'package:app_kayke_barbearia/app/template/financial_report_service_list.dart';
 import 'package:app_kayke_barbearia/app/template/payment.dart';
+import 'package:app_kayke_barbearia/app/utils/loading.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/convert_values.dart';
 
 class FinancialReportServices extends StatelessWidget {
   final FinancialReportServicesValues financialReportServicesValues;
+  final bool isLoading;
   const FinancialReportServices({
+    required this.isLoading,
     required this.financialReportServicesValues,
     super.key,
   });
@@ -19,14 +22,16 @@ class FinancialReportServices extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            numberFormat.format(financialReportServicesValues.valueTotal),
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).primaryColor,
-            ),
-          ),
+          isLoading
+              ? loading(context, 30)
+              : Text(
+                  numberFormat.format(financialReportServicesValues.valueTotal),
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
           const Text(
             "Total dos serviços",
             style: TextStyle(
@@ -51,9 +56,14 @@ class FinancialReportServices extends StatelessWidget {
             color: const Color.fromARGB(17, 63, 81, 181),
             margin: const EdgeInsets.all(10),
             height: 200,
-            child: FinancialReportServiceList(
-              servicesProvided: financialReportServicesValues.itemsServices,
-            ),
+            child: isLoading
+                ? Center(
+                    child: loading(context, 30),
+                  )
+                : FinancialReportServiceList(
+                    servicesProvided:
+                        financialReportServicesValues.itemsServices,
+                  ),
           ),
           Divider(color: Theme.of(context).primaryColor),
           Payment(
@@ -69,15 +79,17 @@ class FinancialReportServices extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    Text(
-                      numberFormat.format(
-                        financialReportServicesValues.valueTotalDicount,
-                      ),
-                      style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.amber,
-                      ),
-                    ),
+                    isLoading
+                        ? loading(context, 15)
+                        : Text(
+                            numberFormat.format(
+                              financialReportServicesValues.valueTotalDicount,
+                            ),
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.amber,
+                            ),
+                          ),
                     const Text(
                       "Desconto",
                       style: TextStyle(
@@ -89,15 +101,17 @@ class FinancialReportServices extends StatelessWidget {
                 ),
                 Column(
                   children: [
-                    Text(
-                      numberFormat.format(
-                        financialReportServicesValues.valuePaid,
-                      ),
-                      style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.green,
-                      ),
-                    ),
+                    isLoading
+                        ? loading(context, 15)
+                        : Text(
+                            numberFormat.format(
+                              financialReportServicesValues.valuePaid,
+                            ),
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.green,
+                            ),
+                          ),
                     const Text(
                       "Recebido",
                       style: TextStyle(

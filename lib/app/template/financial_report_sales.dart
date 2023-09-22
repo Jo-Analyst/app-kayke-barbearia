@@ -1,4 +1,5 @@
 import 'package:app_kayke_barbearia/app/template/payment.dart';
+import 'package:app_kayke_barbearia/app/utils/loading.dart';
 import 'package:flutter/material.dart';
 
 import '../controllers/financial_report_sale_values.dart';
@@ -7,7 +8,9 @@ import 'financial_report_sale_list.dart';
 
 class FinancialReportSales extends StatelessWidget {
   final FinancialReportSalesValues financialReportSalesValues;
+  final bool isLoading;
   const FinancialReportSales({
+    required this.isLoading,
     required this.financialReportSalesValues,
     super.key,
   });
@@ -19,14 +22,17 @@ class FinancialReportSales extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            numberFormat.format(financialReportSalesValues.valueTotalSale),
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).primaryColor,
-            ),
-          ),
+          isLoading
+              ? loading(context, 30)
+              : Text(
+                  numberFormat
+                      .format(financialReportSalesValues.valueTotalSale),
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
           const Text(
             "Total das vendas",
             style: TextStyle(
@@ -51,9 +57,11 @@ class FinancialReportSales extends StatelessWidget {
             color: const Color.fromARGB(17, 63, 81, 181),
             margin: const EdgeInsets.all(10),
             height: 200,
-            child: FinancialReportSaleList(
-              itemsSale: financialReportSalesValues.itemsSales,
-            ),
+            child: isLoading
+                ? Center(child: loading(context, 30))
+                : FinancialReportSaleList(
+                    itemsSale: financialReportSalesValues.itemsSales,
+                  ),
           ),
           Divider(color: Theme.of(context).primaryColor),
           Payment(
@@ -68,14 +76,16 @@ class FinancialReportSales extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    Text(
-                      numberFormat.format(
-                          financialReportSalesValues.valueTotalDiscount),
-                      style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.amber,
-                      ),
-                    ),
+                    isLoading
+                        ? loading(context, 15)
+                        : Text(
+                            numberFormat.format(
+                                financialReportSalesValues.valueTotalDiscount),
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.amber,
+                            ),
+                          ),
                     const Text(
                       "Desconto",
                       style: TextStyle(
@@ -87,13 +97,16 @@ class FinancialReportSales extends StatelessWidget {
                 ),
                 Column(
                   children: [
-                    Text(
-                      numberFormat.format(financialReportSalesValues.valuePaid),
-                      style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.green,
-                      ),
-                    ),
+                    isLoading
+                        ? loading(context, 15)
+                        : Text(
+                            numberFormat
+                                .format(financialReportSalesValues.valuePaid),
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.green,
+                            ),
+                          ),
                     const Text(
                       "Recebido",
                       style: TextStyle(
@@ -105,13 +118,16 @@ class FinancialReportSales extends StatelessWidget {
                 ),
                 Column(
                   children: [
-                    Text(
-                      numberFormat.format(financialReportSalesValues.profit),
-                      style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.indigo,
-                      ),
-                    ),
+                    isLoading
+                        ? loading(context, 15)
+                        : Text(
+                            numberFormat
+                                .format(financialReportSalesValues.profit),
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.indigo,
+                            ),
+                          ),
                     const Text(
                       "Lucro",
                       style: TextStyle(
