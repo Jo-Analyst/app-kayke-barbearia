@@ -14,53 +14,7 @@ class Payment extends StatefulWidget {
 }
 
 class _PaymentState extends State<Payment> {
-  List<Map<String, dynamic>> payments = [
-    // {
-    //   "icon": const Icon(
-    //     Icons.pix,
-    //     color: Colors.green,
-    //     size: 30,
-    //   ),
-    //   "name": "Pix",
-    //   "quantity": 2,
-    //   "value": 100,
-    // },
-    // {
-    //   "icon": const Icon(
-    //     Icons.credit_card,
-    //     color: Colors.purple,
-    //     size: 30,
-    //   ),
-    //   "name": "Cartão de crédito",
-    //   "quantity": 3,
-    //   "value": 150
-    // },
-    // {
-    //   "icon": const Icon(
-    //     Icons.credit_card,
-    //     color: Colors.purple,
-    //     size: 30,
-    //   ),
-    //   "name": "Cartão de débito",
-    //   "quantity": 4,
-    //   "value": 200
-    // },
-    // {
-    //   "icon": const Icon(
-    //     Icons.monetization_on,
-    //     color: Colors.green,
-    //     size: 30,
-    //   ),
-    //   "name": "Dinheiro",
-    //   "quantity": 5,
-    //   "value": 250
-    // },
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  List<Map<String, dynamic>> payments = [];
 
   @override
   Widget build(BuildContext context) {

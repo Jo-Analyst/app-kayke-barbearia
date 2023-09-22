@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class FilterListPayment extends StatefulWidget {
   final Function(String) onGetOption;
   final String optionSelected;
-  const FilterListPayment({required this.optionSelected,
+  const FilterListPayment({
+    required this.optionSelected,
     required this.onGetOption,
     super.key,
   });
@@ -28,7 +29,7 @@ class _FilterListPaymentState extends State<FilterListPayment> {
     super.dispose();
   }
 
-  changeMoney(String value) {
+  void changeMoney(String value) {
     setState(() {
       currentOptions = value;
       widget.onGetOption(value);

@@ -22,7 +22,7 @@ class _SpeciePaymentReceiptState extends State<SpeciePaymentReceipt> {
     {"specie": "PIX", "icon": Icons.pix, "isActive": false},
   ];
 
-  changeColorAfterPaymentTypeBecomesActive(int index) {
+  void changeColorAfterPaymentTypeBecomesActive(int index) {
     setState(() {
       for (var listSpecie in listSpeciePayments) {
         listSpecie["isActive"] = false;

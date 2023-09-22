@@ -18,7 +18,7 @@ class _SpeciePaymentState extends State<SpeciePayment> {
     {"specie": "Fiado", "icon": Icons.person_2_outlined, "isActive": false},
   ];
 
-  changeColorAfterPaymentTypeBecomesActive(int index) {
+  void changeColorAfterPaymentTypeBecomesActive(int index) {
     setState(() {
       for (var listSpecie in listSpeciePayments) {
         listSpecie["isActive"] = false;
