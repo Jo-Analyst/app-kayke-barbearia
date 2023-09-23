@@ -22,7 +22,7 @@ class PaymentContainer extends StatelessWidget {
     return Container(
       width: isItValueToBeReceived
           ? null
-          : MediaQuery.of(context).size.width / 2 - 40,
+          : MediaQuery.of(context).size.width / 2 - 20,
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.blueGrey,
@@ -49,12 +49,16 @@ class PaymentContainer extends StatelessWidget {
                 style: const TextStyle(fontSize: 20),
               ),
               const SizedBox(height: 2),
-              Expanded(
-                child: Text(
-                  numberFormat.format(value),
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
+              Flexible(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    numberFormat.format(value),
+                    maxLines: 2,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ),

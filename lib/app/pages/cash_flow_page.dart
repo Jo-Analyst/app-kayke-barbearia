@@ -265,14 +265,17 @@ class _CashFlowPageState extends State<CashFlowPage> {
                           ),
                         ),
                         const SizedBox(height: 5),
-                        Text(
-                          "Total Venda",
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w500,
-                            color: activeContainerSale
-                                ? Colors.white
-                                : Colors.black,
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            "Total Venda",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                              color: activeContainerSale
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
                           ),
                         ),
                       ],
@@ -309,7 +312,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
                         Text(
                           "Total Serviço",
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: 20,
                             fontWeight: FontWeight.w500,
                             color: activeContainerService
                                 ? Colors.white

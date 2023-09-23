@@ -28,7 +28,7 @@ class PaymentsContainers extends StatelessWidget {
         Container(
           height: 80,
           margin: const EdgeInsets.only(top: 20),
-          padding: const EdgeInsets.symmetric(horizontal: 30),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -52,7 +52,7 @@ class PaymentsContainers extends StatelessWidget {
         Container(
           height: 80,
           margin: const EdgeInsets.only(top: 20),
-          padding: const EdgeInsets.symmetric(horizontal: 30),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -76,7 +76,7 @@ class PaymentsContainers extends StatelessWidget {
         Container(
           height: 80,
           margin: const EdgeInsets.only(top: 20),
-          padding: const EdgeInsets.symmetric(horizontal: 30),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -100,7 +100,7 @@ class PaymentsContainers extends StatelessWidget {
         Container(
           height: 80,
           margin: const EdgeInsets.only(top: 20),
-          padding: const EdgeInsets.symmetric(horizontal: 30),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: PaymentContainer(
             icon: Icons.check_circle,
             isItValueToBeReceived: true,
