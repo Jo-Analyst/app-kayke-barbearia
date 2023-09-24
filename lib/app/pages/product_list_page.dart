@@ -231,75 +231,60 @@ class _ProductListPageState extends State<ProductListPage> {
                                           return Column(
                                             children: [
                                               Slidable(
-                                                endActionPane:
-                                                    widget.itFromTheSalesScreen
-                                                        ? null
-                                                        : ActionPane(
-                                                            motion:
-                                                                const StretchMotion(),
-                                                            children: [
-                                                              SlidableAction(
-                                                                onPressed: (_) {
-                                                                  FocusScope.of(
-                                                                          context)
-                                                                      .requestFocus(
-                                                                          FocusNode());
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .push(
-                                                                    MaterialPageRoute(
-                                                                      builder:
-                                                                          (_) =>
-                                                                              ProductFormPage(
-                                                                        isEdition:
-                                                                            true,
-                                                                        productId:
-                                                                            product["id"],
-                                                                        name: product[
-                                                                            "name"],
-                                                                        saleValue:
-                                                                            product["sale_value"],
-                                                                        costValue:
-                                                                            product["cost_value"],
-                                                                        profitValue:
-                                                                            product["profit_value"],
-                                                                        quantity:
-                                                                            product["quantity"],
-                                                                      ),
-                                                                    ),
-                                                                  );
-                                                                },
-                                                                backgroundColor:
-                                                                    Colors
-                                                                        .amber,
-                                                                foregroundColor:
-                                                                    Colors
-                                                                        .white,
-                                                                icon: Icons
-                                                                    .edit_outlined,
-                                                                label: "Editar",
-                                                              ),
-                                                              SlidableAction(
-                                                                onPressed:
-                                                                    (_) async {
-                                                                  FocusScope.of(
-                                                                          context)
-                                                                      .requestFocus(
-                                                                          FocusNode());
-                                                                  deleteProduct(
-                                                                    productsProvider,
-                                                                    product,
-                                                                  );
-                                                                },
-                                                                backgroundColor:
-                                                                    Colors.red,
-                                                                icon: Icons
-                                                                    .delete,
-                                                                label:
-                                                                    "Excluir",
-                                                              ),
-                                                            ],
+                                                endActionPane: ActionPane(
+                                                  motion: const StretchMotion(),
+                                                  children: [
+                                                    SlidableAction(
+                                                      onPressed: (_) {
+                                                        FocusScope.of(context)
+                                                            .requestFocus(
+                                                                FocusNode());
+                                                        Navigator.of(context)
+                                                            .push(
+                                                          MaterialPageRoute(
+                                                            builder: (_) =>
+                                                                ProductFormPage(
+                                                              isEdition: true,
+                                                              productId:
+                                                                  product["id"],
+                                                              name: product[
+                                                                  "name"],
+                                                              saleValue: product[
+                                                                  "sale_value"],
+                                                              costValue: product[
+                                                                  "cost_value"],
+                                                              profitValue: product[
+                                                                  "profit_value"],
+                                                              quantity: product[
+                                                                  "quantity"],
+                                                            ),
                                                           ),
+                                                        );
+                                                      },
+                                                      backgroundColor:
+                                                          Colors.amber,
+                                                      foregroundColor:
+                                                          Colors.white,
+                                                      icon: Icons.edit_outlined,
+                                                      label: "Editar",
+                                                    ),
+                                                    SlidableAction(
+                                                      onPressed: (_) async {
+                                                        FocusScope.of(context)
+                                                            .requestFocus(
+                                                                FocusNode());
+                                                        deleteProduct(
+                                                          productsProvider,
+                                                          product,
+                                                        );
+                                                      },
+                                                      backgroundColor:
+                                                          Colors.red,
+                                                      icon: Icons.delete,
+                                                      label: "Excluir",
+                                                    ),
+                                                  ],
+                                                ),
                                                 child: ListTile(
                                                   selected: productsSelected
                                                       .any((dataProduct) =>

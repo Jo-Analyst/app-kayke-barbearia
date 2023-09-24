@@ -183,61 +183,52 @@ class _ClientListPageState extends State<ClientListPage> {
                                           return Column(
                                             children: [
                                               Slidable(
-                                                endActionPane: widget
-                                                        .itFromTheSalesScreen
-                                                    ? null
-                                                    : ActionPane(
-                                                        motion:
-                                                            const StretchMotion(),
-                                                        children: [
-                                                          SlidableAction(
-                                                            onPressed: (_) {
-                                                              FocusScope.of(
-                                                                      context)
-                                                                  .requestFocus(
-                                                                      FocusNode());
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .push(
-                                                                MaterialPageRoute(
-                                                                  builder: (_) =>
-                                                                      ClientFormPage(
-                                                                    isEdition:
-                                                                        true,
-                                                                    clientId:
-                                                                        client[
-                                                                            "id"],
-                                                                    name: client[
-                                                                        "name"],
-                                                                    phone: client[
-                                                                        "phone"],
-                                                                    address: client[
-                                                                        "address"],
-                                                                  ),
-                                                                ),
-                                                              );
-                                                            },
-                                                            backgroundColor:
-                                                                Colors.amber,
-                                                            foregroundColor:
-                                                                Colors.white,
-                                                            icon: Icons
-                                                                .edit_outlined,
-                                                            label: "Editar",
+                                                endActionPane: ActionPane(
+                                                  motion: const StretchMotion(),
+                                                  children: [
+                                                    SlidableAction(
+                                                      onPressed: (_) {
+                                                        FocusScope.of(context)
+                                                            .requestFocus(
+                                                                FocusNode());
+                                                        Navigator.of(context)
+                                                            .push(
+                                                          MaterialPageRoute(
+                                                            builder: (_) =>
+                                                                ClientFormPage(
+                                                              isEdition: true,
+                                                              clientId:
+                                                                  client["id"],
+                                                              name: client[
+                                                                  "name"],
+                                                              phone: client[
+                                                                  "phone"],
+                                                              address: client[
+                                                                  "address"],
+                                                            ),
                                                           ),
-                                                          SlidableAction(
-                                                            onPressed: (_) {
-                                                              deleteService(
-                                                                  clientsProvider,
-                                                                  client);
-                                                            },
-                                                            backgroundColor:
-                                                                Colors.red,
-                                                            icon: Icons.delete,
-                                                            label: "Excluir",
-                                                          ),
-                                                        ],
-                                                      ),
+                                                        );
+                                                      },
+                                                      backgroundColor:
+                                                          Colors.amber,
+                                                      foregroundColor:
+                                                          Colors.white,
+                                                      icon: Icons.edit_outlined,
+                                                      label: "Editar",
+                                                    ),
+                                                    SlidableAction(
+                                                      onPressed: (_) {
+                                                        deleteService(
+                                                            clientsProvider,
+                                                            client);
+                                                      },
+                                                      backgroundColor:
+                                                          Colors.red,
+                                                      icon: Icons.delete,
+                                                      label: "Excluir",
+                                                    ),
+                                                  ],
+                                                ),
                                                 child: ListTile(
                                                   onTap: widget
                                                           .itFromTheSalesScreen

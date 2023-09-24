@@ -223,63 +223,50 @@ class _ServiceListPageState extends State<ServiceListPage> {
                                           return Column(
                                             children: [
                                               Slidable(
-                                                endActionPane:
-                                                    widget.itFromTheSalesScreen
-                                                        ? null
-                                                        : ActionPane(
-                                                            motion:
-                                                                const StretchMotion(),
-                                                            children: [
-                                                              SlidableAction(
-                                                                onPressed: (_) {
-                                                                  FocusScope.of(
-                                                                          context)
-                                                                      .requestFocus(
-                                                                          FocusNode());
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .push(
-                                                                    MaterialPageRoute(
-                                                                      builder:
-                                                                          (_) =>
-                                                                              ServiceFormPage(
-                                                                        isEdition:
-                                                                            true,
-                                                                        serviceId:
-                                                                            service["id"],
-                                                                        description:
-                                                                            service["description"],
-                                                                        price: service[
-                                                                            "price"],
-                                                                      ),
-                                                                    ),
-                                                                  );
-                                                                },
-                                                                backgroundColor:
-                                                                    Colors
-                                                                        .amber,
-                                                                foregroundColor:
-                                                                    Colors
-                                                                        .white,
-                                                                icon: Icons
-                                                                    .edit_outlined,
-                                                                label: "Editar",
-                                                              ),
-                                                              SlidableAction(
-                                                                onPressed: (_) {
-                                                                  deleteService(
-                                                                      serviceProvider,
-                                                                      service);
-                                                                },
-                                                                backgroundColor:
-                                                                    Colors.red,
-                                                                icon: Icons
-                                                                    .delete,
-                                                                label:
-                                                                    "Excluir",
-                                                              ),
-                                                            ],
+                                                endActionPane: ActionPane(
+                                                  motion: const StretchMotion(),
+                                                  children: [
+                                                    SlidableAction(
+                                                      onPressed: (_) {
+                                                        FocusScope.of(context)
+                                                            .requestFocus(
+                                                                FocusNode());
+                                                        Navigator.of(context)
+                                                            .push(
+                                                          MaterialPageRoute(
+                                                            builder: (_) =>
+                                                                ServiceFormPage(
+                                                              isEdition: true,
+                                                              serviceId:
+                                                                  service["id"],
+                                                              description: service[
+                                                                  "description"],
+                                                              price: service[
+                                                                  "price"],
+                                                            ),
                                                           ),
+                                                        );
+                                                      },
+                                                      backgroundColor:
+                                                          Colors.amber,
+                                                      foregroundColor:
+                                                          Colors.white,
+                                                      icon: Icons.edit_outlined,
+                                                      label: "Editar",
+                                                    ),
+                                                    SlidableAction(
+                                                      onPressed: (_) {
+                                                        deleteService(
+                                                            serviceProvider,
+                                                            service);
+                                                      },
+                                                      backgroundColor:
+                                                          Colors.red,
+                                                      icon: Icons.delete,
+                                                      label: "Excluir",
+                                                    ),
+                                                  ],
+                                                ),
                                                 child: ListTile(
                                                   selected: servicesSelected
                                                       .any((dataService) =>

@@ -304,15 +304,13 @@ class DetailsPayment extends StatelessWidget {
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Expanded(
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      payment["situation"] == "Recebido"
-                          ? "Editar pagamento"
-                          : "Incluir pagamento",
-                      style: const TextStyle(fontSize: 20),
-                    ),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    payment["situation"] == "Recebido"
+                        ? "Editar pagamento"
+                        : "Incluir pagamento",
+                    style: const TextStyle(fontSize: 20),
                   ),
                 ),
               ),
