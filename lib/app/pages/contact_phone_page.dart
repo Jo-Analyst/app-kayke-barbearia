@@ -17,7 +17,9 @@ class ContactPhonePage extends StatefulWidget {
 
 class _ContactPhonePageState extends State<ContactPhonePage> {
   final searchController = TextEditingController();
-  bool isLoading = true, selectedEverything = false;
+  bool isLoading = true,
+      selectedEverything = false,
+      longPressWasPressed = false;
   String search = "";
   final List<Map<String, dynamic>> _contacts = [];
   List<String> names = [];
@@ -96,6 +98,7 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
       clearLists();
       setState(() {
         selectedEverything = false;
+        longPressWasPressed = false;
       });
       return;
     }
@@ -205,15 +208,19 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
                             ListTile(
                               onLongPress: () {
                                 selectContact(contact);
+                                setState(() {
+                                  longPressWasPressed =
+                                      names.isNotEmpty ? true : false;
+                                });
                               },
                               onTap: () {
-                                if (names.isEmpty) {
-                                  importContacts();
-                                  return;
-                                }
                                 selectContact(contact);
+                                if (!longPressWasPressed) {
+                                  importContacts();
+                                }
                               },
-                              selected: names.contains(contact["name"]),
+                              selected: longPressWasPressed &&
+                                  names.contains(contact["name"]),
                               selectedTileColor: Colors.indigo,
                               selectedColor: Colors.white,
                               title: Text(contact["name"] ?? "Sem nome"),

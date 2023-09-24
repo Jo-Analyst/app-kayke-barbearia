@@ -234,10 +234,13 @@ class _PersonalExpenseListPageState extends State<PersonalExpenseListPage> {
                                                     style: const TextStyle(
                                                         fontSize: 20),
                                                   ),
-                                                  subtitle: Text(
-                                                    "${personalExpense["quantity"]}x ${numberFormat.format(personalExpense["price"])} = ${numberFormat.format(personalExpense["subtotal"])}",
-                                                    style: const TextStyle(
-                                                        fontSize: 18),
+                                                  subtitle: FittedBox(
+                                                    fit: BoxFit.scaleDown,
+                                                    child: Text(
+                                                      "${personalExpense["quantity"]}x ${numberFormat.format(personalExpense["price"])} = ${numberFormat.format(personalExpense["subtotal"])}",
+                                                      style: const TextStyle(
+                                                          fontSize: 18),
+                                                    ),
                                                   ),
                                                   trailing: Text(
                                                     changeTheDateWriting(

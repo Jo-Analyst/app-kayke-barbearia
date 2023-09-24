@@ -58,11 +58,14 @@ class FinancialReportServiceList extends StatelessWidget {
                                 child: Container(
                                   alignment: Alignment.centerRight,
                                   width: MediaQuery.of(context).size.width / 3,
-                                  child: Text(
-                                    numberFormat.format(service["subtotal"]),
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w500,
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      numberFormat.format(service["subtotal"]),
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
                                   ),
                                 ),

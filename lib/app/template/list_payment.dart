@@ -38,6 +38,12 @@ class ListPayment extends StatelessWidget {
             : ListView.builder(
                 itemCount: payments.length,
                 itemBuilder: (_, index) {
+                  final nameCompleted =
+                      payments[index]["client_name"].toString().split(" ");
+
+                  String nameClient = nameCompleted.length > 1
+                      ? "${nameCompleted[0]} ${nameCompleted[nameCompleted.length - 1]}"
+                      : payments[index]["client_name"].toString();
                   return Column(
                     children: [
                       ListTile(
@@ -50,18 +56,28 @@ class ListPayment extends StatelessWidget {
                         ),
                         leading: Chip(
                           backgroundColor: Colors.indigo.withOpacity(.2),
-                          label: Text(
-                            numberFormat.format(payments[index]["value_total"]),
+                          label: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              numberFormat
+                                  .format(payments[index]["value_total"]),
+                              style: const TextStyle(fontSize: 18),
+                            ),
+                          ),
+                        ),
+                        title: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            changeTheDateWriting(payments[index]["date"]),
                             style: const TextStyle(fontSize: 18),
                           ),
                         ),
-                        title: Text(
-                          changeTheDateWriting(payments[index]["date"]),
-                          style: const TextStyle(fontSize: 18),
-                        ),
-                        subtitle: Text(
-                          payments[index]["client_name"],
-                          style: const TextStyle(fontSize: 18),
+                        subtitle: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            nameClient,
+                            style: const TextStyle(fontSize: 18),
+                          ),
                         ),
                         trailing: Text(
                           payments[index]["situation"],

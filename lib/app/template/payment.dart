@@ -71,11 +71,14 @@ class _PaymentState extends State<Payment> {
                           child: Container(
                             alignment: Alignment.centerRight,
                             width: MediaQuery.of(context).size.width / 3,
-                            child: Text(
-                              numberFormat.format(payment["value"]),
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                numberFormat.format(payment["value"]),
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ),

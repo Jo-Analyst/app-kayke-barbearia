@@ -78,12 +78,15 @@ class FinancialReportSales extends StatelessWidget {
                   children: [
                     isLoading
                         ? loading(context, 15)
-                        : Text(
-                            numberFormat.format(
-                                financialReportSalesValues.valueTotalDiscount),
-                            style: const TextStyle(
-                              fontSize: 18,
-                              color: Colors.amber,
+                        : FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              numberFormat.format(financialReportSalesValues
+                                  .valueTotalDiscount),
+                              style: const TextStyle(
+                                fontSize: 18,
+                                color: Colors.amber,
+                              ),
                             ),
                           ),
                     const Text(
@@ -99,12 +102,15 @@ class FinancialReportSales extends StatelessWidget {
                   children: [
                     isLoading
                         ? loading(context, 15)
-                        : Text(
-                            numberFormat
-                                .format(financialReportSalesValues.valuePaid),
-                            style: const TextStyle(
-                              fontSize: 18,
-                              color: Colors.green,
+                        : FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              numberFormat
+                                  .format(financialReportSalesValues.valuePaid),
+                              style: const TextStyle(
+                                fontSize: 18,
+                                color: Colors.green,
+                              ),
                             ),
                           ),
                     const Text(
@@ -120,12 +126,15 @@ class FinancialReportSales extends StatelessWidget {
                   children: [
                     isLoading
                         ? loading(context, 15)
-                        : Text(
-                            numberFormat
-                                .format(financialReportSalesValues.profit),
-                            style: const TextStyle(
-                              fontSize: 18,
-                              color: Colors.indigo,
+                        : FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              numberFormat
+                                  .format(financialReportSalesValues.profit),
+                              style: const TextStyle(
+                                fontSize: 18,
+                                color: Colors.indigo,
+                              ),
                             ),
                           ),
                     const Text(

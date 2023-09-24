@@ -195,7 +195,7 @@ class _PaymentSaleEditionPageState extends State<PaymentSaleEditionPage> {
                                                   : MediaQuery.of(context)
                                                           .size
                                                           .height -
-                                                      405
+                                                      420
                                               : MediaQuery.of(context)
                                                       .size
                                                       .height -

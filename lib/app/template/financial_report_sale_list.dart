@@ -9,7 +9,7 @@ class FinancialReportSaleList extends StatelessWidget {
     super.key,
   });
 
-   @override
+  @override
   Widget build(BuildContext context) {
     return Scrollbar(
       child: itemsSale.isEmpty
@@ -58,11 +58,14 @@ class FinancialReportSaleList extends StatelessWidget {
                                 child: Container(
                                   alignment: Alignment.centerRight,
                                   width: MediaQuery.of(context).size.width / 3,
-                                  child: Text(
-                                    numberFormat.format(item["subtotal"]),
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w500,
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      numberFormat.format(item["subtotal"]),
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
                                   ),
                                 ),

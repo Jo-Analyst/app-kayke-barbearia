@@ -92,8 +92,8 @@ class _ExpenseListPageState extends State<ExpenseListPage> {
         ],
       ),
       body: isLoading
-          ?  Center(
-              child:loading(context, 50),
+          ? Center(
+              child: loading(context, 50),
             )
           : Consumer<ExpenseProvider>(
               builder: (context, expenseProvider, _) {
@@ -228,10 +228,13 @@ class _ExpenseListPageState extends State<ExpenseListPage> {
                                                     style: const TextStyle(
                                                         fontSize: 20),
                                                   ),
-                                                  subtitle: Text(
-                                                    "${expense["quantity"]}x ${numberFormat.format(expense["price"])} = ${numberFormat.format(expense["subtotal"])}",
-                                                    style: const TextStyle(
-                                                        fontSize: 18),
+                                                  subtitle: FittedBox(
+                                                    fit: BoxFit.scaleDown,
+                                                    child: Text(
+                                                      "${expense["quantity"]}x ${numberFormat.format(expense["price"])} = ${numberFormat.format(expense["subtotal"])}",
+                                                      style: const TextStyle(
+                                                          fontSize: 18),
+                                                    ),
                                                   ),
                                                   trailing: Text(
                                                     changeTheDateWriting(

@@ -37,9 +37,12 @@ class SpeciePaymentContainer extends StatelessWidget {
             color: iconColor,
             size: 30,
           ),
-          Text(
-            title,
-            style: TextStyle(fontSize: 20, color: textColor),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              title,
+              style: TextStyle(fontSize: 20, color: textColor),
+            ),
           )
         ],
       ),

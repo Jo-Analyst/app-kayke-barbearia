@@ -118,12 +118,15 @@ class FinancialReportPersonalExpense extends StatelessWidget {
                                                       .size
                                                       .width /
                                                   3,
-                                              child: Text(
-                                                numberFormat
-                                                    .format(product["price"]),
-                                                style: const TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.w500,
+                                              child: FittedBox(
+                                                fit: BoxFit.scaleDown,
+                                                child: Text(
+                                                  numberFormat
+                                                      .format(product["price"]),
+                                                  style: const TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
                                                 ),
                                               ),
                                             ),

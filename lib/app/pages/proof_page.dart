@@ -94,7 +94,7 @@ class ProofPage extends StatelessWidget {
                               size: 25,
                             ),
                             title: Text(
-                              payment["specie"].toString().toUpperCase(),
+                              payment["specie"].toString(),
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,

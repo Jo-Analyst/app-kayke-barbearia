@@ -47,6 +47,13 @@ class _ListSalesAndProvisionOfServicesState
                 scrollDirection: Axis.vertical,
                 itemCount: widget.itemsList.length,
                 itemBuilder: (_, index) {
+                  final nameCompleted = widget.itemsList[index]["client_name"]
+                      .toString()
+                      .split(" ");
+
+                  String nameClient = nameCompleted.length > 1
+                      ? "${nameCompleted[0]} ${nameCompleted[nameCompleted.length - 1]}"
+                      : widget.itemsList[index]["client_name"].toString();
                   return Column(
                     children: [
                       ListTile(
@@ -68,13 +75,16 @@ class _ListSalesAndProvisionOfServicesState
                             widget.onload();
                           }
                         },
-                        leading: Text(
-                          widget.itemsList[index]["id"]
-                              .toString()
-                              .padLeft(5, "0"),
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
+                        leading: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            widget.itemsList[index]["id"]
+                                .toString()
+                                .padLeft(5, "0"),
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
                         title: Text(
@@ -82,25 +92,32 @@ class _ListSalesAndProvisionOfServicesState
                           style: const TextStyle(fontSize: 18),
                         ),
                         subtitle: Text(
-                          widget.itemsList[index]["client_name"],
+                          nameClient,
                           style: const TextStyle(fontSize: 18),
                         ),
                         trailing: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Text(
-                              numberFormat.format(
-                                widget.itemsList[index]["value_total"],
-                              ),
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 18,
+                            Expanded(
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  numberFormat.format(
+                                    widget.itemsList[index]["value_total"],
+                                  ),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 18,
+                                  ),
+                                ),
                               ),
                             ),
-                            Text(
-                              widget.itemsList[index]["situation"],
-                              style: const TextStyle(
-                                fontSize: 20,
+                            Expanded(
+                              child: Text(
+                                widget.itemsList[index]["situation"],
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                ),
                               ),
                             ),
                           ],

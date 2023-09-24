@@ -16,8 +16,9 @@ class DetailsPayment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: payment["situation"] == "Recebido" ? 230 : 310,
+    return Container(
+      padding: const EdgeInsets.only(bottom: 10),
+      height: payment["situation"] == "Recebido" ? 250 : 330,
       child: ListView(
         children: [
           Container(
@@ -46,6 +47,7 @@ class DetailsPayment extends StatelessWidget {
                         vertical: 10,
                       ),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
                             alignment: Alignment.center,
@@ -72,11 +74,17 @@ class DetailsPayment extends StatelessWidget {
                                   "Valor",
                                   style: TextStyle(fontSize: 20),
                                 ),
-                                Text(
-                                  numberFormat.format(payment["value_total"]),
-                                  style: const TextStyle(
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.w700,
+                                Expanded(
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      numberFormat
+                                          .format(payment["value_total"]),
+                                      style: const TextStyle(
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -142,11 +150,17 @@ class DetailsPayment extends StatelessWidget {
                                   "Valor",
                                   style: TextStyle(fontSize: 20),
                                 ),
-                                Text(
-                                  numberFormat.format(payment["value_total"]),
-                                  style: const TextStyle(
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.w700,
+                                Expanded(
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      numberFormat
+                                          .format(payment["value_total"]),
+                                      style: const TextStyle(
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -202,11 +216,17 @@ class DetailsPayment extends StatelessWidget {
                                   "Valor pago",
                                   style: TextStyle(fontSize: 20),
                                 ),
-                                Text(
-                                  numberFormat.format(payment["amount_paid"]),
-                                  style: const TextStyle(
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.w700,
+                                Expanded(
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      numberFormat
+                                          .format(payment["amount_paid"]),
+                                      style: const TextStyle(
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -224,16 +244,25 @@ class DetailsPayment extends StatelessWidget {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Text(
-                                  "Valor a receber",
-                                  style: TextStyle(fontSize: 20),
+                                const FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text(
+                                    "V. a receber",
+                                    style: TextStyle(fontSize: 20),
+                                  ),
                                 ),
-                                Text(
-                                  numberFormat.format((payment["value_total"] -
-                                      payment["amount_paid"])),
-                                  style: const TextStyle(
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.w700,
+                                Expanded(
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      numberFormat.format(
+                                          (payment["value_total"] -
+                                              payment["amount_paid"])),
+                                      style: const TextStyle(
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -274,12 +303,17 @@ class DetailsPayment extends StatelessWidget {
                 );
               },
               child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Text(
-                  payment["situation"] == "Recebido"
-                      ? "Editar pagamento"
-                      : "Incluir pagamento",
-                  style: const TextStyle(fontSize: 20),
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Expanded(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      payment["situation"] == "Recebido"
+                          ? "Editar pagamento"
+                          : "Incluir pagamento",
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                  ),
                 ),
               ),
             ),
