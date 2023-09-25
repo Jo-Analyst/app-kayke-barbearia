@@ -16,7 +16,7 @@ class NewTransaction extends StatelessWidget {
       color: Colors.indigo.withOpacity(.1),
       padding: const EdgeInsets.all(10),
       child: SizedBox(
-        height: 315,
+        height: 320,
         child: ListView(
           children: [
             const Text(

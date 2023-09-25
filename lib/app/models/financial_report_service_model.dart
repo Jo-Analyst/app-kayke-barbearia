@@ -21,7 +21,7 @@ class FinancialReportServiceModel {
   Future<List<Map<String, dynamic>>> getListServices() async {
     final db = await DB.openDatabase();
     return db.rawQuery(
-        "SELECT services.description, COUNT(items_services.id) AS quantity_services, SUM(items_services.price_service) AS subtotal FROM items_services INNER JOIN provision_of_services ON provision_of_services.id = items_services.provision_of_service_id INNER JOIN services ON services.id = items_services.service_id WHERE provision_of_services.date_service LIKE '%$monthAndYear%' GROUP BY services.description");
+        "SELECT services.description, COUNT(items_services.id) AS quantity_services, SUM(items_services.price_service) AS subtotal FROM items_services INNER JOIN provision_of_services ON provision_of_services.id = items_services.provision_of_service_id INNER JOIN services ON services.id = items_services.service_id WHERE provision_of_services.date_service LIKE '%$monthAndYear%' GROUP BY services.description ORDER BY quantity_services DESC");
   }
 
   Future<List<Map<String, dynamic>>> getListPaymentsServices() async {

@@ -21,7 +21,7 @@ class FinancialReportSaleModel {
   Future<List<Map<String, dynamic>>> getListSales() async {
     final db = await DB.openDatabase();
     return db.rawQuery(
-        "SELECT products.name, SUM(items_sales.quantity) AS quantity_items, SUM(items_sales.sub_total) AS subtotal, SUM(items_sales.sub_profit_product) AS profit FROM items_sales INNER JOIN sales ON sales.id = items_sales.sale_id INNER JOIN products ON products.id = items_sales.product_id WHERE sales.date_sale LIKE '%$monthAndYear%' GROUP BY products.name");
+        "SELECT products.name, SUM(items_sales.quantity) AS quantity_items, SUM(items_sales.sub_total) AS subtotal, SUM(items_sales.sub_profit_product) AS profit FROM items_sales INNER JOIN sales ON sales.id = items_sales.sale_id INNER JOIN products ON products.id = items_sales.product_id WHERE sales.date_sale LIKE '%$monthAndYear%' GROUP BY products.name ORDER BY quantity_items DESC");
   }
 
   Future<List<Map<String, dynamic>>> getListPaymentsSales() async {
