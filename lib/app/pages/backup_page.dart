@@ -1,77 +1,105 @@
-import 'dart:io';
-
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:app_kayke_barbearia/app/models/backup.dart';
+import 'package:app_kayke_barbearia/app/utils/content_message.dart';
+import 'package:app_kayke_barbearia/app/utils/snackbar.dart';
+import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import 'package:flutter/material.dart';
-
-class BackupPage extends StatelessWidget {
+class BackupPage extends StatefulWidget {
   const BackupPage({super.key});
 
   @override
+  State<BackupPage> createState() => _BackupPageState();
+}
+
+class _BackupPageState extends State<BackupPage> {
+  final selectedDirectory = TextEditingController();
+
+  Future<void> pickDirectory() async {
+    final result = await FilePicker.platform.getDirectoryPath();
+    if (result != null) {
+      setState(() {
+        selectedDirectory.text = result;
+      });
+    }
+  }
+
+  void showMessage(Widget content, Color? color) {
+    Message.showMessage(context, content, color);
+  }
+
+  Future<void> requestPermissions() async {
+    var status = await Permission.manageExternalStorage.status;
+    if (!status.isGranted) {
+      await Permission.manageExternalStorage.request();
+    }
+
+    var status1 = await Permission.storage.status;
+
+    if (!status1.isGranted) {
+      await Permission.storage.request();
+    }
+  }
+
+  Future<void> performAction(Function() action, String? actionName) async {
+    await requestPermissions();
+
+    if (actionName != null) {
+      FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+      String? path = result != null ? result.files.first.path : "";
+      final detailsFile = path!.split(".");
+      String extension = detailsFile[detailsFile.length - 1];
+      if (extension.toLowerCase() != "db") return;
+      Backup.path = path;
+    }
+
+    final response = await action();
+
+    if (response != null) {
+      showMessage(
+        ContentMessage(
+          title: response,
+          icon: Icons.error,
+        ),
+        Colors.orange,
+      );
+
+      return;
+    }
+
+    showMessage(
+      ContentMessage(
+        title: actionName != null
+            ? "A restauração foi realizada com sucesso."
+            : "O backup foi realizado com sucesso.",
+        icon: Icons.info,
+      ),
+      null,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    Future<void> backupDatabase() async {
-      Directory appDocumentsDirectory =
-          await getApplicationDocumentsDirectory();
-      String dbPath = join(appDocumentsDirectory.path, "kaikebarbearia.db");
-      File dbFile = File(dbPath);
-
-      // Escolha um local para salvar o backup dentro do diretório de documentos
-      String backupPath =
-          join(appDocumentsDirectory.path, "my_database_backup.db");
-
-      try {
-        await dbFile.copy(backupPath);
-        print("Backup criado com sucesso em $backupPath");
-      } catch (e) {
-        print("Erro ao criar backup: $e");
-      }
-    }
-
-    bool isPermissionRequesting =
-        false; // Variável para controlar o estado da solicitação de permissão
-
-    Future<void> requestStoragePermission() async {
-      if (!isPermissionRequesting) {
-        // Verifique se uma solicitação já está em andamento
-        isPermissionRequesting = true; // Defina o estado como true
-        final status = await Permission.storage.request();
-        isPermissionRequesting =
-            false; // Defina o estado como false após a conclusão da solicitação
-        if (status.isGranted) {
-          backupDatabase();
-        } else {
-          // Trate o caso de permissão negada
-        }
-      }
-    }
-
     return Scaffold(
-        appBar: AppBar(title: const Text("Backup e restauração")),
+        appBar: AppBar(
+          title: const Text("Backup e restauração"),
+        ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+          padding: const EdgeInsets.symmetric(
+            vertical: 20,
+            horizontal: 15,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      readOnly: true,
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: "Escolha o local do backup"),
-                    ),
-                  ),
-                  IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.file_copy))
-                ],
-              ),
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 10),
                 child: ElevatedButton(
-                  onPressed: () => requestStoragePermission(),
+                  onPressed: () async {
+                    await performAction(Backup.toGenerate, null);
+                  },
                   child: const Padding(
                     padding: EdgeInsets.all(10),
                     child: Row(
@@ -91,7 +119,9 @@ class BackupPage extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 10),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await performAction(Backup.restore, "restauração");
+                  },
                   child: const Padding(
                     padding: EdgeInsets.all(10),
                     child: Row(

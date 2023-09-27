@@ -5,7 +5,7 @@ class DB {
   static Future<sql.Database> openDatabase() async {
     final dbPath = await sql.getDatabasesPath();
     return sql.openDatabase(
-      path.join(dbPath, "kaikebarbearia.db"),
+      path.join(dbPath, "appkaykebarbearia.db"),
       onCreate: (db, version) {
         db.execute(
           "CREATE TABLE products (id INTEGER PRIMARY KEY, name TEXT NOT NULL, sale_value REAL, quantity INTEGER, cost_value REAL, profit_value REAL NOT NULL)",
