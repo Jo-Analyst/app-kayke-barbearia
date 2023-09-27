@@ -2,8 +2,6 @@ import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/utils/content_message.dart';
 import 'package:app_kayke_barbearia/app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class BackupPage extends StatefulWidget {
@@ -15,15 +13,6 @@ class BackupPage extends StatefulWidget {
 
 class _BackupPageState extends State<BackupPage> {
   final selectedDirectory = TextEditingController();
-
-  Future<void> pickDirectory() async {
-    final result = await FilePicker.platform.getDirectoryPath();
-    if (result != null) {
-      setState(() {
-        selectedDirectory.text = result;
-      });
-    }
-  }
 
   void showMessage(Widget content, Color? color) {
     Message.showMessage(context, content, color);
@@ -45,22 +34,14 @@ class _BackupPageState extends State<BackupPage> {
   Future<void> performAction(Function() action, String? actionName) async {
     await requestPermissions();
 
-    if (actionName != null) {
-      FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-      String? path = result != null ? result.files.first.path : "";
-      final detailsFile = path!.split(".");
-      String extension = detailsFile[detailsFile.length - 1];
-      if (extension.toLowerCase() != "db") return;
-      Backup.path = path;
-    }
-
     final response = await action();
 
     if (response != null) {
       showMessage(
         ContentMessage(
-          title: response,
+          title: actionName != null
+              ? "Houve um problema ao realizar o backup. Tente novamente. Caso o problema persista, acione o suporte."
+              : "Houve um problema ao realizar a restauração. Tente novamente. Caso o problema persista, acione o suporte.",
           icon: Icons.error,
         ),
         Colors.orange,
