@@ -1,4 +1,5 @@
 import 'package:app_kayke_barbearia/app/providers/expense_provider.dart';
+import 'package:app_kayke_barbearia/app/template/calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
@@ -6,7 +7,6 @@ import 'package:provider/provider.dart';
 
 import '../utils/content_message.dart';
 import '../utils/convert_values.dart';
-import '../utils/show_calendar_picker.dart';
 import '../utils/snackbar.dart';
 
 class ExpenseFormPage extends StatefulWidget {
@@ -160,32 +160,15 @@ class _SpedingFormPageState extends State<ExpenseFormPage> {
               },
             ),
             const SizedBox(height: 10),
-            InkWell(
-              onTap: () async {
-                dateSelected = await showCalendarPicker(
-                  context,
-                  dateSelected,
-                );
-                setState(() {});
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Expanded(
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Text(
-                        dateFormat2.format(dateSelected),
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                    ),
-                  ),
-                  Icon(
-                    Icons.calendar_month_outlined,
-                    size: 35,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                ],
+            Align(
+              alignment: Alignment.centerRight,
+              child: Calendar(
+                dateInitial: dateSelected,
+                onSelected: (value) {
+                  setState(() {
+                    dateSelected = value;
+                  });
+                },
               ),
             ),
           ],

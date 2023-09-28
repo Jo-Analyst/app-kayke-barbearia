@@ -47,7 +47,7 @@ class _FinancialReportState extends State<FinancialReportPage>
     monthAndYear = "$year-${DateTime.now().month.toString().padLeft(2, "0")}";
   }
 
-  void loadValuesByDate() async {
+  Future<void> loadValuesByDate() async {
     isLoading = true;
     await financialReportSalesValues.loadValuesByDate(monthAndYear);
     await financialReportServicesValues.loadValuesByDate(monthAndYear);
@@ -57,7 +57,7 @@ class _FinancialReportState extends State<FinancialReportPage>
     setState(() {});
   }
 
-  void loadValuesByPeriod() async {
+  Future<void> loadValuesByPeriod() async {
     isLoading = true;
     String dateInitial = dateFormat1.format(this.dateInitial),
         dateFinal = dateFormat1.format(this.dateFinal);
@@ -79,211 +79,215 @@ class _FinancialReportState extends State<FinancialReportPage>
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                flex: 11,
-                child: indexPopMenu == 0
-                    ? SlideDate(
-                        year: year,
-                        month: month,
-                        onGetDate: (month, year) {
-                          this.year = year;
-                          this.month = month;
-                          int subMonth = month + 1;
-                          monthAndYear =
-                              "$year-${subMonth.toString().padLeft(2, "0")}";
-                          loadValuesByDate();
-                        },
-                      )
-                    : FieldForPeriod(
-                        dateInitial: dateInitial,
-                        dateFinal: dateFinal,
-                        onGetDates: (dateInitial, dateFinal) {
-                          this.dateInitial = dateInitial;
-                          this.dateFinal = dateFinal;
-                          loadValuesByPeriod();
-                        },
-                      ),
-              ),
-              PopupMenuButton(
-                color: Colors.indigo.withOpacity(.8),
-                icon: Icon(
-                  Icons.more_vert,
-                  color: Theme.of(context).primaryColor,
+    return RefreshIndicator(
+      onRefresh: indexPopMenu == 0 ? loadValuesByDate : loadValuesByPeriod,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  flex: 11,
+                  child: indexPopMenu == 0
+                      ? SlideDate(
+                          year: year,
+                          month: month,
+                          onGetDate: (month, year) {
+                            this.year = year;
+                            this.month = month;
+                            int subMonth = month + 1;
+                            monthAndYear =
+                                "$year-${subMonth.toString().padLeft(2, "0")}";
+                            loadValuesByDate();
+                          },
+                        )
+                      : FieldForPeriod(
+                          dateInitial: dateInitial,
+                          dateFinal: dateFinal,
+                          onGetDates: (dateInitial, dateFinal) {
+                            this.dateInitial = dateInitial;
+                            this.dateFinal = dateFinal;
+                            loadValuesByPeriod();
+                          },
+                        ),
                 ),
-                iconSize: 30,
-                itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                  const PopupMenuItem(
-                    padding: EdgeInsets.zero,
-                    value: "per-month",
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        "Por Mês",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
+                PopupMenuButton(
+                  color: Colors.indigo.withOpacity(.8),
+                  icon: Icon(
+                    Icons.more_vert,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  iconSize: 30,
+                  itemBuilder: (BuildContext context) =>
+                      <PopupMenuEntry<String>>[
+                    const PopupMenuItem(
+                      padding: EdgeInsets.zero,
+                      value: "per-month",
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Text(
+                          "Por Mês",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const PopupMenuItem(
-                    value: "per-periodo",
-                    padding: EdgeInsets.zero,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        "Por Período",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
+                    const PopupMenuItem(
+                      value: "per-periodo",
+                      padding: EdgeInsets.zero,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Text(
+                          "Por Período",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
                         ),
                       ),
+                    ),
+                  ],
+                  onSelected: (option) async {
+                    if (option == "per-month") {
+                      setState(() {
+                        indexPopMenu = 0;
+                        loadValuesByDate();
+                      });
+                    } else {
+                      setState(() {
+                        indexPopMenu = 1;
+                        loadValuesByPeriod();
+                      });
+                    }
+                  },
+                ),
+              ],
+            ),
+            Container(
+              color: Colors.indigo.withOpacity(.1),
+              child: TabBar(
+                isScrollable: true,
+                indicatorColor: Colors.indigo,
+                tabs: <Tab>[
+                  Tab(
+                    text: null,
+                    icon: null,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.shopping_cart_rounded,
+                          color: Theme.of(context).primaryColor,
+                          size: 18,
+                        ),
+                        const SizedBox(width: 2),
+                        Text(
+                          "Vendas",
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Tab(
+                    text: null,
+                    icon: null,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          FontAwesomeIcons.screwdriverWrench,
+                          color: Theme.of(context).primaryColor,
+                          size: 18,
+                        ),
+                        const SizedBox(width: 2),
+                        Text(
+                          "Prestação de Serviços",
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Tab(
+                    text: null,
+                    icon: null,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.money_off,
+                          color: Theme.of(context).primaryColor,
+                          size: 18,
+                        ),
+                        const SizedBox(width: 2),
+                        Text(
+                          "Despesas da Barbearia",
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Tab(
+                    text: null,
+                    icon: null,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.money_off,
+                          color: Theme.of(context).primaryColor,
+                          size: 18,
+                        ),
+                        const SizedBox(width: 2),
+                        Text(
+                          "Despesa Pessoal",
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
-                onSelected: (option) async {
-                  if (option == "per-month") {
-                    setState(() {
-                      indexPopMenu = 0;
-                      loadValuesByDate();
-                    });
-                  } else {
-                    setState(() {
-                      indexPopMenu = 1;
-                      loadValuesByPeriod();
-                    });
-                  }
-                },
+                controller: _tabController,
               ),
-            ],
-          ),
-          Container(
-            color: Colors.indigo.withOpacity(.1),
-            child: TabBar(
-              isScrollable: true,
-              indicatorColor: Colors.indigo,
-              tabs: <Tab>[
-                Tab(
-                  text: null,
-                  icon: null,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.shopping_cart_rounded,
-                        color: Theme.of(context).primaryColor,
-                        size: 18,
-                      ),
-                      const SizedBox(width: 2),
-                      Text(
-                        "Vendas",
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Tab(
-                  text: null,
-                  icon: null,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        FontAwesomeIcons.screwdriverWrench,
-                        color: Theme.of(context).primaryColor,
-                        size: 18,
-                      ),
-                      const SizedBox(width: 2),
-                      Text(
-                        "Prestação de Serviços",
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Tab(
-                  text: null,
-                  icon: null,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.money_off,
-                        color: Theme.of(context).primaryColor,
-                        size: 18,
-                      ),
-                      const SizedBox(width: 2),
-                      Text(
-                        "Despesas da Barbearia",
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Tab(
-                  text: null,
-                  icon: null,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.money_off,
-                        color: Theme.of(context).primaryColor,
-                        size: 18,
-                      ),
-                      const SizedBox(width: 2),
-                      Text(
-                        "Despesa Pessoal",
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-              controller: _tabController,
             ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height + 60,
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                FinancialReportSales(
+            SizedBox(
+              height: MediaQuery.of(context).size.height + 60,
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  FinancialReportSales(
+                      isLoading: isLoading,
+                      financialReportSalesValues: financialReportSalesValues),
+                  FinancialReportServices(
+                      isLoading: isLoading,
+                      financialReportServicesValues:
+                          financialReportServicesValues),
+                  ExpenseBalance(
+                      isLoading: isLoading,
+                      expenseBalanceValues: expenseBalanceValues),
+                  FinancialReportPersonalExpense(
                     isLoading: isLoading,
-                    financialReportSalesValues: financialReportSalesValues),
-                FinancialReportServices(
-                    isLoading: isLoading,
-                    financialReportServicesValues:
-                        financialReportServicesValues),
-                ExpenseBalance(
-                    isLoading: isLoading,
-                    expenseBalanceValues: expenseBalanceValues),
-                FinancialReportPersonalExpense(
-                  isLoading: isLoading,
-                  personalExpenseBalanceValues: personalExpenseBalanceValues,
-                ),
-              ],
+                    personalExpenseBalanceValues: personalExpenseBalanceValues,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -43,12 +43,12 @@ class _CashFlowPageState extends State<CashFlowPage> {
       valueDiscountService = 0,
       valueDiscount = 0;
 
-  loadList() async {
+  void loadList() async {
     itemsSales = await CashFlowController.getListSales(dateSelected);
     servicesProvided = await CashFlowController.getListServices(dateSelected);
   }
 
-  changeContainerSale() {
+  void changeContainerSale() {
     setState(() {
       activeContainerSale = !activeContainerSale;
       if (activeContainerSale) {
@@ -66,7 +66,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
     addValuesForEachSpecies();
   }
 
-  changeContainerService() {
+  void changeContainerService() {
     setState(() {
       activeContainerService = !activeContainerService;
       if (activeContainerService) {
@@ -90,7 +90,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
     loadFields();
   }
 
-  loadFields() async {
+  Future<void> loadFields() async {
     loadList();
     final sales = await CashFlowController.getSumTotalSalesByDate(dateSelected);
     valueSale = sales[0]["value_total"] ?? 0;
@@ -107,7 +107,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
     loadFieldsPayments();
   }
 
-  clearValuesFields() {
+  void clearValuesFields() {
     setState(() {
       valueMoneySale = 0;
       valueMoneyService = 0;
@@ -120,7 +120,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
     });
   }
 
-  loadFieldsPayments() async {
+  void loadFieldsPayments() async {
     valuesSalesBySpecies =
         await CashFlowController.getSumValuesSalesBySpecie(dateSelected);
     valuesServicesBySpecies =
@@ -128,14 +128,14 @@ class _CashFlowPageState extends State<CashFlowPage> {
     loadValuesDefault();
   }
 
-  loadValuesDefault() {
+  void loadValuesDefault() {
     clearValuesFields();
     getValuesForEachSpeciesOfSale();
     getValuesForEachSpeciesOfService();
     addValuesForEachSpecies();
   }
 
-  addValuesForEachSpecies() {
+  void addValuesForEachSpecies() {
     setState(() {
       valueMoney = valueMoneySale + valueMoneyService;
       valuePix = valuePixSale + valuePixService;
@@ -154,7 +154,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
   }
 
 // obter valores para cada espécie
-  getValuesForEachSpeciesOfSale() {
+  void getValuesForEachSpeciesOfSale() {
     valueDiscount = valueDiscountSale;
     for (var valueSaleBySpecie in valuesSalesBySpecies) {
       if (valueSaleBySpecie["specie"].toString().toLowerCase() == "dinheiro") {
@@ -172,7 +172,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
     }
   }
 
-  getValuesForEachSpeciesOfService() {
+  void getValuesForEachSpeciesOfService() {
     valueDiscount = valueDiscountService;
     for (var valueServiceBySpecie in valuesServicesBySpecies) {
       if (valueServiceBySpecie["specie"].toString().toLowerCase() ==
@@ -194,209 +194,211 @@ class _CashFlowPageState extends State<CashFlowPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            margin: const EdgeInsets.only(right: 10),
-            child: Calendar(
-              dateInitial: dateSelected,
-              onSelected: (value) {
-                setState(() {
-                  dateSelected = value;
-                  activeContainerSale = false;
-                  activeContainerService = false;
-                  loadFields();
-                });
-              },
+    return RefreshIndicator(onRefresh: loadFields,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              margin: const EdgeInsets.only(right: 10),
+              child: Calendar(
+                dateInitial: dateSelected,
+                onSelected: (value) {
+                  setState(() {
+                    dateSelected = value;
+                    activeContainerSale = false;
+                    activeContainerService = false;
+                    loadFields();
+                  });
+                },
+              ),
             ),
-          ),
-          Container(
-            width: double.infinity,
-            color: Colors.indigo.withOpacity(.1),
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Column(
-              children: [
-                const Text(
-                  "Saldo",
-                  style: TextStyle(fontSize: 25),
-                ),
-                Text(
-                  numberFormat.format(balance),
-                  style: const TextStyle(
-                    fontSize: 26,
-                    color: Colors.green,
-                    fontWeight: FontWeight.w500,
+            Container(
+              width: double.infinity,
+              color: Colors.indigo.withOpacity(.1),
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Column(
+                children: [
+                  const Text(
+                    "Saldo",
+                    style: TextStyle(fontSize: 25),
                   ),
-                )
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                InkWell(
-                  onTap: () => changeContainerSale(),
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.blueGrey,
-                        width: 1,
-                      ),
-                      color: activeContainerSale
-                          ? Theme.of(context).primaryColor
-                          : null,
-                      borderRadius: BorderRadius.circular(10.0),
+                  Text(
+                    numberFormat.format(balance),
+                    style: const TextStyle(
+                      fontSize: 26,
+                      color: Colors.green,
+                      fontWeight: FontWeight.w500,
                     ),
-                    child: Column(
-                      children: [
-                        Text(
-                          numberFormat.format(valueSale),
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400,
-                            color: activeContainerSale
-                                ? Colors.white
-                                : Colors.green,
-                          ),
+                  )
+                ],
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  InkWell(
+                    onTap: () => changeContainerSale(),
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.blueGrey,
+                          width: 1,
                         ),
-                        const SizedBox(height: 5),
-                        FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Text(
-                            "Total Venda",
+                        color: activeContainerSale
+                            ? Theme.of(context).primaryColor
+                            : null,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            numberFormat.format(valueSale),
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w400,
+                              color: activeContainerSale
+                                  ? Colors.white
+                                  : Colors.green,
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              "Total Venda",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                color: activeContainerSale
+                                    ? Colors.white
+                                    : Colors.black,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () => changeContainerService(),
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.blueGrey,
+                          width: 1,
+                        ),
+                        color: activeContainerService
+                            ? Theme.of(context).primaryColor
+                            : null,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            numberFormat.format(valueService),
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w400,
+                              color: activeContainerService
+                                  ? Colors.white
+                                  : Colors.green,
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            "Total Serviço",
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w500,
-                              color: activeContainerSale
+                              color: activeContainerService
                                   ? Colors.white
                                   : Colors.black,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () => changeContainerService(),
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.blueGrey,
-                        width: 1,
+                        ],
                       ),
-                      color: activeContainerService
-                          ? Theme.of(context).primaryColor
-                          : null,
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          numberFormat.format(valueService),
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400,
-                            color: activeContainerService
-                                ? Colors.white
-                                : Colors.green,
-                          ),
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          "Total Serviço",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            color: activeContainerService
-                                ? Colors.white
-                                : Colors.black,
-                          ),
-                        ),
-                      ],
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Divider(
-            height: 15,
-            color: Theme.of(context).primaryColor,
-          ),
-          Visibility(
-            visible: activeContainerSale && valueSale > 0,
-            child: Column(
-              children: [
-                Container(
-                  alignment: Alignment.topLeft,
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: const Text(
-                    "Vendas:",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
+            Divider(
+              height: 15,
+              color: Theme.of(context).primaryColor,
+            ),
+            Visibility(
+              visible: activeContainerSale && valueSale > 0,
+              child: Column(
+                children: [
+                  Container(
+                    alignment: Alignment.topLeft,
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: const Text(
+                      "Vendas:",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
-                ),
-                Divider(
-                  color: Theme.of(context).primaryColor,
-                  height: 15,
-                ),
-                Container(
-                  color: Colors.indigo.withOpacity(.1),
-                  height: 200,
-                  child: FinancialReportSaleList(itemsSale: itemsSales),
-                ),
-              ],
+                  Divider(
+                    color: Theme.of(context).primaryColor,
+                    height: 15,
+                  ),
+                  Container(
+                    color: Colors.indigo.withOpacity(.1),
+                    height: 200,
+                    child: FinancialReportSaleList(itemsSale: itemsSales),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Visibility(
-            visible: activeContainerService && valueService > 0,
-            child: Column(
-              children: [
-                Container(
-                  alignment: Alignment.topLeft,
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: const Text(
-                    "Serviços:",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
+            Visibility(
+              visible: activeContainerService && valueService > 0,
+              child: Column(
+                children: [
+                  Container(
+                    alignment: Alignment.topLeft,
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: const Text(
+                      "Serviços:",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
-                ),
-                Divider(
-                  color: Theme.of(context).primaryColor,
-                  height: 15,
-                ),
-                Container(
-                  color: Colors.indigo.withOpacity(.1),
-                  height: 200,
-                  child: FinancialReportServiceList(
-                    servicesProvided: servicesProvided,
+                  Divider(
+                    color: Theme.of(context).primaryColor,
+                    height: 15,
                   ),
-                ),
-              ],
+                  Container(
+                    color: Colors.indigo.withOpacity(.1),
+                    height: 200,
+                    child: FinancialReportServiceList(
+                      servicesProvided: servicesProvided,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          PaymentsContainers(
-            valueMoney: valueMoney,
-            valuePix: valuePix,
-            valueCredit: valueCredit,
-            valueDebit: valueDebit,
-            amountToReceive: amountToReceive,
-            amountReceived: amountReceived,
-            valueDiscount: valueDiscount,
-          ),
-          const SizedBox(height: 30),
-        ],
+            PaymentsContainers(
+              valueMoney: valueMoney,
+              valuePix: valuePix,
+              valueCredit: valueCredit,
+              valueDebit: valueDebit,
+              amountToReceive: amountToReceive,
+              amountReceived: amountReceived,
+              valueDiscount: valueDiscount,
+            ),
+            const SizedBox(height: 30),
+          ],
+        ),
       ),
     );
   }

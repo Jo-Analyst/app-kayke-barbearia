@@ -228,13 +228,10 @@ class _ExpenseListPageState extends State<ExpenseListPage> {
                                                     style: const TextStyle(
                                                         fontSize: 20),
                                                   ),
-                                                  subtitle: FittedBox(
-                                                    fit: BoxFit.scaleDown,
-                                                    child: Text(
-                                                      "${expense["quantity"]}x ${numberFormat.format(expense["price"])} = ${numberFormat.format(expense["subtotal"])}",
-                                                      style: const TextStyle(
-                                                          fontSize: 18),
-                                                    ),
+                                                  subtitle: Text(
+                                                    "${expense["quantity"]}x ${numberFormat.format(expense["price"])} = ${numberFormat.format(expense["subtotal"])}",
+                                                    style: const TextStyle(
+                                                        fontSize: 18),
                                                   ),
                                                   trailing: Text(
                                                     changeTheDateWriting(
