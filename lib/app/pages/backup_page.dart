@@ -18,28 +18,30 @@ class _BackupPageState extends State<BackupPage> {
     Message.showMessage(context, content, color);
   }
 
-  Future<void> requestPermissions() async {
+  Future<bool> requestPermissions() async {
     var status = await Permission.manageExternalStorage.status;
-    if (!status.isGranted) {
-      await Permission.manageExternalStorage.request();
-    }
+
+    await Permission.manageExternalStorage.request();
 
     var status1 = await Permission.storage.status;
 
-    if (!status1.isGranted) {
-      await Permission.storage.request();
-    }
+    await Permission.storage.request();
+
+    return status1.isGranted || status.isGranted;
   }
 
   Future<void> performAction(Function() action, String? actionName) async {
-    await requestPermissions();
+    if (!await requestPermissions()) {
+      openAppSettings();
+      return;
+    }
 
     final response = await action();
 
     if (response != null) {
       showMessage(
         ContentMessage(
-          title: actionName != null
+          title: actionName == null
               ? "Houve um problema ao realizar o backup. Tente novamente. Caso o problema persista, acione o suporte."
               : "Houve um problema ao realizar a restauração. Tente novamente. Caso o problema persista, acione o suporte.",
           icon: Icons.error,

@@ -89,7 +89,10 @@ class _ClientListPageState extends State<ClientListPage> {
           IconButton(
             onPressed: () async {
               await permissionGranted();
-              if (!isGranted) return;
+              if (!isGranted) {
+                openAppSettings();
+                return;
+              }
 
               openScreenContacts();
             },

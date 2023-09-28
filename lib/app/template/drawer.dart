@@ -29,17 +29,17 @@ class DrawerComponet extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            accountEmail: null,
+            accountEmail: const Text("kaykebarbearia@gmail.com"),
             accountName: const Text(
               "KAIKE BARBEARIA",
-              style: TextStyle(fontSize: 25),
+              style: TextStyle(fontSize: 20),
             ),
             currentAccountPicture: ClipOval(
               child: Image.asset(
                 "assets/images/logo.jpg",
               ),
             ),
-            currentAccountPictureSize: const Size.square(89),
+            currentAccountPictureSize: const Size.square(79),
           ),
           ListTile(
             leading: const Icon(
