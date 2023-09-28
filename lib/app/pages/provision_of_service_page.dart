@@ -42,7 +42,7 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
   }
 
   void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color);
+    Message.showMessage(context, content, color, 3000);
   }
 
   void showTime(int index) async {

@@ -20,7 +20,7 @@ class Backup {
     } catch (e) {
       return e.toString();
     }
-    return response;
+    return response.toString();
   }
 
   static Future<String?> restore() async {

@@ -64,7 +64,7 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage> {
   }
 
   void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color);
+    Message.showMessage(context, content, color, 3000);
   }
 
   void savePersonalExpense() async {

@@ -47,7 +47,7 @@ class _ClientFormPageState extends State<ClientFormPage> {
   }
 
   void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color);
+    Message.showMessage(context, content, color, 3000);
   }
 
   saveClient() async {

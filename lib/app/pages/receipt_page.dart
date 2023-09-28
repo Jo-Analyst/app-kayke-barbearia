@@ -152,7 +152,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
   }
 
   void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color);
+    Message.showMessage(context, content, color, 3000);
   }
 
   @override

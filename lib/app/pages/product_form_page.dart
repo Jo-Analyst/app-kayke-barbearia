@@ -69,7 +69,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
   }
 
   void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color);
+    Message.showMessage(context, content, color, 3000);
   }
 
   saveProduct() async {

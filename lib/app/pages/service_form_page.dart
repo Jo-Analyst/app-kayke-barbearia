@@ -43,7 +43,7 @@ class _ServiceFormPageState extends State<ServiceFormPage> {
   }
 
   void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color);
+    Message.showMessage(context, content, color, 3000);
   }
 
   void saveService() async {

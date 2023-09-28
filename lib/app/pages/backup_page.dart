@@ -1,5 +1,6 @@
 import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/utils/content_message.dart';
+import 'package:app_kayke_barbearia/app/utils/permission_use_app.dart';
 import 'package:app_kayke_barbearia/app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -15,23 +16,11 @@ class _BackupPageState extends State<BackupPage> {
   final selectedDirectory = TextEditingController();
 
   void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color);
-  }
-
-  Future<bool> requestPermissions() async {
-    var status = await Permission.manageExternalStorage.status;
-
-    await Permission.manageExternalStorage.request();
-
-    var status1 = await Permission.storage.status;
-
-    await Permission.storage.request();
-
-    return status1.isGranted || status.isGranted;
+    Message.showMessage(context, content, color, 7000);
   }
 
   Future<void> performAction(Function() action, String? actionName) async {
-    if (!await requestPermissions()) {
+    if (!await isGrantedRequestPermissionStorage()) {
       openAppSettings();
       return;
     }
@@ -43,7 +32,7 @@ class _BackupPageState extends State<BackupPage> {
         ContentMessage(
           title: actionName == null
               ? "Houve um problema ao realizar o backup. Tente novamente. Caso o problema persista, acione o suporte."
-              : "Houve um problema ao realizar a restauração. Tente novamente. Caso o problema persista, acione o suporte.",
+              : "Houve um problema ao realizar a restauração. Verifique se há arquivo de backup no caminho predefinido pelo app e tente novamente. Caso o problema persista, acione o suporte.",
           icon: Icons.error,
         ),
         Colors.orange,
@@ -56,7 +45,7 @@ class _BackupPageState extends State<BackupPage> {
       ContentMessage(
         title: actionName != null
             ? "A restauração foi realizada com sucesso."
-            : "O backup foi realizado com sucesso.",
+            : "O backup foi realizado com sucesso. O arquivo de backup encontra no armazenamento interno do seu dispostivo. Url: /App Kayke Barbearia/appkaykebarbearia.db",
         icon: Icons.info,
       ),
       null,

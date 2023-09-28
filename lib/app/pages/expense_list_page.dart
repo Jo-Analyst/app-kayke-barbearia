@@ -28,7 +28,7 @@ class _ExpenseListPageState extends State<ExpenseListPage> {
   List<Map<String, dynamic>> expenses = [];
 
   void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color);
+    Message.showMessage(context, content, color, 3000);
   }
 
   @override

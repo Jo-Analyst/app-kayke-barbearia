@@ -5,6 +5,7 @@ import 'package:app_kayke_barbearia/app/template/add_client.dart';
 import 'package:app_kayke_barbearia/app/utils/content_message.dart';
 import 'package:app_kayke_barbearia/app/utils/dialog.dart';
 import 'package:app_kayke_barbearia/app/utils/loading.dart';
+import 'package:app_kayke_barbearia/app/utils/permission_use_app.dart';
 import 'package:app_kayke_barbearia/app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -25,15 +26,7 @@ class _ClientListPageState extends State<ClientListPage> {
   final searchController = TextEditingController();
   bool isLoading = true;
   String search = "";
-  bool isGranted = false;
   List<Map<String, dynamic>> clients = [];
-
-  Future<void> permissionGranted() async {
-    var status = await Permission.contacts.request();
-    setState(() {
-      isGranted = status.isGranted;
-    });
-  }
 
   openScreenContacts() async {
     FocusScope.of(context).requestFocus(FocusNode());
@@ -45,7 +38,7 @@ class _ClientListPageState extends State<ClientListPage> {
   }
 
   void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color);
+    Message.showMessage(context, content, color, 3000);
   }
 
   @override
@@ -88,8 +81,7 @@ class _ClientListPageState extends State<ClientListPage> {
         actions: [
           IconButton(
             onPressed: () async {
-              await permissionGranted();
-              if (!isGranted) {
+              if (!await isContactsPermissionGranted()) {
                 openAppSettings();
                 return;
               }

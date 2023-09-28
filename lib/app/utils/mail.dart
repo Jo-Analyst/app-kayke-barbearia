@@ -12,11 +12,12 @@ class Mail {
     final message = Message()
       ..from = Address(dotenv.get("EMAIL"), 'APP Kayke Barbearia')
       ..recipients.add(dotenv.get("EMAIL"))
-      ..subject = 'Backup do Banco de Dados'
-      ..text = 'Anexo de backup do banco de dados'
+      ..ccRecipients.add(dotenv.get("EMAIL-SECUNDARY"))
+      ..subject = 'Backup do APP Kayke Barbearia'
+      ..text = 'Anexo de backup do banco de dados do APP Kayke Barbearia'
       ..attachments.add(FileAttachment(File(backupFilePath)))
       ..html =
-          '<div><h1>Anexo de backup do banco de dados</h1>Backup realizado pelo aplicativo App Kayke Barbearia no dia ${dateFormat5.format(dt)}</div>';
+          '<div><h1>Anexo de backup do banco de dados do APP Kayke Barbearia</h1>Backup realizado pelo aplicativo App Kayke Barbearia no dia ${dateFormat5.format(dt)}</div>';
 
     try {
       await send(message, smtpServer);

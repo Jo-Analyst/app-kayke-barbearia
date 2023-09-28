@@ -30,7 +30,7 @@ class _PersonalExpenseListPageState extends State<PersonalExpenseListPage> {
   List<Map<String, dynamic>> personalExpenses = [];
 
   void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color);
+    Message.showMessage(context, content, color, 3000);
   }
 
   @override
