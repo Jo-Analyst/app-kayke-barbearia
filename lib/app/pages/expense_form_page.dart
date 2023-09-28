@@ -171,9 +171,14 @@ class _SpedingFormPageState extends State<ExpenseFormPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    dateFormat2.format(dateSelected),
-                    style: const TextStyle(fontSize: 20),
+                  Expanded(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        dateFormat2.format(dateSelected),
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ),
                   ),
                   Icon(
                     Icons.calendar_month_outlined,

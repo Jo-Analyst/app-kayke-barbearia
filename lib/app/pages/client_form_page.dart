@@ -132,6 +132,7 @@ class _ClientFormPageState extends State<ClientFormPage> {
             ),
             TextFormField(
               controller: addressController,
+              textCapitalization: TextCapitalization.words,
               textInputAction: TextInputAction.newline,
               maxLines: 3,
               decoration:

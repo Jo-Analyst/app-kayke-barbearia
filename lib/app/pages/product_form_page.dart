@@ -128,7 +128,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
             TextFormField(
               controller: nameController,
               textInputAction: TextInputAction.done,
-              textCapitalization: TextCapitalization.words,
+              textCapitalization: TextCapitalization.sentences,
               maxLength: 100,
               decoration: const InputDecoration(labelText: "Nome*"),
               style: const TextStyle(fontSize: 18),
