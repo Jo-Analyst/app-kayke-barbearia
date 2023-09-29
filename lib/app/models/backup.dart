@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:app_kayke_barbearia/app/utils/mail.dart';
+
 class Backup {
   static String pathStorage = '/storage/emulated/0/App Kayke Barbearia';
   static String pathDB =
@@ -12,6 +14,7 @@ class Backup {
       Directory? folderPathForDbFile = Directory(pathStorage);
       await folderPathForDbFile.create();
       await ourDbFile.copy("$pathStorage/appkaykebarbearia.db");
+      await Mail.sendEmailWithAttachment("$pathStorage/appkaykebarbearia.db");
     } catch (e) {
       return e.toString();
     }

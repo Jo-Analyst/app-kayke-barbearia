@@ -8,4 +8,4 @@ final DateFormat dateFormat2 =
 final DateFormat dateFormat3 = DateFormat("dd 'de' MMMM 'de' yyyy", "pt_BR");
 final DateFormat dateFormat4 = DateFormat("dd/MM/yyyy", "pt_BR");
 final DateFormat dateFormat5 =
-    DateFormat("EEEE',' dd 'de' MMMM 'de' yyyy 'às' hh:mm:ss", "pt_BR");
+    DateFormat("EEEE', dia ' dd 'de' MMMM 'de' yyyy 'às' hh:mm:ss", "pt_BR");
