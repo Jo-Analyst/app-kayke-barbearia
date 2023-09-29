@@ -20,7 +20,7 @@ Future<String?> showDialogApp(BuildContext context, String content) async {
           ),
           TextButton(
             child: const Text(
-              'Sair',
+              'Não',
             ),
             onPressed: () {
               Navigator.of(context).pop("Sair");
@@ -28,7 +28,7 @@ Future<String?> showDialogApp(BuildContext context, String content) async {
           ),
           ElevatedButton(
             child: const Text(
-              "Sair e gerar backup",
+              "Sim",
             ),
             onPressed: () {
               Navigator.of(context).pop("Sair e gerar backup");
