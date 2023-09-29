@@ -29,7 +29,7 @@ class DrawerComponet extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            accountEmail: const Text("kaykebarbearia@gmail.com"),
+            accountEmail: const Text("appkaykebarbearia@outlook.com"),
             accountName: const Text(
               "KAIKE BARBEARIA",
               style: TextStyle(fontSize: 20),

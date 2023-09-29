@@ -22,7 +22,7 @@ class _IntroScreenState extends State<IntroScreen> {
 
   // Método para navegar para a tela principal após alguns segundos
   void _navigateToHome() {
-    Timer(const Duration(seconds: 5), () async {
+    Timer(const Duration(seconds: 2), () async {
       final confirmExit =
           await Navigator.of(context).pushReplacementNamed('/home');
 

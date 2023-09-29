@@ -43,8 +43,10 @@ class _HomePageState extends State<HomePage> {
         context, "Deseja gerar backup ao sair do aplicativo?");
     if (confirmExit != null) {
       if (confirmExit == "Sair e gerar backup") {
-        if (await isGrantedRequestPermissionStorage()) {
-          print(await Backup.toGenerate());
+        bool isGranted = await isGrantedRequestPermissionStorage();
+
+        if (isGranted) {
+          await Backup.toGenerate();
         } else {
           openAppSettings();
           return false;
