@@ -290,7 +290,7 @@ class DetailsPayment extends StatelessWidget {
                             value: payment["value_total"],
                             id: payment["id"],
                           )
-                        : PaymentSaleEditionPage(
+                        : PaymentEditionPage(
                             isCasualCustomer: payment["client_name"]
                                     .toString()
                                     .toLowerCase() ==

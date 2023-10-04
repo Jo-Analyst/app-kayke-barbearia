@@ -252,7 +252,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           labelStyle:
                               const TextStyle(fontWeight: FontWeight.normal),
                           floatingLabelAlignment: FloatingLabelAlignment.center,
-                          suffixIcon: typeSpecie != "fiado"
+                          suffixIcon: typeSpecie.toLowerCase() != "fiado"
                               ? IconButton(
                                   onPressed: () {
                                     setState(() {

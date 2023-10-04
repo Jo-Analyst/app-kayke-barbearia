@@ -56,6 +56,7 @@ class AppKaikeBarbearia extends StatelessWidget {
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
         ],
         home: const IntroScreen(),
         routes: {"/home": (context) => const HomePage()},

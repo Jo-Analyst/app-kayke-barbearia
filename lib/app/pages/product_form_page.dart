@@ -59,9 +59,11 @@ class _ProductFormPageState extends State<ProductFormPage> {
     productId = widget.productId ?? 0;
     nameController.text = widget.name ?? "";
     name = nameController.text;
-    profitValue = widget.profitValue!;
-    saleValueController.updateValue(widget.saleValue!);
-    costValueController.updateValue(widget.costValue!);
+    profitValue = widget.profitValue ?? 0;
+    saleValue = widget.saleValue ?? 0;
+    costValue = widget.costValue ?? 0;
+    saleValueController.updateValue(saleValue);
+    costValueController.updateValue(costValue);
     profitValueController.text =
         widget.profitValue!.toStringAsFixed(2).replaceAll(RegExp(r'\.'), ',');
     quantity = widget.quantity ?? 0;

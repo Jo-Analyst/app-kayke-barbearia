@@ -12,12 +12,12 @@ import '../utils/content_message.dart';
 import '../utils/snackbar.dart';
 import 'home_page.dart';
 
-class PaymentSaleEditionPage extends StatefulWidget {
+class PaymentEditionPage extends StatefulWidget {
   final bool isService;
   final bool isCasualCustomer;
   final double value;
   final int id;
-  const PaymentSaleEditionPage({
+  const PaymentEditionPage({
     required this.isService,
     required this.id,
     required this.value,
@@ -26,10 +26,10 @@ class PaymentSaleEditionPage extends StatefulWidget {
   });
 
   @override
-  State<PaymentSaleEditionPage> createState() => _PaymentSaleEditionPageState();
+  State<PaymentEditionPage> createState() => _PaymentSaleEditionPageState();
 }
 
-class _PaymentSaleEditionPageState extends State<PaymentSaleEditionPage> {
+class _PaymentSaleEditionPageState extends State<PaymentEditionPage> {
   final valueSaleController = TextEditingController();
   double amountReceived = 0;
   List<Map<String, dynamic>> receipts = [];
