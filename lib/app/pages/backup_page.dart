@@ -1,5 +1,6 @@
 import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/utils/content_message.dart';
+import 'package:app_kayke_barbearia/app/utils/loading.dart';
 import 'package:app_kayke_barbearia/app/utils/permission_use_app.dart';
 import 'package:app_kayke_barbearia/app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class BackupPage extends StatefulWidget {
 }
 
 class _BackupPageState extends State<BackupPage> {
+  bool isLoadingBackup = false, isLoadingRestore = false;
   final selectedDirectory = TextEditingController();
 
   void showMessage(Widget content, Color? color) {
@@ -24,8 +26,19 @@ class _BackupPageState extends State<BackupPage> {
       openAppSettings();
       return;
     }
-
+    if (actionName == null) {
+      isLoadingBackup = true;
+    } else {
+      isLoadingRestore = true;
+    }
+    setState(() {});
     final response = await action();
+    if (actionName == null) {
+      isLoadingBackup = false;
+    } else {
+      isLoadingRestore = false;
+    }
+    setState(() {});
 
     if (response != null) {
       showMessage(
@@ -72,19 +85,23 @@ class _BackupPageState extends State<BackupPage> {
                   onPressed: () async {
                     await performAction(Backup.toGenerate, null);
                   },
-                  child: const Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.backup),
-                        SizedBox(width: 10),
-                        Text(
-                          "Backup",
-                          style: TextStyle(fontSize: 20),
-                        )
-                      ],
-                    ),
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(10),
+                    child: isLoadingBackup
+                        ? loadingFourRotatingDots(context, 20)
+                        : const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.backup),
+                              SizedBox(width: 10),
+                              Text(
+                                "Backup",
+                                style: TextStyle(fontSize: 20),
+                              )
+                            ],
+                          ),
                   ),
                 ),
               ),
@@ -94,19 +111,23 @@ class _BackupPageState extends State<BackupPage> {
                   onPressed: () async {
                     await performAction(Backup.restore, "restauração");
                   },
-                  child: const Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.restore),
-                        SizedBox(width: 10),
-                        Text(
-                          "Restauração",
-                          style: TextStyle(fontSize: 20),
-                        )
-                      ],
-                    ),
+                  child: Container(
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.all(10),
+                    child: isLoadingRestore
+                        ? loadingFourRotatingDots(context, 20)
+                        : const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.restore),
+                              SizedBox(width: 10),
+                              Text(
+                                "Restauração",
+                                style: TextStyle(fontSize: 20),
+                              )
+                            ],
+                          ),
                   ),
                 ),
               ),
