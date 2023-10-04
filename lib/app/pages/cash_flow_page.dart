@@ -194,7 +194,8 @@ class _CashFlowPageState extends State<CashFlowPage> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(onRefresh: loadFields,
+    return RefreshIndicator(
+      onRefresh: loadFields,
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -243,6 +244,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
                     onTap: () => changeContainerSale(),
                     child: Container(
                       padding: const EdgeInsets.all(10),
+                      width: MediaQuery.of(context).size.width / 2 - 20,
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: Colors.blueGrey,
@@ -287,6 +289,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
                     onTap: () => changeContainerService(),
                     child: Container(
                       padding: const EdgeInsets.all(10),
+                      width: MediaQuery.of(context).size.width / 2 - 20,
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: Colors.blueGrey,
