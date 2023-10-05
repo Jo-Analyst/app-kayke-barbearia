@@ -6,9 +6,12 @@ import '../utils/show_calendar_picker.dart';
 class Calendar extends StatefulWidget {
   final Function(DateTime value) onSelected;
   final DateTime dateInitial;
+  final DateTime? dateTransaction;
+
   const Calendar({
     required this.dateInitial,
     required this.onSelected,
+    this.dateTransaction,
     super.key,
   });
 
@@ -30,7 +33,8 @@ class _CalendarState extends State<Calendar> {
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
         onTap: () async {
-          dateSelected = await showCalendarPicker(context, dateSelected);
+          dateSelected =
+              await showCalendarPicker(context, dateSelected, widget.dateTransaction);
           widget.onSelected(dateSelected);
           setState(() {});
         },

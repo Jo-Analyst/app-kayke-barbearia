@@ -282,6 +282,7 @@ class DetailsPayment extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (_) => isService
                         ? PaymentProvisionOfServiceEditionPage(
+                          dateTransaction: convertStringToDateTime(payment["date"]),
                             isCasualCustomer: payment["client_name"]
                                     .toString()
                                     .toLowerCase() ==
@@ -291,6 +292,7 @@ class DetailsPayment extends StatelessWidget {
                             id: payment["id"],
                           )
                         : PaymentEditionPage(
+                          dateTransaction: convertStringToDateTime(payment["date"]),
                             isCasualCustomer: payment["client_name"]
                                     .toString()
                                     .toLowerCase() ==

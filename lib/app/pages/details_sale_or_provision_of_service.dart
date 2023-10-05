@@ -159,7 +159,7 @@ class _DetailsSaleOrProvisionOfServiceState
           ),
           IconButton(
             onPressed: () async {
-              dateSelected = await showCalendarPicker(context, dateSelected);
+              dateSelected = await showCalendarPicker(context, dateSelected, null);
               setState(() {
                 date = dateFormat1.format(dateSelected);
 

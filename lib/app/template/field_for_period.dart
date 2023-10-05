@@ -7,7 +7,10 @@ import '../utils/content_message.dart';
 import '../utils/snackbar.dart';
 
 class FieldForPeriod extends StatefulWidget {
-  final Function(DateTime dateInitial, DateTime dateFinal,) onGetDates;
+  final Function(
+    DateTime dateInitial,
+    DateTime dateFinal,
+  ) onGetDates;
   final DateTime dateInitial;
   final DateTime dateFinal;
   const FieldForPeriod({
@@ -57,6 +60,7 @@ class _FieldForPeriodState extends State<FieldForPeriod> {
               final date = await showCalendarPicker(
                 context,
                 dateSelectedInitial,
+                null,
               );
 
               if (date.isAfter(dateSelectedFinal)) {
@@ -113,6 +117,7 @@ class _FieldForPeriodState extends State<FieldForPeriod> {
               DateTime date = await showCalendarPicker(
                 context,
                 dateSelectedFinal,
+                null,
               );
 
               if (date.isBefore(dateSelectedInitial)) {

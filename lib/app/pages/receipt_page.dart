@@ -19,6 +19,8 @@ class ReceiptPage extends StatefulWidget {
   final Map<String, dynamic> receipt;
   final bool isService;
   final bool isEdition;
+  final DateTime dateTransaction;
+
   const ReceiptPage({
     required this.id,
     required this.isService,
@@ -27,6 +29,7 @@ class ReceiptPage extends StatefulWidget {
     required this.totalAmountReceived,
     required this.total,
     super.key,
+    required this.dateTransaction,
   });
 
   @override
@@ -180,6 +183,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
       body: ListView(
         children: [
           Calendar(
+            dateTransaction: widget.dateTransaction,
             dateInitial: dateSelected,
             onSelected: (date) {
               setState(() {

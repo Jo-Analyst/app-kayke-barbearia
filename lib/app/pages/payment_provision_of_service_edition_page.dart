@@ -18,11 +18,14 @@ class PaymentProvisionOfServiceEditionPage extends StatefulWidget {
   final double value;
   final int id;
   final bool isCasualCustomer;
+  final DateTime dateTransaction;
+
   const PaymentProvisionOfServiceEditionPage({
     required this.isService,
     required this.id,
     required this.value,
     required this.isCasualCustomer,
+    required this.dateTransaction,
     super.key,
   });
 
@@ -74,6 +77,7 @@ class _PaymentProvisionOfServiceEditionPageState
   @override
   void initState() {
     super.initState();
+   
     valueProvisionOfPaymentController.text = numberFormat.format(widget.value);
     loadPayments();
   }
@@ -226,6 +230,7 @@ class _PaymentProvisionOfServiceEditionPageState
                                                                         MaterialPageRoute(
                                                                           builder: (_) =>
                                                                               ReceiptPage(
+                                                                                dateTransaction: widget.dateTransaction,
                                                                             id: widget.id,
                                                                             receipt:
                                                                                 receipt,
@@ -376,6 +381,7 @@ class _PaymentProvisionOfServiceEditionPageState
                                         await Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (_) => ReceiptPage(
+                                          dateTransaction: widget.dateTransaction,
                                           id: widget.id,
                                           receipt: amountReceived == 0
                                               ? receipts[0]
