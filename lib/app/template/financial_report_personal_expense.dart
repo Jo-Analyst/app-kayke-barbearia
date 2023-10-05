@@ -7,8 +7,10 @@ import '../utils/convert_values.dart';
 class FinancialReportPersonalExpense extends StatelessWidget {
   final bool isLoading;
   final PersonalExpenseBalanceValues personalExpenseBalanceValues;
+  final bool isSearchByPeriod;
 
   const FinancialReportPersonalExpense({
+    required this.isSearchByPeriod,
     required this.personalExpenseBalanceValues,
     required this.isLoading,
     super.key,
@@ -58,10 +60,12 @@ class FinancialReportPersonalExpense extends StatelessWidget {
             child: isLoading
                 ? Center(child: loading(context, 30))
                 : personalExpenseBalanceValues.itemsPersonalExpense.isEmpty
-                    ? const Center(
+                    ? Center(
                         child: Text(
-                          "Não há despesas realizadas neste mês.",
-                          style: TextStyle(fontSize: 18),
+                          !isSearchByPeriod
+                              ? "Não há despesas realizadas neste mês."
+                              : "Não há despesas realizadas neste período.",
+                          style: const TextStyle(fontSize: 18),
                         ),
                       )
                     : Scrollbar(

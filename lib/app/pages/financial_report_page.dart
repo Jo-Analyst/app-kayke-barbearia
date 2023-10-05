@@ -270,16 +270,22 @@ class _FinancialReportState extends State<FinancialReportPage>
                 controller: _tabController,
                 children: [
                   FinancialReportSales(
-                      isLoading: isLoading,
-                      financialReportSalesValues: financialReportSalesValues),
+                    isSearchByPeriod: indexPopMenu == 1,
+                    isLoading: isLoading,
+                    financialReportSalesValues: financialReportSalesValues,
+                  ),
                   FinancialReportServices(
+                      isSearchByPeriod: indexPopMenu == 1,
                       isLoading: isLoading,
                       financialReportServicesValues:
                           financialReportServicesValues),
                   ExpenseBalance(
-                      isLoading: isLoading,
-                      expenseBalanceValues: expenseBalanceValues),
+                    isSearchByPeriod: indexPopMenu == 1,
+                    isLoading: isLoading,
+                    expenseBalanceValues: expenseBalanceValues,
+                  ),
                   FinancialReportPersonalExpense(
+                    isSearchByPeriod: indexPopMenu == 1,
                     isLoading: isLoading,
                     personalExpenseBalanceValues: personalExpenseBalanceValues,
                   ),

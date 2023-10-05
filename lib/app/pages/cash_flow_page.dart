@@ -356,7 +356,10 @@ class _CashFlowPageState extends State<CashFlowPage> {
                   Container(
                     color: Colors.indigo.withOpacity(.1),
                     height: 200,
-                    child: FinancialReportSaleList(itemsSale: itemsSales),
+                    child: FinancialReportSaleList(
+                      isSearchByPeriod: false,
+                      itemsSale: itemsSales,
+                    ),
                   ),
                 ],
               ),
@@ -384,6 +387,7 @@ class _CashFlowPageState extends State<CashFlowPage> {
                     color: Colors.indigo.withOpacity(.1),
                     height: 200,
                     child: FinancialReportServiceList(
+                      isSearchByPeriod: false,
                       servicesProvided: servicesProvided,
                     ),
                   ),

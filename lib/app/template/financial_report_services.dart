@@ -9,7 +9,9 @@ import '../utils/convert_values.dart';
 class FinancialReportServices extends StatelessWidget {
   final FinancialReportServicesValues financialReportServicesValues;
   final bool isLoading;
+  final bool isSearchByPeriod;
   const FinancialReportServices({
+    required this.isSearchByPeriod,
     required this.isLoading,
     required this.financialReportServicesValues,
     super.key,
@@ -61,6 +63,7 @@ class FinancialReportServices extends StatelessWidget {
                     child: loading(context, 30),
                   )
                 : FinancialReportServiceList(
+                  isSearchByPeriod: isSearchByPeriod,
                     servicesProvided:
                         financialReportServicesValues.itemsServices,
                   ),
@@ -124,7 +127,6 @@ class FinancialReportServices extends StatelessWidget {
               ],
             ),
           ),
-          
         ],
       ),
     );

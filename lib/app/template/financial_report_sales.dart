@@ -9,14 +9,17 @@ import 'financial_report_sale_list.dart';
 class FinancialReportSales extends StatelessWidget {
   final FinancialReportSalesValues financialReportSalesValues;
   final bool isLoading;
+  final bool isSearchByPeriod;
   const FinancialReportSales({
     required this.isLoading,
+    required this.isSearchByPeriod,
     required this.financialReportSalesValues,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    print(isSearchByPeriod);
     return Container(
       margin: const EdgeInsets.only(top: 20),
       child: Column(
@@ -60,6 +63,7 @@ class FinancialReportSales extends StatelessWidget {
             child: isLoading
                 ? Center(child: loading(context, 30))
                 : FinancialReportSaleList(
+                    isSearchByPeriod: isSearchByPeriod,
                     itemsSale: financialReportSalesValues.itemsSales,
                   ),
           ),

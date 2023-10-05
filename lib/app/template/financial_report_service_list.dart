@@ -4,7 +4,9 @@ import '../utils/convert_values.dart';
 
 class FinancialReportServiceList extends StatelessWidget {
   final List<Map<String, dynamic>> servicesProvided;
+  final bool isSearchByPeriod;
   const FinancialReportServiceList({
+    required this.isSearchByPeriod,
     required this.servicesProvided,
     super.key,
   });
@@ -13,10 +15,12 @@ class FinancialReportServiceList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scrollbar(
       child: servicesProvided.isEmpty
-          ? const Center(
+          ? Center(
               child: Text(
-                "Não há serviços prestados neste mês.",
-                style: TextStyle(fontSize: 18),
+                !isSearchByPeriod
+                    ? "Não há serviços prestados neste mês."
+                    : "Não há serviços prestados neste período.",
+                style: const TextStyle(fontSize: 18),
               ),
             )
           : ListView(

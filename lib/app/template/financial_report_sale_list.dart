@@ -4,7 +4,9 @@ import '../utils/convert_values.dart';
 
 class FinancialReportSaleList extends StatelessWidget {
   final List<Map<String, dynamic>> itemsSale;
+  final bool isSearchByPeriod;
   const FinancialReportSaleList({
+    required this.isSearchByPeriod,
     required this.itemsSale,
     super.key,
   });
@@ -13,10 +15,12 @@ class FinancialReportSaleList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scrollbar(
       child: itemsSale.isEmpty
-          ? const Center(
+          ? Center(
               child: Text(
-                "Não há vendas realizadas neste mês.",
-                style: TextStyle(fontSize: 18),
+                !isSearchByPeriod
+                    ? "Não há vendas realizadas neste mês."
+                    : "Não há vendas realizadas neste período.",
+                style: const TextStyle(fontSize: 18),
               ),
             )
           : ListView(
