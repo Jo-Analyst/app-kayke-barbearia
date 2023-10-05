@@ -77,6 +77,7 @@ class _ListSalesAndProvisionOfServicesState
                         },
                         leading: FittedBox(
                           fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
                           child: Text(
                             widget.itemsList[index]["id"]
                                 .toString()
@@ -87,13 +88,22 @@ class _ListSalesAndProvisionOfServicesState
                             ),
                           ),
                         ),
-                        title: Text(
-                          changeTheDateWriting(widget.itemsList[index]["date"]),
-                          style: const TextStyle(fontSize: 18),
+                        title: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            changeTheDateWriting(
+                                widget.itemsList[index]["date"]),
+                            style: const TextStyle(fontSize: 18),
+                          ),
                         ),
-                        subtitle: Text(
-                          nameClient,
-                          style: const TextStyle(fontSize: 18),
+                        subtitle: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            nameClient,
+                            style: const TextStyle(fontSize: 18),
+                          ),
                         ),
                         trailing: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,

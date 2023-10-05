@@ -67,6 +67,7 @@ class ListPayment extends StatelessWidget {
                         ),
                         title: FittedBox(
                           fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
                           child: Text(
                             changeTheDateWriting(payments[index]["date"]),
                             style: const TextStyle(fontSize: 18),
@@ -74,6 +75,7 @@ class ListPayment extends StatelessWidget {
                         ),
                         subtitle: FittedBox(
                           fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
                           child: Text(
                             nameClient,
                             style: const TextStyle(fontSize: 18),
