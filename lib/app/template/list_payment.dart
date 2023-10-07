@@ -30,8 +30,8 @@ class ListPayment extends StatelessWidget {
             ? Center(
                 child: Text(
                   typePayment == "vendas"
-                      ? "Não há vendas realizadas neste mês"
-                      : "Não há serviços prestados neste mês",
+                      ? "Não há registro da venda."
+                      : "Não há registro do serviço.",
                   style: const TextStyle(fontSize: 20),
                 ),
               )
