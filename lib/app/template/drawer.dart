@@ -29,9 +29,9 @@ class DrawerComponet extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            accountEmail: const Text("appkaykebarbearia@outlook.com"),
+            accountEmail: null,
             accountName: const Text(
-              "KAIKE BARBEARIA",
+              "KAYKE BARBEARIA",
               style: TextStyle(fontSize: 20),
             ),
             currentAccountPicture: ClipOval(

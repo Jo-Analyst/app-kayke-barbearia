@@ -9,7 +9,6 @@ class PersonalExpenseBalanceValues {
     itemsPersonalExpense = await PersonalExpenseBalanceController(
       monthAndYear: monthAndYear,
     ).getListPersonalExpenses();
-    
     for (var item in itemsPersonalExpense) {
       valueTotal += item["price"];
     }

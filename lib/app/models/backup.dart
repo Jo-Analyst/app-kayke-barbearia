@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:app_kayke_barbearia/app/utils/mail.dart';
+// import 'package:app_kayke_barbearia/app/utils/mail.dart';
+import 'package:share/share.dart';
 
 class Backup {
   static String pathStorage = '/storage/emulated/0/App Kayke Barbearia';
@@ -14,7 +15,9 @@ class Backup {
       Directory? folderPathForDbFile = Directory(pathStorage);
       await folderPathForDbFile.create();
       await ourDbFile.copy("$pathStorage/appkaykebarbearia.db");
-      await Mail.sendEmailWithAttachment("$pathStorage/appkaykebarbearia.db");
+      Share.shareFiles(["$pathStorage/appkaykebarbearia.db"],
+          text: "Backup concluído!");
+      // await Mail.sendEmailWithAttachment("$pathStorage/appkaykebarbearia.db");
     } catch (e) {
       return e.toString();
     }

@@ -35,7 +35,7 @@ class _IntroScreenState extends State<IntroScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Theme.of(context).primaryColor,
+      color: const Color.fromRGBO(0, 74, 173, 1),
       child: Center(
         child: Image.asset("assets/images/logo.jpg"),
       ),
