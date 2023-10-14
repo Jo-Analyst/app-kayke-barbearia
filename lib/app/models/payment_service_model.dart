@@ -57,7 +57,7 @@ class PaymentService {
     return lastId;
   }
 
-  static Future<List<Map<String, dynamic>>> findBySaleId(int provisionOfServiceId) async {
+  static Future<List<Map<String, dynamic>>> findByProvisionOfServiceId(int provisionOfServiceId) async {
     final db = await DB.openDatabase();
     return db.rawQuery(
         "SELECT id, amount_paid AS value, date_payment AS date, specie, provision_of_service_id  FROM payments_services WHERE provision_of_service_id = ?",
@@ -69,7 +69,7 @@ class PaymentService {
     await db.delete("payments_services", where: "id = ?", whereArgs: [id]);
   }
 
-  static void deleteByProvisionOfServiceId(Transaction txn, int saleId) async {
-    txn.delete("payments_services", where: "provision_of_service_id = ?", whereArgs: [saleId]);
+  static void deleteByProvisionOfServiceId(Transaction txn, int provisionOfServiceId) async {
+    txn.delete("payments_services", where: "provision_of_service_id = ?", whereArgs: [provisionOfServiceId]);
   }
 }

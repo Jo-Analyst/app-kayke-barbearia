@@ -62,8 +62,9 @@ class _ListSalesAndProvisionOfServicesState
                               await Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (_) => DetailsSaleOrProvisionOfService(
-                                  isService: widget.isService,
-                                  itemsList: widget.itemsList[index]),
+                                isService: widget.isService,
+                                itemsList: widget.itemsList[index],
+                              ),
                             ),
                           );
 

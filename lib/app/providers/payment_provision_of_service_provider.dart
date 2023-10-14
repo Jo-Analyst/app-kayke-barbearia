@@ -27,7 +27,7 @@ class PaymentProvisionOfServiceProvider extends ChangeNotifier {
 
  Future<void> loadById(int provisionOfServiceId) async {
     clear();
-    final payments = await PaymentService.findBySaleId(provisionOfServiceId);
+    final payments = await PaymentService.findByProvisionOfServiceId(provisionOfServiceId);
     _items.addAll(payments);
     calculateAmountReceived();
   }
