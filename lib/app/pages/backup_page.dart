@@ -2,6 +2,7 @@ import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/utils/content_message.dart';
 import 'package:app_kayke_barbearia/app/utils/loading.dart';
 import 'package:app_kayke_barbearia/app/utils/permission_use_app.dart';
+import 'package:app_kayke_barbearia/app/utils/share.dart';
 import 'package:app_kayke_barbearia/app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -53,16 +54,20 @@ class _BackupPageState extends State<BackupPage> {
 
       return;
     }
+    
+    if (actionName != null) {
+      showMessage(
+        const ContentMessage(
+          title: "A restauração foi realizada com sucesso.",
+          icon: Icons.info,
+        ),
+        null,
+      );
+    }
 
-    showMessage(
-      ContentMessage(
-        title: actionName != null
-            ? "A restauração foi realizada com sucesso."
-            : "O backup foi realizado com sucesso. O arquivo de backup encontra no armazenamento interno do seu dispostivo. Url: /App Kayke Barbearia/appkaykebarbearia.db",
-        icon: Icons.info,
-      ),
-      null,
-    );
+    if (actionName == null) {
+      ShareUtils.share();
+    }
   }
 
   @override

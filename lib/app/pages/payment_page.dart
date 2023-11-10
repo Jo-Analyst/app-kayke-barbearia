@@ -1,3 +1,4 @@
+import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/pages/client_list_page.dart';
 import 'package:app_kayke_barbearia/app/providers/sale_provider.dart';
 import 'package:app_kayke_barbearia/app/utils/content_message.dart';
@@ -177,6 +178,8 @@ class _PaymentPageState extends State<PaymentPage> {
       data.remove("profit_value_total");
       await serviceProvider.save(data, items, payment);
     }
+
+    await Backup.toGenerate();
   }
 
   void showMessage(Widget content, Color? color) {
