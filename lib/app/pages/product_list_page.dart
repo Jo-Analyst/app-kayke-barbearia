@@ -65,6 +65,7 @@ class _ProductListPageState extends State<ProductListPage> {
     }
   }
 
+
   void selectProducts(Map<String, dynamic> dataProduct) {
     final result = productsSelected.any(
       (product) => product["name"] == dataProduct["name"],
@@ -86,7 +87,6 @@ class _ProductListPageState extends State<ProductListPage> {
             );
     });
   }
-
   void selectAllProducts() {
     setState(() {
       if (productsSelected.length == products.length) {

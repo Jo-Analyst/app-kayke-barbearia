@@ -78,8 +78,9 @@ class _PaymentSaleEditionPageState extends State<PaymentEditionPage> {
   @override
   void initState() {
     super.initState();
+
     valueSaleController.text = numberFormat.format(widget.value);
-    loadPayments();   
+    loadPayments();
   }
 
   void loadPayments() async {
@@ -211,90 +212,82 @@ class _PaymentSaleEditionPageState extends State<PaymentEditionPage> {
                                               return Column(
                                                 children: [
                                                   Slidable(
-                                                    endActionPane:
-                                                        widget.isCasualCustomer
-                                                            ? null
-                                                            : ActionPane(
-                                                                motion:
-                                                                    const StretchMotion(),
-                                                                children: [
-                                                                  SlidableAction(
-                                                                    onPressed:
-                                                                        (_) async {
-                                                                      final paymentReceived =
-                                                                          await Navigator.of(context)
-                                                                              .push(
-                                                                        MaterialPageRoute(
-                                                                          builder: (_) =>
-                                                                              ReceiptPage(
-                                                                                dateTransaction: widget.dateTransaction,
-                                                                            id: widget.id,
-                                                                            receipt:
-                                                                                receipt,
-                                                                            isEdition:
-                                                                                true,
-                                                                            totalAmountReceived:
-                                                                                amountReceived,
-                                                                            isService:
-                                                                                widget.isService,
-                                                                            total:
-                                                                                widget.value,
-                                                                          ),
-                                                                        ),
-                                                                      );
-
-                                                                      if (paymentReceived !=
-                                                                          null) {
-                                                                        setState(
-                                                                            () {
-                                                                          confirmAction =
-                                                                              true;
-
-                                                                          showMessage(
-                                                                            const ContentMessage(
-                                                                              title: "Pagamento editado com sucesso.",
-                                                                              icon: Icons.info,
-                                                                            ),
-                                                                            Colors.orange,
-                                                                          );
-                                                                        });
-                                                                      }
-                                                                    },
-                                                                    backgroundColor:
-                                                                        Colors
-                                                                            .amber,
-                                                                    foregroundColor:
-                                                                        Colors
-                                                                            .white,
-                                                                    icon: Icons
-                                                                        .edit_outlined,
-                                                                    label:
-                                                                        "Editar",
-                                                                  ),
-                                                                  if (receipts
-                                                                          .length >
-                                                                      1)
-                                                                    SlidableAction(
-                                                                      onPressed:
-                                                                          (_) =>
-                                                                              deletePayment(
-                                                                        index,
-                                                                        receipt[
-                                                                            "id"],
-                                                                      ),
-                                                                      backgroundColor:
-                                                                          Colors
-                                                                              .red,
-                                                                      foregroundColor:
-                                                                          Colors
-                                                                              .white,
-                                                                      icon: Icons
-                                                                          .delete,
-                                                                      label:
-                                                                          "Excluir",
-                                                                    ),
-                                                                ],
+                                                    endActionPane: ActionPane(
+                                                      motion:
+                                                          const StretchMotion(),
+                                                      children: [
+                                                        SlidableAction(
+                                                          onPressed: (_) async {
+                                                            final paymentReceived =
+                                                                await Navigator.of(
+                                                                        context)
+                                                                    .push(
+                                                              MaterialPageRoute(
+                                                                builder: (_) =>
+                                                                    ReceiptPage(
+                                                                  isCasualCustomer:
+                                                                      widget
+                                                                          .isCasualCustomer,
+                                                                  dateTransaction:
+                                                                      widget
+                                                                          .dateTransaction,
+                                                                  id: widget.id,
+                                                                  receipt:
+                                                                      receipt,
+                                                                  isEdition:
+                                                                      true,
+                                                                  totalAmountReceived:
+                                                                      amountReceived,
+                                                                  isService: widget
+                                                                      .isService,
+                                                                  total: widget
+                                                                      .value,
+                                                                ),
                                                               ),
+                                                            );
+
+                                                            if (paymentReceived !=
+                                                                null) {
+                                                              setState(() {
+                                                                confirmAction =
+                                                                    true;
+
+                                                                showMessage(
+                                                                  const ContentMessage(
+                                                                    title:
+                                                                        "Pagamento editado com sucesso.",
+                                                                    icon: Icons
+                                                                        .info,
+                                                                  ),
+                                                                  Colors.orange,
+                                                                );
+                                                              });
+                                                            }
+                                                          },
+                                                          backgroundColor:
+                                                              Colors.amber,
+                                                          foregroundColor:
+                                                              Colors.white,
+                                                          icon: Icons
+                                                              .edit_outlined,
+                                                          label: "Editar",
+                                                        ),
+                                                        if (receipts.length > 1)
+                                                          SlidableAction(
+                                                            onPressed: (_) =>
+                                                                deletePayment(
+                                                              index,
+                                                              receipt["id"],
+                                                            ),
+                                                            backgroundColor:
+                                                                Colors.red,
+                                                            foregroundColor:
+                                                                Colors.white,
+                                                            icon: Icons.delete,
+                                                            label: "Excluir",
+                                                          ),
+                                                      ],
+                                                    ),
                                                     child:
                                                         ListTilePaymentReceipt(
                                                             receipt: receipt),
@@ -356,7 +349,10 @@ class _PaymentSaleEditionPageState extends State<PaymentEditionPage> {
                                         await Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (_) => ReceiptPage(
-                                          dateTransaction: widget.dateTransaction,
+                                          isCasualCustomer:
+                                              widget.isCasualCustomer,
+                                          dateTransaction:
+                                              widget.dateTransaction,
                                           id: widget.id,
                                           receipt: amountReceived == 0
                                               ? receipts[0]

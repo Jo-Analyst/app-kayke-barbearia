@@ -13,6 +13,7 @@ import '../utils/convert_datetime.dart';
 import '../utils/snackbar.dart';
 
 class ReceiptPage extends StatefulWidget {
+  final bool isCasualCustomer;
   final int id;
   final double total;
   final double totalAmountReceived;
@@ -23,6 +24,7 @@ class ReceiptPage extends StatefulWidget {
 
   const ReceiptPage({
     required this.id,
+    required this.isCasualCustomer,
     required this.isService,
     required this.isEdition,
     required this.receipt,
@@ -53,6 +55,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
   @override
   void initState() {
     super.initState();
+    print(widget.isCasualCustomer);
     amountReceivable = widget.total - widget.totalAmountReceived;
     remainingAmount = amountReceivable;
     if (!widget.isEdition && widget.receipt.isEmpty) return;
@@ -234,23 +237,26 @@ class _ReceiptPageState extends State<ReceiptPage> {
                         keyboardType: const TextInputType.numberWithOptions(
                           decimal: true,
                         ),
+                        readOnly: widget.isCasualCustomer,
                         decoration: InputDecoration(
                           labelText: "Valor do Recebimento",
                           labelStyle:
                               const TextStyle(fontWeight: FontWeight.normal),
                           floatingLabelAlignment: FloatingLabelAlignment.center,
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                amountReceived = 0;
+                          suffixIcon: widget.isCasualCustomer
+                              ? null
+                              : IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      amountReceived = 0;
 
-                                amountReceivedController
-                                    .updateValue(amountReceived);
-                              });
-                              calculate();
-                            },
-                            icon: const Icon(Icons.close),
-                          ),
+                                      amountReceivedController
+                                          .updateValue(amountReceived);
+                                    });
+                                    calculate();
+                                  },
+                                  icon: const Icon(Icons.close),
+                                ),
                         ),
                         style: const TextStyle(
                           fontSize: 30,
