@@ -1,3 +1,4 @@
+import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/providers/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,6 +16,7 @@ class ProductFormPage extends StatefulWidget {
   final double? profitValue;
   final int? quantity;
   final int? productId;
+
   const ProductFormPage({
     required this.isEdition,
     this.productId,
@@ -86,6 +88,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
       "quantity": quantity,
     });
 
+    await Backup.toGenerate();
     showMessage(
       ContentMessage(
         title: widget.isEdition

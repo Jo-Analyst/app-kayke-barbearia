@@ -1,3 +1,4 @@
+import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/pages/personal_expense_form_page.dart';
 import 'package:app_kayke_barbearia/app/utils/content_message.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
@@ -57,6 +58,7 @@ class _PersonalExpenseListPageState extends State<PersonalExpenseListPage> {
         await showExitDialog(context, "Deseja mesmo excluir?");
     if (confirmDelete == true) {
       personalExpenseProvider.delete(personalExpense["id"]);
+      await Backup.toGenerate();
       showMessage(
         const ContentMessage(
           title: "Despesa excluida com sucesso.",

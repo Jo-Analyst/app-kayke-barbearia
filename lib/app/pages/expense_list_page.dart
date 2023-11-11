@@ -1,3 +1,4 @@
+import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/pages/expense_form_page.dart';
 import 'package:app_kayke_barbearia/app/providers/expense_provider.dart';
 import 'package:app_kayke_barbearia/app/template/add_expense.dart';
@@ -54,6 +55,7 @@ class _ExpenseListPageState extends State<ExpenseListPage> {
         await showExitDialog(context, "Deseja mesmo excluir?");
     if (confirmDelete == true) {
       expenseProvider.delete(expense["id"]);
+      await Backup.toGenerate();
       showMessage(
         const ContentMessage(
           title: "Despesa excluida com sucesso.",

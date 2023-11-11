@@ -1,3 +1,4 @@
+import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/providers/payment_provision_of_service_provider.dart';
 import 'package:app_kayke_barbearia/app/providers/payment_sale_provider.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
@@ -55,7 +56,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
   @override
   void initState() {
     super.initState();
-    print(widget.isCasualCustomer);
+
     amountReceivable = widget.total - widget.totalAmountReceived;
     remainingAmount = amountReceivable;
     if (!widget.isEdition && widget.receipt.isEmpty) return;
@@ -142,6 +143,7 @@ class _ReceiptPageState extends State<ReceiptPage> {
     };
 
     await paymentProvider.save(payment);
+    await Backup.toGenerate();
   }
 
   String showResult() {

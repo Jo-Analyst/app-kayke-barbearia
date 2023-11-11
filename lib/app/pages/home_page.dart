@@ -64,12 +64,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    init();
-  }
-
-  void init() async {
-    await isGrantedRequestPermissionStorage();
-    await isContactsPermissionGranted();
   }
 
   @override

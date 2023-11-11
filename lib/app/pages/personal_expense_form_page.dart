@@ -1,3 +1,4 @@
+import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/template/calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +17,7 @@ class PersonalExpenseFormPage extends StatefulWidget {
   final double? price;
   final int? quantity;
   final DateTime? date;
+
   const PersonalExpenseFormPage({
     this.personalExpenseId,
     required this.isEdition,
@@ -78,6 +80,8 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage> {
       "date": dateFormat1.format(dateSelected),
       "price": price,
     });
+
+    await Backup.toGenerate();
 
     showMessage(
       ContentMessage(

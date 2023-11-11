@@ -1,3 +1,4 @@
+import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/pages/client_form_page.dart';
 import 'package:app_kayke_barbearia/app/pages/contact_phone_page.dart';
 import 'package:app_kayke_barbearia/app/providers/client_provider.dart';
@@ -63,6 +64,7 @@ class _ClientListPageState extends State<ClientListPage> {
         context, "Deseja mesmo excluir o(a) cliente '${client["name"]}'?");
     if (confirmDelete == true) {
       await clientsProvider.delete(client["id"]);
+      await Backup.toGenerate();
       showMessage(
         const ContentMessage(
           title: "Cliente excluido com sucesso.",

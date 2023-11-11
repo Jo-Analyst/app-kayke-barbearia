@@ -1,3 +1,4 @@
+import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/providers/service_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
@@ -54,6 +55,8 @@ class _ServiceFormPageState extends State<ServiceFormPage> {
       "description": _description,
       "price": _priceService,
     });
+
+    await Backup.toGenerate();
 
     showMessage(
       ContentMessage(

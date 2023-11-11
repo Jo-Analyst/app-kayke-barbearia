@@ -2,6 +2,7 @@ import 'package:app_kayke_barbearia/app/controllers/items_sale.controller.dart';
 import 'package:app_kayke_barbearia/app/controllers/items_services.dart';
 import 'package:app_kayke_barbearia/app/controllers/provision_of_service_controller.dart';
 import 'package:app_kayke_barbearia/app/controllers/sale_controller.dart';
+import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/pages/client_list_page.dart';
 import 'package:app_kayke_barbearia/app/providers/payment_provision_of_service_provider.dart';
 import 'package:app_kayke_barbearia/app/template/list_tile_payment_receipt.dart';
@@ -114,6 +115,7 @@ class _DetailsSaleOrProvisionOfServiceState
             widget.itemsList["id"], listSalesOrProvisionOfServices);
       }
 
+      await Backup.toGenerate();
       showMessage(
         ContentMessage(
           title: widget.isService
@@ -126,6 +128,21 @@ class _DetailsSaleOrProvisionOfServiceState
 
       closeScreen();
     }
+  }
+
+  void updateClientAndDate() async {
+    if (widget.isService) {
+      ProvisionOfServiceController.updateClientAndDate(widget.itemsList["id"], {
+        "client_id": clientId,
+        "date_service": date,
+      });
+    } else {
+      SaleController.updateClientAndDate(widget.itemsList["id"], {
+        "client_id": clientId,
+        "date_sale": date,
+      });
+    }
+    await Backup.toGenerate();
   }
 
   @override
@@ -187,20 +204,8 @@ class _DetailsSaleOrProvisionOfServiceState
             margin: const EdgeInsets.only(right: 10),
             child: IconButton(
               onPressed: willChangeDate || willChangeClient
-                  ? () {
-                      if (widget.isService) {
-                        ProvisionOfServiceController.updateClientAndDate(
-                            widget.itemsList["id"], {
-                          "client_id": clientId,
-                          "date_service": date,
-                        });
-                      } else {
-                        SaleController.updateClientAndDate(
-                            widget.itemsList["id"], {
-                          "client_id": clientId,
-                          "date_sale": date,
-                        });
-                      }
+                  ? () async {
+                      updateClientAndDate();
                       Navigator.of(context).pop("save");
                     }
                   : null,

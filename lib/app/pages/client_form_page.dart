@@ -1,3 +1,4 @@
+import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/providers/client_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -59,6 +60,7 @@ class _ClientFormPageState extends State<ClientFormPage> {
       "address": addressController.text.trim()
     });
 
+    await Backup.toGenerate();
     showMessage(
       ContentMessage(
         title: widget.isEdition

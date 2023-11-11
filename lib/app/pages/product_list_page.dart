@@ -1,3 +1,4 @@
+import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/pages/product_form_page.dart';
 import 'package:app_kayke_barbearia/app/providers/product_provider.dart';
 import 'package:app_kayke_barbearia/app/template/add_product.dart';
@@ -55,6 +56,7 @@ class _ProductListPageState extends State<ProductListPage> {
         context, "Deseja mesmo excluir o produto '${product["name"]}'?");
     if (confirmDelete == true) {
       productsProvider.delete(product["id"]);
+      await Backup.toGenerate();
       showMessage(
         const ContentMessage(
           title: "Produto excluido com sucesso.",
@@ -64,7 +66,6 @@ class _ProductListPageState extends State<ProductListPage> {
       );
     }
   }
-
 
   void selectProducts(Map<String, dynamic> dataProduct) {
     final result = productsSelected.any(
@@ -87,6 +88,7 @@ class _ProductListPageState extends State<ProductListPage> {
             );
     });
   }
+
   void selectAllProducts() {
     setState(() {
       if (productsSelected.length == products.length) {

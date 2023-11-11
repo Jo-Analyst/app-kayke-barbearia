@@ -1,3 +1,4 @@
+import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/pages/service_form_page.dart';
 import 'package:app_kayke_barbearia/app/providers/service_provider.dart';
 import 'package:app_kayke_barbearia/app/template/add_service.dart';
@@ -54,6 +55,7 @@ class _ServiceListPageState extends State<ServiceListPage> {
         context, "Deseja mesmo excluir o serviço '${service["description"]}'?");
     if (confirmDelete == true) {
       serviceProvider.delete(service["id"]);
+      await Backup.toGenerate();
       showMessage(
         const ContentMessage(
           title: "Serviço excluido com sucesso.",
