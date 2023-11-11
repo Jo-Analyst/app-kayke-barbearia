@@ -5,6 +5,7 @@ import 'package:app_kayke_barbearia/app/utils/dialog_exit_app.dart';
 import 'package:app_kayke_barbearia/app/utils/modal.dart';
 import 'package:app_kayke_barbearia/app/template/new_transaction.dart';
 import 'package:app_kayke_barbearia/app/utils/permission_use_app.dart';
+import 'package:app_kayke_barbearia/app/utils/share.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -47,6 +48,7 @@ class _HomePageState extends State<HomePage> {
 
         if (isGranted) {
           await Backup.toGenerate();
+          ShareUtils.share();
         } else {
           openAppSettings();
           return false;
@@ -57,6 +59,17 @@ class _HomePageState extends State<HomePage> {
     }
 
     return false;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  void init() async {
+    await isGrantedRequestPermissionStorage();
+    await isContactsPermissionGranted();
   }
 
   @override
