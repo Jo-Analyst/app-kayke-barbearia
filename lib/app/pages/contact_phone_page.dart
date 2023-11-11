@@ -1,3 +1,4 @@
+import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/providers/client_provider.dart';
 import 'package:app_kayke_barbearia/app/utils/loading.dart';
 import 'package:app_kayke_barbearia/app/utils/search_list.dart';
@@ -55,7 +56,7 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
     Message.showMessage(context, content, color, 3000);
   }
 
-  void importContacts() {
+  void importContacts() async {
     final clientProvider = Provider.of<ClientProvider>(context, listen: false);
 
     int index = 0;
@@ -64,6 +65,9 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
           .save({"id": 0, "name": names[index], "phone": phone, "address": ""});
       index++;
     }
+
+    await Backup.toGenerate();
+
     showMessage(
       const ContentMessage(
         title: "Cliente importado com sucesso.",
@@ -71,7 +75,6 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
       ),
       null,
     );
-    Navigator.of(context).pop();
   }
 
   void selectContact(Map<String, dynamic> contact) {
@@ -122,7 +125,11 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
             names.isNotEmpty ? names.length.toString() : "Importar Contatos"),
         actions: [
           IconButton(
-            onPressed: phones.isNotEmpty ? () => importContacts() : null,
+            onPressed: phones.isNotEmpty
+                ? () {
+                    importContacts();
+                  }
+                : null,
             icon: Visibility(
               visible: names.isNotEmpty,
               child: IconButton(
@@ -138,7 +145,10 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
             margin: const EdgeInsets.only(right: 10),
             child: phones.isNotEmpty
                 ? IconButton(
-                    onPressed: () => importContacts(),
+                    onPressed: () {
+                      importContacts();
+                      Navigator.of(context).pop();
+                    },
                     icon: const Icon(
                       Icons.check,
                       size: 30,
@@ -217,6 +227,7 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
                                 selectContact(contact);
                                 if (!longPressWasPressed) {
                                   importContacts();
+                                  Navigator.of(context).pop();
                                 }
                               },
                               selected: longPressWasPressed &&
