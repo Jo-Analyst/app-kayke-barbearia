@@ -12,16 +12,15 @@ class Backup {
       Directory? folderPathForDbFile = Directory(pathStorage);
       await folderPathForDbFile.create();
       await ourDbFile.copy("$pathStorage/appkaykebarbearia.db");
-         
     } catch (e) {
       return e.toString();
     }
     return null;
   }
 
-  static Future<String?> restore() async {
+  static Future<String?> restore(String filePath) async {
     try {
-      File saveDBFile = File("$pathStorage/appkaykebarbearia.db");
+      File saveDBFile = File(filePath);
 
       await saveDBFile.copy(pathDB);
     } catch (e) {

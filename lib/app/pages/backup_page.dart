@@ -4,6 +4,7 @@ import 'package:app_kayke_barbearia/app/utils/loading.dart';
 import 'package:app_kayke_barbearia/app/utils/permission_use_app.dart';
 import 'package:app_kayke_barbearia/app/utils/share.dart';
 import 'package:app_kayke_barbearia/app/utils/snackbar.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -22,40 +23,46 @@ class _BackupPageState extends State<BackupPage> {
     Message.showMessage(context, content, color, 7000);
   }
 
-  Future<void> performAction(Function() action, String? actionName) async {
-    if (!await isGrantedRequestPermissionStorage()) {
-      openAppSettings();
-      return;
-    }
-    if (actionName == null) {
-      isLoadingBackup = true;
-    } else {
+  void restore() async {
+    if (!await isGranted()) return;
+
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      String filePath = result.files.single.path ?? '';
+      int filePathLength = filePath.split(".").length;
+      String extension = filePath.split(".")[filePathLength - 1];
+      if (extension != "db") {
+        showMessage(
+          const ContentMessage(
+            title: "Arquivo de backup inválido!",
+            icon: Icons.error,
+          ),
+          Colors.red,
+        );
+
+        return;
+      }
+
       isLoadingRestore = true;
-    }
-    setState(() {});
-    final response = await action();
-    if (actionName == null) {
-      isLoadingBackup = false;
-    } else {
+      setState(() {});
+
+      final response = await Backup.restore(filePath);
       isLoadingRestore = false;
-    }
-    setState(() {});
+      setState(() {});
+      if (response != null) {
+        showMessage(
+          const ContentMessage(
+            title:
+                "Houve um problema ao realizar a restauração. Verifique se há arquivo de backup no caminho predefinido pelo app e tente novamente. Caso o problema persista, acione o suporte.",
+            icon: Icons.error,
+          ),
+          Colors.orange,
+        );
 
-    if (response != null) {
-      showMessage(
-        ContentMessage(
-          title: actionName == null
-              ? "Houve um problema ao realizar o backup. Tente novamente. Caso o problema persista, acione o suporte."
-              : "Houve um problema ao realizar a restauração. Verifique se há arquivo de backup no caminho predefinido pelo app e tente novamente. Caso o problema persista, acione o suporte.",
-          icon: Icons.error,
-        ),
-        Colors.orange,
-      );
+        return;
+      }
 
-      return;
-    }
-    
-    if (actionName != null) {
       showMessage(
         const ContentMessage(
           title: "A restauração foi realizada com sucesso.",
@@ -64,10 +71,50 @@ class _BackupPageState extends State<BackupPage> {
         null,
       );
     }
+  }
 
-    if (actionName == null) {
-      ShareUtils.share();
+  Future<bool> isGranted() async {
+    bool isGrantedPermission = true;
+    if (!await isGrantedRequestPermissionStorage()) {
+      openAppSettings();
+      isGrantedPermission = false;
     }
+
+    return isGrantedPermission;
+  }
+
+  Future<void> toGenerateBackup() async {
+    if (!await isGranted()) return;
+
+    isLoadingBackup = true;
+
+    setState(() {});
+    final response = await Backup.toGenerate();
+    isLoadingBackup = false;
+    setState(() {});
+
+    if (response != null) {
+      showMessage(
+        const ContentMessage(
+          title:
+              "Houve um problema ao realizar o backup. Tente novamente. Caso o problema persista, acione o suporte.",
+          icon: Icons.error,
+        ),
+        Colors.orange,
+      );
+
+      return;
+    }
+
+    showMessage(
+      const ContentMessage(
+        title: "Backup foi realizado com sucesso.",
+        icon: Icons.info,
+      ),
+      null,
+    );
+
+    ShareUtils.share();
   }
 
   @override
@@ -88,7 +135,7 @@ class _BackupPageState extends State<BackupPage> {
                 margin: const EdgeInsets.symmetric(vertical: 10),
                 child: ElevatedButton(
                   onPressed: () async {
-                    await performAction(Backup.toGenerate, null);
+                    await toGenerateBackup();
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -113,9 +160,7 @@ class _BackupPageState extends State<BackupPage> {
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 10),
                 child: ElevatedButton(
-                  onPressed: () async {
-                    await performAction(Backup.restore, "restauração");
-                  },
+                  onPressed: () => restore(),
                   child: Container(
                     width: double.infinity,
                     alignment: Alignment.center,
