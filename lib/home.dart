@@ -1,4 +1,5 @@
 import 'package:app_kayke_barbearia/app/pages/intro_screen_page.dart';
+import 'package:app_kayke_barbearia/app/pages/use_init_app_on_device.dart';
 import 'package:app_kayke_barbearia/app/providers/client_provider.dart';
 import 'package:app_kayke_barbearia/app/providers/payment_provision_of_service_provider.dart';
 import 'package:app_kayke_barbearia/app/providers/payment_sale_provider.dart';
@@ -59,7 +60,10 @@ class AppKaikeBarbearia extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate,
         ],
         home: const IntroScreen(),
-        routes: {"/home": (context) => const HomePage()},
+        routes: {
+          "/home": (context) => const HomePage(),
+          "/initial": (context) => const UseInitAppOnDevice(),
+        },
       ),
     );
   }

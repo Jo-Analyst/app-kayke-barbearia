@@ -1,4 +1,3 @@
-import 'package:app_kayke_barbearia/app/pages/backup_page.dart';
 import 'package:app_kayke_barbearia/app/pages/client_list_page.dart';
 import 'package:app_kayke_barbearia/app/pages/payment_list_page.dart';
 import 'package:app_kayke_barbearia/app/pages/personal_expense_list_page.dart';
@@ -153,20 +152,20 @@ class DrawerComponet extends StatelessWidget {
               const PersonalExpenseListPage(itFromTheSalesScreen: false),
             ),
           ),
-          ListTile(
-            leading: const Icon(
-              Icons.backup,
-              color: Colors.indigo,
-            ),
-            title: const Text(
-              "Backup",
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.indigo,
-              ),
-            ),
-            onTap: () => openScreen(const BackupPage()),
-          ),
+          // ListTile(
+          //   leading: const Icon(
+          //     Icons.backup,
+          //     color: Colors.indigo,
+          //   ),
+          //   title: const Text(
+          //     "Backup",
+          //     style: TextStyle(
+          //       fontSize: 20,
+          //       color: Colors.indigo,
+          //     ),
+          //   ),
+          //   onTap: () => openScreen(const BackupPage()),
+          // ),
         ],
       ),
     );

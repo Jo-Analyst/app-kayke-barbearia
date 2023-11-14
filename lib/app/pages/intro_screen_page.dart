@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 
@@ -22,9 +23,12 @@ class _IntroScreenState extends State<IntroScreen> {
 
   // Método para navegar para a tela principal após alguns segundos
   void _navigateToHome() {
+    String path =
+        '/data/user/0/com.example.app_kayke_barbearia/databases/appkaykebarbearia.db';
+    final file = File(path);
     Timer(const Duration(seconds: 2), () async {
-      final confirmExit =
-          await Navigator.of(context).pushReplacementNamed('/home');
+      final confirmExit = await Navigator.of(context)
+          .pushReplacementNamed(file.existsSync() ? '/home' : '/initial');
 
       if (confirmExit == true) {
         screen();
