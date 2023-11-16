@@ -1,3 +1,4 @@
+import 'package:app_kayke_barbearia/app/config/db.dart';
 import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/utils/content_message.dart';
 import 'package:app_kayke_barbearia/app/utils/permission_use_app.dart';
@@ -46,7 +47,7 @@ class _UseInitAppOnDeviceState extends State<UseInitAppOnDevice> {
 
       isLoadingRestore = true;
       setState(() {});
-
+      await DB.openDatabase();
       final response = await Backup.restore(filePath);
       isLoadingRestore = false;
       setState(() {});
@@ -106,19 +107,27 @@ class _UseInitAppOnDeviceState extends State<UseInitAppOnDevice> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.perm_device_information_rounded,
-                  size: 100,
-                  color: Theme.of(context).primaryColor,
+                Image.asset(
+                  "assets/images/logo.jpg",
+                  width: 100,
                 ),
+                const SizedBox(height: 5),
                 const Text(
-                  "É a primeira instalação do aplicativo neste dispositivo. Caso tenha um arquivo de backup faça a restauração do sistema por aqui.",
+                  "Olá! Seja bem vindo. Este é o aplicativo que irá te auxiliar no seu serviço.",
                   textAlign: TextAlign.justify,
                   style: TextStyle(fontSize: 20),
                 ),
-                Container(
-                  margin: const EdgeInsets.only(top: 5),
-                  child: ElevatedButton(
+              ],
+            ),
+          ),
+          Positioned(
+              bottom: 10,
+              left: 0,
+              right: 0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
                     onPressed: () => restore(),
                     child: const Padding(
                       padding: EdgeInsets.all(10.0),
@@ -135,33 +144,22 @@ class _UseInitAppOnDeviceState extends State<UseInitAppOnDevice> {
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-              bottom: 10,
-              left: 0,
-              right: 15,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(left: 5),
-                    child: TextButton(
-                      onPressed: () => navigateToHome(),
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Text(
-                              "Continuar",
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            SizedBox(width: 5),
-                            Icon(Icons.keyboard_arrow_right),
-                          ],
-                        ),
+                  TextButton(
+                    onPressed: () => navigateToHome(),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Continuar",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          SizedBox(width: 5),
+                          Icon(
+                            Icons.keyboard_arrow_right,
+                            size: 28,
+                          ),
+                        ],
                       ),
                     ),
                   ),

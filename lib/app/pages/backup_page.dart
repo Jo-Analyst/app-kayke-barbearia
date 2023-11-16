@@ -59,7 +59,7 @@ class _BackupPageState extends State<BackupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Backup e restauração"),
+          title: const Text("Backup"),
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(
@@ -69,6 +69,16 @@ class _BackupPageState extends State<BackupPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Icon(
+                Icons.backup,
+                size: 100,
+                color: Theme.of(context).primaryColor,
+              ),
+              const Text(
+                "Para a segurança do seu sistema, gere o backup para uma futura restauração.",
+                style: TextStyle(fontSize: 20),
+                textAlign: TextAlign.justify,
+              ),
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 10),
                 child: ElevatedButton(
@@ -95,30 +105,30 @@ class _BackupPageState extends State<BackupPage> {
                   ),
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 10),
-                child: ElevatedButton(
-                  onPressed: () => {},
-                  child: Container(
-                    width: double.infinity,
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.all(10),
-                    child: isLoadingRestore
-                        ? loadingFourRotatingDots(context, 20)
-                        : const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.restore),
-                              SizedBox(width: 10),
-                              Text(
-                                "Restauração",
-                                style: TextStyle(fontSize: 20),
-                              )
-                            ],
-                          ),
-                  ),
-                ),
-              ),
+              // Container(
+              //   margin: const EdgeInsets.symmetric(vertical: 10),
+              //   child: ElevatedButton(
+              //     onPressed: () => {},
+              //     child: Container(
+              //       width: double.infinity,
+              //       alignment: Alignment.center,
+              //       padding: const EdgeInsets.all(10),
+              //       child: isLoadingRestore
+              //           ? loadingFourRotatingDots(context, 20)
+              //           : const Row(
+              //               mainAxisAlignment: MainAxisAlignment.center,
+              //               children: [
+              //                 Icon(Icons.restore),
+              //                 SizedBox(width: 10),
+              //                 Text(
+              //                   "Restauração",
+              //                   style: TextStyle(fontSize: 20),
+              //                 )
+              //               ],
+              //             ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ));

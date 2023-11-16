@@ -1,7 +1,10 @@
 import 'dart:io';
 
+import 'package:app_kayke_barbearia/app/utils/path.dart';
+
+
+
 class Backup {
-  static String pathStorage = '/storage/emulated/0/App Kayke Barbearia';
   static String pathDB =
       '/data/user/0/com.example.app_kayke_barbearia/databases/appkaykebarbearia.db';
 
