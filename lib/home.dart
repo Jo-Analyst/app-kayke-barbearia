@@ -39,6 +39,7 @@ class AppKaikeBarbearia extends StatelessWidget {
         title: 'Kaike Barbearia',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          useMaterial3: false,
           appBarTheme: const AppBarTheme(
             toolbarHeight: 80,
             titleTextStyle: TextStyle(fontSize: 20),
