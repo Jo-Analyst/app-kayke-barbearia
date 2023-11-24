@@ -16,7 +16,7 @@ class DrawerComponet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void openScreen(dynamic page) {
-      Navigator.pop(context);
+      // Navigator.pop(context);
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => page,
