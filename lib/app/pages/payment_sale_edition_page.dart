@@ -95,12 +95,9 @@ class _PaymentSaleEditionPageState extends State<PaymentEditionPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        closeScreen();
-
-        return false;
-      },
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (_) => closeScreen(),
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Pagamento"),

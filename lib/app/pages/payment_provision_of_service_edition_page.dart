@@ -43,11 +43,15 @@ class _PaymentProvisionOfServiceEditionPageState
   bool confirmAction = false, isLoading = true;
 
   void closeScreen() {
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => const HomePage()),
-      (route) => false,
-    );
+    if (confirmAction) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+        (route) => false,
+      );
+    } else {
+      Navigator.of(context).pop();
+    }
   }
 
   void deletePayment(int index, int idPayment) async {
@@ -77,7 +81,7 @@ class _PaymentProvisionOfServiceEditionPageState
   @override
   void initState() {
     super.initState();
-    
+
     valueProvisionOfPaymentController.text = numberFormat.format(widget.value);
     loadPayments();
   }
@@ -94,15 +98,9 @@ class _PaymentProvisionOfServiceEditionPageState
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        if (confirmAction) {
-          closeScreen();
-        } else {
-          Navigator.of(context).pop();
-        }
-        return false;
-      },
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (_) => closeScreen(),
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Pagamento"),

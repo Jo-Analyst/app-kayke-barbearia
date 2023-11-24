@@ -154,23 +154,23 @@ class _SalesAndServicesState extends State<SalesAndServices>
   }
 
   void closeScreen() {
-    if (confirmAction) {
+    // if (confirmAction) {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => const HomePage()),
         (route) => false,
       );
-    } else {
-      Navigator.of(context).pop();
-    }
+    // } else {
+    //   Navigator.of(context).pop();
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (_) {
         closeScreen();
-        return false;
       },
       child: Scaffold(
         appBar: AppBar(
