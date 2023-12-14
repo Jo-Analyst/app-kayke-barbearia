@@ -98,9 +98,12 @@ class _PaymentProvisionOfServiceEditionPageState
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (_) => closeScreen(),
+    return WillPopScope(
+      onWillPop: () async {
+        closeScreen();
+
+        return false;
+      },
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Pagamento"),

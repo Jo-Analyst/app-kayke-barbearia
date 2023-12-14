@@ -39,7 +39,7 @@ class _PaymentSaleEditionPageState extends State<PaymentEditionPage> {
   Map<String, dynamic> receipt = {};
   bool confirmAction = false, isLoading = true;
 
-  void closeScreen() {
+  void closeScreen() async {
     if (confirmAction) {
       Navigator.pushAndRemoveUntil(
         context,
@@ -95,9 +95,11 @@ class _PaymentSaleEditionPageState extends State<PaymentEditionPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (_) => closeScreen(),
+    return WillPopScope(
+      onWillPop: () async {
+        closeScreen();
+        return false;
+      },
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Pagamento"),
