@@ -39,8 +39,6 @@ class _SalesAndServicesState extends State<SalesAndServices>
     _tabController = TabController(length: 2, vsync: this);
     loadDetailSalesAndServices(
         "$year-${(month + 1).toString().padLeft(2, "0")}");
-
-    filteredServices = List.from(services);
   }
 
   void loadDetailSalesAndServices(String monthAndYear) async {

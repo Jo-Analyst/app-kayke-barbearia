@@ -34,8 +34,8 @@ class DetailsSaleOrProvisionOfService extends StatefulWidget {
 
 class _DetailsSaleOrProvisionOfServiceState
     extends State<DetailsSaleOrProvisionOfService> {
-  bool expandedContainerSaleOrService = false,
-      expandedContainerPayment = false,
+  bool expandedContainerSaleOrService = true,
+      expandedContainerPayment = true,
       willChangeDate = false,
       willChangeClient = false;
   List<Map<String, dynamic>> listSalesOrProvisionOfServices = [];
