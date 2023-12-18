@@ -42,15 +42,16 @@ class _SalesAndServicesState extends State<SalesAndServices>
   }
 
   void loadDetailSalesAndServices(String monthAndYear) async {
-    isLoading = true;
     sales = await SaleController.getSalesByDate(monthAndYear);
-    filteredSales = List.from(sales);
 
     services = await ProvisionOfServiceController.getProvisionOfServicesByDate(
         monthAndYear);
-    filteredServices = List.from(services);
-    isLoading = false;
-    setState(() {});
+
+    setState(() async {
+      filteredSales = List.from(sales);
+      filteredServices = List.from(services);
+      isLoading = false;
+    });
   }
 
   void filterLists(String option) {

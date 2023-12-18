@@ -37,21 +37,21 @@ class _PaymentListPageState extends State<PaymentListPage>
     _tabController = TabController(length: 2, vsync: this);
     loadDetailSalesAndServices(
         "$year-${(month + 1).toString().padLeft(2, "0")}");
-
-    filteredPaymentsServices = List.from(paymentsServices);
   }
 
   void loadDetailSalesAndServices(String monthAndYear) async {
     isLoading = true;
     paymentsSales = await SaleController.getSalesByDate(monthAndYear);
-    filteredPaymentsSales = List.from(paymentsSales);
 
     paymentsServices =
         await ProvisionOfServiceController.getProvisionOfServicesByDate(
             monthAndYear);
-    filteredPaymentsServices = List.from(paymentsServices);
-    isLoading = false;
-    setState(() {});
+
+    setState(() {
+      filteredPaymentsSales = List.from(paymentsSales);
+      filteredPaymentsServices = List.from(paymentsServices);
+      isLoading = false;
+    });
   }
 
   void filterLists(String option) {
