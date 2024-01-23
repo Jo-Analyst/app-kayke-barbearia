@@ -1,5 +1,6 @@
-import 'package:app_kayke_barbearia/app/pages/intro_screen_page.dart';
-import 'package:app_kayke_barbearia/app/pages/use_init_app_on_device.dart';
+import 'package:app_kayke_barbearia/app/pages/Home/intro_screen_page.dart';
+import 'package:app_kayke_barbearia/app/pages/Home/use_init_app_on_device.dart';
+import 'package:app_kayke_barbearia/app/pages/home/home_page.dart';
 import 'package:app_kayke_barbearia/app/providers/client_provider.dart';
 import 'package:app_kayke_barbearia/app/providers/payment_provision_of_service_provider.dart';
 import 'package:app_kayke_barbearia/app/providers/payment_sale_provider.dart';
@@ -10,7 +11,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
-import 'app/pages/home_page.dart';
 import 'app/providers/expense_provider.dart';
 import 'app/providers/personal_expense_provider.dart';
 import 'app/providers/product_provider.dart';
