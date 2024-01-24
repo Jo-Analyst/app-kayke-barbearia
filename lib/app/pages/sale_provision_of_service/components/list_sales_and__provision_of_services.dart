@@ -1,4 +1,5 @@
 import 'package:app_kayke_barbearia/app/pages/sale_provision_of_service/details_sale_or_provision_of_service.dart';
+import 'package:app_kayke_barbearia/app/pages/sale_provision_of_service/sales_and_provision_of_services_list_page.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:app_kayke_barbearia/app/utils/loading.dart';
 import 'package:flutter/material.dart';
@@ -7,15 +8,15 @@ import '../../../utils/convert_datetime.dart';
 
 class ListSalesAndProvisionOfServices extends StatefulWidget {
   final List<Map<String, dynamic>> itemsList;
-  final String typePayment;
   final bool isService;
   final bool isLoading;
+  final TypeTransactionSelected typeTransaction;
   final Function() onload;
 
   const ListSalesAndProvisionOfServices({
     required this.isLoading,
     required this.isService,
-    required this.typePayment,
+    required this.typeTransaction,
     required this.itemsList,
     required this.onload,
     super.key,
@@ -37,7 +38,7 @@ class _ListSalesAndProvisionOfServicesState
         : widget.itemsList.isEmpty
             ? Center(
                 child: Text(
-                  widget.typePayment == "vendas"
+                  widget.typeTransaction == TypeTransactionSelected.sales
                       ? "Não há registro da venda."
                       : "Não há registro do serviço.",
                   style: const TextStyle(fontSize: 20),
