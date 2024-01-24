@@ -3,15 +3,13 @@ import 'package:app_kayke_barbearia/app/pages/payments/components/specie_payment
 import 'package:app_kayke_barbearia/app/providers/payment_provision_of_service_provider.dart';
 import 'package:app_kayke_barbearia/app/providers/payment_sale_provider.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
+import 'package:app_kayke_barbearia/app/utils/show_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../templates/calendar.dart';
-import '../../utils/content_message.dart';
 import '../../utils/convert_datetime.dart';
-import '../../utils/snackbar.dart';
 
 class ReceiptPage extends StatefulWidget {
   final bool isCasualCustomer;
@@ -118,12 +116,9 @@ class _ReceiptPageState extends State<ReceiptPage> {
         ? Provider.of<PaymentProvisionOfServiceProvider>(context, listen: false)
         : Provider.of<PaymentSaleProvider>(context, listen: false);
     if (amountReceived == 0) {
-      showMessage(
-        const ContentMessage(
-          title: "Informe o valor pago pelo cliente.",
-          icon: FontAwesomeIcons.circleExclamation,
-        ),
-        Colors.orange,
+      showToast(
+        message: "Informe o valor pago pelo cliente.",
+        isInformation: false,
       );
       return;
     }
@@ -157,10 +152,6 @@ class _ReceiptPageState extends State<ReceiptPage> {
     }
 
     return text;
-  }
-
-  void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color, 3000);
   }
 
   @override

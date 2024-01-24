@@ -1,21 +1,21 @@
 import 'package:app_kayke_barbearia/app/pages/payments/components/details_payments.dart';
+import 'package:app_kayke_barbearia/app/pages/payments/payment_list_page.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_datetime.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:app_kayke_barbearia/app/utils/loading.dart';
 import 'package:app_kayke_barbearia/app/utils/modal.dart';
 import 'package:flutter/material.dart';
 
-
 class ListPayment extends StatelessWidget {
   final List<Map<String, dynamic>> payments;
-  final String typePayment;
+  final TypeTransactionSelected typeTransaction;
   final bool isService;
   final bool isLoading;
 
   const ListPayment({
     required this.isLoading,
     required this.isService,
-    required this.typePayment,
+    required this.typeTransaction,
     required this.payments,
     super.key,
   });
@@ -29,7 +29,7 @@ class ListPayment extends StatelessWidget {
         : payments.isEmpty
             ? Center(
                 child: Text(
-                  typePayment == "vendas"
+                  typeTransaction == TypeTransactionSelected.sales
                       ? "Não há registro da venda."
                       : "Não há registro do serviço.",
                   style: const TextStyle(fontSize: 20),

@@ -2,12 +2,11 @@ import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/providers/client_provider.dart';
 import 'package:app_kayke_barbearia/app/utils/loading.dart';
 import 'package:app_kayke_barbearia/app/utils/search_list.dart';
+import 'package:app_kayke_barbearia/app/utils/show_message.dart';
 import 'package:flutter/material.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:provider/provider.dart';
 
-import '../../utils/content_message.dart';
-import '../../utils/snackbar.dart';
 
 class ContactPhonePage extends StatefulWidget {
   const ContactPhonePage({super.key});
@@ -52,10 +51,6 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
     filteredList = _contacts;
   }
 
-  void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color, 3000);
-  }
-
   void importContacts() async {
     final clientProvider = Provider.of<ClientProvider>(context, listen: false);
 
@@ -68,12 +63,8 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
 
     await Backup.toGenerate();
 
-    showMessage(
-      const ContentMessage(
-        title: "Cliente importado com sucesso.",
-        icon: Icons.info,
-      ),
-      null,
+    showToast(
+      message: "Cliente importado com sucesso.",
     );
   }
 

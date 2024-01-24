@@ -1,10 +1,7 @@
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:app_kayke_barbearia/app/utils/show_calendar_picker.dart';
+import 'package:app_kayke_barbearia/app/utils/show_message.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import '../utils/content_message.dart';
-import '../utils/snackbar.dart';
 
 class FieldForPeriod extends StatefulWidget {
   final Function(
@@ -40,10 +37,6 @@ class _FieldForPeriodState extends State<FieldForPeriod> {
     );
   }
 
-  void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color, 3000);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -64,18 +57,16 @@ class _FieldForPeriodState extends State<FieldForPeriod> {
               );
 
               if (date.isAfter(dateSelectedFinal)) {
-                showMessage(
-                  const ContentMessage(
-                    title: "A data inicial deve ser menor que a data final.",
-                    icon: FontAwesomeIcons.circleExclamation,
-                  ),
-                  Colors.orange,
+                showToast(
+                  message: "A data inicial deve ser menor que a data final.",
+                  isInformation: false,
                 );
-                return;
               }
 
               setState(() {
-                dateSelectedInitial = date;
+                dateSelectedInitial = date.isAfter(dateSelectedFinal)
+                    ? dateSelectedInitial
+                    : date;
               });
 
               widget.onGetDates(
@@ -121,18 +112,16 @@ class _FieldForPeriodState extends State<FieldForPeriod> {
               );
 
               if (date.isBefore(dateSelectedInitial)) {
-                showMessage(
-                  const ContentMessage(
-                    title: "A data final deve ser maior que a data inicial.",
-                    icon: FontAwesomeIcons.circleExclamation,
-                  ),
-                  Colors.orange,
-                );
+                showToast(
+                    message: "A data final deve ser maior que a data inicial.",
+                    isInformation: false);
                 return;
               }
 
               setState(() {
-                dateSelectedFinal = date;
+                dateSelectedFinal = date.isBefore(dateSelectedInitial)
+                    ? dateSelectedFinal
+                    : date;
               });
 
               widget.onGetDates(

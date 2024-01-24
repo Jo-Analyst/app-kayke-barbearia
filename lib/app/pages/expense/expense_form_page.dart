@@ -1,14 +1,13 @@
 import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/providers/expense_provider.dart';
 import 'package:app_kayke_barbearia/app/templates/calendar.dart';
+import 'package:app_kayke_barbearia/app/utils/show_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:provider/provider.dart';
 
-import '../../utils/content_message.dart';
 import '../../utils/convert_values.dart';
-import '../../utils/snackbar.dart';
 
 class ExpenseFormPage extends StatefulWidget {
   final int? expenseId;
@@ -64,10 +63,6 @@ class _SpedingFormPageState extends State<ExpenseFormPage> {
     });
   }
 
-  void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color, 3000);
-  }
-
   void saveExpense() async {
     final expenseProvider =
         Provider.of<ExpenseProvider>(context, listen: false);
@@ -81,14 +76,10 @@ class _SpedingFormPageState extends State<ExpenseFormPage> {
 
     await Backup.toGenerate();
 
-    showMessage(
-      ContentMessage(
-        title: widget.isEdition
-            ? "Despesa editada com sucesso."
-            : "Despesa cadastrada com sucesso.",
-        icon: Icons.info,
-      ),
-      null,
+    showToast(
+      message: widget.isEdition
+          ? "Despesa editada com sucesso."
+          : "Despesa cadastrada com sucesso.",
     );
   }
 

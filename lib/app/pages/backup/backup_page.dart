@@ -1,9 +1,8 @@
 import 'package:app_kayke_barbearia/app/models/backup.dart';
-import 'package:app_kayke_barbearia/app/utils/content_message.dart';
 import 'package:app_kayke_barbearia/app/utils/loading.dart';
 import 'package:app_kayke_barbearia/app/utils/permission_use_app.dart';
 import 'package:app_kayke_barbearia/app/utils/share.dart';
-import 'package:app_kayke_barbearia/app/utils/snackbar.dart';
+import 'package:app_kayke_barbearia/app/utils/show_message.dart';
 import 'package:flutter/material.dart';
 
 class BackupPage extends StatefulWidget {
@@ -17,10 +16,6 @@ class _BackupPageState extends State<BackupPage> {
   bool isLoadingBackup = false, isLoadingRestore = false;
   final selectedDirectory = TextEditingController();
 
-  void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color, 7000);
-  }
-
   Future<void> toGenerateBackup() async {
     if (!await isGranted()) return;
 
@@ -32,25 +27,20 @@ class _BackupPageState extends State<BackupPage> {
     setState(() {});
 
     if (response != null) {
-      showMessage(
-        const ContentMessage(
-          title:
+      showToast(
+          message:
               "Houve um problema ao realizar o backup. Tente novamente. Caso o problema persista, acione o suporte.",
-          icon: Icons.error,
-        ),
-        Colors.orange,
-      );
+          isError: true,);
 
       return;
     }
 
-    showMessage(
-      const ContentMessage(
-        title: "Backup foi realizado com sucesso.",
-        icon: Icons.info,
-      ),
-      null,
+    showToast(
+      message: ''
+          "Backup foi realizado com sucesso.",
     );
+
+    await Future.delayed(const Duration(seconds: 7));
 
     ShareUtils.share();
   }

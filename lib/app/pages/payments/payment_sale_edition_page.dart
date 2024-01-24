@@ -5,12 +5,11 @@ import 'package:app_kayke_barbearia/app/pages/payments/components/list_tile_paym
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:app_kayke_barbearia/app/utils/dialog.dart';
 import 'package:app_kayke_barbearia/app/utils/loading.dart';
+import 'package:app_kayke_barbearia/app/utils/show_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
-import '../../utils/content_message.dart';
-import '../../utils/snackbar.dart';
 
 class PaymentEditionPage extends StatefulWidget {
   final bool isService;
@@ -62,17 +61,9 @@ class _PaymentSaleEditionPageState extends State<PaymentEditionPage> {
     setState(() {
       confirmAction = true;
     });
-    showMessage(
-      const ContentMessage(
-        title: "Pagamento excluido.",
-        icon: Icons.info,
-      ),
-      Colors.red,
+    showToast(
+      message: "Pagamento excluido.",
     );
-  }
-
-  void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color, 3000);
   }
 
   @override
@@ -251,14 +242,9 @@ class _PaymentSaleEditionPageState extends State<PaymentEditionPage> {
                                                                 confirmAction =
                                                                     true;
 
-                                                                showMessage(
-                                                                  const ContentMessage(
-                                                                    title:
-                                                                        "Pagamento editado com sucesso.",
-                                                                    icon: Icons
-                                                                        .info,
-                                                                  ),
-                                                                  Colors.orange,
+                                                                showToast(
+                                                                  message:
+                                                                      "Pagamento editado com sucesso.",
                                                                 );
                                                               });
                                                             }

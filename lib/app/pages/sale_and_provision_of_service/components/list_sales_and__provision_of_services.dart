@@ -1,5 +1,5 @@
-import 'package:app_kayke_barbearia/app/pages/sale_provision_of_service/details_sale_or_provision_of_service.dart';
-import 'package:app_kayke_barbearia/app/pages/sale_provision_of_service/sales_and_provision_of_services_list_page.dart';
+import 'package:app_kayke_barbearia/app/pages/sale_and_provision_of_service/details_sale_or_provision_of_service.dart';
+import 'package:app_kayke_barbearia/app/pages/sale_and_provision_of_service/sales_and_provision_of_services_list_page.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:app_kayke_barbearia/app/utils/loading.dart';
 import 'package:flutter/material.dart';

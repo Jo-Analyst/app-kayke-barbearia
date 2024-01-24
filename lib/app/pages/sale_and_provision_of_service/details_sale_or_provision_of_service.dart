@@ -6,12 +6,11 @@ import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/pages/client/client_list_page.dart';
 import 'package:app_kayke_barbearia/app/providers/payment_provision_of_service_provider.dart';
 import 'package:app_kayke_barbearia/app/pages/payments/components/list_tile_payment_receipt.dart';
-import 'package:app_kayke_barbearia/app/utils/content_message.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_datetime.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:app_kayke_barbearia/app/utils/dialog.dart';
 import 'package:app_kayke_barbearia/app/utils/show_calendar_picker.dart';
-import 'package:app_kayke_barbearia/app/utils/snackbar.dart';
+import 'package:app_kayke_barbearia/app/utils/show_message.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -91,10 +90,6 @@ class _DetailsSaleOrProvisionOfServiceState
     setState(() {});
   }
 
-  void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color, 3000);
-  }
-
   void closeScreen() {
     Navigator.of(context).pop("delete");
   }
@@ -116,14 +111,10 @@ class _DetailsSaleOrProvisionOfServiceState
       }
 
       await Backup.toGenerate();
-      showMessage(
-        ContentMessage(
-          title: widget.isService
-              ? "Prestação de serviço excluido com sucesso."
-              : "Venda excluida com sucesso.",
-          icon: Icons.info,
-        ),
-        const Color.fromARGB(255, 199, 82, 74),
+      showToast(
+        message: widget.isService
+            ? "Prestação de serviço excluido com sucesso."
+            : "Venda excluida com sucesso.",
       );
 
       closeScreen();

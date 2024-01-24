@@ -1,11 +1,10 @@
 import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/providers/client_provider.dart';
+import 'package:app_kayke_barbearia/app/utils/show_message.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 
-import '../../utils/content_message.dart';
-import '../../utils/snackbar.dart';
 
 class ClientFormPage extends StatefulWidget {
   final bool isEdition;
@@ -47,10 +46,6 @@ class _ClientFormPageState extends State<ClientFormPage> {
     addressController.text = widget.address ?? "";
   }
 
-  void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color, 3000);
-  }
-
   saveClient() async {
     final clientProvider = Provider.of<ClientProvider>(context, listen: false);
     await clientProvider.save({
@@ -61,14 +56,10 @@ class _ClientFormPageState extends State<ClientFormPage> {
     });
 
     await Backup.toGenerate();
-    showMessage(
-      ContentMessage(
-        title: widget.isEdition
-            ? "Dados do cliente editado com sucesso."
-            : "Cliente cadastrado com sucesso.",
-        icon: Icons.info,
-      ),
-      null,
+    showToast(
+      message: widget.isEdition
+          ? "Dados do cliente editado com sucesso."
+          : "Cliente cadastrado com sucesso.",
     );
   }
 

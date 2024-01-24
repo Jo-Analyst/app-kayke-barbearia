@@ -3,11 +3,10 @@ import 'package:app_kayke_barbearia/app/pages/client/client_form_page.dart';
 import 'package:app_kayke_barbearia/app/pages/client/contact_phone_page.dart';
 import 'package:app_kayke_barbearia/app/providers/client_provider.dart';
 import 'package:app_kayke_barbearia/app/pages/client/components/add_client.dart';
-import 'package:app_kayke_barbearia/app/utils/content_message.dart';
 import 'package:app_kayke_barbearia/app/utils/dialog.dart';
 import 'package:app_kayke_barbearia/app/utils/loading.dart';
 import 'package:app_kayke_barbearia/app/utils/permission_use_app.dart';
-import 'package:app_kayke_barbearia/app/utils/snackbar.dart';
+import 'package:app_kayke_barbearia/app/utils/show_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -38,10 +37,6 @@ class _ClientListPageState extends State<ClientListPage> {
     );
   }
 
-  void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color, 3000);
-  }
-
   @override
   void initState() {
     super.initState();
@@ -65,12 +60,8 @@ class _ClientListPageState extends State<ClientListPage> {
     if (confirmDelete == true) {
       await clientsProvider.delete(client["id"]);
       await Backup.toGenerate();
-      showMessage(
-        const ContentMessage(
-          title: "Cliente excluido com sucesso.",
-          icon: Icons.info,
-        ),
-        const Color.fromARGB(255, 199, 82, 74),
+      showToast(
+        message: "Cliente excluido com sucesso.",
       );
     }
   }
@@ -242,18 +233,10 @@ class _ClientListPageState extends State<ClientListPage> {
                                                           .isNotEmpty
                                                       ? client["phone"]
                                                       : "Sem número"),
-                                                  leading: CircleAvatar(
-                                                    maxRadius: 30,
-                                                    backgroundColor:
-                                                        Colors.indigo,
-                                                    foregroundColor:
-                                                        Colors.white,
-                                                    child: Text(
-                                                      client["name"]
-                                                          .toString()
-                                                          .split("")[0],
-                                                    ),
-                                                  ),
+                                                  leading: Icon(Icons.person,
+                                                      size: 50,
+                                                      color: Theme.of(context)
+                                                          .primaryColor),
                                                 ),
                                               ),
                                               Divider(

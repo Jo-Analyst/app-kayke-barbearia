@@ -1,8 +1,7 @@
 import 'package:app_kayke_barbearia/app/config/db.dart';
 import 'package:app_kayke_barbearia/app/models/backup.dart';
-import 'package:app_kayke_barbearia/app/utils/content_message.dart';
 import 'package:app_kayke_barbearia/app/utils/permission_use_app.dart';
-import 'package:app_kayke_barbearia/app/utils/snackbar.dart';
+import 'package:app_kayke_barbearia/app/utils/show_message.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,10 +19,6 @@ class _UseInitAppOnDeviceState extends State<UseInitAppOnDevice> {
     Navigator.of(context).pop();
   }
 
-  void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color, 7000);
-  }
-
   void restore() async {
     if (!await isGranted()) return;
 
@@ -34,12 +29,9 @@ class _UseInitAppOnDeviceState extends State<UseInitAppOnDevice> {
       int filePathLength = filePath.split(".").length;
       String extension = filePath.split(".")[filePathLength - 1];
       if (extension != "db") {
-        showMessage(
-          const ContentMessage(
-            title: "Arquivo de backup inválido!",
-            icon: Icons.error,
-          ),
-          Colors.red,
+        showToast(
+          message: "Arquivo de backup inválido!",
+          isError: true,
         );
 
         return;
@@ -52,13 +44,10 @@ class _UseInitAppOnDeviceState extends State<UseInitAppOnDevice> {
       isLoadingRestore = false;
       setState(() {});
       if (response != null) {
-        showMessage(
-          const ContentMessage(
-            title:
-                "Houve um problema ao realizar a restauração. Caso o problema persista, acione o suporte.",
-            icon: Icons.error,
-          ),
-          Colors.orange,
+        showToast(
+          message:
+              "Houve um problema ao realizar a restauração. Caso o problema persista, acione o suporte.",
+          isError: true,
         );
 
         return;

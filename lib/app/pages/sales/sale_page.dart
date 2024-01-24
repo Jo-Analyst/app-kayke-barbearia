@@ -2,13 +2,11 @@ import 'package:app_kayke_barbearia/app/pages/payments/discount_page.dart';
 import 'package:app_kayke_barbearia/app/pages/payments/payment_page.dart';
 import 'package:app_kayke_barbearia/app/pages/product/product_list_page.dart';
 import 'package:app_kayke_barbearia/app/templates/calendar.dart';
-import 'package:app_kayke_barbearia/app/utils/content_message.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
+import 'package:app_kayke_barbearia/app/utils/show_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import '../../utils/snackbar.dart';
 
 class SalePage extends StatefulWidget {
   const SalePage({super.key});
@@ -71,10 +69,6 @@ class _SalePageState extends State<SalePage> {
     setState(() {
       total = subtotal - discount;
     });
-  }
-
-  void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color, 3000);
   }
 
   bool productHasBeenAdded(int productId) {
@@ -149,27 +143,19 @@ class _SalePageState extends State<SalePage> {
                                   } else {
                                     if (productHasBeenAdded(
                                         itemsSelected["product_id"])) {
-                                      showMessage(
-                                        const ContentMessage(
-                                          icon: FontAwesomeIcons
-                                              .circleExclamation,
-                                          title:
-                                              "Você já foi adicionou este produto na lista.",
-                                        ),
-                                        Colors.orange,
+                                      showToast(
+                                        message:
+                                            "Você já adicionou este produto na lista.",
+                                        isInformation: false,
                                       );
                                       return;
                                     } else if (itemsSelected[
                                             "quantity_items"] ==
                                         0) {
-                                      showMessage(
-                                        const ContentMessage(
-                                          icon: FontAwesomeIcons
-                                              .circleExclamation,
-                                          title:
-                                              "Este produto já foi esgotado. Atualize a quantidade na tela de produtos.",
-                                        ),
-                                        Colors.orange,
+                                      showToast(
+                                        message:
+                                            "Este produto já foi esgotado. Atualize a quantidade na tela de produtos.",
+                                        isInformation: false,
                                       );
                                       return;
                                     }
@@ -348,13 +334,10 @@ class _SalePageState extends State<SalePage> {
                     child: InkWell(
                       onTap: () async {
                         if (items.isEmpty) {
-                          showMessage(
-                            const ContentMessage(
-                              icon: FontAwesomeIcons.circleExclamation,
-                              title:
-                                  "Adicione ou crie um produto para aplicar um desconto.",
-                            ),
-                            Colors.orange,
+                          showToast(
+                            message:
+                                "Adicione ou crie um produto para aplicar um desconto.",
+                            isInformation: false,
                           );
                           return;
                         }
@@ -449,13 +432,10 @@ class _SalePageState extends State<SalePage> {
                           child: ElevatedButton(
                             onPressed: () {
                               if (items.isEmpty) {
-                                showMessage(
-                                  const ContentMessage(
-                                    title:
-                                        "Selecione ou crie um produto para a venda.",
-                                    icon: FontAwesomeIcons.circleExclamation,
-                                  ),
-                                  Colors.orange,
+                                showToast(
+                                  message:
+                                      "Selecione ou crie um produto para a venda.",
+                                  isInformation: false,
                                 );
                                 return;
                               }

@@ -2,12 +2,11 @@ import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/pages/service/service_form_page.dart';
 import 'package:app_kayke_barbearia/app/providers/service_provider.dart';
 import 'package:app_kayke_barbearia/app/pages/service/components/add_service.dart';
-import 'package:app_kayke_barbearia/app/utils/content_message.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:app_kayke_barbearia/app/utils/dialog.dart';
 import 'package:app_kayke_barbearia/app/utils/cache.dart';
 import 'package:app_kayke_barbearia/app/utils/loading.dart';
-import 'package:app_kayke_barbearia/app/utils/snackbar.dart';
+import 'package:app_kayke_barbearia/app/utils/show_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -28,10 +27,6 @@ class _ServiceListPageState extends State<ServiceListPage> {
 
   List<Map<String, dynamic>> services = [];
   List<Map<String, dynamic>> servicesSelected = [];
-
-  void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color, 3000);
-  }
 
   @override
   void initState() {
@@ -56,12 +51,8 @@ class _ServiceListPageState extends State<ServiceListPage> {
     if (confirmDelete == true) {
       serviceProvider.delete(service["id"]);
       await Backup.toGenerate();
-      showMessage(
-        const ContentMessage(
-          title: "Serviço excluido com sucesso.",
-          icon: Icons.info,
-        ),
-        const Color.fromARGB(255, 199, 82, 74),
+      showToast(
+        message: "Serviço excluido com sucesso.",
       );
     }
   }

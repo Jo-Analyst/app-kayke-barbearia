@@ -1,11 +1,10 @@
 import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/providers/service_provider.dart';
+import 'package:app_kayke_barbearia/app/utils/show_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:provider/provider.dart';
 
-import '../../utils/content_message.dart';
-import '../../utils/snackbar.dart';
 
 class ServiceFormPage extends StatefulWidget {
   final int? serviceId;
@@ -43,10 +42,6 @@ class _ServiceFormPageState extends State<ServiceFormPage> {
     _serviceId = widget.serviceId ?? 0;
   }
 
-  void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color, 3000);
-  }
-
   void saveService() async {
     final serviceProvider =
         Provider.of<ServiceProvider>(context, listen: false);
@@ -58,14 +53,10 @@ class _ServiceFormPageState extends State<ServiceFormPage> {
 
     await Backup.toGenerate();
 
-    showMessage(
-      ContentMessage(
-        title: widget.isEdition
-            ? "Serviço editado com sucesso."
-            : "Serviço cadastrado com sucesso.",
-        icon: Icons.info,
-      ),
-      null,
+    showToast(
+      message: widget.isEdition
+          ? "Serviço editado com sucesso."
+          : "Serviço cadastrado com sucesso.",
     );
   }
 

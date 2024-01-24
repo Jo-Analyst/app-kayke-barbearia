@@ -1,12 +1,11 @@
 import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/providers/product_provider.dart';
+import 'package:app_kayke_barbearia/app/utils/show_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:provider/provider.dart';
 
-import '../../utils/content_message.dart';
-import '../../utils/snackbar.dart';
 
 class ProductFormPage extends StatefulWidget {
   final bool isEdition;
@@ -72,10 +71,6 @@ class _ProductFormPageState extends State<ProductFormPage> {
     quantityController.text = quantity.toString();
   }
 
-  void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color, 3000);
-  }
-
   saveProduct() async {
     final productProvider =
         Provider.of<ProductProvider>(context, listen: false);
@@ -89,14 +84,10 @@ class _ProductFormPageState extends State<ProductFormPage> {
     });
 
     await Backup.toGenerate();
-    showMessage(
-      ContentMessage(
-        title: widget.isEdition
-            ? "Produto editado com sucesso."
-            : "Produto cadastrado com sucesso.",
-        icon: Icons.info,
-      ),
-      null,
+    showToast(
+      message: widget.isEdition
+          ? "Produto editado com sucesso."
+          : "Produto cadastrado com sucesso.",
     );
   }
 

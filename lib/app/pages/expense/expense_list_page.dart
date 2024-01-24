@@ -2,11 +2,10 @@ import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/pages/expense/expense_form_page.dart';
 import 'package:app_kayke_barbearia/app/providers/expense_provider.dart';
 import 'package:app_kayke_barbearia/app/pages/expense/components/add_expense.dart';
-import 'package:app_kayke_barbearia/app/utils/content_message.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:app_kayke_barbearia/app/utils/dialog.dart';
 import 'package:app_kayke_barbearia/app/utils/loading.dart';
-import 'package:app_kayke_barbearia/app/utils/snackbar.dart';
+import 'package:app_kayke_barbearia/app/utils/show_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
@@ -27,10 +26,6 @@ class _ExpenseListPageState extends State<ExpenseListPage> {
   String search = "";
   bool isGranted = false, isLoading = true;
   List<Map<String, dynamic>> expenses = [];
-
-  void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color, 3000);
-  }
 
   @override
   void initState() {
@@ -56,12 +51,8 @@ class _ExpenseListPageState extends State<ExpenseListPage> {
     if (confirmDelete == true) {
       expenseProvider.delete(expense["id"]);
       await Backup.toGenerate();
-      showMessage(
-        const ContentMessage(
-          title: "Despesa excluida com sucesso.",
-          icon: Icons.info,
-        ),
-        const Color.fromARGB(255, 199, 82, 74),
+      showToast(
+        message: "Despesa excluida com sucesso.",
       );
     }
   }

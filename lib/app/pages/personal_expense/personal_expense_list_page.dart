@@ -3,17 +3,14 @@ import 'package:app_kayke_barbearia/app/pages/personal_expense/components/add_pe
 import 'package:app_kayke_barbearia/app/pages/personal_expense/personal_expense_form_page.dart';
 import 'package:app_kayke_barbearia/app/providers/personal_expense_provider.dart';
 import 'package:app_kayke_barbearia/app/utils/cache.dart';
-import 'package:app_kayke_barbearia/app/utils/content_message.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_datetime.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
 import 'package:app_kayke_barbearia/app/utils/dialog.dart';
 import 'package:app_kayke_barbearia/app/utils/loading.dart';
-import 'package:app_kayke_barbearia/app/utils/snackbar.dart';
+import 'package:app_kayke_barbearia/app/utils/show_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
-
-
 
 class PersonalExpenseListPage extends StatefulWidget {
   final bool itFromTheSalesScreen;
@@ -30,10 +27,6 @@ class _PersonalExpenseListPageState extends State<PersonalExpenseListPage> {
   String search = "";
   bool isGranted = false, isLoading = true;
   List<Map<String, dynamic>> personalExpenses = [];
-
-  void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color, 3000);
-  }
 
   @override
   void initState() {
@@ -60,12 +53,8 @@ class _PersonalExpenseListPageState extends State<PersonalExpenseListPage> {
     if (confirmDelete == true) {
       personalExpenseProvider.delete(personalExpense["id"]);
       await Backup.toGenerate();
-      showMessage(
-        const ContentMessage(
-          title: "Despesa excluida com sucesso.",
-          icon: Icons.info,
-        ),
-        const Color.fromARGB(255, 199, 82, 74),
+      showToast(
+        message: "Despesa excluida com sucesso.",
       );
     }
   }

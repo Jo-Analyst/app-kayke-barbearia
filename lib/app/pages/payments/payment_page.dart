@@ -2,15 +2,13 @@ import 'package:app_kayke_barbearia/app/models/backup.dart';
 import 'package:app_kayke_barbearia/app/pages/client/client_list_page.dart';
 import 'package:app_kayke_barbearia/app/pages/payments/components/specie_payment.dart';
 import 'package:app_kayke_barbearia/app/providers/sale_provider.dart';
-import 'package:app_kayke_barbearia/app/utils/content_message.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
+import 'package:app_kayke_barbearia/app/utils/show_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/provision_of_service_provider.dart';
-import '../../utils/snackbar.dart';
 import '../proof/proof_page.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -121,13 +119,12 @@ class _PaymentPageState extends State<PaymentPage> {
 
   void confirmSale() async {
     if (client.isEmpty && amountReceivable > 0) {
-      showMessage(
-          const ContentMessage(
-            title:
-                "Selecione um cliente para concluir a venda. Existe um valor pendente.",
-            icon: FontAwesomeIcons.circleExclamation,
-          ),
-          Colors.orange);
+      showToast(
+        message:
+            "Selecione um cliente para concluir a venda. Existe um valor pendente.",
+        isInformation: false,
+      );
+
       return;
     }
 
@@ -180,10 +177,6 @@ class _PaymentPageState extends State<PaymentPage> {
     }
 
     await Backup.toGenerate();
-  }
-
-  void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color, 3000);
   }
 
   @override

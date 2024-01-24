@@ -6,6 +6,8 @@ import 'package:app_kayke_barbearia/app/templates/slide_date.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+enum TypeTransactionSelected { sales, services }
+
 class PaymentListPage extends StatefulWidget {
   const PaymentListPage({super.key});
 
@@ -15,13 +17,13 @@ class PaymentListPage extends StatefulWidget {
 
 class _PaymentListPageState extends State<PaymentListPage>
     with TickerProviderStateMixin {
+  TypeTransactionSelected typeTransactionSelected =
+      TypeTransactionSelected.sales;
   final searchController = TextEditingController();
   int month = DateTime.now().month - 1, year = DateTime.now().year;
-  late TabController _tabController;
   String optionSelected = "Tudo",
       lastOptionSale = "Tudo",
       lastOptionService = "Tudo",
-      tabSelected = "vendas",
       search = "";
   bool searchByName = false, isLoading = true;
   final FocusNode _focusNode = FocusNode();
@@ -34,7 +36,6 @@ class _PaymentListPageState extends State<PaymentListPage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
     loadDetailSalesAndServices(
         "$year-${(month + 1).toString().padLeft(2, "0")}");
   }
@@ -57,13 +58,13 @@ class _PaymentListPageState extends State<PaymentListPage>
   void filterLists(String option) {
     setState(() {
       if (option == "Tudo") {
-        if (tabSelected == "vendas") {
+        if (typeTransactionSelected == TypeTransactionSelected.sales) {
           filteredPaymentsSales = List.from(paymentsSales);
         } else {
           filteredPaymentsServices = List.from(paymentsServices);
         }
       } else {
-        if (tabSelected == "vendas") {
+        if (typeTransactionSelected == TypeTransactionSelected.sales) {
           filteredPaymentsSales = paymentsSales
               .where((paymentSale) =>
                   paymentSale["situation"].toString().contains(option))
@@ -94,8 +95,9 @@ class _PaymentListPageState extends State<PaymentListPage>
   }
 
   void openDialogFilter() async {
-    optionSelected =
-        tabSelected == "vendas" ? lastOptionSale : lastOptionService;
+    optionSelected = typeTransactionSelected == TypeTransactionSelected.sales
+        ? lastOptionSale
+        : lastOptionService;
     final option = await showFilterDialog(context, optionSelected);
     if (option == null) return;
     clearTextFormField();
@@ -103,7 +105,7 @@ class _PaymentListPageState extends State<PaymentListPage>
 
     setState(() {
       optionSelected = option;
-      if (tabSelected == "vendas") {
+      if (typeTransactionSelected == TypeTransactionSelected.sales) {
         lastOptionSale = option;
       } else {
         lastOptionService = option;
@@ -113,21 +115,24 @@ class _PaymentListPageState extends State<PaymentListPage>
 
   void filterByClient() {
     if (search.isNotEmpty) {
-      filteredPaymentsByClient = tabSelected == "vendas"
-          ? filteredPaymentsSales
-              .where((paymentSale) => paymentSale["client_name"]
-                  .toString()
-                  .toLowerCase()
-                  .contains(search.trim().toLowerCase()))
-              .toList()
-          : filteredPaymentsServices
-              .where((paymentService) => paymentService["client_name"]
-                  .toString()
-                  .toLowerCase()
-                  .contains(search.trim().toLowerCase()))
-              .toList();
+      filteredPaymentsByClient =
+          typeTransactionSelected == TypeTransactionSelected.sales
+              ? filteredPaymentsSales
+                  .where((paymentSale) => paymentSale["client_name"]
+                      .toString()
+                      .toLowerCase()
+                      .contains(search.trim().toLowerCase()))
+                  .toList()
+              : filteredPaymentsServices
+                  .where((paymentService) => paymentService["client_name"]
+                      .toString()
+                      .toLowerCase()
+                      .contains(search.trim().toLowerCase()))
+                  .toList();
     } else {
-      filterLists(tabSelected == "vendas" ? lastOptionSale : lastOptionService);
+      filterLists(typeTransactionSelected == TypeTransactionSelected.sales
+          ? lastOptionSale
+          : lastOptionService);
     }
   }
 
@@ -188,7 +193,8 @@ class _PaymentListPageState extends State<PaymentListPage>
                                     searchController.text = "";
                                     setState(() {
                                       search = "";
-                                      filterLists(tabSelected == "vendas"
+                                      filterLists(typeTransactionSelected ==
+                                              TypeTransactionSelected.sales
                                           ? lastOptionSale
                                           : lastOptionService);
                                     });
@@ -239,6 +245,7 @@ class _PaymentListPageState extends State<PaymentListPage>
               ),
             ),
             Container(
+              padding: const EdgeInsets.symmetric(vertical: 10),
               decoration: BoxDecoration(
                 border: Border(
                   top: BorderSide(
@@ -248,88 +255,146 @@ class _PaymentListPageState extends State<PaymentListPage>
                 ),
                 color: Colors.indigo.withOpacity(.1),
               ),
-              child: TabBar(
-                onTap: (value) {
-                  if (value == 0) {
-                    tabSelected = "vendas";
-                  } else {
-                    tabSelected = "serviços";
-                  }
-
-                  clearTextFormField();
-                },
-                indicatorColor: Colors.indigo,
-                tabs: <Tab>[
-                  Tab(
-                    text: null,
-                    icon: null,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.shopping_cart_rounded,
-                          color: Theme.of(context).primaryColor,
-                          size: 18,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          typeTransactionSelected =
+                              TypeTransactionSelected.sales;
+                          clearTextFormField();
+                        });
+                      },
+                      borderRadius: BorderRadius.circular(10),
+                      child: Ink(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 30,
+                          vertical: 10,
                         ),
-                        const SizedBox(width: 2),
-                        Text(
-                          "Vendas",
-                          style: TextStyle(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
                             color: Theme.of(context).primaryColor,
-                            fontSize: 17,
                           ),
+                          color: typeTransactionSelected ==
+                                  TypeTransactionSelected.sales
+                              ? Theme.of(context).primaryColor
+                              : null,
                         ),
-                      ],
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.shopping_cart,
+                              color: typeTransactionSelected ==
+                                      TypeTransactionSelected.sales
+                                  ? Colors.white
+                                  : Theme.of(context).primaryColor,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              'Vendas',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: typeTransactionSelected ==
+                                        TypeTransactionSelected.sales
+                                    ? Colors.white
+                                    : Theme.of(context).primaryColor,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                  Tab(
-                    text: null,
-                    icon: null,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          FontAwesomeIcons.screwdriverWrench,
-                          color: Theme.of(context).primaryColor,
-                          size: 18,
+                  Container(
+                    width: 1,
+                    height: 40,
+                    padding: EdgeInsets.zero,
+                    color: Colors.indigo.withOpacity(.5),
+                  ),
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          typeTransactionSelected =
+                              TypeTransactionSelected.services;
+                          clearTextFormField();
+                        });
+                      },
+                      child: Ink(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 30,
+                          vertical: 10,
                         ),
-                        const SizedBox(width: 2),
-                        Text(
-                          "Serviços",
-                          style: TextStyle(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
                             color: Theme.of(context).primaryColor,
-                            fontSize: 17,
                           ),
+                          color: typeTransactionSelected ==
+                                  TypeTransactionSelected.services
+                              ? Theme.of(context).primaryColor
+                              : null,
                         ),
-                      ],
+                        child: Row(
+                          children: [
+                            Icon(
+                              FontAwesomeIcons.screwdriverWrench,
+                              color: typeTransactionSelected ==
+                                      TypeTransactionSelected.services
+                                  ? Colors.white
+                                  : Theme.of(context).primaryColor,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              'Serviços',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: typeTransactionSelected ==
+                                        TypeTransactionSelected.services
+                                    ? Colors.white
+                                    : Theme.of(context).primaryColor,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-                controller: _tabController,
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height - 310,
-              child: TabBarView(
-                controller: _tabController,
-                children: <Widget>[
-                  ListPayment(
-                    isLoading: isLoading,
-                    isService: tabSelected == "serviços",
-                    typePayment: tabSelected,
-                    payments: search.isNotEmpty
-                        ? filteredPaymentsByClient
-                        : filteredPaymentsSales,
-                  ),
-                  ListPayment(
-                    isLoading: isLoading,
-                    isService: tabSelected == "serviços",
-                    typePayment: tabSelected,
-                    payments: search.isNotEmpty
-                        ? filteredPaymentsByClient
-                        : filteredPaymentsServices,
                   )
                 ],
+              ),
+            ),
+            Visibility(
+              visible: typeTransactionSelected == TypeTransactionSelected.sales,
+              replacement: SizedBox(
+                height: MediaQuery.of(context).size.height - 310,
+                child: ListPayment(
+                  isLoading: isLoading,
+                  isService: true,
+                  typeTransaction: typeTransactionSelected,
+                  payments: search.isNotEmpty
+                      ? filteredPaymentsByClient
+                      : filteredPaymentsServices,
+                ),
+              ),
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height - 310,
+                child: ListPayment(
+                  isLoading: isLoading,
+                  isService: false,
+                  typeTransaction: typeTransactionSelected,
+                  payments: search.isNotEmpty
+                      ? filteredPaymentsByClient
+                      : filteredPaymentsSales,
+                ),
               ),
             ),
           ],

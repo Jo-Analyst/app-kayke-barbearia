@@ -2,13 +2,10 @@ import 'package:app_kayke_barbearia/app/pages/payments/discount_page.dart';
 import 'package:app_kayke_barbearia/app/pages/payments/payment_page.dart';
 import 'package:app_kayke_barbearia/app/pages/service/service_list_page.dart';
 import 'package:app_kayke_barbearia/app/templates/calendar.dart';
-import 'package:app_kayke_barbearia/app/utils/content_message.dart';
 import 'package:app_kayke_barbearia/app/utils/convert_values.dart';
+import 'package:app_kayke_barbearia/app/utils/show_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import '../../utils/snackbar.dart';
 
 class ProvisionOfServicePage extends StatefulWidget {
   const ProvisionOfServicePage({super.key});
@@ -39,10 +36,6 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
     setState(() {
       total = subtotal - discount;
     });
-  }
-
-  void showMessage(Widget content, Color? color) {
-    Message.showMessage(context, content, color, 3000);
   }
 
   void showTime(int index) async {
@@ -268,13 +261,10 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
                     child: InkWell(
                       onTap: () async {
                         if (items.isEmpty) {
-                          showMessage(
-                            const ContentMessage(
-                              icon: FontAwesomeIcons.circleExclamation,
-                              title:
-                                  "Adicione ou crie um serviço para aplicar um desconto.",
-                            ),
-                            Colors.orange,
+                          showToast(
+                            message:
+                                "Adicione ou crie um serviço para aplicar um desconto.",
+                            isInformation: false,
                           );
                           return;
                         }
@@ -369,13 +359,10 @@ class _ProvisionOfServicePageState extends State<ProvisionOfServicePage> {
                           child: ElevatedButton(
                             onPressed: () {
                               if (items.isEmpty) {
-                                showMessage(
-                                  const ContentMessage(
-                                    title:
-                                        "Selecione ou crie um serviço para continuar.",
-                                    icon: FontAwesomeIcons.circleExclamation,
-                                  ),
-                                  Colors.orange,
+                                showToast(
+                                  message:
+                                      "Selecione ou crie um serviço para continuar.",
+                                  isInformation: false,
                                 );
                                 return;
                               }
