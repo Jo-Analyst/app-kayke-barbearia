@@ -13,9 +13,9 @@ void showToast(
     backgroundColor: isError
         ? Colors.red
         : isInformation
-            ? Colors.indigo
+            ? Colors.black
             : Colors.orange,
     textColor: Colors.white,
-    fontSize: 14.0,
+    fontSize: 16.0,
   );
 }

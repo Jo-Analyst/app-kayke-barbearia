@@ -32,7 +32,8 @@ class _SalesAndProvisionOfServicesState
       filteredServices = [],
       sales = [],
       services = [];
-  TypeTransactionSelected typeTransactionSelected = TypeTransactionSelected.sales;
+  TypeTransactionSelected typeTransactionSelected =
+      TypeTransactionSelected.sales;
 
   @override
   void initState() {
@@ -116,19 +117,20 @@ class _SalesAndProvisionOfServicesState
 
   void filterByClient() {
     if (search.isNotEmpty) {
-      filteredByClient = typeTransactionSelected == TypeTransactionSelected.sales
-          ? filteredSales
-              .where((paymentSale) => paymentSale["client_name"]
-                  .toString()
-                  .toLowerCase()
-                  .contains(search.trim().toLowerCase()))
-              .toList()
-          : filteredServices
-              .where((paymentService) => paymentService["client_name"]
-                  .toString()
-                  .toLowerCase()
-                  .contains(search.trim().toLowerCase()))
-              .toList();
+      filteredByClient =
+          typeTransactionSelected == TypeTransactionSelected.sales
+              ? filteredSales
+                  .where((paymentSale) => paymentSale["client_name"]
+                      .toString()
+                      .toLowerCase()
+                      .contains(search.trim().toLowerCase()))
+                  .toList()
+              : filteredServices
+                  .where((paymentService) => paymentService["client_name"]
+                      .toString()
+                      .toLowerCase()
+                      .contains(search.trim().toLowerCase()))
+                  .toList();
     } else {
       filterLists(typeTransactionSelected == TypeTransactionSelected.sales
           ? lastOptionSale
@@ -267,7 +269,7 @@ class _SalesAndProvisionOfServicesState
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   border: Border(
                     top: BorderSide(
@@ -285,14 +287,15 @@ class _SalesAndProvisionOfServicesState
                       child: InkWell(
                         onTap: () {
                           setState(() {
-                            typeTransactionSelected = TypeTransactionSelected.sales;
+                            typeTransactionSelected =
+                                TypeTransactionSelected.sales;
                             clearTextFormField();
                           });
                         },
                         borderRadius: BorderRadius.circular(10),
                         child: Ink(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 30,
+                            horizontal: 18,
                             vertical: 10,
                           ),
                           decoration: BoxDecoration(
@@ -300,10 +303,10 @@ class _SalesAndProvisionOfServicesState
                             border: Border.all(
                               color: Theme.of(context).primaryColor,
                             ),
-                            color:
-                                typeTransactionSelected == TypeTransactionSelected.sales
-                                    ? Theme.of(context).primaryColor
-                                    : null,
+                            color: typeTransactionSelected ==
+                                    TypeTransactionSelected.sales
+                                ? Theme.of(context).primaryColor
+                                : null,
                           ),
                           child: Row(
                             children: [
@@ -343,13 +346,14 @@ class _SalesAndProvisionOfServicesState
                       child: InkWell(
                         onTap: () {
                           setState(() {
-                            typeTransactionSelected = TypeTransactionSelected.services;
+                            typeTransactionSelected =
+                                TypeTransactionSelected.services;
                             clearTextFormField();
                           });
                         },
                         child: Ink(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 30,
+                            horizontal: 18,
                             vertical: 10,
                           ),
                           decoration: BoxDecoration(
@@ -393,7 +397,8 @@ class _SalesAndProvisionOfServicesState
                 ),
               ),
               Visibility(
-                visible: typeTransactionSelected == TypeTransactionSelected.sales,
+                visible:
+                    typeTransactionSelected == TypeTransactionSelected.sales,
                 replacement: SizedBox(
                   height: MediaQuery.of(context).size.height - 310,
                   child: ListSalesAndProvisionOfServices(

@@ -245,7 +245,7 @@ class _PaymentListPageState extends State<PaymentListPage>
               ),
             ),
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 border: Border(
                   top: BorderSide(
@@ -271,7 +271,7 @@ class _PaymentListPageState extends State<PaymentListPage>
                       borderRadius: BorderRadius.circular(10),
                       child: Ink(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 30,
+                          horizontal: 18,
                           vertical: 10,
                         ),
                         decoration: BoxDecoration(
@@ -329,7 +329,7 @@ class _PaymentListPageState extends State<PaymentListPage>
                       },
                       child: Ink(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 30,
+                          horizontal: 18,
                           vertical: 10,
                         ),
                         decoration: BoxDecoration(
